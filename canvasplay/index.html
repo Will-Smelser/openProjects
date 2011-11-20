@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-
-
 <html>
 <head>
 <meta charset="utf-8">
@@ -120,13 +118,13 @@ $(document).ready(function(){
 		//all 2 dim lines have intersections
 		//check to see if they are within bounds
 		for(var p in paths){
-			console.log(p+' == '+id);
+			//only check against other paths
 			if(p != id ){
 				
 				//essentially the same path...this takes much more time that using
 				//lines and their intersection
-				if(paths[id].slope.toFixed(4) == paths[p].slope.toFixed(4) &&
-						paths[id].b.toFixed(4) == paths[p].b.toFixed(4) ){
+				if(paths[id].slope.toFixed(4) == paths[p].slope.toFixed(4) && //similar slope
+						paths[id].b.toFixed(4) == paths[p].b.toFixed(4) ){ //similar y-intercept
 					
 					//get the distance between them
 					var dist = getDist(paths[id].x,paths[id].y,paths[p].x,paths[p].y);
