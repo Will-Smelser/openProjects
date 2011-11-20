@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<script language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js" ></script> 
+<script type="text/javascript" src="required/js/jquery.miomenu.js"></script>
+<script type="text/javascript">
+	
+</script>
+
+<link type="text/css" href="required/css/miomenu.css" rel="stylesheet" />
+</head>
+
+<body onload="">
+<h2>Documentation</h2>
+<p>
+<a href="docs/index.html" >Documentation</a>
+</p>
+<h2>Example</h2>
+<div class="menu">
+<ul>
+	<li class="tab">
+		<a>Item 1</a>
+		<ul>
+			<li><a>Item -1_1</a></li>
+			<li><a>Item -1_2</a></li>
+			<li><a>Item -1_3</a>
+				<ul>
+					<li><a>Item - 1_3_1</a>
+						<ul>
+							<li><a>Item - 1_3_1_1</a></li>
+							<li><a>Item - 1_3_1_2</a></li>
+							<li><a>Item - 1_3_1_3</a></li>
+							<li><a>Item - 1_3_1_4</a></li>
+							<li><a>Item - 1_3_1_5</a></li>
+							<li><a>Item - 1_3_1_6</a></li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</li>		
+	<li class="tab"><a href="#">Item 2</a></li>
+	<li class="tab"><a href="#">Item 3</a></li>
+</ul>
+</div>
+
+</body>
+<script language="javascript">
+$(document).ready(function(){
+	$('.menu').miomenu();
+});
+</script>
+</html>

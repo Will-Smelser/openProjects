@@ -1,0 +1,1307 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		
+		<title>JsDoc Reference - mioPagination.page</title>
+
+		<style type="text/css">
+			/* default.css */
+body
+{
+	font: 12px "Lucida Grande", Tahoma, Arial, Helvetica, sans-serif;
+	width: 800px;
+}
+
+.header
+{
+	clear: both;
+	background-color: #ccc;
+	padding: 8px;
+}
+
+h1
+{
+	font-size: 150%;
+	font-weight: bold;
+	padding: 0;
+	margin: 1em 0 0 .3em;
+}
+
+hr
+{
+	border: none 0;
+	border-top: 1px solid #7F8FB1;
+	height: 1px;
+}
+
+pre.code
+{
+	display: block;
+	padding: 8px;
+	border: 1px dashed #ccc;
+}
+
+#index
+{
+	margin-top: 24px;
+	float: left;
+	width: 160px;
+	position: absolute;
+	left: 8px;
+	background-color: #F3F3F3;
+	padding: 8px;
+}
+
+#content
+{
+	margin-left: 190px;
+	width: 600px;
+}
+
+.classList
+{
+	list-style-type: none;
+	padding: 0;
+	margin: 0 0 0 8px;
+	font-family: arial, sans-serif;
+	font-size: 1em;
+	overflow: auto;
+}
+
+.classList li
+{
+	padding: 0;
+	margin: 0 0 8px 0;
+}
+
+.summaryTable { width: 100%; }
+
+h1.classTitle
+{
+	font-size:170%;
+	line-height:130%;
+}
+
+h2 { font-size: 110%; }
+caption, div.sectionTitle
+{
+	background-color: #7F8FB1;
+	color: #fff;
+	font-size:130%;
+	text-align: left;
+	padding: 2px 6px 2px 6px;
+	border: 1px #7F8FB1 solid;
+}
+
+div.sectionTitle { margin-bottom: 8px; }
+.summaryTable thead { display: none; }
+
+.summaryTable td
+{
+	vertical-align: top;
+	padding: 4px;
+	border-bottom: 1px #7F8FB1 solid;
+	border-right: 1px #7F8FB1 solid;
+}
+
+/*col#summaryAttributes {}*/
+.summaryTable td.attributes
+{
+	border-left: 1px #7F8FB1 solid;
+	width: 140px;
+	text-align: right;
+}
+
+td.attributes, .fixedFont
+{
+	line-height: 15px;
+	color: #002EBE;
+	font-family: "Courier New",Courier,monospace;
+	font-size: 13px;
+}
+
+.summaryTable td.nameDescription
+{
+	text-align: left;
+	font-size: 13px;
+	line-height: 15px;
+}
+
+.summaryTable td.nameDescription, .description
+{
+	line-height: 15px;
+	padding: 4px;
+	padding-left: 4px;
+}
+
+.summaryTable { margin-bottom: 8px; }
+
+ul.inheritsList
+{
+	list-style: square;
+	margin-left: 20px;
+	padding-left: 0;
+}
+
+.detailList {
+	margin-left: 20px; 
+	line-height: 15px;
+}
+.detailList dt { margin-left: 20px; }
+
+.detailList .heading
+{
+	font-weight: bold;
+	padding-bottom: 6px;
+	margin-left: 0;
+}
+
+.light, td.attributes, .light a:link, .light a:visited
+{
+	color: #777;
+	font-style: italic;
+}
+
+.fineprint
+{
+	text-align: right;
+	font-size: 10px;
+}
+		</style>
+	</head>
+
+	<body>
+<!-- ============================== header ================================= -->	
+		<!-- begin static/header.html -->
+		<div id="header">
+</div>
+		<!-- end static/header.html -->
+
+<!-- ============================== classes index ============================ -->
+		<div id="index">
+			<!-- begin publish.classesIndex -->
+			<div align="center"><a href="../index.html">Class Index</a>
+| <a href="../files.html">File Index</a></div>
+<hr />
+<h2>Classes</h2>
+<ul class="classList">
+	
+	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
+	
+	<li><a href="../symbols/mioPagination.html">mioPagination</a></li>
+	
+	<li><a href="../symbols/mioPagination.info.html">mioPagination.info</a></li>
+	
+	<li><a href="../symbols/mioPagination.info.defaults.html">mioPagination.info.defaults</a></li>
+	
+	<li><a href="../symbols/mioPagination.manipulate.html">mioPagination.manipulate</a></li>
+	
+	<li><a href="../symbols/mioPagination.page.html">mioPagination.page</a></li>
+	
+</ul>
+<hr />
+			<!-- end publish.classesIndex -->
+		</div>
+		
+		<div id="content">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				
+				Class mioPagination.page
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				
+				
+			
+				Object Holds majority of methods needed...used to add events, remove events, add pages, etc....
+				
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/htdocs_openProjects_fancyPager_required_js_fancyPagination.js.html">fancyPagination.js</a>.
+				
+			</p>
+
+<!-- ============================== constructor summary ==================== -->			
+			
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class mioPagination.page.">
+				<caption>Class Summary</caption>
+				<thead>
+					<tr>
+						<th scope="col">Constructor Attributes</th>
+						<th scope="col">Constructor Name and Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="attributes">&nbsp;</td>
+						<td class="nameDescription" >
+							<div class="fixedFont">
+								<b><a href="../symbols/mioPagination.page.html#constructor">mioPagination.page</a></b>()
+							</div>
+							<div class="description">Main Object for working with pages and binding events.</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+
+<!-- ============================== properties summary ===================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class mioPagination.page.">
+					<caption>Field Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Field Attributes</th>
+							<th scope="col">Field Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								mioPagination.page.<b><a href="../symbols/mioPagination.page.html#.objRef">objRef</a></b>
+								</div>
+								<div class="description">References mioPagination namespace</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+
+<!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class mioPagination.page.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">mioPagination.page.<b><a href="../symbols/mioPagination.page.html#.add">add</a></b>(weight, dispName, name, eventParams, file, params)
+								</div>
+								<div class="description">Adds pages to the pagination arrayRun orderPages() after this if you add after drawing the pagination</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">mioPagination.page.<b><a href="../symbols/mioPagination.page.html#.bind2AllPages">bind2AllPages</a></b>(func, funcName, eventType)
+								</div>
+								<div class="description">Bind an event to all pages in current page que</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">mioPagination.page.<b><a href="../symbols/mioPagination.page.html#.bindByEl">bindByEl</a></b>(el, func, funcName, eventType)
+								</div>
+								<div class="description">Bind an event by DOM element</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">mioPagination.page.<b><a href="../symbols/mioPagination.page.html#.bindByName">bindByName</a></b>(pageName, func, funcName, eventType)
+								</div>
+								<div class="description">Bind an event by a page name</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">mioPagination.page.<b><a href="../symbols/mioPagination.page.html#.bindDefaultEvents">bindDefaultEvents</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">mioPagination.page.<b><a href="../symbols/mioPagination.page.html#.fireEvent">fireEvent</a></b>(pageName, eventType, funcName)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">mioPagination.page.<b><a href="../symbols/mioPagination.page.html#.getElByPage">getElByPage</a></b>(pageName)
+								</div>
+								<div class="description">Get the html JQuery element from the DOM by a given page name.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">mioPagination.page.<b><a href="../symbols/mioPagination.page.html#.getPage">getPage</a></b>(pageName)
+								</div>
+								<div class="description">Get a reference object to the page array with all the information in it.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">mioPagination.page.<b><a href="../symbols/mioPagination.page.html#.getPageByEl">getPageByEl</a></b>(el)
+								</div>
+								<div class="description">Get the page object data based on a given element.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">mioPagination.page.<b><a href="../symbols/mioPagination.page.html#.goFirstPage">goFirstPage</a></b>()
+								</div>
+								<div class="description">Go to the first page in the page array.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">mioPagination.page.<b><a href="../symbols/mioPagination.page.html#.goLastPage">goLastPage</a></b>()
+								</div>
+								<div class="description">Go to the last page in the page array.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">mioPagination.page.<b><a href="../symbols/mioPagination.page.html#.goNextPage">goNextPage</a></b>()
+								</div>
+								<div class="description">This will fire the onclick event for going to next page.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">mioPagination.page.<b><a href="../symbols/mioPagination.page.html#.goPrevPage">goPrevPage</a></b>()
+								</div>
+								<div class="description">This will fire the onclick event for going to previous page.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">mioPagination.page.<b><a href="../symbols/mioPagination.page.html#.setPage">setPage</a></b>(pageName)
+								</div>
+								<div class="description">Set the current page being displayed to this pageActually fires the onclick event for the page.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">mioPagination.page.<b><a href="../symbols/mioPagination.page.html#.unbindByEl">unbindByEl</a></b>(el, funcName, eventType)
+								</div>
+								<div class="description">Unbind an event by a DOM element</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">mioPagination.page.<b><a href="../symbols/mioPagination.page.html#.unbindByName">unbindByName</a></b>(pageName, funcName, eventType)
+								</div>
+								<div class="description">Unbind an event by page name</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+<!-- ============================== events summary ======================== -->
+			
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="details"><a name="constructor"> </a>
+				<div class="sectionTitle">
+					Class Detail
+				</div>
+				
+				<div class="fixedFont">
+						<b>mioPagination.page</b>()
+				</div>
+				
+				<div class="description">
+					Main Object for working with pages and binding events.  Main interface
+					
+				</div>
+				
+				
+				
+				
+					
+					
+					
+					
+					
+					
+					
+
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+				<div class="sectionTitle">
+					Field Detail
+				</div>
+				
+					<a name=".objRef"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">mioPagination.page.</span><b>objRef</b>
+					
+					</div>
+					<div class="description">
+						References mioPagination namespace
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					
+				
+			
+
+<!-- ============================== method details ========================= -->		
+			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name=".add"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">mioPagination.page.</span><b>add</b>(weight, dispName, name, eventParams, file, params)
+					
+					</div>
+					<div class="description">
+						Adds pages to the pagination arrayRun orderPages() after this if you add after drawing the pagination
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Integer}</span> <b>weight</b>
+									
+								</dt>
+								<dd>Where you would like the page to show up in the page que</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>dispName</b>
+									
+								</dt>
+								<dd>The name to be displayed in page navigation</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>name</b>
+									
+								</dt>
+								<dd>A unique name used to access information about the page through built in methods and system calls</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Array}</span> <b>eventParams</b>
+									
+								</dt>
+								<dd>An array of events associated with the page...see this._eventParams for list of events</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>file</b>
+									
+								</dt>
+								<dd>The file to be loaded on the page click<br/> -file.file string Path to file to be loaded, either http, or relative and absolute paths<br/> -file.type string The way to load the file, either text or iframe</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>params</b>
+									
+								</dt>
+								<dd>json Optional paramters which most are defined in info.defaults	<br/> -params.clicked bool whether the page has been assumed to be clicked once already	<br/> -params.seperate html string of html for the page seperator(default is ">") before the page	<br/> -params.allowBackNav bool wether this page can be navigated to again (allows only 1 onclick to run)	<br/> -params.sequential bool wether this page must be in sequence...all pages prior to this page must be clicked to view this page	<br/> -params.ajaxFailMsg html string of html to be displayed in content area on an AJAX failure (404 or timeout)</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd><a href="../symbols/mioPagination.html#.orderPages">mioPagination.orderPages</a>()</dd>
+							
+								<dd><a href="../symbols/mioPagination.html#.drawPagination">mioPagination.drawPagination</a>()</dd>
+							
+								<dd>mioPagination.page._eventParams</dd>
+							
+								<dd>mioPagination.page._getDefaultParams()</dd>
+							
+							</dl>
+						
+
+					<hr />
+				
+					<a name=".bind2AllPages"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">mioPagination.page.</span><b>bind2AllPages</b>(func, funcName, eventType)
+					
+					</div>
+					<div class="description">
+						Bind an event to all pages in current page que
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Function}</span> <b>func</b>
+									
+								</dt>
+								<dd>The funciton to bind to the given event</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>funcName</b>
+									
+								</dt>
+								<dd>A unique string identifier for the event (unique to the specific event)</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>eventType</b>
+									
+								</dt>
+								<dd>The event you want to bind this to</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd>mioPagination.page._eventParams</dd>
+							
+							</dl>
+						
+
+					<hr />
+				
+					<a name=".bindByEl"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">mioPagination.page.</span><b>bindByEl</b>(el, func, funcName, eventType)
+					
+					</div>
+					<div class="description">
+						Bind an event by DOM element
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>el</b>
+									
+								</dt>
+								<dd>The JQuery object reference to a DOM element (example: var el = $('#myID'); )</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Funciton}</span> <b>func</b>
+									
+								</dt>
+								<dd>The function to be evaluated at the event</dd>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>funcName</b>
+									
+								</dt>
+								<dd>The unique name for this function (unqiue to the eventType for this page)</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>eventType</b>
+									
+								</dt>
+								<dd>The event type to be fired.  See mioPagination.page._eventParams</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd>mioPagination.page._eventParams</dd>
+							
+								<dd><a href="../symbols/mioPagination.page.html#.getPageByEl">mioPagination.page.getPageByEl</a></dd>
+							
+							</dl>
+						
+
+					<hr />
+				
+					<a name=".bindByName"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">mioPagination.page.</span><b>bindByName</b>(pageName, func, funcName, eventType)
+					
+					</div>
+					<div class="description">
+						Bind an event by a page name
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>pageName</b>
+									
+								</dt>
+								<dd>The unique page name</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Funciton}</span> <b>func</b>
+									
+								</dt>
+								<dd>The function to be evaluated</dd>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>funcName</b>
+									
+								</dt>
+								<dd>The unique name for this function (unqiue to the eventType for this page)</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>eventType</b>
+									
+								</dt>
+								<dd>The event type to be fired.  See mioPagination.page._eventParams</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd>mioPagination.page._eventParams</dd>
+							
+							</dl>
+						
+
+					<hr />
+				
+					<a name=".bindDefaultEvents"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">mioPagination.page.</span><b>bindDefaultEvents</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".fireEvent"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">mioPagination.page.</span><b>fireEvent</b>(pageName, eventType, funcName)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>pageName</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>eventType</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>funcName</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".getElByPage"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">mioPagination.page.</span><b>getElByPage</b>(pageName)
+					
+					</div>
+					<div class="description">
+						Get the html JQuery element from the DOM by a given page name.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>pageName</b>
+									
+								</dt>
+								<dd>The unique page name in the page array</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> JQuery object reference to the element in the DOM</dd>
+							
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd><a href="../symbols/mioPagination.page.html#.add">mioPagination.page.add</a></dd>
+							
+							</dl>
+						
+
+					<hr />
+				
+					<a name=".getPage"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">mioPagination.page.</span><b>getPage</b>(pageName)
+					
+					</div>
+					<div class="description">
+						Get a reference object to the page array with all the information in it.  Really more for internal use.  This object does includea reference to the DOM element associated with this page (Only after the mioPagination.page.bindDefaultEvents has been run).
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>pageName</b>
+									
+								</dt>
+								<dd>The unique page name</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> A reference to the given page as it is stored by the system</dd>
+							
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd><a href="../symbols/mioPagination.page.html#.add">mioPagination.page.add</a></dd>
+							
+							</dl>
+						
+
+					<hr />
+				
+					<a name=".getPageByEl"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">mioPagination.page.</span><b>getPageByEl</b>(el)
+					
+					</div>
+					<div class="description">
+						Get the page object data based on a given element.  Will look at either the "li" or "A" tag
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>el</b>
+									
+								</dt>
+								<dd>JQuery reference to the DOM element</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> A reference to the page as used by the system</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".goFirstPage"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">mioPagination.page.</span><b>goFirstPage</b>()
+					
+					</div>
+					<div class="description">
+						Go to the first page in the page array...Fires the onclick event for going to the first page. This will be affected by page specific setting such as "sequential" and "allowBackNav" events
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>void</dd>
+							
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd><a href="../symbols/mioPagination.page.html#.goLastPage">mioPagination.page.goLastPage</a></dd>
+							
+							</dl>
+						
+
+					<hr />
+				
+					<a name=".goLastPage"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">mioPagination.page.</span><b>goLastPage</b>()
+					
+					</div>
+					<div class="description">
+						Go to the last page in the page array...Fires the onclick event for going to the first page. This will be affected by page specific setting such as "sequential" event
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>void</dd>
+							
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd><a href="../symbols/mioPagination.page.html#.goFirstPage">mioPagination.page.goFirstPage</a>()</dd>
+							
+							</dl>
+						
+
+					<hr />
+				
+					<a name=".goNextPage"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">mioPagination.page.</span><b>goNextPage</b>()
+					
+					</div>
+					<div class="description">
+						This will fire the onclick event for going to next page.  Will be affected by "sequential" event.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>void</dd>
+							
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd><a href="../symbols/mioPagination.page.html#.goPrevPage">mioPagination.page.goPrevPage</a>()</dd>
+							
+							</dl>
+						
+
+					<hr />
+				
+					<a name=".goPrevPage"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">mioPagination.page.</span><b>goPrevPage</b>()
+					
+					</div>
+					<div class="description">
+						This will fire the onclick event for going to previous page.  Will be affected by "sequential" and "allowBackNav" events.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>void</dd>
+							
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd><a href="../symbols/mioPagination.page.html#.goNextPage">mioPagination.page.goNextPage</a>()</dd>
+							
+							</dl>
+						
+
+					<hr />
+				
+					<a name=".setPage"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">mioPagination.page.</span><b>setPage</b>(pageName)
+					
+					</div>
+					<div class="description">
+						Set the current page being displayed to this pageActually fires the onclick event for the page.  So same effect as a user clicking on the page
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>pageName</b>
+									
+								</dt>
+								<dd>The name of the page given in the page array</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>void</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".unbindByEl"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">mioPagination.page.</span><b>unbindByEl</b>(el, funcName, eventType)
+					
+					</div>
+					<div class="description">
+						Unbind an event by a DOM element
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>el</b>
+									
+								</dt>
+								<dd>JQuery object reference to the LI or A tag in the DOM</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>funcName</b>
+									
+								</dt>
+								<dd>The unique function name</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>eventType</b>
+									
+								</dt>
+								<dd>The event type that the funciton exists under</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".unbindByName"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">mioPagination.page.</span><b>unbindByName</b>(pageName, funcName, eventType)
+					
+					</div>
+					<div class="description">
+						Unbind an event by page name
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>pageName</b>
+									
+								</dt>
+								<dd>The unique page name</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>funcName</b>
+									
+								</dt>
+								<dd>The unique funciton name (relative to the eventType and pageName)</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>eventType</b>
+									
+								</dt>
+								<dd>The event type</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd>mioPagination.page._eventParams</dd>
+							
+							</dl>
+						
+
+					
+				
+			
+			
+<!-- ============================== event details ========================= -->		
+			
+			
+			<hr />
+		</div>
+
+		
+<!-- ============================== footer ================================= -->
+		<div class="fineprint" style="clear:both">
+			
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.3.2 on Sat Aug 21 2010 13:51:36 GMT-0400 (EDT)
+		</div>
+	</body>
+</html>

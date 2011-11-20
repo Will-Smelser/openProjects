@@ -1,0 +1,150 @@
+body, html{
+	padding:0px;
+	maring:0px;	
+}
+#mioWrapper{
+	position:absolute;
+	top:50%;
+	left:0px;
+	width:100%;
+	
+	min-width:960px;
+}
+#mioMainInner{
+	width:960px;
+	margin-left:auto;
+	margin-right:auto;
+	
+	border:solid black 3px;	
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	
+}
+#mioMainPaginationWrapper{
+	height:50px;
+	padding:5px 0px 0px 0px;
+	
+	background-color:#333;
+		
+}
+#mioPaginationRight{
+	float:right;	
+	
+	margin:5px 10px;
+	
+	width:30px;
+	height:30px;
+	
+	font-size:30px;
+	line-height:30px;
+	color:#DDDD00;
+	text-align:center;
+	
+	border:solid #666 2px;
+	background-color:#222;
+	
+	cursor:pointer;
+}
+#mioPaginationRight:HOVER{
+	background-color:#000;	
+}
+#mioPagination{
+	float:left;
+	width:auto;
+}
+#mioAjaxLoading{
+	float:left;
+	width:20px;
+	padding-top:17px;	
+}
+#mioPagination UL{
+	margin:0px;
+	padding:0px;
+}
+#mioPagination UL LI{
+	margin:0px 0px 0px 12px;
+	padding:0px;
+	
+	list-style:none;
+	display:inline;
+}
+#mioPagination .hidden{
+	display:none;	
+}
+#mioPagination .selected A{
+	background-color:#666;
+	border:solid #DDDD00 2px;
+}
+#mioPagination{
+	color:#FFF;
+	font-size:25px;
+	font-weight:bold;
+}
+#mioPagination A{
+	display:inline-block;
+	
+	border:solid #333 2px;
+	
+	margin:0px;
+	padding:5px 10px 5px 10px;
+	
+	cursor:pointer;
+	text-decoration:none;
+	
+	color:#FFF;
+	font-family:arial;	
+}
+#mioPagination A:HOVER{
+	background-color:#666;
+	border:solid #CCC 2px;
+}
+
+#mioMainWrapper{
+	background-color:#EFEFEF;
+	overflow:hidden;
+	font-family:arial;
+	font-size:16px;
+	padding:10px;
+	
+}
+#mioIframe{
+	width:100%;
+	margin:0px;
+	padding:0px;
+	border:none;	
+}
+#mioIframe{
+	display:none;
+	margin:0px;
+	padding:0px;	
+}
+#mioMainFooterWrapper{
+	display:none;
+	height:20px;
+	background-color:#333;
+	border-bottom:solid black 3px;
+}
+
+.ajaxFailMsg{
+	font-weight:bold;
+	color:red;
+}
+UL LI#mioPrev{
+	border-right:solid #EFEFEF 2px;
+	margin-left:0px;
+}
+#mioPrev A{
+	margin-right:5px;	
+}
+UL LI#mioNext{
+	border-left:solid #EFEFEF 2px;
+}
+UL LI#mioLast{
+	margin-left:0px;	
+}
+#mioNext A{
+	margin-left:5px;
+}
+LI#mioNext,LI#mioFirst{
+	margin:0px;
+}

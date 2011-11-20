@@ -1,0 +1,25 @@
+8
+
+dir
+5
+http://www.openprojects.willsmelser.com/trunk/iframeResize/required
+http://www.openprojects.willsmelser.com
+
+
+
+2010-08-29T23:49:55.845352Z
+5
+project
+
+
+svn:special svn:externals svn:needs-lock
+
+images
+dir
+
+css
+dir
+
+js
+dir
+

@@ -1,0 +1,40 @@
+8
+
+dir
+2
+http://www.openprojects.willsmelser.com/trunk/fancyPager/scripts
+http://www.openprojects.willsmelser.com
+
+
+
+2010-08-19T15:08:55.414070Z
+2
+project
+
+
+svn:special svn:externals svn:needs-lock
+
+loadPage.php
+file
+
+
+
+
+2010-08-18T05:32:32.859375Z
+03b708bac142330d11c206c2d004bb35
+2010-08-19T15:08:55.414070Z
+2
+project
+
+mioErrHandling.js
+file
+
+
+
+
+2010-08-18T05:01:42.750000Z
+bfa4ce97201d4a735c005e8bc50afd6b
+2010-08-19T15:08:55.414070Z
+2
+project
+

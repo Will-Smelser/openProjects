@@ -1,0 +1,52 @@
+8
+
+dir
+2
+http://www.openprojects.willsmelser.com/trunk/fancyPager/testpages
+http://www.openprojects.willsmelser.com
+
+
+
+2010-08-19T15:08:55.414070Z
+2
+project
+
+
+svn:special svn:externals svn:needs-lock
+
+test1.html
+file
+
+
+
+
+2010-08-16T02:01:42.703125Z
+eb58f0512385eb75e9141e3fad705add
+2010-08-19T15:08:55.414070Z
+2
+project
+
+test2.html
+file
+
+
+
+
+2010-08-16T05:21:13.312500Z
+196fd6f1ef946086a68b1792a6f6c44f
+2010-08-19T15:08:55.414070Z
+2
+project
+
+test3.html
+file
+
+
+
+
+2010-08-16T05:21:20.906250Z
+b3ea64c7ca50e289dc980c42258b93aa
+2010-08-19T15:08:55.414070Z
+2
+project
+

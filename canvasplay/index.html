@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="required/js/jquery-1.7.min.js" ></script> 
+<script src="required/js/raphael-2.0-min.js" ></script>
+
+</head>
+<body>
+<div id="canvas" style="border:solid black 3px;width:640px;height:480px;float:left;"></div>
+<div style="float:left">
+<form id="myform">
+<label for="x">x: <input id="x" name="x" value="200" type="text"/></label>
+<label for="y">y: <input id="y" name="y" value="200" type="text"/></label><br/>
+<label for="size">radius: <input id="radius" name="radius" type="text" value="20" /></label><br/>
+<label for="angle">initial angle: <input id="angle" name="angle" type="text" value="130"/></label><br/>
+<label for="velocity">velocity (pixesl/ms):<input id="velocity" name="velocity" type="text" value=".5" /></label><br/>
+<select id="shape" name="shape"><option value="circle" selected>Circle</option></select>
+<select id="color" name="color">
+	<option value="red" selected>Red</option>
+	<option value="blue" >Blue</option>
+	<option value="green">Green</option>
+	<option value="black">Black</option>
+	<option value="purple">Purple</option>
+</select>
+
+<input id="submit" type="button" value="<< Add Ball" />
+</form>
+</div>
+</body>
+
+<script>
+$(document).ready(function(){
+	
+	var width = 640;//$paper.width();
+	var height = 480;//$paper.height();
+	
+	//set the canvas
+	var paper = Raphael("canvas", width, height);
+	
+	//track all the current paths
+	var paths = [];
+	
+	var newBallId = 0;
+	
+	//called via call, where this references the element clicked on
+	var clicked = function(){
+		alert(this.attr('x'));
+	}
+	
+	var reflect = function(angle, hits){
+		switch(hits){
+		case 'top':
+		case 'bottom':
+			return 180 - angle;
+		case 'right':
+		case 'left':
+			return 360 - angle;
+		}		
+	}
+	var getDist = function(x1,y1,x2,y2){
+		var xDiff = x1 - x2;
+		var yDiff = y1 - y2;
+		return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+	}
+	
+	var getCollidePointSameVector = function(p1x,p1y,p1xAdd,p1yAdd,p2x,p2y,p2xAdd,p2yAdd){
+		var tollerance = 5; //number of pixes to accept as close enough
+				
+		//folow vector out 1 px and check if points are closer or futher
+		p1x = p1x + p1xAdd;
+		p1y = p1y + p1yAdd;
+		p2x = p2x + p2xAdd;
+		p2y = p2y + p2yAdd;
+		
+		var dist = getDist(p1x,p1y,p2x,p2y);
+		
+		if(p1x < 0 || p1y < 0 || p1x > width || p1y > height ||
+				p2x < 0 || p2y < 0 || p2x > width || p2y > height
+			){
+			return false;
+		}
+		
+		if(dist > tollerance){
+			return getCollidePointSameVector(p1x,p1y,p1xAdd,p1yAdd,p2x,p2y,p2xAdd,p2yAdd);
+		} else {
+			return [p1x,p1y];
+		}
+	}
+	
+	var gettingCloser = function(p1,p2){
+		//get the distance between them
+		var dist = getDist(p1.x,p1.y,p2.x,p2.y);
+		
+		//can be in same direction with 1 ball moving faster
+		var vMax = Math.max(p1.velocity, p2.velocity);
+		var v1 = p1.velocity / vMax;
+		var v2 = p2.velocity / vMax;
+		
+		//folow vector out 1 px and check if points are closer or futher
+		var p1xAdd = Math.sin(p1.angle);
+		var p1yAdd = Math.cos(p1.angle);
+		var p2xAdd = Math.sin(p2.angle);
+		var p2yAdd = Math.cos(p2.angle);
+		var p1x = p1.x + p1xAdd;
+		var p1y = p1.y + p1yAdd;
+		var p2x = p2.x + p2xAdd;
+		var p2y = p2.y + p2xAdd;
+		
+		var dist2 = getDist(p1x,p1y,p2x,p2y);
+		
+		return (dist > dist2);
+	}
+	
+	var checkForCollisions = function(id){
+		var collisionId = collisionTime = x = y = null;
+		
+		//all 2 dim lines have intersections
+		//check to see if they are within bounds
+		for(var p in paths){
+			console.log(p+' == '+id);
+			if(p != id ){
+				
+				//essentially the same path...this takes much more time that using
+				//lines and their intersection
+				if(paths[id].slope.toFixed(4) == paths[p].slope.toFixed(4) &&
+						paths[id].b.toFixed(4) == paths[p].b.toFixed(4) ){
+					
+					//get the distance between them
+					var dist = getDist(paths[id].x,paths[id].y,paths[p].x,paths[p].y);
+					
+					//can be in same direction with 1 ball moving faster
+					var vMax = Math.max(paths[p].velocity, paths[id].velocity);
+					var v1 = paths[p].velocity / vMax;
+					var v2 = paths[id].velocity / vMax;
+					
+					//folow vector out 1 px and check if points are closer or futher
+					var p1xAdd = Math.sin(paths[p].angle);
+					var p1yAdd = Math.cos(paths[p].angle);
+					var p2xAdd = Math.sin(paths[id].angle);
+					var p2yAdd = Math.cos(paths[id].angle);
+					var p1x = paths[p].x + p1xAdd;
+					var p1y = paths[p].y + p1yAdd;
+					var p2x = paths[id].x + p2xAdd;
+					var p2y = paths[id].y + p2xAdd;
+					
+					var dist2 = getDist(p1x,p1y,p2x,p2y);
+					console.warn(paths);
+					console.warn(p);
+					console.warn(paths[p].x+','+paths[p].y+','+p2x+','+p2y+','+dist+','+dist2);
+					//getting closer
+					if(dist2 < dist){
+						
+						var hit = getCollidePointSameVector(p1x,p1y,p1xAdd,p1yAdd,p2x,p2y,p2xAdd,p2yAdd);
+						
+						if(hit === false) break;
+						
+						var time = getDist(paths[id].x,paths[id].y,hit[0],hit[1]) / paths[id].velocity;
+						if(collisionTime == null || time < collisionTime){
+							collisionTime = time;
+							collisionId = y;
+							x = hit[0];
+							y = hit[1];
+						}
+					}
+					break;
+				}
+				
+				//find intersection of x
+				var x1 = (paths[id].b - paths[p].b) / (paths[p].slope - paths[id].slope);
+				var y1 = paths[id].slope * x1 + paths[id].b;
+				
+				console.log(x1+', '+y1);
+				
+				
+				
+				if(x1 < width && x1 > 0 && y1 > 0  && y1 < height && gettingCloser(paths[y],paths[id])){
+					//now deterimine the time till collision
+					var xDiff = x1 - paths[p].x;
+					var yDiff = y1 - paths[p].y;
+					var dist = Math.sqrt(xDiff*xDiff + yDiff*yDiff);
+					
+					var vMax = Math.max(paths[p].velocity, paths[id].velocity);
+					var v1 = paths[p].velocity / vMax;
+					var v2 = paths[id].velocity / vMax;
+					
+					//get time to collision
+					//v1*dist gives the proportion of path covered by object
+					var time = paths[p].start + (v1 * dist) / paths[p].velocity;
+					
+					if(collisionTime == null || time < collisionTime){
+						collisionTime = time;
+						collisionId = y;
+						x = x1;
+						y = y1;
+					}
+				}
+			}
+		}
+		return (x == null || y == null) ? false : [x,y,collisionId,collisionTime];
+	}
+	
+	//the movements
+	var move = function(degree, velocity, id){
+		//var $paper = $(this).parent(); //the paper?
+		
+		//velocity = pixel distance / milliseconds
+		if(typeof velocity == 'undefined') velocity = .5;
+		
+		//setup the id
+		if(typeof id == 'undefined'){
+			id = newBallId;
+			newBallId++;
+		}
+		
+		//get position
+		var x = this.attr('cx');
+		var y = this.attr('cy');
+		
+		var rx = this.attr('rx');
+		var ry = this.attr('ry');
+		
+		//unit circle
+		var rads = degree * Math.PI / 180;
+		var xcomp = Math.sin(rads);
+		var ycomp = -1 * Math.cos(rads);
+		
+		//determine the equation for line.  y = slope * x + b
+		var x1 = x + xcomp;
+		var y1 = y + ycomp;
+		var slope = ycomp / xcomp;
+		var b = y - slope * x;
+		
+		//add to the paths
+		var date = new Date();
+		paths[id] = {'slope':slope,'b':b,'start':[x,y],'velocity':velocity,'start':date.getTime(),'angle':rads,'x':x,'y':y};
+		
+		//check for a collision
+		var collisionData = checkForCollisions(id);
+		console.log(collisionData);
+		
+		console.log('y = '+slope+' * x + '+b);
+		
+		//determine the left and right edge intersections
+		var right = (xcomp > 0); //true = moving right 
+		var bottom  = (ycomp > 0); //true = moving down
+		var yint = (right) ? slope * width + b : /* (slope * 0) + */ b;
+		var xint = (bottom) ? (height - b) / slope : /* (0 / slope) + */ (-1 * b) / slope;
+		
+		//find destination
+		var xloc = xint, yloc = yint;
+		if(0 < xint && xint < width){ //use x intercept
+			yloc = (bottom) ? height : 0;
+		
+		} else { //use the y intercept
+			xloc = (right) ? width : 0;
+		}
+		var anim = {'cx':xloc,'cy':yloc}, xDiff = xloc - x, yDiff = yloc - y; 
+		var time = Math.sqrt((xDiff*xDiff) + (yDiff*yDiff)) / velocity;
+		
+		console.log('right:'+right+', bottom:'+bottom+', x-int:'+xint+', y-int:'+yint+', time:'+time);
+		
+		//moving towards right and top
+		var outAngle = null;
+		if(right && !bottom){
+			//hits top first
+			if(xint < width){
+				outAngle = reflect(degree,'top');
+				console.log(1);
+			//hits right side first
+			} else {
+				console.log(2);
+				outAngle = reflect(degree,'right');
+			}
+		//moving towards right and bottom
+		} else if(right && bottom){
+			//hit bottom first
+			if(xint < width){
+				console.log(3);
+				outAngle = reflect(degree,'bottom');
+			} else {
+				console.log(4);
+				outAngle = reflect(degree,'right');
+			}
+		} else if(!right && !bottom){
+			//hit top first
+			if(xint > 0){
+				console.log(5);
+				outAngle = reflect(degree,'top');
+			} else {
+				console.log(6);
+				outAngle = reflect(degree,'left');
+			}
+		//moving towards bottom and left
+		} else {
+			//hit top first
+			if(xint > 0){
+				console.log(7);
+				outAngle = reflect(degree,'bottom');
+			} else {
+				console.log(8);
+				outAngle = reflect(degree,'left');
+			}
+		}
+		
+		console.log(anim);
+		console.log(outAngle);
+		
+		var obj = this;
+		this.animate(anim,time,'linear',function(){move.call(obj,outAngle,velocity,id);});
+		
+	}
+
+	//the form for adding balls
+	$('#submit').click(function(){
+		var data = {};
+		//console.warn($('#myform:input'));
+		$(':input').each(function(index, el){
+			data[$(this).attr('id')] = $(this).val();
+		});
+			
+		var shape = null;
+		
+		//console.log([parseInt(data.x),parseInt(data.y),parseInt(data.radius)]);
+		
+		switch(data.shape){
+		default:
+		case 'cicle':
+			shape = paper.circle(parseInt(data.x),parseInt(data.y),parseInt(data.radius));
+			shape.attr({'stroke':data.color,'fill':data.color});
+		}
+				
+		move.call(shape,data.angle,parseFloat(data.velocity));
+		
+		return false;
+	});
+	
+	//paper.circle(320, 240, 60).animate({fill: "#223fa3", stroke: "#000", "stroke-width": 80, "stroke-opacity": 0.5}, 2000);
+});
+</script>
+</html>

@@ -1,0 +1,64 @@
+8
+
+dir
+2
+http://www.openprojects.willsmelser.com/trunk/fancyPager/required/css
+http://www.openprojects.willsmelser.com
+
+
+
+2010-08-19T15:08:55.414070Z
+2
+project
+
+
+svn:special svn:externals svn:needs-lock
+
+base.css
+file
+3
+
+
+
+2010-08-19T19:44:43.718750Z
+c843442c8ddd528e454365bafeff3b3b
+2010-08-22T00:27:22.576889Z
+3
+project
+
+base2.css
+file
+3
+
+
+
+2010-08-19T20:47:37.093750Z
+131d982e2c55b03b9549aec84e8caa37
+2010-08-22T00:27:22.576889Z
+3
+project
+
+base3.css
+file
+3
+
+
+
+2010-08-19T21:43:47.578125Z
+abf50c3bf3784a35ad22a6209dc7a74a
+2010-08-22T00:27:22.576889Z
+3
+project
+
+base4.css
+file
+3
+
+
+
+2010-08-22T00:17:22.609375Z
+bf401b03f580b0b9454017cd7c7da0c6
+2010-08-22T00:27:22.576889Z
+3
+project
+

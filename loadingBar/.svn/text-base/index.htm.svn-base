@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+
+<script type="text/javascript" src="required/js/loadingbar.js"></script>
+<script type="text/javascript">
+	var myloader = loadingbar('loadBar','loadWrapper','bounce');
+	myloader.addStopHook(function(){alert('Animation Stoped');});
+</script>
+</head>
+
+<body onload="">
+<h2>Documentation</h2>
+<p>
+<a href="docs/index.html" >Documentation</a>
+</p>
+<h2>Example</h2>
+<p>
+<input value="Sart Loader" type="button" onclick="myloader.run()" />
+<input value="Stop Loader" type="button" onclick="myloader.stop()" />
+</p>
+
+
+<div style="width:400px;border:solid #333 2px;text-align:left;background-color:#eeeeee;overflow:hidden;" id="loadWrapper">
+	<span style="height:35px;width:5px;margin:1px;background-color:#47AD44;font-size:8px;display:inline-block;background-image:url(required/images/loadingbar.png);" id="loadBar">&nbsp;</span>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+8
+
+dir
+5
+http://www.openprojects.willsmelser.com/trunk/iframeResize/required/js
+http://www.openprojects.willsmelser.com
+
+
+
+2010-08-29T23:49:55.845352Z
+5
+project
+
+
+svn:special svn:externals svn:needs-lock
+
+jquery.iframeresize.min.js
+file
+14
+
+
+
+2010-12-16T22:27:51.250000Z
+225ac212f0aaefaebe2feeab5c004a27
+2010-12-16T22:29:34.124324Z
+14
+open
+
+jquery.iframeresize.js
+file
+14
+
+
+
+2010-12-16T22:26:33.203125Z
+d0469e929ce201dd169f638ec1a9dced
+2010-12-16T22:29:34.124324Z
+14
+open
+

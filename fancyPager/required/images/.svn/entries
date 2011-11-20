@@ -1,0 +1,29 @@
+8
+
+dir
+2
+http://www.openprojects.willsmelser.com/trunk/fancyPager/required/images
+http://www.openprojects.willsmelser.com
+
+
+
+2010-08-19T15:08:55.414070Z
+2
+project
+
+
+svn:special svn:externals svn:needs-lock
+
+loader.gif
+file
+
+
+
+
+2010-08-04T16:17:28.000000Z
+37af4c25900bb92477a8ab5705d4f68c
+2010-08-19T15:08:55.414070Z
+2
+project
+has-props
+

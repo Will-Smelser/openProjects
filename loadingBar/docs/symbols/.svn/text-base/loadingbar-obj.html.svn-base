@@ -1,0 +1,754 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		
+		<title>JsDoc Reference - loadingbar-obj</title>
+
+		<style type="text/css">
+			/* default.css */
+body
+{
+	font: 12px "Lucida Grande", Tahoma, Arial, Helvetica, sans-serif;
+	width: 800px;
+}
+
+.header
+{
+	clear: both;
+	background-color: #ccc;
+	padding: 8px;
+}
+
+h1
+{
+	font-size: 150%;
+	font-weight: bold;
+	padding: 0;
+	margin: 1em 0 0 .3em;
+}
+
+hr
+{
+	border: none 0;
+	border-top: 1px solid #7F8FB1;
+	height: 1px;
+}
+
+pre.code
+{
+	display: block;
+	padding: 8px;
+	border: 1px dashed #ccc;
+}
+
+#index
+{
+	margin-top: 24px;
+	float: left;
+	width: 160px;
+	position: absolute;
+	left: 8px;
+	background-color: #F3F3F3;
+	padding: 8px;
+}
+
+#content
+{
+	margin-left: 190px;
+	width: 600px;
+}
+
+.classList
+{
+	list-style-type: none;
+	padding: 0;
+	margin: 0 0 0 8px;
+	font-family: arial, sans-serif;
+	font-size: 1em;
+	overflow: auto;
+}
+
+.classList li
+{
+	padding: 0;
+	margin: 0 0 8px 0;
+}
+
+.summaryTable { width: 100%; }
+
+h1.classTitle
+{
+	font-size:170%;
+	line-height:130%;
+}
+
+h2 { font-size: 110%; }
+caption, div.sectionTitle
+{
+	background-color: #7F8FB1;
+	color: #fff;
+	font-size:130%;
+	text-align: left;
+	padding: 2px 6px 2px 6px;
+	border: 1px #7F8FB1 solid;
+}
+
+div.sectionTitle { margin-bottom: 8px; }
+.summaryTable thead { display: none; }
+
+.summaryTable td
+{
+	vertical-align: top;
+	padding: 4px;
+	border-bottom: 1px #7F8FB1 solid;
+	border-right: 1px #7F8FB1 solid;
+}
+
+/*col#summaryAttributes {}*/
+.summaryTable td.attributes
+{
+	border-left: 1px #7F8FB1 solid;
+	width: 140px;
+	text-align: right;
+}
+
+td.attributes, .fixedFont
+{
+	line-height: 15px;
+	color: #002EBE;
+	font-family: "Courier New",Courier,monospace;
+	font-size: 13px;
+}
+
+.summaryTable td.nameDescription
+{
+	text-align: left;
+	font-size: 13px;
+	line-height: 15px;
+}
+
+.summaryTable td.nameDescription, .description
+{
+	line-height: 15px;
+	padding: 4px;
+	padding-left: 4px;
+}
+
+.summaryTable { margin-bottom: 8px; }
+
+ul.inheritsList
+{
+	list-style: square;
+	margin-left: 20px;
+	padding-left: 0;
+}
+
+.detailList {
+	margin-left: 20px; 
+	line-height: 15px;
+}
+.detailList dt { margin-left: 20px; }
+
+.detailList .heading
+{
+	font-weight: bold;
+	padding-bottom: 6px;
+	margin-left: 0;
+}
+
+.light, td.attributes, .light a:link, .light a:visited
+{
+	color: #777;
+	font-style: italic;
+}
+
+.fineprint
+{
+	text-align: right;
+	font-size: 10px;
+}
+		</style>
+	</head>
+
+	<body>
+<!-- ============================== header ================================= -->	
+		<!-- begin static/header.html -->
+		<div id="header">
+</div>
+		<!-- end static/header.html -->
+
+<!-- ============================== classes index ============================ -->
+		<div id="index">
+			<!-- begin publish.classesIndex -->
+			<div align="center"><a href="../index.html">Class Index</a>
+| <a href="../files.html">File Index</a></div>
+<hr />
+<h2>Classes</h2>
+<ul class="classList">
+	
+	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
+	
+	<li><a href="../symbols/loadingbar-obj.html">loadingbar-obj</a></li>
+	
+</ul>
+<hr />
+			<!-- end publish.classesIndex -->
+		</div>
+		
+		<div id="content">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				
+				Class loadingbar-obj
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				
+				
+			
+				The object holding methods for loadingbar object
+				
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/c__xampp_htdocs_openProjects_loadingBar_required_js_loadingbar.js.html">loadingbar.js</a>.
+				
+			</p>
+
+<!-- ============================== constructor summary ==================== -->			
+			
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class loadingbar-obj.">
+				<caption>Class Summary</caption>
+				<thead>
+					<tr>
+						<th scope="col">Constructor Attributes</th>
+						<th scope="col">Constructor Name and Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="attributes">&lt;inner&gt; &nbsp;</td>
+						<td class="nameDescription" >
+							<div class="fixedFont">
+								<b><a href="../symbols/loadingbar-obj.html#constructor">loadingbar-obj</a></b>(object)
+							</div>
+							<div class="description">Just a temporary object created to make jsDoc work.</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+
+<!-- ============================== properties summary ===================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class loadingbar-obj.">
+					<caption>Field Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Field Attributes</th>
+							<th scope="col">Field Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								loadingbar-obj.<b><a href="../symbols/loadingbar-obj.html#.aL">aL</a></b>
+								</div>
+								<div class="description">aL string ['left','center','right'] Align the loading bar during 1st cycle and every odd cycle there after.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								loadingbar-obj.<b><a href="../symbols/loadingbar-obj.html#.aR">aR</a></b>
+								</div>
+								<div class="description">aR string ['left','center','right'] Align the loading bar during 2nd cycle and every even cycle there after.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								loadingbar-obj.<b><a href="../symbols/loadingbar-obj.html#.cycle">cycle</a></b>
+								</div>
+								<div class="description">The current cycle number</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								loadingbar-obj.<b><a href="../symbols/loadingbar-obj.html#.interval">interval</a></b>
+								</div>
+								<div class="description">The interval passed to setInterval for the resize() function call</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								loadingbar-obj.<b><a href="../symbols/loadingbar-obj.html#.minCycle">minCycle</a></b>
+								</div>
+								<div class="description">The minimum number of cycles to run the loader cycles</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								loadingbar-obj.<b><a href="../symbols/loadingbar-obj.html#.wL">wL</a></b>
+								</div>
+								<div class="description">The lower limit bound to the width of the loading bar in pixels</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+
+<!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class loadingbar-obj.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">loadingbar-obj.<b><a href="../symbols/loadingbar-obj.html#.addStopHook">addStopHook</a></b>(func)
+								</div>
+								<div class="description">Use this to add a function to be called once the loader has stopped running</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">loadingbar-obj.<b><a href="../symbols/loadingbar-obj.html#.run">run</a></b>()
+								</div>
+								<div class="description">Initialize the object and create the setInterval</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">loadingbar-obj.<b><a href="../symbols/loadingbar-obj.html#.sizer">sizer</a></b>()
+								</div>
+								<div class="description">Resize the loading bar animationThis is called via a setInterval</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">loadingbar-obj.<b><a href="../symbols/loadingbar-obj.html#.stop">stop</a></b>()
+								</div>
+								<div class="description">Stop the sizer animation.</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+<!-- ============================== events summary ======================== -->
+			
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="details"><a name="constructor"> </a>
+				<div class="sectionTitle">
+					Class Detail
+				</div>
+				
+				<div class="fixedFont">&lt;inner&gt; 
+						<b>loadingbar-obj</b>(object)
+				</div>
+				
+				<div class="description">
+					Just a temporary object created to make jsDoc work...this object is returned in this function
+					
+				</div>
+				
+				
+				
+				
+					
+						<dl class="detailList">
+						<dt class="heading">Parameters:</dt>
+						
+							<dt>
+								 <b>object</b>
+								
+							</dt>
+								<dd>Just a wrapper for this object to be returned</dd>
+						
+						</dl>
+					
+					
+					
+					
+					
+					
+					
+
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+				<div class="sectionTitle">
+					Field Detail
+				</div>
+				
+					<a name=".aL"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{String}</span>
+					<span class="light">loadingbar-obj.</span><b>aL</b>
+					
+					</div>
+					<div class="description">
+						aL string ['left','center','right'] Align the loading bar during 1st cycle and every odd cycle there after.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+							<dd>aR</dd>
+							
+							</dl>
+						
+						
+
+					<hr />
+				
+					<a name=".aR"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{String}</span>
+					<span class="light">loadingbar-obj.</span><b>aR</b>
+					
+					</div>
+					<div class="description">
+						aR string ['left','center','right'] Align the loading bar during 2nd cycle and every even cycle there after.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+							<dd>aL</dd>
+							
+							</dl>
+						
+						
+
+					<hr />
+				
+					<a name=".cycle"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Integer}</span>
+					<span class="light">loadingbar-obj.</span><b>cycle</b>
+					
+					</div>
+					<div class="description">
+						The current cycle number
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".interval"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Integer}</span>
+					<span class="light">loadingbar-obj.</span><b>interval</b>
+					
+					</div>
+					<div class="description">
+						The interval passed to setInterval for the resize() function call
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".minCycle"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Integer}</span>
+					<span class="light">loadingbar-obj.</span><b>minCycle</b>
+					
+					</div>
+					<div class="description">
+						The minimum number of cycles to run the loader cycles
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".wL"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Integer}</span>
+					<span class="light">loadingbar-obj.</span><b>wL</b>
+					
+					</div>
+					<div class="description">
+						The lower limit bound to the width of the loading bar in pixels
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					
+				
+			
+
+<!-- ============================== method details ========================= -->		
+			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name=".addStopHook"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">loadingbar-obj.</span><b>addStopHook</b>(func)
+					
+					</div>
+					<div class="description">
+						Use this to add a function to be called once the loader has stopped running
+						
+						
+					</div>
+					
+					
+					
+					<pre class="code">myloader.addStopHook(function(){alert('Hello World');})</pre>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>func</b>
+									
+								</dt>
+								<dd>This is a reference to a function you want to be called after the animation has been stopped.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>void</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".run"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">loadingbar-obj.</span><b>run</b>()
+					
+					</div>
+					<div class="description">
+						Initialize the object and create the setInterval
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>void</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".sizer"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">loadingbar-obj.</span><b>sizer</b>()
+					
+					</div>
+					<div class="description">
+						Resize the loading bar animationThis is called via a setInterval
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>void</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".stop"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">loadingbar-obj.</span><b>stop</b>()
+					
+					</div>
+					<div class="description">
+						Stop the sizer animation.  Will not stop it, till the resizer has occurred this.minCycle # of times
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>void</dd>
+							
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd>cycle</dd>
+							
+								<dd>minCycle</dd>
+							
+								<dd>sizer()</dd>
+							
+							</dl>
+						
+
+					
+				
+			
+			
+<!-- ============================== event details ========================= -->		
+			
+			
+			<hr />
+		</div>
+
+		
+<!-- ============================== footer ================================= -->
+		<div class="fineprint" style="clear:both">
+			
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.3.2 on Wed Oct 06 2010 23:16:09 GMT-0400 (EDT)
+		</div>
+	</body>
+</html>

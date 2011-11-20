@@ -1,0 +1,176 @@
+body, html{
+	padding:0px;
+	maring:0px;	
+}
+#mioWrapper{
+	width:100%;
+	
+	min-width:960px;
+}
+#mioMainInner{
+	width:960px;
+	margin-left:auto;
+	margin-right:auto;
+	
+	border:solid black 3px;	
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	-webkit-border-radius:8px;
+	
+	
+}
+#mioMainPaginationWrapper{
+	height:35px;
+	padding:7px 0px 0px 0px;
+	
+	background-color:#333;
+	border-bottom:solid #000 7px;
+	
+	overflow:hidden;	
+}
+#mioPaginationRight{
+	float:right;	
+	
+	margin-right:5px;
+	
+	width:25px;
+	height:25px;
+	
+	font-size:25px;
+	line-height:25px;
+	color:#DDDD00;
+	text-align:center;
+	
+	border:solid #666 2px;
+	background-color:#222;
+	
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-border-radius:5px;
+	
+	cursor:pointer;
+}
+#mioPaginationRight:HOVER{
+	background-color:#000;	
+}
+#mioPagination{
+	float:left;
+	width:auto;
+	
+	color:#FFF;
+	font-size:16px;
+	font-weight:bold;
+}
+#mioAjaxLoading{
+	float:left;
+	width:20px;
+	padding-top:17px;	
+}
+#mioPagination UL{
+	margin:7px 0px 0px 0px;
+	padding:0px;
+	
+}
+#mioPagination UL LI{
+	margin:0px 0px 0px 5px;
+	padding:0px;
+	
+	list-style:none;
+	display:inline-block;
+}
+#mioPagination .hidden{
+	display:none;	
+}
+#mioPagination UL LI.seperate{
+	display:none;	
+}
+#mioPagination .selected A{
+	background-color:#000;
+	border-color:transparent;
+	color:#DDDD00;
+}
+#mioPagination A{
+	text-transform:uppercase;
+	
+	display:inline-block;
+	
+	border-color:transparent;
+	border-style:solid;
+	border-width: 2px 2px 0px 2px;
+	
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	-webkit-border-top-left-radius:5px;
+	-webkit-border-top-right-radius:5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	
+	background-color:#666;
+	
+	margin:0px;
+	padding:5px 10px 5px 10px;
+	
+	cursor:pointer;
+	text-decoration:none;
+	
+	color:#FFF;
+	font-family:arial;	
+}
+#mioPagination A:HOVER{
+	background-color:#000;
+}
+
+#mioMainWrapper{
+	background-color:#EFEFEF;
+	overflow:hidden;
+	font-family:arial;
+	font-size:16px;
+	padding:10px;
+	
+}
+#mioIframe{
+	width:100%;
+	margin:0px;
+	padding:0px;
+	border:none;	
+}
+#mioIframe{
+	display:none;
+	margin:0px;
+	padding:0px;	
+}
+#mioMainFooterWrapper{
+	display:none;
+	height:20px;
+	background-color:#333;
+	border-bottom:solid black 3px;
+}
+
+.ajaxFailMsg{
+	font-weight:bold;
+	color:red;
+}
+UL LI#mioPrev{
+	margin-left:0px;
+	border:none;
+}
+#mioPrev A{
+	margin-right:5px;
+	border:none;	
+}
+UL LI#mioNext{
+	border:none;
+}
+UL LI#mioLast{
+	margin-left:0px;	
+}
+#mioNext A{
+	margin-left:5px;
+	border:none;
+}
+LI#mioNext, #mioPrev A, LI#mioFirst, LI#mioNext A, LI#mioLast A, LI#mioFirst A,
+#mioPrev A:HOVER, LI#mioNext A:HOVER, LI#mioLast A:HOVER, LI#mioFirst A:HOVER{
+	margin:0px;
+	border:none;
+	background-color:transparent;
+}

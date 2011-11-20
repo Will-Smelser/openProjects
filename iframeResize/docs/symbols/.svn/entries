@@ -1,0 +1,115 @@
+8
+
+dir
+5
+http://www.openprojects.willsmelser.com/trunk/iframeResize/docs/symbols
+http://www.openprojects.willsmelser.com
+
+
+
+2010-08-29T23:49:55.845352Z
+5
+project
+
+
+svn:special svn:externals svn:needs-lock
+
+mioPagination.manipulate.html
+file
+
+
+
+
+2010-08-21T17:51:36.812500Z
+4ad0574f8938b55c3f95548ba8db255a
+2010-08-29T23:49:55.845352Z
+5
+project
+
+mioPagination.info.defaults.html
+file
+
+
+
+
+2010-08-21T17:51:36.781250Z
+965ff808982bb495a4257b80946b5513
+2010-08-29T23:49:55.845352Z
+5
+project
+
+_global_.html
+file
+
+
+
+
+2010-08-29T23:42:18.609375Z
+aa55776f8ef07f91f05e96e6610118e4
+2010-08-29T23:49:55.845352Z
+5
+project
+
+mioPagination.html
+file
+
+
+
+
+2010-08-21T17:51:36.640625Z
+07e221f8e6d1806bf0ebd1f1ff4b23f5
+2010-08-29T23:49:55.845352Z
+5
+project
+
+JQuery.html
+file
+
+
+
+
+2010-08-29T23:42:18.640625Z
+0c0e26b8b3839662cdea110df8ab777d
+2010-08-29T23:49:55.845352Z
+5
+project
+
+JQuery.fn.html
+file
+
+
+
+
+2010-08-29T23:42:18.687500Z
+8380d2b9fc5e098399afff4175c8d652
+2010-08-29T23:49:55.845352Z
+5
+project
+
+src
+dir
+
+mioPagination.info.html
+file
+
+
+
+
+2010-08-21T17:51:36.734375Z
+caa25c00c9fb0c1293fb4e75c8eff3d2
+2010-08-29T23:49:55.845352Z
+5
+project
+
+mioPagination.page.html
+file
+
+
+
+
+2010-08-21T17:51:36.968750Z
+e853fedfbc3c3c31b8a4c1916b968dfb
+2010-08-29T23:49:55.845352Z
+5
+project
+

@@ -1,0 +1,40 @@
+8
+
+dir
+5
+http://www.openprojects.willsmelser.com/trunk/iframeResize/docs/symbols/src
+http://www.openprojects.willsmelser.com
+
+
+
+2010-08-29T23:49:55.845352Z
+5
+project
+
+
+svn:special svn:externals svn:needs-lock
+
+htdocs_openProjects_iframeResize_required_js_jquery.iframeresize.js.html
+file
+
+
+
+
+2010-08-29T23:42:18.593750Z
+977232f1cc477f052a64bc57cb959706
+2010-08-29T23:49:55.845352Z
+5
+project
+
+htdocs_openProjects_fancyPager_required_js_fancyPagination.js.html
+file
+
+
+
+
+2010-08-21T17:51:36.453125Z
+97244dc48b691c8ef401413a35e43e14
+2010-08-29T23:49:55.845352Z
+5
+project
+

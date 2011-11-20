@@ -1,0 +1,68 @@
+@CHARSET "ISO-8859-1";
+/* ================================================================ 
+This copyright notice must be untouched at all times.
+
+The original version of this stylesheet and the associated (x)html
+is available at http://www.cssplay.co.uk/menus/dd_valid.html
+Copyright (c) 2005-2007 Stu Nicholls. All rights reserved.
+This stylesheet and the assocaited (x)html may be modified in any 
+way to fit your requirements.
+=================================================================== */
+
+/* common styling */
+.menu {font-family: arial, sans-serif; position:relative; font-size:14px;}
+.menu li {cursor:pointer; }
+.menu ul li a, .menu .lower {display:block; width:104px; overflow:hidden;}
+.menu ul {padding:0; margin:0; list-style: none;}
+.menu ul li { position:relative; z-index:100;}
+.menu .tab {text-align:center;background-color:red;border:solid #FFF 1px;height:40px;display:inline-block;}
+.menu .tab a{color:#FFF;fond-weight:bold;}
+.menu ul li ul {display: none;}
+.menu ul li a {z-index:110;position:relative;background-color:transparent;height:30px;}
+.menu ul li:hover a {color:#fff;}
+
+.menu ul li:hover ul {display:block; position:absolute; top:41px; left:0; width:105px;}
+
+.menu ul li:hover ul li a       {display:block; background:#ddd; color:#000;}
+.menu ul li:hover ul li a:hover {background:#6fc; color:#000;}
+
+
+/*teir 1*/
+.menu ul li:hover ul li:hover ul {display:block; position:absolute; left:105px; top:0;}
+.menu ul li:hover ul li       ul {display: none;}
+.menu ul li:hover ul li       a  {background:#ddd;}
+.menu ul li:hover ul li:hover a  {background:#36f;}
+
+/*teir 2*/
+.menu ul li:hover ul li:hover ul li       ul {display:none;}
+.menu ul li:hover ul li:hover ul li:hover ul {display:block; position:absolute; left:105px; top:0;}
+.menu ul li:hover ul li:hover ul li:hover ul.left {display:block; position:absolute; left:-105px; top:20px;}
+.menu ul li:hover ul li:hover ul li       a {background:#ddd;}
+.menu ul li:hover ul li:hover ul li:hover a {background:#36f;}
+	
+/*teir 3*/
+.menu ul li:hover ul li:hover ul li:hover ul li       ul {display:none;}
+.menu ul li:hover ul li:hover ul li:hover ul li:hover ul {display:block; position:absolute; left:105px; top:0;}
+.menu ul li:hover ul li:hover ul li:hover ul li:hover ul.left {display:block; position:absolute; left:-105px; top:0;}
+.menu ul li:hover ul li:hover ul li:hover ul li       a { background:#ddd;}
+.menu ul li:hover ul li:hover ul li:hover ul li:hover a {background:#36f;}
+
+/*teir 4*/
+.menu ul li:hover ul li:hover ul li:hover ul li:hover ul li       ul {display:none;}
+.menu ul li:hover ul li:hover ul li:hover ul li:hover ul li:hover ul {display:block; position:absolute; left:105px; top:0;}
+.menu ul li:hover ul li:hover ul li:hover ul li:hover ul li:hover ul.left {display:block; position:absolute; left:-105px; top:0;}
+.menu ul li:hover ul li:hover ul li:hover ul li:hover ul li:hover a { background:#ddd;}
+.menu ul li:hover ul li:hover ul li:hover ul li:hover ul li       a {background:#36f;}
+
+/*lower menu*/
+.menu .lower{
+	display:none;
+	position:absolute;
+	bottom:0px;
+	overflow:hidden;
+	background:#666;
+}
+.menu ul li:hover div.lower{
+	display:block;
+	z-index:105;
+}

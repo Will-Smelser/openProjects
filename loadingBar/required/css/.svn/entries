@@ -1,0 +1,28 @@
+8
+
+dir
+9
+http://www.openprojects.willsmelser.com/trunk/loadingBar/required/css
+http://www.openprojects.willsmelser.com
+
+
+
+2010-10-07T03:16:20.077882Z
+9
+open
+
+
+svn:special svn:externals svn:needs-lock
+
+base.css
+file
+
+
+
+
+2010-08-19T19:44:43.718750Z
+c843442c8ddd528e454365bafeff3b3b
+2010-10-07T03:16:20.077882Z
+9
+open
+
