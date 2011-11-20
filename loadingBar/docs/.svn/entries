@@ -1,4 +1,4 @@
-8
+10
 
 dir
 10
@@ -26,9 +26,6 @@ file
 10
 open
 
-symbols
-dir
-
 index.html
 file
 
@@ -40,4 +37,7 @@ file
 2010-10-07T03:16:57.438379Z
 10
 open
+
+symbols
+dir
 
