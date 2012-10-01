@@ -1,0 +1,25 @@
+<html>
+<head>
+
+<script src="http://code.jquery.com/jquery-1.8.1.min.js" ></script>
+<script src="required/js/mioImagePreloader.js"></script>
+
+<script>
+$(document).ready(function(){
+	window.imageLoader = new mioImagePreloader();
+
+	imageLoader.createLoadingNode();
+	imageLoader.extendImage('myTest',function(){alert('test worked')});
+	imageLoader.preload(
+		'http://drivesteady.com/wp-content/uploads/2011/02/red-sports-car-angle-wallpapers_12040_1024x768.jpg',
+		function(){alert('done')},
+		window
+	);
+	
+});
+</script>
+</head>
+<body>
+
+</body>
+</html>
