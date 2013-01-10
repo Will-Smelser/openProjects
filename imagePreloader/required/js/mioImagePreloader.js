@@ -139,7 +139,7 @@ var Preload = function(id)
 			//bind the onload...pass vars using closure ;)
 			this._images[hash].$img.load(function(obj, hash){
 					//only executes on successful load
-					return function(){obj._images[hash].func.call(obj, obj._images[hash]);}
+					return function(){obj._images[hash].func.call(obj, obj._images[hash]);};
 				}(this, hash));
 			
 			//we always want to trigger our functions, but jquery only
@@ -182,7 +182,7 @@ var Preload = function(id)
 				function(url, callback, scope, period, maxTries, tryCount, _this){
 					return function(){
 						_this.waitOnImage(url, callback, scope, period, maxTries, tryCount);
-					}
+					};
 				}(url, callback, scope, period, maxTries, ++tryCount, this)
 			,period);
 			
@@ -206,8 +206,8 @@ var Preload = function(id)
 		removeImage : function(url){
 			if(!this.isLoaded(url) || !this.isLoadedComplete(url)) return;//throw "Image did not exist ["+url+"]";
 			var hash = this._hashCode(url);
-			var image = this._images[hash].$img.remove();
 			this._images.splice(hash,1);
+			this._images[hash].$img.remove();
 		},
 		
 		/**
@@ -227,7 +227,7 @@ var Preload = function(id)
 			//todo add prototype stuff
 			this._Image.prototype[name] = func;
 		}
-	}
+	};
 	preloadObj.id = (typeof id === "undefined") ? preloadObj._loadingNodeId : id;
 	preloadObj.createLoadingNode(preloadObj.id);
 	return preloadObj;
