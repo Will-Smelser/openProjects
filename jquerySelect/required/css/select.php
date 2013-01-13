@@ -31,7 +31,7 @@ div<?php echo SCOPE; ?> span > input
 	font-size:inherit;
 	background-color:transparent;
 	margin:0px;
-	padding:0 0 0 2px;
+	/*padding:0 0 0 2px;*/
 	cursor:pointer;
 }
 /* style the select */
