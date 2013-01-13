@@ -10,22 +10,28 @@
 (function( $ ){
 
 /**
- * @param className <string> Optional class name applied to select wrapper. 
+ * @param classNameOrAction <string> Optional class name applied to select wrapper. 
  */
-jQuery.fn.uiselect = function(className){
-	className = (typeof className == 'undefined') ? 'ui-select' : className;
+jQuery.fn.uiselect = function(classNameOrAction){
+	if(typeof classNameOrAction === 'undefined')
+		classNameOrAction = 'ui-select';
+	
 	return this.each(function(index,el){
-		//create the dom elements needed
-		var $div = $(document.createElement('div')).addClass(className);
-		var $span = $(document.createElement('span')).addClass('ui-spinner ui-widget ui-widget-content ui-corner-all');
-		var $input= $(document.createElement('input'));
-		var $a    = $(document.createElement('a')).addClass('ui-spinner-button ui-spinner-down ui-state-default ui-corner-right');
-		var $aspan= $(document.createElement('span')).addClass('ui-button-text');
-		var $asspan=$(document.createElement('span')).addClass('ui-icon ui-icon-triangle-1-s');
-		$a.append($aspan.append($asspan));
-		$(this).wrap($div);
-		$(this).before($span.append($input).append($a));
-		
+		switch(classNameOrAction){
+		case 'refresh':
+			break;
+		default:
+			//create the dom elements needed
+			var $div = $(document.createElement('div')).addClass(classNameOrAction);
+			var $span = $(document.createElement('span')).addClass('ui-spinner ui-widget ui-widget-content ui-corner-all');
+			var $input= $(document.createElement('input'));
+			var $a    = $(document.createElement('a')).addClass('ui-spinner-button ui-spinner-down ui-state-default ui-corner-right');
+			var $aspan= $(document.createElement('span')).addClass('ui-button-text');
+			var $asspan=$(document.createElement('span')).addClass('ui-icon ui-icon-triangle-1-s');
+			$a.append($aspan.append($asspan));
+			$(this).wrap($div);
+			$(this).before($span.append($input).append($a));
+		}
 		
 		$(this).each(function(){
 			var data = [];
@@ -33,11 +39,19 @@ jQuery.fn.uiselect = function(className){
 
 			//gather data
 			$select.children().each(function(){
-				data.push({"label":$(this).html(),"value":$(this).attr('val')});
+				data.push({"label":$(this).html(),"value":$(this).attr('value'),
+					select:function(evt,ui){
+						return;
+					}
+				});
 			});
-
-			var $input = $select.siblings().find('input').val(data[0].label)
-				.autocomplete({source: data, delay: 0, minLength: 0});
+			
+			var $input = $select.siblings().find('input').val(data[0].label);
+			
+			if(classNameOrAction === 'refresh')
+				$input.autocomplete('destroy');
+			
+			$input.autocomplete({source: data, delay: 0, minLength: 0});
 
 			var show = function(){$input.autocomplete("search","");$input.focus();$select.trigger('click');};
 
@@ -45,18 +59,23 @@ jQuery.fn.uiselect = function(className){
 			$select.siblings().find('a.ui-spinner-button').click(show);
 
 			//remove the ability to focus on input
-			$input.click(show).on("autocompleteselect",
+			$input.click(show)
+			
+			//handle the autocomplete select
+			.on("autocompleteselect",
 				function(evt,ui){
 					if(ui.item.value != $select.val()){
+						$input.val(ui.item.label);
 						$select.val(ui.item.value);
 						$select.trigger('change');
 					}
+					return false;
 				});
 			
 			var first = true;
 			
 			var key = function(evt){
-				$(this).val($select.val());
+				$(this).val($select.find(':selected').html());
 				
 				//enter or esc
 				if(evt.keyCode == 13 || evt.keyCode == 27){
@@ -67,7 +86,8 @@ jQuery.fn.uiselect = function(className){
 				//up or down
 				if((evt.keyCode == 38 || evt.keyCode == 40)){
 					if(first) first = false;
-					else return;
+					//default autocomplete action
+					else{ return;}
 				}
 				$input.autocomplete("search","");
 			};
