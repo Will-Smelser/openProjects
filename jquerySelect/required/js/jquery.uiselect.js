@@ -12,9 +12,18 @@
 /**
  * @param classNameOrAction <string> Optional class name applied to select wrapper. 
  */
-jQuery.fn.uiselect = function(classNameOrAction){
+jQuery.fn.uiselect = function(classNameOrAction, fn){
 	if(typeof classNameOrAction === 'undefined')
 		classNameOrAction = 'ui-select';
+	
+	if(classNameOrAction === 'widget')
+		return $(this).parent().find('input').autocomplete('widget');
+	
+	if(classNameOrAction.match(/^(autocomplete)/))
+		if(typeof fn === 'function')
+			return $(this).parent().find('input').on(classNameOrAction, fn);
+		else
+			return $(this).parent().find('input').autocomplete(fn);
 	
 	return this.each(function(index,el){
 		switch(classNameOrAction){
@@ -39,21 +48,21 @@ jQuery.fn.uiselect = function(classNameOrAction){
 
 			//gather data
 			$select.children().each(function(){
-				data.push({"label":$(this).html(),"value":$(this).attr('value'),
-					select:function(evt,ui){
-						return;
-					}
-				});
+				data.push({label:$(this).html(),value:$(this).attr('value')});
 			});
 			
-			var $input = $select.siblings().find('input').val(data[0].label);
+			var $input = $select.siblings().find('input').val($select.find(':selected').text());
 			
 			if(classNameOrAction === 'refresh')
 				$input.autocomplete('destroy');
 			
 			$input.autocomplete({source: data, delay: 0, minLength: 0});
 
-			var show = function(){$input.autocomplete("search","");$input.focus();$select.trigger('click');};
+			var show = function(){
+				$input.autocomplete("search","");
+				$input.focus();
+				$select.trigger('click');
+			};
 
 			//the drop down button
 			$select.siblings().find('a.ui-spinner-button').click(show);

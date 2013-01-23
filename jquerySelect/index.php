@@ -19,7 +19,6 @@
 		$('#onchange').change(function(){alert($(this).val());});
 		$('#onclick').click(function(){alert('click');});
 
-		$('.style select').uiselect('refresh');
 		
 	});
 	</script>
@@ -49,16 +48,17 @@
 	<li><a href="#api">API Documentation</a>
 		<ul>
 			<li><a href="#api-methods">.uiselect Methods</a></li>
+			<li><a href="#api-methods-autocompleteevent">.uiselect Autocomplete Events</a></li>
 		</ul>
 	</li>
 </ul>
 </p>
 <h2 id="main">Base Example</h2>
 
-<h5>Requires the uiselect <a href="css/uiselect.css">style sheet</a>.</h5>
+<h5>Requires the uiselect <a href="required/css/uiselect.css">style sheet</a>.</h5>
 <p>This style sheet can be modified to use the .uiselect class name instead
 of the default "ui-select" class name.  I recommend using
-an empty contructor and default style menu if you do not understand css styles.</p>
+an empty contructor and default style sheet if you do not understand css styles.</p>
 <comment>
 <b>Example</b><br/>
 &lt;!-- Place this in your &lt;head&gt; section //--&gt;<br/>
@@ -136,5 +136,70 @@ is hooked to the origional select element.</p>
 $('select').uiselect();<br/>
 $('select:first').uiselect('refresh');
 </comment>
+
+<h5><i>Method</i> .uiselect("widget")</h5>
+<p>Returns the autocomplete widget associated with the select box.  See 
+<a href="http://api.jqueryui.com/autocomplete/#method-widget">autocomplete('widget')</a>.
+This is basically the &lt;ul&gt; element that displays as the dropdown.</p>
+<comment><b>Example</b><br/>
+<span style="color:grey">//get an instance of the autocomplete widget.</span><br/>
+$('select').uiselect();<br/>
+var widget = $('select:first').uiselect('widget');<br/><br/>
+
+//change the z-index of the drop down menu<br/>
+widget.css('background-color','yellow');
+</comment>
+
+<h5 id="api-methods-autocompleteevent"><i>Method</i> .uiselect(&lt;autocomplete Event&gt;, fn)</h5>
+<p><i>String &lt;autocomplete Event&gt; - </i>Autocomplete widget events.
+	<ul>
+		<li><a href='http://api.jqueryui.com/autocomplete/#event-change'>autocompletechange</a></li>
+		<li><a href='http://api.jqueryui.com/autocomplete/#event-close'>autocompleteclose</a></li>
+		<li><a href='http://api.jqueryui.com/autocomplete/#event-create'>autocompletecreate</a></li>
+		<li><a href='http://api.jqueryui.com/autocomplete/#event-focus'>autocompletefocus</a></li>
+		<li><a href='http://api.jqueryui.com/autocomplete/#event-open'>autocompleteopen</a></li>
+		<li><a href='http://api.jqueryui.com/autocomplete/#event-response'>autocompleteresponse</a></li>
+		<li><a href='http://api.jqueryui.com/autocomplete/#event-search'>autocompletesearch</a></li>
+		<li><a href='http://api.jqueryui.com/autocomplete/#event-select'>autocompleteselect</a></li>
+	</ul>
+	<i>Function fn</i> - Function to be executed on autocomplete event trigger
+</p>
+
+<comment><b>Example</b><br/>
+<span style="color:grey">//change the z-index on the autocomplete<br/>
+//this is a known issue with jquery ui autoomplete widget</span><br/>
+$('select').uiselect().each(function(){
+<br/>&nbsp;&nbsp;$(this).uiselect('autocompleteopen',
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function(){
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$(this).autocomplete('widget').css('z-index',99);	
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
+<br/>});
+</comment>
+
+
+<h5 id="api-methods-autocompletemethod"><i>Method</i> .uiselect("autocomplete", method)</h5>
+<p>
+<i>String "autocomplete" - </i>Fixed string instructing .uiselect  to execute 
+<a href="http://api.jqueryui.com/autocomplete">autocomplete</a> method.<br/>
+<i>String method - </i>Autocomplete widget methods.
+<ul>
+	<li><a href="http://api.jqueryui.com/autocomplete/#method-close">close</a></li>
+	<li><a href="http://api.jqueryui.com/autocomplete/#method-close">destroy</a></li>
+	<li><a href="http://api.jqueryui.com/autocomplete/#method-close">disable</a></li>
+	<li><a href="http://api.jqueryui.com/autocomplete/#method-close">enable</a></li>
+	<li><a href="http://api.jqueryui.com/autocomplete/#method-close">option</a></li>
+	<li><a href="http://api.jqueryui.com/autocomplete/#method-close">search</a></li>
+	<li><a href="http://api.jqueryui.com/autocomplete/#method-close">widget</a></li>
+</ul>
+</p>
+<comment><b>Example</b><br/>
+<span style="color:grey">//disable the autocomplete input element.</span><br/>
+$('select').uiselect();<br/>
+var widget = $('select:first').uiselect(autocomplete','disable');<br/><br/>
+
+//change the z-index of the drop down menu<br/>
+widget.css('z-index',99)
+</comment>
+
 </body>
 </html>
