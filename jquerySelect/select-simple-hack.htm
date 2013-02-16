@@ -26,10 +26,9 @@ function tclose(){
 	console.log($select.attr('size'));
 }
 
-
+//binde the click event
 $(document).ready(function(){
 	$('.ui-select a:first').click(function(){
-		
 		$(this).parent().parent().find('select').first().attr('size',2).css('overflow','hidden');
 	});
 });
