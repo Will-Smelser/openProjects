@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <projects>
-	<project name="fancyPager">1</project>
+	<project name="fancyPager">
+		<documentation>https://raw.github.com/Will-Smelser/openProjects/master/fancyPager/docs/index.html</documentation>
+	</project>
 	<project name="iframeResize">2</project>
 	<project name="imagePreloader">3</project>
 	<project name="jquerySelect">4</project>
