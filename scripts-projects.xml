@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <projects>
-	<project name="fancyPager"></project>
-	<project name="iframeResize"></project>
-	<project name="imagePreloader"></project>
-	<project name="jquerySelect"></project>
+	<project name="fancyPager">1</project>
+	<project name="iframeResize">2</project>
+	<project name="imagePreloader">3</project>
+	<project name="jquerySelect">4</project>
 </projects>
