@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <projects>
-	<project name="canvasPlay"></project>
 	<project name="fancyPager"></project>
 	<project name="iframeResize"></project>
 	<project name="imagePreloader"></project>
