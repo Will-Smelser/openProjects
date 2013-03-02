@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html> 
+  <head> 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+    <meta http-equiv="X-UA-Compatible" content="IE=7,IE=9"> 
+    <!--The viewport meta tag is used to improve the presentation and behavior of the samples 
+      on iOS devices-->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+    <title>FeatureLayer On Demand</title> 
+
+    <link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.3/js/dojo/dijit/themes/claro/claro.css"> 
+    <link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.3/js/esri/css/esri.css">
+    <style>
+      html, body, #mapDiv {
+        padding:0;
+        margin:0;
+        height:100%;
+      }
+    </style>
+    <script>dojoConfig = { parseOnLoad:true };</script> 
+    <script src="http://serverapi.arcgisonline.com/jsapi/arcgis/3.3/"></script> 
+    <script> 
+      dojo.require("esri.map");
+      dojo.require("esri.layers.FeatureLayer");
+
+
+      var map, featureLayer;
+      
+      function init() {
+        map = new esri.Map("mapDiv", { 
+          basemap: "national-geographic",
+          center: [-96.541, 38.34],
+          zoom: 6
+        });
+        dojo.connect(map, "onLoad", initOperationalLayer);
+      }
+      function initOperationalLayer(map) {
+
+        var infoTemplate = new esri.InfoTemplate();
+        
+        
+        var flayer = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Recreation/FeatureServer/0";
+        
+        featureLayer = new esri.layers.FeatureLayer(flayer,{
+          mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
+          outFields: ["*"],
+          infoTemplate: infoTemplate
+        });
+        
+        map.addLayer(featureLayer);
+        map.infoWindow.resize(155,75);
+        
+        
+        
+        //hook into the onClick event
+        dojo.connect(featureLayer,"onClick",function(evt){
+        	//we need to query the feature layer for this point
+        	var query = new esri.tasks.Query();
+        	
+        	//get the location of mouse click..The API doesnt tell you about this
+        	query.geometry = evt.graphic.geometry;
+			query.spatialRelationship = esri.tasks.Query.SPATIAL_REL_CONTAINS;
+			
+			//select the actual point
+			featureLayer.selectFeatures(query,esri.layers.FeatureLayer.SELECTION_NEW,
+				function(features){
+					//user clicked on something, then we should have features
+					if(features.length > 0){
+						var data = "";
+						for(var x in features){
+							data = "Feature "+x+":\n";
+							
+							for(var y in featureLayer.fields){
+								var name = featureLayer.fields[y].name;
+								data+= name+" : "+features[x].attributes[name]+"\n";
+							}
+								
+						}
+						alert(data);
+					}else{
+						alert("Failed to select the feature");
+					}
+				}
+			);
+        	
+        });
+        
+      }
+
+      dojo.ready(init);
+    </script> 
+  </head> 
+  <body class="claro"> 
+    <div id="mapDiv">
+    </div>
+  </body> 
+</html>
