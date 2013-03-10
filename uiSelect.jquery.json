@@ -1,10 +1,10 @@
 {
-    "name": "selectBox",
+    "name": "uiSelect",
     "title": "JQuery Select Box",
     "description": "Select box styled with jquery ui.  Simple and lightweight.",
     "keywords": [
-        "select box",
-        "selectbox", "combo box", "ui"
+        "select",
+        "selectbox", "combobox", "ui"
     ],
     "version": "1.0.0",
     "author": {
@@ -20,7 +20,8 @@
     ],
     "licenses": [
         {
-            "type": "GPLv2"
+            "type": "GPLv2",
+            "url":"http://opensource.org/licenses/GPL-3.0"
         }
     ],
     "bugs": "https://github.com/Will-Smelser/openProjects/issues",
