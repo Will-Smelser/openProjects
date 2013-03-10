@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <projects>
 	<project name="fancyPager">
+		<description>
+		This is the sample Description.
+		</description>
 		<documentation>https://raw.github.com/Will-Smelser/openProjects/master/fancyPager/docs/index.html</documentation>
 	</project>
 	<project name="iframeResize">2</project>
