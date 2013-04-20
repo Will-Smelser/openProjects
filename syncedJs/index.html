@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="sudoSync.js" ></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.js"></script>
+
+</head>
+<body>
+<script type="text/javascript">
+var test = function(){
+	console.log(arguments);
+}
+
+$(document).ready(function(){
+	function runTest(){
+		console.log("step 1");
+		
+		var testsync = new sync();
+		testsync.sync(
+			$.get, 
+				"http://openprojects.local/jquerySelect/","", 
+				testsync.getCallback(), 
+			this, 
+			function(result){
+				console.log("step 3");
+			} 
+		);
+		console.log("end");
+	}
+	$("#mybtn").click(runTest);
+})
+
+</script>
+
+<input id="mybtn" type="button" value="test" />
+
+</body>
+
+</html>
