@@ -1,0 +1,28 @@
+{
+  "manifest_version": 2,
+
+  "name": "Word Count",
+  "description": "Count the words on a page.",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  /*
+  "permissions": [
+    "https://secure.flickr.com/"
+  ],*/
+  "content_scripts": [
+    {
+      "matches": ["http://*/*","https://*/*"],
+      "css": [],
+      "js": ["jquery-2.0.1.min.js", "content.js"],
+      "run_at" : "document_end"
+    }
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  }
+  
+}
