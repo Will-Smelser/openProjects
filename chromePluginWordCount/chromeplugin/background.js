@@ -12,4 +12,3 @@ function getData(){
 	return window.data;
 }
 
-//chrome.extension.sendRequest();

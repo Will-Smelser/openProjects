@@ -2,21 +2,6 @@
 <html>
   <head>
     <title>Getting Started Extension's Popup</title>
-    <style>
-      body {
-        min-width: 357px;
-        overflow-x: hidden;
-      }
-
-      img {
-        margin: 5px;
-        border: 2px solid black;
-        vertical-align: middle;
-        width: 75px;
-        height: 75px;
-      }
-    </style>
-
     <!--
       - JavaScript and HTML must be in separate files: see our Content Security
       - Policy documentation[1] for details and explanation.
@@ -25,9 +10,19 @@
      -->
     <script src="popup.js"></script>
 	<script src="jquery-2.0.1.min.js"></script>
+	
+	<link rel="STYLESHEET" type="text/css" href="swiss.css?family=5&amp;doc=XML">
+	
+	<style type="text/css">
+		.even{background-color:#efefef;}
+		td{background-color:transparent;}
+	</style>
+	
   </head>
   <body>
-  <table id="info"></table>
+  <table id="info" style="min-width:400px">
+  	<tr><th>#</th><th>Word</th><th>Count</th><th>Context Counts</th></tr>
+  </table>
   </body>
 </html>
 
