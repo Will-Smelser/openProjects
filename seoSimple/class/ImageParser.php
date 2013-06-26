@@ -119,12 +119,14 @@ class ImageParser{
 				$resp->hash = $node->hash;
 				$result[$node->hash] = $resp;
 				
-			//image had the entier http
+			//image had the entire http
 			}elseif(preg_match('@^https?://@i',$url)){
 				$loader->addPage($url, $node->hash, $width, $height);
 				
 			//data type of image
 			}elseif(preg_match('/^data/',$url)){
+				//data:[<MIME-type>][;charset=<encoding>][;base64],<data>
+				$url = ltrim(strstr($url,','),',');
 				$image = imagecreatefromstring($url);
 				$resp = new ImageLoadResponse();
 				$resp->result = self::respond($image, $width, $height);
