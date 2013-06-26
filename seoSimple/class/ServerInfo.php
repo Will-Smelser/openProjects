@@ -11,7 +11,7 @@ class ServerInfo{
 	private $url;
 	public $rawHeader;
 	
-	private $request;
+	private $response;
 	public $header;
 	
 	private $lastW3Cerrors;
@@ -45,7 +45,7 @@ class ServerInfo{
 	 */
 	private function parseHeader(){
 		$lines = explode("\n", $this->rawHeader);
-		$this->request = rtrim(array_shift($lines),"\r");
+		$this->response = rtrim(array_shift($lines),"\r");
 		
 		foreach($lines as $line){
 			$line = trim($line);
@@ -70,7 +70,22 @@ class ServerInfo{
 	 * @return NULL
 	 */
 	public function getServer(){
-		return (isset($this->header['server']) ? $this->header['server'] : null);
+		return $this->getHeaderField('server');
+	}
+	
+	
+	/**
+	 * Get any header field returned by server
+	 * @param unknown $field
+	 * @return NULL
+	 */
+	public function getHeaderField($field){
+		$field = strtolower($field);
+		return (isset($this->header[$field]) ? $this->header['server'] : null);
+	}
+	
+	public function getHeaderResponseLine(){
+		return $this->response;
 	}
 	
 	/**
