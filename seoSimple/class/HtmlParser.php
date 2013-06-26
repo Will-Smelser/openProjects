@@ -203,4 +203,30 @@ class HtmlParser{
 			return array();
 		}
 	}
+	
+	/**
+	 * Returns a fully qualified link (http://... included) to the favicon or NULL
+	 * @return string|NULL
+	 */
+	public function getFavicon(){
+		$result = false;
+		
+		//check link mechanish
+		foreach($this->getTags('link') as $link){
+			if(isset($link->attributes['rel']) && $link->attributes['rel'] === 'icon'){
+				if(preg_match('@^http@i',$link->attributes['rel'])){
+					return $link->attributes['rel'];
+				}else{
+					return 'http://' . $link->host . '/' . ltrim($link->attributes['rel'],'/\\');	
+				}
+			}
+		}
+		
+		//check for favicon
+		if(file_get_contents('http://'.$this->host.'/favicon')){
+			return 'http://'.$this->host.'/favicon';
+		}
+		
+		return null;
+	}
 }
