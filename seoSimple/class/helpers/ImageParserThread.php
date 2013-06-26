@@ -1,7 +1,7 @@
 <?php
 include '../ImageParser.php';
 
-$url = urldecode($_GET['url']);
+$url = urldecode($_GET['arg0']);
 $hash = $_GET['arg1'];
 $width= $_GET['arg2'];
 $height = $_GET['arg3'];

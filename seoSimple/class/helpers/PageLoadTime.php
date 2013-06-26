@@ -11,7 +11,7 @@ $start = $time;
 
 
 //make a curl request
-$curl = curl_init($_GET['url']);
+$curl = curl_init($_GET['arg0']);
 curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 $result = curl_exec($curl);

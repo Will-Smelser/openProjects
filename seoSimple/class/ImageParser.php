@@ -8,17 +8,23 @@ class ImageLoadResponse{
 	public $hash;
 }
 
+/**
+ * Basic utilities to calculate information about images
+ * @author Will
+ *
+ */
 class ImageParser{
 	private static $GOOD = 1;
 	private static $BAD = 0;
 	private static $FAIL = -1;
 	
 	/**
-	 * Image checking
+	 * Process an image Node object to get the width and height from
+	 * either the width/height attributes or from the style attributes.
 	 * @param Node $node
 	 * @return array(width, height) width/height will be 0 if none set.
 	 */
-	public static function checkWidthHeight(Node $node){
+	public static function getWidthHeight(Node $node){
 		$width = 0;
 		$height = 0;
 		
@@ -44,7 +50,7 @@ class ImageParser{
 	}
 	
 	/**
-	 * 
+	 * Response used within this class
 	 * @param unknown $image A php image resource
 	 * @param unknown $width int
 	 * @param unknown $height int
@@ -67,7 +73,9 @@ class ImageParser{
 	}
 	
 	/**
-	 * Download an image and compare its dimensions
+	 * Download an image and compare its actual dimensions to 
+	 * Node attribute dimensions
+	 * 
 	 * @param unknown $src The url or file to check against
 	 * @param unknown $width Width to compare against
 	 * @param unknown $height Height to compare against
@@ -97,7 +105,10 @@ class ImageParser{
 	}
 	
 	/**
+	 * Takes a list of image nodes and downloads images checking their
+	 * actual dimensions vs. image Node attributes dimensions
 	 * 
+	 * @see checkActualDimsSingle
 	 * @param unknown $imgNodes  An array of img Nodes
 	 * @return ImageLoadResponse An array of ImageLoadResponse Objects
 	 */
@@ -105,7 +116,7 @@ class ImageParser{
 		$loader = new PageLoad('ImageParserThread.php');
 		$result = array();
 		foreach($imgNodes as $node){
-			$data = self::checkWidthHeight($node);
+			$data = self::getWidthHeight($node);
 			$width = $data[0];
 			$height = $data[1];
 			

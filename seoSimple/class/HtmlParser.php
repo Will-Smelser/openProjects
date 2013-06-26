@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * My representation of an HTML DOM node.  Holds a bunch of data.
+ * 
+ * @author Will
+ *
+ */
 class Node{
 	public $hash;
 	public $host;
@@ -11,6 +17,11 @@ class Node{
 	public $textEnd;
 	public $text;
 	
+	/**
+	 * Constructor
+	 * @param unknown $tag The HTML tag
+	 * @param unknown $raw The raw HTML that tag comes from
+	 */
 	public function Node($tag, $raw){
 		$this->raw = $raw;
 		$this->tag = $tag;
@@ -21,11 +32,19 @@ class Node{
 		$this->hash = spl_object_hash($this);
 	}
 	
+	/**
+	 * Parse out the content of the tag
+	 */
 	private function processContent(){
 		$this->textEnd = strpos($this->raw,"</{$this->tag}");
 		$this->text = trim(substr($this->raw, $this->textStart, $this->textEnd - $this->textStart));
 	}
 	
+	/**
+	 * Overly complicated method of parsing all the attributes.
+	 * Didnt mean for it to get this way, but kind of just happened.
+	 * TODO: Clean this up.
+	 */
 	private function processAttrs(){
 		
 		$start = strlen($this->tag)+1;
@@ -78,6 +97,11 @@ class Node{
 		$this->textStart = $i+$start+1;
 	}
 	
+	/**
+	 * On the processAttributes function is cleaned up
+	 * hopefully many of these will go away. 
+	 */
+	
 	private function skipWs($str, $start){
 		while($start < strlen($str) && $str[$start] == ' ')
 			$start++;
@@ -123,6 +147,12 @@ class Node{
 class HtmlParser{
 	private $dom = null;
 	private $host = null;
+	
+	/**
+	 * Constructor
+	 * @param unknown $str Raw HTML to parse for a tag
+	 * @param unknown $url The url where HTML came from.
+	 */
 	public function HtmlParser($str, $url){
 		$this->dom =  $str;
 		
@@ -137,7 +167,13 @@ class HtmlParser{
 	public function getMeta(){
 		return $this->getTags("meta");
 	}
-	
+
+	/**
+	 * Finds the given tags in the raw HTML and returns
+	 * an array of Nodes.
+	 * @param unknown $tag
+	 * @return Array of Node
+	 */
 	public function getTags($tag){
 		$result = array();
 		foreach($this->findTags($tag) as $entry){
@@ -149,6 +185,11 @@ class HtmlParser{
 		return $result;
 	}
 	
+	/**
+	 * Search string for matching tags.  Cannot support nested tags.
+	 * @param unknown $tag
+	 * @return unknown|string|multitype:
+	 */
 	private function findTags($tag){
 		if(preg_match_all("@<{$tag}[^>]*>.*?</{$tag}[\s+]?>@is",$this->dom, $matches)){
 			return $matches[0];
