@@ -68,8 +68,9 @@ class WordCount{
 	private function removeTag($tag, &$str){
 		$start = strpos($str, "<$tag");
 		while($start > 0){
-			$end = strpos($str, "</$tag")+strlen($tag)+2;
-			$str = substr($str, 0, $start) . substr($str, $end, strlen($str));
+			$end = strpos($str, "</$tag");
+			while($str[$end] != '>') $end++;
+			$str = substr($str, 0, $start) . substr($str, $end);//, strlen($str));
 			$start = strpos($str, "<$tag");
 		}
 	}
@@ -87,7 +88,7 @@ class WordCount{
 		$str = substr($str, $start, $end-$start);
 		
 		//now we have to remove other bad tags
-		foreach(array('script','style','embed','iframe') as $tag){
+		foreach(array('script','style','embed','iframe','noscript','frame','frameset','object','video','track','progress') as $tag){
 			$this->removeTag($tag, $str);
 		}
 		

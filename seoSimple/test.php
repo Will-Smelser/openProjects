@@ -68,7 +68,7 @@ $imgs = $parser->getTags('img');
 $result = array();
 
 //foreach($imgs as $img){
-	//$res = ImageParser::checkWidthHeight($img);
+	//$res = ImageParser::getWidthHeight($img);
 	//array_push($result, ImageParser::checkActualDimsSingle($img, $res[0], $res[1]));
 //}
 
