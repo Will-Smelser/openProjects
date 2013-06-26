@@ -55,7 +55,8 @@ $result = $loader->exec();
 var_dump($result);
 */
 
-
+/*
+ * TEST THE IMAGEPARSER
 include "class/HtmlParser.php";
 include "class/ImageParser.php";
 
@@ -84,5 +85,5 @@ $finish = $time;
 $total_time = round(($finish - $start), 4);
 
 echo "\nTOTAL_TIME: $total_time sec.\n\n";
-
+*/
 ?>
