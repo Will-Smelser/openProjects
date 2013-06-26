@@ -1,6 +1,7 @@
 <?php
 
 class Node{
+	public $hash;
 	public $host;
 	public $raw;
 	public $tag;
@@ -16,6 +17,8 @@ class Node{
 		
 		$this->processAttrs();
 		$this->processContent();
+		
+		$this->hash = spl_object_hash($this);
 	}
 	
 	private function processContent(){

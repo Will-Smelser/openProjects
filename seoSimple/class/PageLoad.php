@@ -8,17 +8,27 @@ class PageLoadResponse{
 }
 
 class PageLoad{
-	private static $loadPage = 'http://openprojects.local/seoSimple/class/helpers/PageLoadTime.php';
+	private static $loadPage = 'http://openprojects.local/seoSimple/class/helpers/';
 	
 	private $mh;
 	private $curls = array();
 	
-	public function PageLoad(){
+	public function PageLoad($page='PageLoadTime.php'){
+		self::$loadPage .= $page;
 		$this->mh = curl_multi_init();
 	}
 	
-	public function addPage($url){
+	public function addPage(){
+		$url;
+		
+		$args = func_get_args();
+		$url = array_shift($args);
+		
 		$url = self::$loadPage . '?url=' . urlencode($url);
+		
+		foreach($args as $key=>$arg){
+			$url .= "&arg{$key}=" . urlencode($arg);
+		}
 		
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);

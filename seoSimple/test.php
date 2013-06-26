@@ -1,4 +1,9 @@
 <?php
+//get start
+$time = microtime();
+$time = explode(' ', $time);
+$time = $time[1] + $time[0];
+$start = $time;
 
 /*
 include "class/WordCount.php";
@@ -50,6 +55,7 @@ $result = $loader->exec();
 var_dump($result);
 */
 
+
 include "class/HtmlParser.php";
 include "class/ImageParser.php";
 
@@ -59,9 +65,24 @@ $str = file_get_contents($url);
 $parser = new HtmlParser($str, $url);
 $imgs = $parser->getTags('img');
 
-foreach($imgs as $img){
-	$result = ImageParser::checkWidthHeight($img);
-	var_dump(ImageParser::checkActualDims($img, $result[0], $result[1]));
-}
-var_dump($imgs);
+$result = array();
+
+//foreach($imgs as $img){
+	//$res = ImageParser::checkWidthHeight($img);
+	//array_push($result, ImageParser::checkActualDimsSingle($img, $res[0], $res[1]));
+//}
+
+$result = ImageParser::checkActualDimsThreaded($imgs);
+
+var_dump($result);
+
+//get finish
+$time = microtime();
+$time = explode(' ', $time);
+$time = $time[1] + $time[0];
+$finish = $time;
+$total_time = round(($finish - $start), 4);
+
+echo "\nTOTAL_TIME: $total_time sec.\n\n";
+
 ?>
