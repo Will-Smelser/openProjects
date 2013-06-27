@@ -3,6 +3,7 @@
 /**
  * Requires pear and following pear package:
  * 		http://pear.php.net/package/Services_W3C_HTMLValidator/
+ * 		$>pear install Services_W3C_HTMLValidator
  */
 
 require_once 'Services/W3C/HTMLValidator.php';

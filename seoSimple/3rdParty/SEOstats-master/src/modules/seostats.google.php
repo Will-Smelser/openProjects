@@ -9,6 +9,18 @@
 
 class SEOstats_Google extends SEOstats implements services, default_settings
 {
+	private $cx = null;
+	
+	public function SEOstats_Google($key){
+		$this->cx = $key;
+	}
+	
+	private function httpSendWrapper($request){
+		$request .= (!empty($this->cx)) ? "&cx={$this->cx}" : '';
+		
+		return HttpRequest::sendRequest($request);
+	}
+	
     /**
      *  Gets the Google Pagerank
      *
@@ -54,7 +66,7 @@ class SEOstats_Google extends SEOstats implements services, default_settings
     }
     
     private function doPagedRequest($api, $page, $rsz, $url){
-    	return json_decode(HttpRequest::sendRequest(sprintf($api, $page, $rsz, $url)));
+    	return json_decode($this->httpSendWrapper(sprintf($api, $page, $rsz, $url)));
     }
     
     /**
@@ -112,7 +124,7 @@ class SEOstats_Google extends SEOstats implements services, default_settings
         $url = false != $url ? $url : self::getUrl();
         $url = sprintf(services::GOOGLE_APISEARCH_URL,1 , 1, $url);
 
-        $ret = HttpRequest::sendRequest($url);
+        $ret = $this->httpSendWrapper($url);
 
         $obj = json_decode($ret);
         return ! isset($obj->responseData->cursor->estimatedResultCount)
@@ -132,7 +144,7 @@ class SEOstats_Google extends SEOstats implements services, default_settings
         $url = false != $url ? $url : self::getUrl();
         $url = sprintf(services::GOOGLE_PAGESPEED_URL, $url);
 
-        $ret = HttpRequest::sendRequest($url);
+        $ret = $this->httpSendWrapper($url);
 
         return json_decode($ret);
     }
@@ -222,6 +234,7 @@ class SEOstats_Google extends SEOstats implements services, default_settings
         $url = sprintf('https://www.google.%s/', default_settings::GOOGLE_TLD);
         $referer = $ref == '' ? $url : $ref;
         $url .= $path;
+        $url .= (!empty($this->cx)) ? "&cx={$this->cx}" : '';
 
         $ua = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.83 Safari/535.11";
         if (isset($_SERVER["HTTP_USER_AGENT"]) && 0 < strlen($_SERVER["HTTP_USER_AGENT"])) {

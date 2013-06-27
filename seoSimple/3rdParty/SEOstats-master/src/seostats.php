@@ -118,10 +118,10 @@ class SEOstats implements default_settings, services, api_keys, package
         return new SEOstats_Alexa();
     }
 
-    public function Google()
+    public function Google($key=null)
     {
         require_once SEOSTATSPATH . 'modules/seostats.google.php';
-        return new SEOstats_Google();
+        return new SEOstats_Google($key);
     }
 
     public function OpenSiteExplorer()

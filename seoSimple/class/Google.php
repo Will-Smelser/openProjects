@@ -3,6 +3,7 @@ echo getcwd();
 require_once "./3rdParty/SEOstats-master/src/seostats.php";
 
 class Google{
+	private $cx = "AIzaSyA_wkenQWzwHcxuaozcfIc_gcuMo9E09TM";//google for SEO project key
 	private $url;
 	private $stats;
 	private $google;

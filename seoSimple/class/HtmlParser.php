@@ -214,10 +214,10 @@ class HtmlParser{
 		//check link mechanish
 		foreach($this->getTags('link') as $link){
 			if(isset($link->attributes['rel']) && $link->attributes['rel'] === 'icon'){
-				if(preg_match('@^http@i',$link->attributes['rel'])){
-					return $link->attributes['rel'];
+				if(preg_match('@^http@i',$link->attributes['href'])){
+					return $link->attributes['href'];
 				}else{
-					return 'http://' . $link->host . '/' . ltrim($link->attributes['rel'],'/\\');	
+					return 'http://' . $link->host . '/' . ltrim($link->attributes['href'],'/\\');	
 				}
 			}
 		}
