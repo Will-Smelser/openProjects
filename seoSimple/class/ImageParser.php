@@ -2,10 +2,31 @@
 require_once 'HtmlParser.php';
 include_once "PageLoad.php";
 
+/**
+ * This is the result of an image dimension check
+ * @author Will
+ *
+ */
 class ImageLoadResponse{
+	/**
+	 * @var string The url of the image
+	 */
 	public $url;
+	
+	/**
+	 * @var int 1=good, -1=failed to check, 0=sizes did not match
+	 */
 	public $result;
+	
+	/**
+	 * @var string A hash which corresponds to the Node which image check was ran on
+	 */
 	public $hash;
+	
+	/**
+	 * @var int Load time in seconds
+	 */
+	public $time;
 }
 
 /**
@@ -51,13 +72,13 @@ class ImageParser{
 	
 	/**
 	 * Response used within this class
-	 * @param unknown $image A php image resource
-	 * @param unknown $width int
-	 * @param unknown $height int
+	 * @param resource $image A php image resource
+	 * @param int $width
+	 * @param int $height
 	 * @return 1=good, -1=failed to check, 0=sizes did not match
 	 */
 	public static function respond($image, $width, $height){
-		if($image === false)
+		if(empty($image) || $image === false)
 			return self::$FAIL;
 		
 		$x = imagesx($image);

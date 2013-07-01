@@ -24,7 +24,7 @@ interface services
     const SEMRUSH_WIDGET_URL = 'http://widget.semrush.com/widget.php?action=report&type=%s&db=%s&domain=%s';
 
     // Url to get Google search total counts from
-    const GOOGLE_APISEARCH_URL = 'http://ajax.googleapis.com/ajax/services/search/web?v=1.0&start=%s&rsz=%s&q=%s';
+    const GOOGLE_APISEARCH_URL = 'https://www.googleapis.com/customsearch/v1?start=%s&rsz=%s&q=%s';
 
     // Url to get the Pagespeed analysis from
     const GOOGLE_PAGESPEED_URL = 'https://developers.google.com/_apps/pagespeed/run_pagespeed?url=%s&format=json';

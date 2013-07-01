@@ -66,6 +66,7 @@ class SEOstats_Google extends SEOstats implements services, default_settings
     }
     
     private function doPagedRequest($api, $page, $rsz, $url){
+    	var_dump(sprintf($api, $page, $rsz, $url));
     	return json_decode($this->httpSendWrapper(sprintf($api, $page, $rsz, $url)));
     }
     
