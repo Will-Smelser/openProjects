@@ -51,8 +51,11 @@ class HtmlParser{
 	 * @return unknown|string|multitype:
 	 */
 	private function findTags($tag){
+		//we have an open tag, then closing tag
 		if(preg_match_all("@<{$tag}[^>]*>.*?</{$tag}[\s+]?>@is",$this->dom, $matches)){
 			return $matches[0];
+			
+		//we have no closing tag
 		}else if(preg_match_all("@<{$tag}[^>]*@is", $this->dom, $matches)){
 			//we missed the '>'
 			foreach($matches[0] as $key=>$match)

@@ -31,10 +31,37 @@ class HtmlBody{
 	}
 	
 	/**
-	 * TODO: implament this
+	 * Check for all inline css
+	 * @return string[] An array of inline css content
+	 */
+	public function checkInlineCSS(){
+		preg_match_all('@style[\s+]?=[\s+]?[\'|"].*?[\'|"]@i',$this->parser->dom, $matches);
+		return $matches[0];
+	}
+	
+	/**
+	 * Get an array of stylesheet link tag Node grouped by host
+	 * @return object Array(<host>=>array(Node1, Node2, ..., NodeX)
+	 */
+	public function checkLinkTags(){
+		//check link tags
+		$links = array();
+		foreach($this->parser->getTags('link') as $node){
+			if(isset($node->attributes['rel']) && $node->attributes['rel'] === 'stylesheet'){
+				if(!isset($links[$node->host]))
+					$links[$node->host] = array();
+				
+				array_push($links[$node->host], $node);
+			}
+		}
+		return $links;
+	}
+	
+	/**
+	 * Get an array of style Nodes.
 	 */
 	public function checkForInlineCSS(){
-		
+		return $this->parser->getTags('style');		
 	}
 	
 	/**

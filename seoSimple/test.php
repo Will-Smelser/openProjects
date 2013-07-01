@@ -26,11 +26,13 @@ $str = file_get_contents("http://php.net/manual/en/function.preg-match.php");
 //$str = "<div id='test'>hello<div id='next'>world</div></div> ";
 
 $parser = new HtmlParser($str,'http://php.net/manual/en/function.preg-match.php');
-$head = new HtmlHead($parser);
+//$head = new HtmlHead($parser);
+
 
 //var_dump($parser->getFavicon());
-var_dump($head->getDoctype());
-var_dump($head->getEncoding());
+//var_dump($head->getDoctype());
+//var_dump($head->getEncoding());
+
 //var_dump($parser->getTags('meta'));
 //print_r($parser->getMeta());
 
