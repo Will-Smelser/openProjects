@@ -1,6 +1,6 @@
 <?php
 echo getcwd();
-require_once "./3rdParty/SEOstats-master/src/seostats.php";
+require_once "./vendors/seostats/src/seostats.php";
 
 class Google{
 	private $cx = "AIzaSyA_wkenQWzwHcxuaozcfIc_gcuMo9E09TM";//google for SEO project key
@@ -30,8 +30,11 @@ class Google{
 	}
 	
 	public function getBacklinks($max){
-		$obj = $this->google->getBacklinks(false, $max);
-		var_dump($obj);
+		return $this->google->getBacklinks(false, $max);
+	}
+	
+	public function getBacklinksTotal(){
+		return $this->google->getBacklinksTotal();
 	}
 	
 	public function getUrl(){

@@ -9,14 +9,12 @@
 
 class SEOstats_Google extends SEOstats implements services, default_settings
 {
-	private $cx = null;
+	private $cx = '018110159205303224694:lc6g5a3yxzw';
+	private $key = 'AIzaSyA_wkenQWzwHcxuaozcfIc_gcuMo9E09TM';
 	
-	public function SEOstats_Google($key){
-		$this->cx = $key;
-	}
 	
 	private function httpSendWrapper($request){
-		$request .= (!empty($this->cx)) ? "&cx={$this->cx}" : '';
+		$request .= (!empty($this->cx)) ? "&cx={$this->cx}&key={$this->key}" : '';
 		
 		return HttpRequest::sendRequest($request);
 	}
@@ -65,9 +63,8 @@ class SEOstats_Google extends SEOstats implements services, default_settings
         return self::getSearchResultsTotal($query);
     }
     
-    private function doPagedRequest($api, $page, $rsz, $url){
-    	var_dump(sprintf($api, $page, $rsz, $url));
-    	return json_decode($this->httpSendWrapper(sprintf($api, $page, $rsz, $url)));
+    private function doPagedRequest($api, $url, $page){
+    	return json_decode($this->httpSendWrapper(sprintf($api, $url)."&nextPage=$page"));
     }
     
     /**
@@ -89,24 +86,30 @@ class SEOstats_Google extends SEOstats implements services, default_settings
 		    string(182) "Apr 25, 2013 <b>...</b> The ticket at the top of...in a text box on the<b>...</b>"
 		{/code}
      */
-    public function getBacklinks($url = false, $count=1)
+    public function getBacklinks($url = false, $total=5)
     {
+    	
     	$url = false != $url ? $url : self::getUrl();
     	$url = urlencode("link:$url");
     	
     	$results = array();
     	
-    	$resp = $this->doPagedRequest(services::GOOGLE_APISEARCH_URL, 0, 8, $url);
+    	$resp = $this->doPagedRequest(services::GOOGLE_APISEARCH_URL2, $url, 0);
     	
-    	if(!is_object($resp) || $resp->responseStatus !== 200) return null;
+    	if(!is_object($resp) || !isset($resp->items)) return null;
     	
-    	$results = $resp->responseData->results;
+    	$count = count($resp->items);
+    	$results = $resp->items;
     	
-    	for($i=1; $i < count($resp->responseData->cursor->pages) && $i * 8 < $count; $i++){
-    		$page = $resp->responseData->cursor->pages[$i]->start;
-    		$temp = $this->doPagedRequest(services::GOOGLE_APISEARCH_URL, $page, 8, $url);
+    	for($i=1; $count < $total && $i < 10; $i++){
     		
-    		$results = array_merge($results, $temp->responseData->results);
+    		$start = $resp->queries->nextPage[0]->startIndex;
+    		$num = $resp->queries->nextPage[0]->count;
+    		
+    		$temp = $this->doPagedRequest(services::GOOGLE_APISEARCH_URL2, $url, $i);
+    		$count += count($resp->items);
+    		
+    		$results = array_merge($results, $temp->items);
     	}
     	
     	return $results;    	
@@ -123,14 +126,15 @@ class SEOstats_Google extends SEOstats implements services, default_settings
     public function getSearchResultsTotal($url = false)
     {
         $url = false != $url ? $url : self::getUrl();
-        $url = sprintf(services::GOOGLE_APISEARCH_URL,1 , 1, $url);
+        $url = sprintf(services::GOOGLE_APISEARCH_URL2, $url);
 
         $ret = $this->httpSendWrapper($url);
 
         $obj = json_decode($ret);
-        return ! isset($obj->responseData->cursor->estimatedResultCount)
+        
+        return ! isset($obj->searchInformation->formattedTotalResults)
                ? '0'
-               : intval($obj->responseData->cursor->estimatedResultCount);
+               : intval($obj->searchInformation->formattedTotalResults);
     }
 
     /**

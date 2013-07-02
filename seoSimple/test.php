@@ -16,16 +16,16 @@ print_r($counter->getCount($str));
 */
 
 
-include "class/HtmlParser.php";
-include "wrappers/HtmlHead.php";
+//include "class/HtmlParser.php";
+//include "wrappers/HtmlHead.php";
 
-$str = file_get_contents("http://php.net/manual/en/function.preg-match.php");
+//$str = file_get_contents("http://php.net/manual/en/function.preg-match.php");
 
 //var_dump($str);
 
 //$str = "<div id='test'>hello<div id='next'>world</div></div> ";
 
-$parser = new HtmlParser($str,'http://php.net/manual/en/function.preg-match.php');
+//$parser = new HtmlParser($str,'http://php.net/manual/en/function.preg-match.php');
 //$head = new HtmlHead($parser);
 
 
@@ -40,16 +40,17 @@ $parser = new HtmlParser($str,'http://php.net/manual/en/function.preg-match.php'
 //preg_match('@(?:\<title[\s+]?\>)@i',
 //	"<title>hello mother</title> fucker", $matches);
 //print_r($matches);
-/*
+
 require_once "class/Google.php";
 
 $url = "http://inedo.com";
 $stats =  new Google($url);
 
 
-var_dump($stats->getPageRank());
-var_dump($stats->getBacklinks(100));
-*/
+//var_dump($stats->getPageRank());
+var_dump($stats->getBacklinksTotal());
+var_dump($stats->getBacklinks(1));
+
 /*
 include "class/PageLoad.php";
 
