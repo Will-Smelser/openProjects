@@ -7,7 +7,7 @@ class ApiCodes {
 class ApiResponse{
 	protected $apiCode;//=ApiCodes::success;
 	protected $error=false;
-	protected$msg="Default Response";
+	protected $msg="Default Response";
 	protected $data; //should be an associative array
 	
 	function success($msg, $data){

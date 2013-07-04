@@ -41,15 +41,15 @@ print_r($counter->getCount($str));
 //	"<title>hello mother</title> fucker", $matches);
 //print_r($matches);
 
-require_once "class/Google.php";
+//require_once "class/Google.php";
 
-$url = "http://inedo.com";
-$stats =  new Google($url);
+//$url = "http://inedo.com";
+//$stats =  new Google($url);
 
 
 //var_dump($stats->getPageRank());
-var_dump($stats->getBacklinksTotal());
-var_dump($stats->getBacklinks(1));
+//var_dump($stats->getBacklinksTotal());
+//var_dump($stats->getBacklinks(1));
 
 /*
 include "class/PageLoad.php";
@@ -95,4 +95,8 @@ $total_time = round(($finish - $start), 4);
 
 echo "\nTOTAL_TIME: $total_time sec.\n\n";
 */
+
+//include "class/Whois.php";
+
+//var_dump(Whois::lookup('inedo.com'));
 ?>

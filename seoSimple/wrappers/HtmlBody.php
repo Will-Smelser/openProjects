@@ -1,13 +1,13 @@
 <?php
 
-include "class/WordCount.php";
+include SEO_API_PATH . "../class/WordCount.php";
 
 class HtmlBody{
-	private $anchors;
-	private $parser;
+	protected $anchors;
+	public $parser;
 	
-	public function HtmlBody(HtmlParser $parser){
-		$this->Parser = $parser;
+	public function Htmlbody(HtmlParser $parser){
+		$this->parser = $parser;
 	}
 	
 	public function checkH1(){
@@ -27,7 +27,8 @@ class HtmlBody{
 	}
 	
 	public function getKeyWords(){
-		return new WordCount($this->parser->dom);
+		$wc = new WordCount();
+		return $wc->getCount($this->parser->dom);
 	}
 	
 	/**

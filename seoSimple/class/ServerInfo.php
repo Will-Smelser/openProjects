@@ -7,6 +7,7 @@
  */
 
 require_once 'Services/W3C/HTMLValidator.php';
+require_once 'helpers/Utility.php';
 
 class ServerInfo{
 	private $url;
@@ -18,13 +19,18 @@ class ServerInfo{
 	private $lastW3Cerrors;
 	private $lastW3Cwarnings;
 	
+	private $loadTime;
+	
 	public function ServerInfo($url){
 		$this->url = $url;	
 		$this->doRequest();
 		$this->parseHeader();
 	} 
 	
+	//TODO:check for robots.txt
+	
 	private function doRequest(){
+		
 		$ch = curl_init($this->url);
 		curl_setopt($ch, CURLOPT_HEADER, true);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -33,9 +39,20 @@ class ServerInfo{
 			'Accept-Encoding: gzip, deflate'
 		));
 		
+		$start = Utility::getTime();
+		
 		$this->rawHeader = curl_exec($ch);
 		
+		$this->loadTime = Utility::getEnd($start);
+		
 		curl_close($ch);
+	}
+	
+	/**
+	 * Get the page load time in seconds
+	 */
+	public function getLoadTime(){
+		return $this->loadTime;
 	}
 	
 	/**

@@ -1,5 +1,5 @@
 <?php
-class whois
+class Whois
 {
 	const timeout = 30;
 	const whoishost = 'whois.internic.net';
