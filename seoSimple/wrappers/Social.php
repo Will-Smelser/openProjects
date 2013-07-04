@@ -1,12 +1,12 @@
 <?php
 
-require_once '..//src/seostats.php';
+require_once '../src/seostats.php';
 
 class Social{
 	private $url;
 	private $stats;
 	private $social;
-	privaet $fb;
+	private $fb;
 	
 	public function Social($url){
 		if(empty($url)) return;

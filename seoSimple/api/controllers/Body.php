@@ -8,12 +8,7 @@ class Body extends Controller{
 		$parser = new HtmlParser($content, $_GET['request']);		
 		$html = new HtmlBody($parser, $_GET['request']);
 		
-		if(method_exists($html, $method)){
-			$result = $html->$method();
-			(new ApiResponseJSON())->success("Success", $result);
-		}else{
-			$this->no_method();
-		}
+		$this->exec($html, $method);
 	}
 }
 ?>
