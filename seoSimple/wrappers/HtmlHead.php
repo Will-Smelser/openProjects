@@ -88,7 +88,7 @@ class HtmlHead{
 	
 	public function getLang(){
 		//need to check what type this is
-		$this->getDocttype();
+		$this->getDoctype();
 		$html = $this->parser->getTags('html');
 		
 		if(empty($html))
@@ -122,7 +122,8 @@ class HtmlHead{
 	
 	public function getFaviconNoTag(){
 		//check for favicon
-		if(file_get_contents('http://'.$this->parser->host.'/favicon')){
+		@$url = file_get_contents('http://'.$this->parser->host.'/favicon');
+		if(!empty($url)){
 			return 'http://'.$this->parser->host.'/favicon';
 		}
 		

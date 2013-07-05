@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head><title>
+	BuildMaster Case Study for OEConnection | Inedo | Inedo.com
+</title><link rel="alternate" type="application/rss+xml" title="Inedo News and Updates" href="http://inedo.com/rss" /><link rel="icon" type="image/x-icon" href="/Resources/Images/Icons/favicon.ico" /><link rel="stylesheet" href="../../Resources/Styles/screen.css" type="text/css" media="screen, projection" /><link rel="stylesheet" href="../../Resources/Styles/print.css" type="text/css" media="print" />
+    <!--[if lt IE 8]>
+      <link rel="stylesheet" href="../../Resources/Styles/ie.css" type="text/css" media="screen, projection" />
+    <![endif]-->
+    <link rel="stylesheet" href="/Resources/Styles/custom.css?ver=v307.1" type="text/css" media="screen, projection" />
+                              
+
+    <link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic" rel="stylesheet" type="text/css" /><script type="text/javascript" src="../../Resources/jQuery/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="../../Resources/jQuery/inedojq/inedojq_defaulter.js?9.1.0.0"></script>
+ <style type="text/css">
+            .case-study .summary { color:#D3A326; font-size: 18px; }
+            .case-study .question { color:#D3A326; margin-bottom:5px; font-weight:bold;}
+			.case-study .question a { color:#D3A326; }
+            .case-study .summary a { color:#D3A326; }
+            .case-study .answer { margin-left:5px;  }
+        </style>
+    <!--[if gte IE 9]>
+      <style type="text/css">
+        .red-gradient, .black-gradient, .blue-gradient {
+           filter: none;
+        }
+      </style>
+    <![endif]-->
+</head>
+<body>
+<div style="width:61px;height:169px;overflow:hidden;position:fixed;right:0;top:125px;cursor:pointer;cursor:hand;display:none;" id="LiveHelp"><img style="width:61px;height:169px;margin-left: 19px;" src="/Resources/Images/Layout/live-help-unavailable-vertical.png" alt="Start Live Chat" title="Live chat is offline. Click here to send a message to the Inedo support or sales team." /></div><script type="text/javascript">$(function(){
+
+                window.olark||(function(k){var g=window,j=document,a=g.location.protocol=='https:'?'https:':'http:',i=k.name,b='load',h='addEventListener';(function(){g[i]=function(){(c.s=c.s||[]).push(arguments)};var c=g[i]._={},f=k.methods.length;while(f--){(function(l){g[i][l]=function(){g[i]('call',l,arguments)}})(k.methods[f])}c.l=k.loader;c.i=arguments.callee;c.p={0:+new Date};c.P=function(l){c.p[l]=new Date-c.p[0]};function e(){c.P(b);g[i](b)}g[h]?g[h](b,e,false):g.attachEvent('on'+b,e);c.P(1);var d=j.createElement('script'),m=document.getElementsByTagName('script')[0];d.type='text/javascript';d.async=true;d.src=a+'//'+c.l;m.parentNode.insertBefore(d,m);c.P(2)})()})({loader:(function(a){return 'static.olark.com/jsclient/loader1.js?ts='+(a?a[1]:(+new Date))})(document.cookie.match(/olarkld=([0-9]+)/)),name:'olark',methods:['configure','extend','declare','identify']}); olark.identify('8545-891-10-5038');
+
+                $('#LiveHelp').show();
+
+                olark('api.chat.onOperatorsAvailable', function () {
+                    $('#LiveHelp img').attr('src', '/Resources/Images/Layout/live-help-available-vertical.png');
+                    $('#LiveHelp img').attr('title', 'Have a BuildMaster or ProGet question? Click here to chat with the Inedo support or sales team.');
+                });
+                olark('api.chat.onOperatorsAway', function () {
+                    $('#LiveHelp img').attr('src', '/Resources/Images/Layout/live-help-unavailable-vertical.png');
+                    $('#LiveHelp img').attr('title', 'Live chat is offline. Click here to send a message to the Inedo support or sales team.');
+                });
+
+                // animate live-help hover
+                $('#LiveHelp').hover(
+                function () {
+                    $('#LiveHelp img').stop().animate({ 'margin-left': '0px' }, 'slow');
+                },
+                function () {
+                    $('#LiveHelp img').stop().animate({ 'margin-left': '19px' }, 'slow');
+                }
+            ).click(
+                function () {
+                    olark('api.box.show');
+                    olark('api.box.expand');
+                    olark('api.chat.sendNotificationToOperator', { body: 'Live Help Clicked' });
+                }
+            );
+            });</script>
+<form method="post" action="oeconnection" id="ctl02" class="container">
+<div class="aspNetHidden">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUBMGRkAXQvEi0el0KETxXYA6sHod2PgtagdTW5ey9pC8NqUZg=" />
+</div>
+
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEWAwKuseHFAQL7qYmMCgKWk6ehBEr8l/lLOnnNosuQ3EReVjYAvg/7n5lAGyYyzfotFp/x" />
+</div>
+    <div class="span-24 last" id="header">
+        <div class="push-1 span-6 ">
+            <a href="/">
+                <img id="logo" src="/Resources/Images/Layout/header-logo.png" alt="Inedo Logo" title="Inedo Logo" />
+                <img id="tagline" src="/Resources/Images/Layout/header-logo-tagline.png" alt="because it's more than just code." title="because it's more than just code." />
+            </a>
+        </div>
+        <div class="main-navigation">
+	<ul id="ctl11_ctl00">
+		<li id="ctl11_ctl01"><a id="ctl11_ctl02" href="/buildmaster/overview">BuildMaster</a><ul id="ctl11_ctl03">
+			<li id="ctl11_ctl04"><a id="ctl11_ctl05" href="/buildmaster/overview">Overview</a></li><li id="ctl11_ctl06"><a id="ctl11_ctl07" href="/buildmaster/features">Features</a></li><li id="ctl11_ctl08"><a id="ctl11_ctl09" href="/buildmaster/pricing">Pricing &amp; Licensing</a></li><li id="ctl11_ctl10"><a id="ctl11_ctl11" href="/buildmaster/integration">Integrations</a></li><li id="ctl11_ctl12"><a id="ctl11_ctl13" href="/buildmaster/download">Downloads<img id="ctl11_ctl14" alt="" src="/resources/images/layout/bullet-triangle-inactive.png" style="float:right;margin:6px -20px 0 0;" /></a><ul id="ctl11_ctl15">
+				<li id="ctl11_ctl16"><a id="ctl11_ctl17" href="/buildmaster/download">BuildMaster</a></li><li id="ctl11_ctl18"><a id="ctl11_ctl19" href="/buildmaster/download/versions">Agents</a></li><li id="ctl11_ctl20"><a id="ctl11_ctl21" href="/buildmaster/extensions">Extensions</a></li><li id="ctl11_ctl22"><a id="ctl11_ctl23" href="/buildmaster/sdk">BuildMaster SDK</a></li><li id="ctl11_ctl24"><a id="ctl11_ctl25" href="/buildmaster/download/versions">Previous Versions</a></li><li id="ctl11_ctl26"><a id="ctl11_ctl27" href="/buildmaster/release-notes">Release Notes</a></li>
+			</ul></li><li id="ctl11_ctl28"><a id="ctl11_ctl29" href="/buildmaster/case-studies">Case Studies</a></li>
+		</ul></li><li id="ctl11_ctl30"><a id="ctl11_ctl31" href="/proget">ProGet</a><ul id="ctl11_ctl32">
+			<li id="ctl11_ctl33"><a id="ctl11_ctl34" href="/proget/overview">Overview</a></li><li id="ctl11_ctl35"><a id="ctl11_ctl36" href="/proget/features">Features</a></li><li id="ctl11_ctl37"><a id="ctl11_ctl38" href="/proget/pricing">Pricing &amp; Licensing</a></li><li id="ctl11_ctl39"><a id="ctl11_ctl40" href="/proget/sdk">ProGet SDK</a></li><li id="ctl11_ctl41"><a id="ctl11_ctl42" href="/company/news/announcing-proget-20-and-proget-client-tools">Client Tools</a></li><li id="ctl11_ctl43"><a id="ctl11_ctl44" href="/proget/download">Download</a></li>
+		</ul></li><li id="ctl11_ctl45"><a id="ctl11_ctl46" href="/support">Support</a><ul id="ctl11_ctl47">
+			<li id="ctl11_ctl48"><a id="ctl11_ctl49" href="/support">Learning Center</a></li><li id="ctl11_ctl50"><a id="ctl11_ctl51" href="/support/documentation">Documentation</a></li><li id="ctl11_ctl52"><a id="ctl11_ctl53" href="/support/questions">Q &amp; A</a></li><li id="ctl11_ctl54"><a id="ctl11_ctl55" href="/support/tutorials">Tutorials</a></li><li id="ctl11_ctl56"><a id="ctl11_ctl57" href="/support/enterprise-support">Enterprise Support</a></li>
+		</ul></li><li id="ctl11_ctl58"><a id="ctl11_ctl59" href="/company">Company</a><ul id="ctl11_ctl60">
+			<li id="ctl11_ctl61"><a id="ctl11_ctl62" href="/company/about-us">About Inedo<img id="ctl11_ctl63" alt="" src="/resources/images/layout/bullet-triangle-inactive.png" style="float:right;margin:6px -20px 0 0;" /></a><ul id="ctl11_ctl64">
+				<li id="ctl11_ctl65"><a id="ctl11_ctl66" href="/company/professional-services">Professional Services</a></li><li id="ctl11_ctl67"><a id="ctl11_ctl68" href="/company/scotch-menu">The Scotch Library</a></li><li id="ctl11_ctl69"><a id="ctl11_ctl70" href="/company/swag">Conference Swag</a></li>
+			</ul></li><li id="ctl11_ctl71"><a id="ctl11_ctl72" href="/company/news">News</a></li><li id="ctl11_ctl73"><a id="ctl11_ctl74" href="/company/careers">Careers</a></li><li id="ctl11_ctl75"><a id="ctl11_ctl76" href="/vip/about">Inedo VIP</a></li><li id="ctl11_ctl77"><a id="ctl11_ctl78" href="">Other Projects<img id="ctl11_ctl79" alt="" src="/resources/images/layout/bullet-triangle-inactive.png" style="float:right;margin:6px -20px 0 0;" /></a><ul id="ctl11_ctl80">
+				<li id="ctl11_ctl81"><a id="ctl11_ctl82" href="/downloads/submit-to-wtf">VS TDWTF Extension</a></li><li id="ctl11_ctl83"><a id="ctl11_ctl84" href="/downloads/icon-maker">IconMaker</a></li><li id="ctl11_ctl85"><a id="ctl11_ctl86" href="/downloads/smart-paster">SmartPaster</a></li>
+			</ul></li><li id="ctl11_ctl87"><a id="ctl11_ctl88" href="/contact">Contact Us</a></li>
+		</ul></li>
+	</ul><script type="text/javascript">
+	$(function () {
+                $('.main-navigation ul').css( {'z-index': '1000', 'list-style-type': 'none'} );
+            });
+	</script>
+
+</div>
+        
+        <div class="search-container">
+            <div>
+	<div id="ctl13" class="site-search-container">
+		<input name="ctl00$ctl14" type="text" id="ctl14" class="text-box" /><script type="text/javascript">$(function(){$('#ctl14').inedojq_defaulter('Search inedo.com website...');});</script><input type="submit" name="ctl00$ctl15" value="Search Site" class="search-button black-gradient" />
+	</div>
+</div>
+            <a id="ctlMyInedoLink" class="button blue-gradient" href="https://my.inedo.com/"><img src="/0x44/InedoLib/Inedo.Web.Controls.IconImage/ProcessImageRequest/InedoIcons/BSN/10x10/lock.gif" alt="MyInedo" />MyInedo</a>
+        </div>
+    </div>
+    <div class="prepend-2 span-21">
+        <ul id="breadcrumb">
+	<li><a href="/buildmaster">BuildMaster</a></li><li><a href="/buildmaster/case-studies">Case Studies</a></li><li><span>OEConnection</span></li>
+</ul>
+    </div>
+    <div class="prepend-1 span-22 " id="mainContent">
+         <div class="case-study"><img src="/buildmaster/case-studies/oeconnection/header.png" style="width:881px;height:245px; display:block; margin-bottom: 10px;" alt="BuildMaster Case Study for OEConecction" /><img src="/buildmaster/case-studies/oeconnection/full-engine.jpg" style="display:block; float: right; margin-left:10px;" alt="" /><p class="summary">When we first began working with <a href="http://www.linkedin.com/in/markarainey">Mark Rainey</a>, Team Lead in Configuration Management for OEConnection, in early 2010, the word DevOps wasn't as common as it is today. But, Mark recognized the benefits of the methodology that was emerging on the scene. Working closely with BuildMaster he changed OEConnection's release philosophy in a big way.</p><p class="question">Tell us about OEConnection:</p><p class="answer"><a href="http://www.oeconnection.com/">OEConnection</a> is an award-winning technology leader and innovator of original equipment (OE) replacement parts solutions. As the automotive industry's largest OE parts marketplace, OEConnection connects more than 35,000 North American buyers and sellers to seamlessly market, manage, and move an average of over 6 million original equipment parts transactions monthly.</p><p class="answer">Serving the industries of Automotive, Heavy-Duty truck, and beyond, OEConnection equips some of the world's largest original equipment manufacturers, their franchised dealers/distributors, and their customers with timely and accurate online parts marketing, procurement, and wholesale management solutions.</p><p class="question">Can you give me an overview of how you developed software before <a href="/buildmaster/overview">BuildMaster</a>?</p><img src="/buildmaster/case-studies/oeconnection/pump.jpg" style="float: left; margin-right:10px;" alt="" /><p class="answer">Prior to BuildMaster we were on monthly release cycle with one "mega build" per month. The entire build-release process, from change request documents for web config files, to keeping track of all the releases and how they relate to one another, was completely manual. The team working on it would normally have to work all weekend to get the deploy into production and get the bugs worked out. As you can imagine we also lost entire teams of people regularly because of this. No one wants to work all weekend.   </p><p class="answer">This was causing so much pain for OEConnection that I was brought on to simplify and automate the processes.</p><p class="question">What lead to you considering BuildMaster?</p><p class="answer">One of my teammates saw an ad for BuildMaster on <a href="http://thedailywtf.com/">The Daily WTF</a>, and it was the first I'd heard of it. BuildMaster seemed perfect for us based on OE Connection's culture and processes. What I found was that I could mirror the same manual processes we were already doing, except automate it with BuildMaster, so there wasn't necessarily a process change so much as just automating that process, which was ideal. </p><p class="answer"> That's when we purchased BuildMaster, commissioned Inedo's professional services, and we worked it out piece by piece.  </p><p class="question">What are some of the benefits switching to BuildMaster ensures for our end users?</p><img src="/buildmaster/case-studies/oeconnection/flex-quote.png" style="display:block; float: right; margin-left:10px;" alt="" /><p class="answer">The nice thing about BuildMaster is that it is not only a build tool, but it is also a deployment tool. It gave us the ability to <a href="http://inedo.com/buildmaster/features/deployment-automation">manage the releases electronically</a>, whereas in its manual state it was very messy and error prone.  Now we have a nice dashboard so we can see the stage per each release, and the status of approvals. It has provided us the flexibility to manage our releases, because we do over 450 releases into production a year. </p><p class="answer">To be more specific, we previously had 2 full time employees spending two full days to plan for release. Now it doesn't take any time, because it's all in BuildMaster. We just have a quick meeting. There has been a definite savings of 48 hours a week or so, which is 200 developer hours/month. It's also worth mentioning that with our old way of doing things, while the team prepared for production nothing could be approved and it had a ripple effect of delaying other aspects of deployment as well. That also has been taken care of by BuildMaster.</p><img src="/buildmaster/case-studies/oeconnection/easy-quote.png" style="display:block; float: left; margin-right:10px;" alt="" /><p class="answer">Finally, with all the canned actions BuildMaster has made available it is easy for our deploy analysts who aren't necessarily developers to implement build and deploy processes. One doesn't need to know much about programming. It's a very easy, intuitive interface to understand and implement a process in, but also keeps our developers focused on development.  That was the key driver; I was looking for a tool that would be easy to maintain over the long run.</p><p class="question">How has your team used BuildMaster? </p><p class="answer">One of the first things I did with BuildMaster was create a custom workflow for our approval process.</p><p class="answer">Our process looks like this: We go through development and then the release coordinator approves before we send it to the QA environment. Once QA is done, the QA testers sign off on their test in BuildMaster, and then our SDLC requires the product management team and the development managers to sign off on the release before it moves to production.  Then in production, the QA team does another smoke test in BuildMaster in production again. Finally, and only after they sign off, that's when we push it to release all the way.</p><p class="answer"> To put things into perspective, this entire process occurred via email thread previously, and we have 50 named users and 50 approvals-only users.  It saved a lot of time.</p><p class="answer">Otherwise, we've recently started diving into CI builds to get them up and running for all .net solutions and then move on to our java and legacy code.  We will be able to generate CI builds into development environment which will enable developers to do their work faster. Right now developers still have to manually do the builds and then manually go out to their dev servers. All the time they're wasting deploying will potentially turn into time spent strictly on development work. That's a big project we're hoping to accomplish in 2013.  At that point we'll have the full cycle in BuildMaster.</p><img src="/buildmaster/case-studies/oeconnection/piston.jpg" style="display:block; float: right; margin-left:10px;" alt="" /><p class="question">Was using the CI Builds part of the initial plan?</p><p class="answer">Yes, this feature in BuildMaster was one of the key buying points as it would enable us to do our CI project as we had planned from the beginning.  I'm predicting that once we have that in place and we open up BuildMaster use to the developers there's going to be another big productivity shift.</p><p class="question">We pride ourselves on <a href="http://inedo.com/buildmaster/integration">integrating with a number of best-of-breed tools</a> so our users can adopt BuildMaster with their existing toolsets. Can you tell me what tools you already used that integrated nicely with BuildMaster? </p><p class="answer">We're a .net and Java mixed shop.  For .net we hooked TFS, MSBuild, Artifactory, and MSSQL right into BuildMaster.  For Java, we were already using SVN, Jenkins, Maven, and Postgres.  Some miscellaneous tools include Ruby, MySQL, and GIT.  Having all those integrations was also another draw for BuildMaster.</p><p class="question">Have you noticed changes in culture since deploying BuildMaster? </p><p class="answer">Certainly. With our monthly "mega build" you could say we followed a Waterfall methodology, very slow moving. Now with BuildMaster we have one regular deploy a week. It's allowing us to become more agile and react to customer needs faster.  It's made a lot of people happy. </p><p class="answer">In a lot of ways, we're a new, different company now.  We've been able to use BuildMaster strategically.  We're using it as a strategic investment/tool to push business goals of the company.</p><img src="/buildmaster/case-studies/oeconnection/without-quote.png" style="display:block; float: left; margin-right:10px; margin-bottom:10px;" alt="" /><p class="answer">All things equal, what we've accomplished with BuildMaster would have taken far longer without it.  This means we're pushing more builds and creating more products, faster than we ever have in the previous history of the company.   The more we can get out into production, the more revenue coming in. Without BuildMaster we wouldn't have been able to do a lot of what we wanted to accomplish this year. </p><p class="answer">It's also nice when you have people coming up and talking to you now, instead of yelling because we're not always in such a mad dash anymore. People are happier and happy people are productive people.</p><p class="question">OEConnection took advantage of our professional services engagement options and had a member of Inedo's team on site for 3 full months. This was a big project! Obviously, not everyone needs the professional services but some do. OEConnection has and seems to have been reaping significant benefits from the start. What would you say to firms that really need to make changes, whether big or small but are hesitating to pull the trigger?</p><p class="answer">Both the investment in BuildMaster and Inedo's professional services as dedicated resources to get OEConnection up and running with BuildMaster as soon as possible stem from the philosophy I strongly believe in, which is that developers should be writing applications that drive a company's strategy and revenue, not worrying about processes. Furthermore, the sooner we were integrated, the sooner we had a return on investment.</p><p class="answer">To speak more specifically on "springing" for a lengthy professional services engagement, it was simple math: we were doing everything manually and were already short-staffed. We took the list of everything we had to implement and noted that if in addition to my day job I had to the BuildMaster integration manually it would take over a year to implement. During that year of implementation the company would continue to experience pain in their deployment. However, if we got a dedicated resource that's an expert in the tool (BuildMaster), we could show them how we wanted our deployment process and we could knock it out in three months. The justification was that the return on investment could be realized sooner. That's exactly what we accomplished. </p><img src="/buildmaster/case-studies/oeconnection/sooner-quote.png" style="display:block; float: right; margin-left:10px;" alt="" /><p class="answer">However, if you're asking how we were able to commit to making such a sweeping change in general, one of the key things I told our Vice President was that "to create capacity you have to make capacity." If you're not going to put the effort into automating and simplifying your devops arrangement, the employees, clients, and eventually company will suffer for it and possibly be passed by. </p><p class="answer">After integration, BuildMaster is so easy to use I could turn it over to business analysts or QA people and have them set up processes. The bottom line was that you don't need to be developer to use BuildMaster and that's how I believe companies should operate: developer should focus on development and the others should focus on processes and be provided tools to make everyone's roles easier. </p><p class="question">What would you say to someone evaluating BuildMaster for their company?</p><p class="answer">Every company has their own way of doing things.  Depending on how your company is set up, different tool 
+			sets will meet different needs to fit that culture. The nice thing about BuildMaster is that it fit the culture here at OE Connection really well. The way BuildMaster has been designed and the flexibility within it makes it something that probably a 	
+			<img src="/buildmaster/case-studies/oeconnection/radiator.jpg" style="display:block; float: right; margin-left:10px;" alt="" /> 
+			lot of companies could take advantage of.</p><p class="question">Thank you very much. Would you recommend BuildMaster to others?</p><p class="answer">Absolutely. As one of our deploy analysts says, "I don't go to work every day, I go to fun." He's a BuildMaster user.</p></div>
+    </div>
+    <div class="span-24" id="footer">
+        <div id="InedoFooterMenu1" class="footer-navigation">
+	<ul id="InedoFooterMenu1_ctl00">
+		<li id="InedoFooterMenu1_ctl01"><a id="InedoFooterMenu1_ctl02" href="/buildmaster/overview">BuildMaster</a><ul id="InedoFooterMenu1_ctl03">
+			<li id="InedoFooterMenu1_ctl04"><a id="InedoFooterMenu1_ctl05" href="/buildmaster/overview">Overview</a></li><li id="InedoFooterMenu1_ctl06"><a id="InedoFooterMenu1_ctl07" href="/buildmaster/features">Features</a></li><li id="InedoFooterMenu1_ctl08"><a id="InedoFooterMenu1_ctl09" href="/buildmaster/pricing">Pricing &amp; Licensing</a></li><li id="InedoFooterMenu1_ctl10"><a id="InedoFooterMenu1_ctl11" href="/buildmaster/integration">Integrations</a></li><li id="InedoFooterMenu1_ctl12"><a id="InedoFooterMenu1_ctl13" href="/buildmaster/download">Downloads</a></li><li id="InedoFooterMenu1_ctl14"><a id="InedoFooterMenu1_ctl15" href="/buildmaster/case-studies">Case Studies</a></li>
+		</ul></li><li id="InedoFooterMenu1_ctl16"><a id="InedoFooterMenu1_ctl17" href="/proget">ProGet</a><ul id="InedoFooterMenu1_ctl18">
+			<li id="InedoFooterMenu1_ctl19"><a id="InedoFooterMenu1_ctl20" href="/proget/overview">Overview</a></li><li id="InedoFooterMenu1_ctl21"><a id="InedoFooterMenu1_ctl22" href="/proget/features">Features</a></li><li id="InedoFooterMenu1_ctl23"><a id="InedoFooterMenu1_ctl24" href="/proget/pricing">Pricing &amp; Licensing</a></li><li id="InedoFooterMenu1_ctl25"><a id="InedoFooterMenu1_ctl26" href="/proget/sdk">ProGet SDK</a></li><li id="InedoFooterMenu1_ctl27"><a id="InedoFooterMenu1_ctl28" href="/company/news/announcing-proget-20-and-proget-client-tools">Client Tools</a></li><li id="InedoFooterMenu1_ctl29"><a id="InedoFooterMenu1_ctl30" href="/proget/download">Download</a></li>
+		</ul></li><li id="InedoFooterMenu1_ctl31"><a id="InedoFooterMenu1_ctl32" href="/support">Support</a><ul id="InedoFooterMenu1_ctl33">
+			<li id="InedoFooterMenu1_ctl34"><a id="InedoFooterMenu1_ctl35" href="/support">Learning Center</a></li><li id="InedoFooterMenu1_ctl36"><a id="InedoFooterMenu1_ctl37" href="/support/documentation">Documentation</a></li><li id="InedoFooterMenu1_ctl38"><a id="InedoFooterMenu1_ctl39" href="/support/questions">Q &amp; A</a></li><li id="InedoFooterMenu1_ctl40"><a id="InedoFooterMenu1_ctl41" href="/support/tutorials">Tutorials</a></li><li id="InedoFooterMenu1_ctl42"><a id="InedoFooterMenu1_ctl43" href="/support/enterprise-support">Enterprise Support</a></li>
+		</ul></li><li id="InedoFooterMenu1_ctl44"><a id="InedoFooterMenu1_ctl45" href="/company">Company</a><ul id="InedoFooterMenu1_ctl46">
+			<li id="InedoFooterMenu1_ctl47"><a id="InedoFooterMenu1_ctl48" href="/company/about-us">About Inedo</a></li><li id="InedoFooterMenu1_ctl49"><a id="InedoFooterMenu1_ctl50" href="/company/news">News</a></li><li id="InedoFooterMenu1_ctl51"><a id="InedoFooterMenu1_ctl52" href="/company/careers">Careers</a></li><li id="InedoFooterMenu1_ctl53"><a id="InedoFooterMenu1_ctl54" href="/vip/about">Inedo VIP</a></li><li id="InedoFooterMenu1_ctl55"><a id="InedoFooterMenu1_ctl56" href="">Other Projects</a></li><li id="InedoFooterMenu1_ctl57"><a id="InedoFooterMenu1_ctl58" href="/contact">Contact Us</a></li>
+		</ul></li>
+	</ul>
+</div>
+        <hr />
+        <div class="spacedImageContainer">
+            <a href="/rss"><img src="/Resources/Images/Layout/rss.png" alt="RSS Feed" title="Subscribe to our company RSS feed!" /></a>
+            <a href="http://twitter.com/inedo"><img src="/Resources/Images/Layout/twitter.png" alt="Twitter" title="Follow us on Twitter!" /></a>
+            <a href="http://www.linkedin.com/company/inedo"><img src="/Resources/Images/Layout/linkedin.png" alt="LinkedIn" title="Follow us on LinkedIn!" /></a>
+        </div>
+        <div id="footerText">&copy; 2013 - Inedo, LLC. | 64 Front St. Berea OH 44017 | (440) 243-6737 | <a href="/contact">Contact Us</a> <br /> Site Version: v307.1  </div>
+
+    </div>
+</form>
+    <!-- BEGIN GOOGA -->
+    <script type="text/javascript">
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+
+    <script type="text/javascript">
+    try {
+    var pageTracker = _gat._getTracker("UA-11570094-1");
+    pageTracker._trackPageview();
+    } catch (err) { }</script>
+    <!-- END GOOGA -->
+
+
+    <!-- BEGIN CLICKY -->
+    <script src="http://static.getclicky.com/js" type="text/javascript"></script>
+    <script type="text/javascript">    clicky.init(247902);</script>
+    <noscript><p><img alt="Clicky" width="1" height="1" src="http://in.getclicky.com/247902ns.gif" /></p></noscript>
+    <!-- END CLICKY -->
+
+
+    <!-- BEGIN Google Code for BM Remarketing List -->
+    <script type="text/javascript">
+    /* <![CDATA[ */
+    var google_conversion_id = 1003051128;
+    var google_conversion_language = "en";
+    var google_conversion_format = "3";
+    var google_conversion_color = "666666";
+    var google_conversion_label = "A-ltCIDU1AIQ-LCl3gM";
+    var google_conversion_value = 0;
+    /* ]]> */
+    </script>
+    <script type="text/javascript" src="http://www.googleadservices.com/pagead/conversion.js">
+    </script>
+    <noscript>
+    <div style="display:inline;">
+    <img height="1" width="1" style="border-style:none;" alt="" src="http://www.googleadservices.com/pagead/conversion/1003051128/?label=A-ltCIDU1AIQ-LCl3gM&amp;guid=ON&amp;script=0"/>
+    </div>
+    </noscript>
+    <!-- END Google Code for BM Remarketing List -->
+</body>
+</html>

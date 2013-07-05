@@ -15,17 +15,26 @@ $(document).ready(function(){
 	function runTest(){
 		console.log("step 1");
 		
-		var testsync = new sync();
+		var testsync = new sync(this);
 		testsync.sync(
 			$.get, 
 				"http://openprojects.local/jquerySelect/","", 
 				testsync.getCallback(), 
-			this, 
 			function(result){
+				console.log(result);
 				console.log("step 3");
 			} 
 		);
 		console.log("end");
+		
+		console.log("step 1b");
+		$.get("http://openprojects.local/jquerySelect/","",
+			function(result){
+				console.log("step 2b");
+				console.log(result);
+				console.log("step3");
+			}
+		);
 	}
 	$("#mybtn").click(runTest);
 })

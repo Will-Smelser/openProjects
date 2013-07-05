@@ -13,8 +13,9 @@ class Controller implements Control{
 	}
 	
 	public function exec(&$obj, $method){
-		if(method_exists($this, $method)){
-			$result = $this->$method();
+		
+		if(method_exists($obj, $method)){
+			$result = $obj->$method();
 			(new ApiResponseJSON())->success("Success", $result);
 		}else if(method_exists($obj, $method)){
 			$result = $obj->$method();

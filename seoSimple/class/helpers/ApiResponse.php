@@ -48,7 +48,7 @@ class ApiResponse{
 }
 class ApiResponseJSON extends ApiResponse{
 	function doPrint(){
-		echo json_encode($this->toArray());
+		echo json_encode($this->toArray(), JSON_PRETTY_PRINT);
 	}
 }
 
