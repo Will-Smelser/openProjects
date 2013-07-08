@@ -1,31 +1,64 @@
 <?php
 
-include SEO_API_PATH . "../class/WordCount.php";
+include SEO_API_PATH . "/class/WordCount.php";
 
 class HtmlBody{
 	protected $anchors;
 	public $parser;
 	
+	/**
+	 * Constructor
+	 * @param HtmlParser $parser The html parser to use.
+	 */
 	public function Htmlbody(HtmlParser $parser){
 		$this->parser = $parser;
 	}
 	
+	/**
+	 * Get all h1 tags
+	 * @see HtmlParser->getTags()
+	 * @see Node
+	 * @return Array An array of Node elements of 'h1' type
+	 */
 	public function checkH1(){
 		return count($this->parser->getTags('h1'));		
 	}
 	
+	/**
+	 * Get all h2 tags
+	 * @see HtmlParser->getTags()
+	 * @see Node
+	 * @return Array An array of Node elements of h2 type
+	 */
 	public function checkH2(){
 		return count($this->parser->getTags('h2'));
 	}
-	
+
+	/**
+	 * Get all h3 tags
+	 * @see HtmlParser->getTags()
+	 * @see Node
+	 * @return Array An array of Node elements of h3 type
+	 */
 	public function checkH3(){
 		return count($this->parser->getTags('h3'));
 	}
 	
+	/**
+	 * Get all h4 tags
+	 * @see HtmlParser->getTags()
+	 * @see Node
+	 * @return Array An array of Node elements of h4 type
+	 */
 	public function checkH4(){
 		return count($this->parser->getTags('h4'));
 	}
 	
+	/**
+	 * Get a list of key words
+	 * @return Array An array of Word
+	 * @see Word
+	 */
 	public function getKeyWords(){
 		$wc = new WordCount();
 		return $wc->getCount($this->parser->dom);
@@ -96,13 +129,16 @@ class HtmlBody{
 	 */
 	public function getInternalAnchor(){
 		$anchors = $this->getAnchors();
-		$result;
+		$result = array();
 		foreach($anchors as $a){
 			if(isset($a->attributes['href'])){
 				$href = $a->attributes['href'];
 				$info = parse_url($href);
 				
-				if($a->host === $info['host'])
+				//relative internal link
+				if(!isset($info['host']) || empty($info['host'])){
+					array_push($result, $a);
+				}else if($a->host === $info['host'])
 					array_push($result, $a);
 			}
 		}
@@ -115,14 +151,18 @@ class HtmlBody{
 	 */
 	public function getExternalAnchors(){
 		$anchors = $this->getAnchors();
-		$result;
+		$result = array();
 		foreach($anchors as $a){
 			if(isset($a->attributes['href'])){
 				$href = $a->attributes['href'];
 				$info = parse_url($href);
 		
-				if($a->host !== $info['host'])
+				//relative internal link
+				if(!isset($info['host']) || empty($info['host'])){
+					//do nothing
+				}else if($a->host !== $info['host'])
 					array_push($result, $a);
+				
 			}
 		}
 		return $result;

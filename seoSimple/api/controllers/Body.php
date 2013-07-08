@@ -1,6 +1,6 @@
 <?php
-require_once SEO_API_PATH . '../class/HtmlParser.php';
-require_once SEO_API_PATH . '../wrappers/HtmlBody.php';
+require_once SEO_API_PATH . 'class/HtmlParser.php';
+require_once SEO_API_PATH . 'wrappers/HtmlBody.php';
 
 class Body extends Controller{
 	public function Body($method){

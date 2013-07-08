@@ -10,7 +10,7 @@ require_once 'Services/W3C/HTMLValidator.php';
 require_once 'helpers/Utility.php';
 
 class ServerInfo{
-	private $url;
+	protected $url;
 	public $rawHeader;
 	
 	private $response;

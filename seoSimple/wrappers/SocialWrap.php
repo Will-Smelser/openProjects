@@ -1,14 +1,14 @@
 <?php
 
-require_once '../src/seostats.php';
+require_once SEO_API_PATH . 'vendors/seostats/src/seostats.php';
 
-class Social{
+class SocialWrap{
 	private $url;
 	private $stats;
 	private $social;
 	private $fb;
 	
-	public function Social($url){
+	public function SocialWrap($url){
 		if(empty($url)) return;
 	
 		$this->stats = new SEOstats($url);
@@ -17,7 +17,7 @@ class Social{
 	}
 	
 	public function googlePlus(){
-		return $social->getGoogleShares();
+		return $this->social->getGoogleShares();
 	}
 	
 	public function getFbLikeCount(){

@@ -14,13 +14,13 @@ td{border:solid #555 1px;vertical-align:top}
 </head>
 
 <body>
-<form action='head.php' method='GET'>
+<form action='index.php' method='GET'>
 <p>
   Choose Class: <select name='class'>
   	<option value='HtmlHead|head'>HtmlHead</option>
   	<option value='HtmlBody|body'>HtmlBody</option>
-  	<option value='Server|server'>Server</option>
-  	<option value='Social|server'>Social</option>
+  	<option value='ServerWrap|server'>Server</option>
+  	<option value='SocialWrap|social'>Social</option>
   </select>
 </p>
 <p>
@@ -44,6 +44,9 @@ td{border:solid #555 1px;vertical-align:top}
 </form>
 <?php
 
+if(!isset($_GET['class'])) goto END;
+
+require_once '../../config.php';
 require_once 'Test.php';
 
 $test = new Test();
@@ -54,12 +57,13 @@ $tests = array('sample1.html');
 $class = explode('|',$_GET['class']);
 
 //get all the class methods
-require_once '../../wrappers/'.$class[0].'.php';
+require_once SEO_API_PATH . 'wrappers/'.$class[0].'.php';
 
 echo '<table border="1">';
 
 foreach(get_class_methods($class[0]) as $method){
-	if($method !== '__construct' && $method !== $class[0]){
+	if($method !== '__construct' && strtolower($method) !== strtolower($class[0])){
+		
 		$url = TEST_URL . '/data/'.$_GET['file'];
 		
 		
@@ -75,6 +79,8 @@ foreach(get_class_methods($class[0]) as $method){
 }
 
 echo '</table>';
+
+END:
 
 ?>
 <script>
