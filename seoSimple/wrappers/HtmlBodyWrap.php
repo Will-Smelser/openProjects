@@ -169,6 +169,11 @@ class HtmlBodyWrap{
 		return $result;
 	}
 	
+	/**
+	 * Get a list of all anchors
+	 * @return Array An array of Node elements
+	 * @uses Node
+	 */
 	private function getAnchors(){
 		if(!empty($this->anchors))
 			return $this->anchors;

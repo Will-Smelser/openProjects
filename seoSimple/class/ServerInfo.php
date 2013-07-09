@@ -29,6 +29,9 @@ class ServerInfo{
 	
 	//TODO:check for robots.txt
 	
+	/**
+	 * Just wraps making curl requests
+	 */
 	private function doRequest(){
 		
 		$ch = curl_init($this->url);
@@ -76,6 +79,10 @@ class ServerInfo{
 		}
 	}
 	
+	/**
+	 * Check if the server supports gzip compression
+	 * @return boolean True if is does, false otherwise
+	 */
 	public function isGzip(){
 		if(!isset($this->header['content-encoding']))
 			return false;
@@ -84,8 +91,9 @@ class ServerInfo{
 	}
 	
 	/**
-	 * Return the HTTP "Server" field name or NULL if none existed. 
-	 * @return NULL
+	 * Return the HTTP "Server" field name or NULL if none existed.
+	 * 
+	 * @return String|NULL
 	 */
 	public function getServer(){
 		return $this->getHeaderField('server');
@@ -95,13 +103,16 @@ class ServerInfo{
 	/**
 	 * Get any header field returned by server
 	 * @param unknown $field
-	 * @return NULL
+	 * @return String|NULL
 	 */
 	public function getHeaderField($field){
 		$field = strtolower($field);
 		return (isset($this->header[$field]) ? $this->header['server'] : null);
 	}
 	
+	/**
+	 * Get the first line of http response header
+	 */
 	public function getHeaderResponseLine(){
 		return $this->response;
 	}
