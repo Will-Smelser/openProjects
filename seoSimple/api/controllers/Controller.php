@@ -8,17 +8,54 @@ interface Control{
 }
 
 class Controller implements Control{
+	public $skip = array();
+	
 	public function no_method(){
-		(new ApiResponseJSON())->failure("Invalid Request - No Method or Class");
+		echo (new ApiResponseJSON())->failure("Invalid Request - No Method or Class")->doPrint();
 	}
 	
 	public function exec(&$obj, $method){
-		
-		if(!method_exists($obj, $method) || (isset($this->skip) && in_array($method, $this->skip))){
+		//run several api methods
+		if(strstr($method, '|')){
+			$results = array();
+			
+			foreach(explode('|', $method) as $mthd){
+				if($this->isValidMethod($obj, $mthd, $this->skip))
+					$results[$mthd] = (new ApiResponse())->success("Success", $obj->$mthd())->toArray();
+				else
+					$results[$mthd] = (new ApiResponse())->success("Success", $this->no_method())->toArray();
+			}
+		//run all api methods
+		}else if($method === 'all'){
+			$results = array();
+			
+			foreach(get_class_methods($obj) as $mthd){
+				if($this->isValidMethod($obj, $mthd, $this->skip)){
+					$results[$mthd] = (new ApiResponse())->success("Success", $obj->$mthd())->toArray();
+				}
+			}
+			
+			echo (new ApiResponseJSON())->success("Success", $results)->doPrint();
+			
+		//run a specific api method
+		}else if(!$this->isValidMethod($obj, $method, $this->skip)){
 			$this->no_method();
+		
+		//method did not exist for the given class
 		}else{
 			$result = $obj->$method();
-			(new ApiResponseJSON())->success("Success", $result);
+			echo (new ApiResponseJSON())->success("Success", $result)->doPrint();
 		}
+	}
+	
+	public function isValidMethod($obj, $method, &$skip){
+		if(get_class($obj) === $method){
+			return false;
+		}else if(!method_exists($obj, $method))
+			return false;
+		else if(isset($skip) && in_array($method, $skip))
+			return false;
+		else
+			return true;
 	}
 }

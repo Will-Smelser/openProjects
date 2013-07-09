@@ -2,7 +2,7 @@
 
 include SEO_API_PATH . "/class/WordCount.php";
 
-class HtmlBody{
+class HtmlBodyWrap{
 	protected $anchors;
 	public $parser;
 	
@@ -10,7 +10,7 @@ class HtmlBody{
 	 * Constructor
 	 * @param HtmlParser $parser The html parser to use.
 	 */
-	public function Htmlbody(HtmlParser $parser){
+	public function HtmlBodyWrap(HtmlParser $parser){
 		$this->parser = $parser;
 	}
 	
@@ -119,6 +119,7 @@ class HtmlBody{
 	 */
 	public function checkForFlash(){
 		$object = $this->parser->getTags('object');
+		if(empty($object)) return false;
 		
 		return preg_match($object->raw, '/shockwave\-flash/i');
 	}

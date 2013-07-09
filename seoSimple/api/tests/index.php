@@ -17,8 +17,8 @@ td{border:solid #555 1px;vertical-align:top}
 <form action='index.php' method='GET'>
 <p>
   Choose Class: <select name='class'>
-  	<option value='HtmlHead|head'>HtmlHead</option>
-  	<option value='HtmlBody|body'>HtmlBody</option>
+  	<option value='HtmlHeadWrap|head'>HtmlHead</option>
+  	<option value='HtmlBodyWrap|body'>HtmlBody</option>
   	<option value='ServerWrap|server'>Server</option>
   	<option value='SocialWrap|social'>Social</option>
   </select>
@@ -65,8 +65,7 @@ foreach(get_class_methods($class[0]) as $method){
 	if($method !== '__construct' && strtolower($method) !== strtolower($class[0])){
 		
 		$url = TEST_URL . '/data/'.$_GET['file'];
-		
-		
+				
 		$request;
 		if($_GET['type']==='file'){
 			$request = 'http://'.$_SERVER['SERVER_NAME'] . '/seoSimple' . '/api/'.$class[1].'/'.$method.'?request='.urlencode($url);

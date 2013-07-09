@@ -10,34 +10,34 @@ class ApiResponse{
 	protected $msg="Default Response";
 	protected $data; //should be an associative array
 	
-	function success($msg, $data){
+	public function success($msg, $data){
 		$resp = $this;
 		$resp->apiCode = ApiCodes::$success;
 		$resp->data = $data;
 		$resp->msg = $msg;
 		$resp->header();
-		$resp->doPrint();
+		return $this;
 	}
 	
-	function failure($msg){
+	public function failure($msg){
 		$resp = $this;
 		$resp->apiCode = ApiCodes::$badRequest;
 		$resp->error = true;
 		$resp->msg = $msg;
 		$resp->data = null;
 		$resp->header();
-		$this->doPrint();
+		return $this;
 	}
 	
 	private function header(){
-		header("HTTP/1.1 ".$this->apiCode[0]);
+		@header("HTTP/1.1 ".$this->apiCode[0]);
 	}
 	
 	function doPrint(){
-		var_dump($this->toArray());
+		print_r($this->toArray());
 	}
 	
-	protected function toArray(){
+	public function toArray(){
 		return array(
 			'response'=>$this->apiCode[1],
 			'error'=>$this->error,
@@ -48,7 +48,7 @@ class ApiResponse{
 }
 class ApiResponseJSON extends ApiResponse{
 	function doPrint(){
-		echo json_encode($this->toArray(), JSON_PRETTY_PRINT);
+		return json_encode($this->toArray(), JSON_PRETTY_PRINT);
 	}
 }
 

@@ -1,6 +1,6 @@
 <?php
 
-class HtmlHead{
+class HtmlHeadWrap{
 	
 	private $parser;
 	private $meta;
@@ -9,7 +9,7 @@ class HtmlHead{
 	private $version;
 	private $type; //transition, strict
 	
-	public function HtmlHead(HtmlParser $parser){
+	public function HtmlHeadWrap(HtmlParser $parser){
 		$this->parser = $parser;	
 	}
 	
