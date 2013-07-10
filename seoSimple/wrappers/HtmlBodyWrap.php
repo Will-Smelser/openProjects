@@ -21,7 +21,7 @@ class HtmlBodyWrap{
 	 * @return Array An array of Node elements of 'h1' type
 	 */
 	public function checkH1(){
-		return count($this->parser->getTags('h1'));		
+		return $this->parser->getTags('h1');		
 	}
 	
 	/**
@@ -31,7 +31,7 @@ class HtmlBodyWrap{
 	 * @return Array An array of Node elements of h2 type
 	 */
 	public function checkH2(){
-		return count($this->parser->getTags('h2'));
+		return $this->parser->getTags('h2');
 	}
 
 	/**
@@ -41,7 +41,7 @@ class HtmlBodyWrap{
 	 * @return Array An array of Node elements of h3 type
 	 */
 	public function checkH3(){
-		return count($this->parser->getTags('h3'));
+		return $this->parser->getTags('h3');
 	}
 	
 	/**
@@ -51,7 +51,7 @@ class HtmlBodyWrap{
 	 * @return Array An array of Node elements of h4 type
 	 */
 	public function checkH4(){
-		return count($this->parser->getTags('h4'));
+		return $this->parser->getTags('h4');
 	}
 	
 	/**

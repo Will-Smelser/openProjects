@@ -4,7 +4,7 @@ require_once SEO_API_PATH . '/wrappers/ServerWrap.php';
 
 class Server extends Controller{
 	
-	public $skip = array('ServerInfo');
+	public $skip = array('ServerInfo','getHeaderField');
 	
 	public function Server($method){
 		
