@@ -70,6 +70,7 @@ class HtmlHeadWrap{
 			return $this->html . ' ' . $this->version . ' ' . $this->type;
 		
 		foreach($this->parser->getTags('!DOCTYPE') as $doc){
+			
 			//parse the doctype
 			$raw = $doc->raw;
 			//check HTML 5

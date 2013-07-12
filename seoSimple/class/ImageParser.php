@@ -27,6 +27,15 @@ class ImageLoadResponse{
 	 * @var int Load time in seconds
 	 */
 	public $time;
+	
+	
+	public $actualWidth;
+	
+	public $actualHeight;
+	
+	public $htmlWidth;
+	
+	public $htmlHeight;
 }
 
 /**
@@ -78,6 +87,7 @@ class ImageParser{
 	 * @return 1=good, -1=failed to check, 0=sizes did not match
 	 */
 	public static function respond($image, $width, $height){
+		
 		if(empty($image) || $image === false)
 			return self::$FAIL;
 		
@@ -87,7 +97,7 @@ class ImageParser{
 		if($x === false || $x === false)
 			return self::$FAIL;
 		
-		if($x === $width && $height === $y)
+		if($x*1 === $width*1 && $height*1 === $y*1)
 			return self::$GOOD;
 		
 		return self::$BAD;
@@ -116,11 +126,17 @@ class ImageParser{
 		}
 		
 		//echo "$url\t\t\t";
+		$x = imagesx($image);
+		$y = imagesy($image);
 		
 		$resp = new ImageLoadResponse();
 		$resp->hash = $img->hash;
 		$resp->url = $url;
 		$resp->result = self::respond($image, $width, $height);
+		$resp->htmlWidth = $width;
+		$resp->htmlHeight = $height;
+		$resp->actualWidth = $x;
+		$resp->actualHeight = $y;
 		
 		return $resp;
 	}
@@ -134,10 +150,12 @@ class ImageParser{
 	 * @return ImageLoadResponse An array of ImageLoadResponse Objects
 	 */
 	public static function checkActualDimsThreaded($imgNodes){
+		
 		$loader = new PageLoad('ImageParserThread.php');
 		$result = array();
 		foreach($imgNodes as $node){
 			$data = self::getWidthHeight($node);
+
 			$width = $data[0];
 			$height = $data[1];
 			
@@ -145,11 +163,16 @@ class ImageParser{
 			
 			//bad image dont need to bother checking
 			if(empty($url) || $width === 0 || $height == 0){
+				
 				$resp = new ImageLoadResponse();
 				$resp->result = self::$BAD;
 				$resp->url = $url;
 				$resp->hash = $node->hash;
 				$result[$node->hash] = $resp;
+				$resp->htmlWidth = $width;
+				$resp->htmlHeight = $height;
+				$resp->actualWidth = -1;
+				$resp->actualHeight = -1;
 				
 			//image had the entire http
 			}elseif(preg_match('@^https?://@i',$url)){
@@ -160,27 +183,47 @@ class ImageParser{
 				//data:[<MIME-type>][;charset=<encoding>][;base64],<data>
 				$url = ltrim(strstr($url,','),',');
 				$image = imagecreatefromstring($url);
+				
+				$x = imagesx($image);
+				$y = imagesy($image);
+				
 				$resp = new ImageLoadResponse();
 				$resp->result = self::respond($image, $width, $height);
 				$resp->url = $url;
 				$resp->hash = $node->hash;
 				$result[$node->hash] = $resp;
+				$resp->htmlWidth = $width;
+				$resp->htmlHeight = $height;
+				$resp->actualWidth = $x;
+				$resp->actualHeight = $y;
 				
 			//no host given
 			}else{
+				
 				$url = 'http://'.$node->host.'/'.ltrim($node->attributes['src'],'/\\');
 				$loader->addPage($url, $node->hash, $width, $height);
 			}
+			
 		}
+		
 		
 		//get the multithread request response
 		$temp = $loader->exec();
+		
 		foreach($temp as $val){
+			if(empty($val)) continue;
+			
 			$resp = new ImageLoadResponse();
-			$resp->result = $val['result'];
-			$resp->url = $val['url'];
-			$resp->hash = $val['hash'];
-			$result[$node->hash] = $resp;
+			$resp->result = $val->result;
+			$resp->url = $val->url;
+			$resp->hash = $val->hash;
+			$resp->htmlWidth = $val->htmlWidth;
+			$resp->htmlHeight = $val->htmlHeight;
+			$resp->actualWidth = $val->actualWidth;
+			$resp->actualHeight = $val->actualHeight;
+			$resp->time = $val->time;
+			
+			$result[$val->hash] = $resp;
 		}
 		
 		return $result;

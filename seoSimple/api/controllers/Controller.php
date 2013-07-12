@@ -25,6 +25,8 @@ class Controller implements Control{
 				else
 					$results[$mthd] = (new ApiResponse())->success("Success", $this->no_method())->toArray();
 			}
+			
+			echo (new ApiResponseJSON())->success("Success", $results)->doPrint();
 		//run all api methods
 		}else if($method === 'all'){
 			$results = array();

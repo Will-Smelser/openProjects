@@ -41,15 +41,17 @@ print_r($counter->getCount($str));
 //	"<title>hello mother</title> fucker", $matches);
 //print_r($matches);
 
-//require_once "class/Google.php";
+//include 'config.php';
+//require_once "class/GoogleInfo.php";
 
 //$url = "http://inedo.com";
-//$stats =  new Google($url);
+//$stats =  new GoogleInfo($url);
 
 
 //var_dump($stats->getPageRank());
 //var_dump($stats->getBacklinksTotal());
-//var_dump($stats->getBacklinks(1));
+//var_dump($stats->getBacklinks(null,17));
+//$stats->getBacklinks(17);
 
 /*
 include "class/PageLoad.php";
@@ -66,26 +68,30 @@ var_dump($result);
 
 /*
  * TEST THE IMAGEPARSER
+ */
 include "class/HtmlParser.php";
 include "class/ImageParser.php";
 
-$url = "http://www.inedo.com";
+$url = "http://www.inedo.com/devops";
 $str = file_get_contents($url);
 
 $parser = new HtmlParser($str, $url);
 $imgs = $parser->getTags('img');
 
 $result = array();
-
-//foreach($imgs as $img){
-	//$res = ImageParser::getWidthHeight($img);
-	//array_push($result, ImageParser::checkActualDimsSingle($img, $res[0], $res[1]));
-//}
+/*
+foreach($imgs as $img){
+	$res = ImageParser::getWidthHeight($img);
+	array_push($result, ImageParser::checkActualDimsSingle($img, $res[0], $res[1]));
+}*/
+//var_dump($result);
 
 $result = ImageParser::checkActualDimsThreaded($imgs);
-
 var_dump($result);
 
+
+
+/*
 //get finish
 $time = microtime();
 $time = explode(' ', $time);

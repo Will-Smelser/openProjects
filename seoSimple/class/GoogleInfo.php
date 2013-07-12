@@ -1,14 +1,13 @@
 <?php
-echo getcwd();
-require_once "./vendors/seostats/src/seostats.php";
+require_once SEO_API_PATH . "/vendors/seostats/src/seostats.php";
 
-class Google{
-	private $cx = "AIzaSyA_wkenQWzwHcxuaozcfIc_gcuMo9E09TM";//google for SEO project key
-	private $url;
-	private $stats;
-	private $google;
+class GoogleInfo{
+	public $cx = "AIzaSyA_wkenQWzwHcxuaozcfIc_gcuMo9E09TM";//google for SEO project key
+	public $url;
+	public $stats;
+	public $google;
 	
-	public function Google($url){
+	public function GoogleInfo($url){
 		if(empty($url)) return;
 		
 		$this->stats = new SEOstats($url);
@@ -29,12 +28,12 @@ class Google{
 		return $this->google->getPageRank();
 	}
 	
-	public function getBacklinks($max){
-		return $this->google->getBacklinks(false, $max);
+	public function getBacklinks($max=10){
+		return $this->google->getBacklinks($this->url, $max);
 	}
 	
 	public function getBacklinksTotal(){
-		return $this->google->getBacklinksTotal();
+		return $this->google->getBacklinksTotal($this->url);
 	}
 	
 	public function getUrl(){

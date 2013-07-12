@@ -61,7 +61,7 @@ class HtmlBodyWrap{
 	 */
 	public function getKeyWords(){
 		$wc = new WordCount();
-		return $wc->getCount($this->parser->dom);
+		return array_slice($wc->getCount($this->parser->dom), 0, 25);
 	}
 	
 	/**
@@ -69,7 +69,7 @@ class HtmlBodyWrap{
 	 * @return string[] An array of inline css content
 	 */
 	public function checkInlineCSS(){
-		preg_match_all('@style[\s+]?=[\s+]?[\'|"].*?[\'|"]@i',$this->parser->dom, $matches);
+		preg_match_all('@style[\s+]?=[\s+]?[\'|"].*?[\'|"]@i', $this->parser->dom, $matches);
 		return $matches[0];
 	}
 	
@@ -94,7 +94,7 @@ class HtmlBodyWrap{
 	/**
 	 * Get an array of style Nodes.
 	 */
-	public function checkForInlineCSS(){
+	public function checkInlineStyle(){
 		return $this->parser->getTags('style');		
 	}
 	

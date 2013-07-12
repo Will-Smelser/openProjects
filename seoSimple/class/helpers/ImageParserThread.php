@@ -33,12 +33,19 @@ $time = $time[1] + $time[0];
 $finish = $time;
 $total_time = round(($finish - $start), 4);
 
+$x = imagesx($image);
+$y = imagesy($image);
+
 //print response
 $resp = new ImageLoadResponse();
 $resp->hash = $hash;
 $resp->url = $url;
 $resp->result = ImageParser::respond($image, $width, $height, $total_time);
 $resp->time = $total_time;
+$resp->htmlWidth = $width;
+$resp->htmlHeight = $height;
+$resp->actualWidth = $x;
+$resp->actualHeight = $y;
 
 echo json_encode($resp);
 ?>

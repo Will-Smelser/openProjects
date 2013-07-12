@@ -15,7 +15,6 @@ class SEOstats_Google extends SEOstats implements services, default_settings
 	
 	private function httpSendWrapper($request){
 		$request .= (!empty($this->cx)) ? "&cx={$this->cx}&key={$this->key}" : '';
-		
 		return HttpRequest::sendRequest($request);
 	}
 	
@@ -86,7 +85,7 @@ class SEOstats_Google extends SEOstats implements services, default_settings
 		    string(182) "Apr 25, 2013 <b>...</b> The ticket at the top of...in a text box on the<b>...</b>"
 		{/code}
      */
-    public function getBacklinks($url = false, $total=5)
+    public function getBacklinks($url = false, $total=10)
     {
     	
     	$url = false != $url ? $url : self::getUrl();
@@ -101,7 +100,7 @@ class SEOstats_Google extends SEOstats implements services, default_settings
     	$count = count($resp->items);
     	$results = $resp->items;
     	
-    	for($i=1; $count < $total && $i < 10; $i++){
+    	for($i=1; $count < $total && isset($resp->queries->nextPage); $i++){
     		
     		$start = $resp->queries->nextPage[0]->startIndex;
     		$num = $resp->queries->nextPage[0]->count;

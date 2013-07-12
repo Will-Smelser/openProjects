@@ -54,8 +54,10 @@ class PageLoad{
 		$url = self::$loadPage . '?arg0=' . urlencode($url);
 		
 		foreach($args as $key=>$arg){
-			$url .= "&arg{$key}=" . urlencode($arg);
+			$temp = $key+1;
+			$url .= "&arg{$temp}=" . urlencode($arg);
 		}
+		
 		
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);

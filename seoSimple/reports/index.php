@@ -5,27 +5,59 @@
 
 <link href="css/custom-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet">
 
-<link rel="STYLESHEET" type="text/css" href="http://www.w3.org/StyleSheets/Core/parser.css?family=5&doc=Sampler">
+<link rel="stylesheet" type="text/css" href="http://www.w3.org/StyleSheets/Core/parser.css?family=5&doc=Sampler">
 
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
+<style>
+table{width:100%;}
+td{
+	vertical-align:top;
+	padding:3px;
+}
+h2{
+	margin-top:1em;
+}
+h3{
+	background-color:#EFEFEF;
+	padding:3px;
+	font-size:2em;
+}
+.by-author{
+	font-style:italic;
+	font-size:.5em;
+}
+.hide{
+	display:none;
+}
+textarea{
+	border:solid #EFEFEF 1px;
+	width:100%;
+	height:25px;
+	color:#000;
+	font-style:italic;
+	font-size:1.5em;
+}
+</style>
 
 </head>
 
 <body>
-<h1>Simple SEO Report</h1>
-<form method="GET" action="index.php">
+<h1>SEO Report <span class="by-author">by Will Smelser</span></h1>
+<form id="form-run-report" method="GET" action="index.php">
 	<label for="url">URL <input name="url" type="text" id="url" /></label>
 	<input type="submit" value="Run Report" />
 </form>
 
 <?php if(isset($_GET['url'])){ ?>
 
-<h2>Report - <?php echo $_GET['url']; ?></h2>
+<h2 id="report-title">Report - <?php echo $_GET['url']; ?></h2>
 
 <!-- api/server -->
 <h3>Server Information</h3>
+	<h4>Rcommendations...</h4>
+	<textarea></textarea>
 	<!-- 
 		api/server/
 			getHeaderResponseLine, getHeaderField, getServer, getServer, isGzip, getLoadTime, getWhois
@@ -38,18 +70,53 @@
 	
 <!-- api/head -->
 <h3>HTML Head Information</h3>
+<h4>Rcommendations...</h4>
+<textarea></textarea>
+	
 <p id="head-info">Loading...</p>
 
 <!-- api/body -->
 <h3>HTML Body Information</h3>
+	<h4>Rcommendations...</h4>
+	<textarea></textarea>
+	
 	<!-- checkH1, checkH2, checkH3, checkH4 -->
 	<h4>Header Tags</h4>
 	<p id="body-header-tags">Loading...</p>
 	
 	<h4>Keywords</h4>
 	<p id="body-keywords">Loading...</p>
+	
+	<h4>Inline Styles</h4>
+	<p id="body-inline-style">Loading...</p>
+	
+	<h4>Link Data</h4>
+	<p id="body-anchors">Loading...</p>
+	
+	<h4>Frames / Object Tags</h4>
+	<p id="body-bad-stuff">Loading...</p>
+	
+	<h4>Image Analysis</h4>
+	<p id="body-images">Loading...</p>
+	
+<h3>Social Stats</h3>
+	<h4>Rcommendations...</h4>
+	<textarea></textarea>
+	<p id="social">Loading...</p>
+	
+<h3>Google Stats</h3>
+	<h4>Rcommendations...</h4>
+	<textarea></textarea>
+	
+	<h4>Page Rank: <b id="google-pr">Loading...</b></h4>
 
+	<h4>Back Links</h4>
+	<p id="google-backlinks">Loading...</p>
+	
 <h3>W3C Validation</h3>
+	<h4>Rcommendations...</h4>
+	<textarea></textarea>
+
 	<!-- /api/server/validateW3C -->
 	<h4>General</h4>
 	<p id="w3c-general">Loading...</p>
@@ -61,6 +128,7 @@
 	<!-- /api/server/getValidateW3Cwarnings -->
 	<h4>Warnings</h4>
 	<p id="w3c-warning">Loading...</p>
+	
 
 <?php } ?>
 </body>
@@ -85,6 +153,35 @@ $(document).ready(function(){
 		return $tr;
 	};
 
+	
+	//google information
+	$.getJSON(api+"google/getPageRank|getBacklinks?request="+url,function(data){
+		console.log(data);
+		var $pr = $('#google-pr').html(data.data.getPageRank.data);
+		var $bl = $('#google-backlinks');
+
+		var $ul = $(document.createElement('ul'));
+		$ul.append(createList('Total Backlinks',data.data.getBacklinks.data.length));
+		for(var x in data.data.getBacklinks.data){
+			var title = data.data.getBacklinks.data[x].title;
+			var link = data.data.getBacklinks.data[x].link;
+			var a = "<a href='"+link+"'>"+title+"</a>";
+			$ul.append(createList('Link',a));
+		}
+		$bl.html($ul);
+	});
+	
+	
+	//social
+	$.getJSON(api+"social/all?request="+url,function(data){
+		var $soc = $('#social');
+		var $ul = $(document.createElement('ul'));
+		for(var x in data.data){
+			$ul.append(createList(x.replace('get',''), data.data[x].data));
+		}
+		$soc.html($ul);
+	});
+
 	//get the body data
 	$.getJSON(api+"body/all?request="+url,function(data){
 		//check the header data
@@ -106,6 +203,56 @@ $(document).ready(function(){
 			$ul.append(createList(temp.words[0], temp.count));
 		}
 		$words.html($ul);
+
+		//inline css
+		var $icss = $('#body-inline-style');
+		$ul = $(document.createElement('ul'));
+		var ltagcount = 0;
+		var ltaghosts = 0;
+		for(var host in data.data.checkLinkTags.data)
+			ltaghosts++;
+			ltagcount += data.data.checkLinkTags.data[host].length;
+		
+		$ul.append(createList('Total &lt;link&gt; tag count',ltagcount));
+		$ul.append(createList('Total &lt;link&gt; tag host count',ltaghosts));
+		$ul.append(createList('Inline CSS count',data.data.checkInlineCSS.data.length));
+		$ul.append(createList('Inline &lt;style&gt; count',data.data.checkInlineStyle.data.length));
+		$icss.html($ul);
+
+		//anchors
+		var $anchor = $('#body-anchors');
+		$ul = $(document.createElement('ul'));
+		$ul.append(createList('Internal &lt;a&gt; tags',data.data.getInternalAnchor.data.length));
+		$ul.append(createList('External &lt;a&gt; tags',data.data.getExternalAnchors.data.length));
+		$anchor.html($ul);
+
+		//bad stuff like frames
+		var $bad = $('#body-bad-stuff');
+		$ul = $(document.createElement('ul'));
+		$ul.append(createList('Page contains frames?',data.data.checkForFrames.data));
+		$ul.append(createList('Page contains iframes?',data.data.checkForIframes.data));
+		$ul.append(createList('Page contains flash/objects?',data.data.checkForFlash.data));
+		$bad.html($ul);
+
+		//images
+		var $img = $('#body-images');
+		$ul = $(document.createElement('ul'));
+		for(var x in data.data.checkImages.data){
+			var result;
+			switch(data.data.checkImages.data[x].result){
+			case 0:
+				result = 'Bad Size';
+				break;
+			case 1:
+				result = 'Good';
+				break;
+			default:
+				result = 'Failed';
+				break;
+			}
+			$ul.append(createList(result, data.data.checkImages.data[x].url));
+		}
+		$img.html($ul);
 	});
 
 	//get the header information
@@ -120,8 +267,8 @@ $(document).ready(function(){
 		if(fav === null)
 			fav = (data.data.getFaviconNoTag.data === null) ? 'None' : data.data.getFaviconNoTag.data;
 		var doc = data.data.getDoctype.data;
-		var enc = data.data.getEncoding.data;
-		var lang= data.data.getLang.data;
+		var enc = (data.data.getEncoding.data == null) ? 'None' : data.data.getEncoding.data;
+		var lang= (data.data.getLang.data == null) ? 'None' : data.data.getLang.data;
 
 		$ul = $(document.createElement('ul'));
 		$ul.append(createList('Title',title));
@@ -143,7 +290,6 @@ $(document).ready(function(){
 		var $ul = $(document.createElement('ul'));
 		var whois = data.data.getWhois.data;
 		for(var x in whois){
-			console.log(x);
 			$ul.append(createList(x.replace('_',' '),whois[x]));
 		}
 		$('#server-whois').html($ul);
@@ -205,6 +351,10 @@ $(document).ready(function(){
 			$w3warn.html('No Warnings');
 		}
 		
+	});
+
+	$('#report-title:first').click(function(){
+		$('#form-run-report').toggleClass('hide');
 	});
 });
 
