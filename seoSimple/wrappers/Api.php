@@ -57,4 +57,18 @@ class Server extends ServerWrap{
 class Social extends SocialWrap{
 
 }
+
+/**
+ * This class is a placeholder to define the API.
+ * Make requests as:{@example
+ *  /api/google/<method>?request=<url encoded link>
+ *  method = <class method> [|<class method>] | all
+ *  class method = A method that exists in the parent class
+ * } 
+ * @author Will
+ *
+ */
+class Google extends GoogleWrap{
+	
+}
 ?>

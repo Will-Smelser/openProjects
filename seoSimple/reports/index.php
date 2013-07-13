@@ -153,7 +153,15 @@ $(document).ready(function(){
 		return $tr;
 	};
 
-	
+	function createTableRow(row){
+		var $tr = $(document.createElement('tr'));
+		for(var x in row)
+			$tr.append($(document.createElement('td')).html(row[x]));
+
+		return $tr;
+	}
+
+	/*
 	//google information
 	$.getJSON(api+"google/getPageRank|getBacklinks?request="+url,function(data){
 		console.log(data);
@@ -170,7 +178,7 @@ $(document).ready(function(){
 		}
 		$bl.html($ul);
 	});
-	
+	*/
 	
 	//social
 	$.getJSON(api+"social/all?request="+url,function(data){
@@ -236,10 +244,16 @@ $(document).ready(function(){
 
 		//images
 		var $img = $('#body-images');
-		$ul = $(document.createElement('ul'));
+
+		var $table = $(document.createElement('table'));
+		var $tr = $(document.createElement('tr'));
+		$tr.html('<th>Result</th><th>Url</th><th>Alt</th><th>Title</th><th>Expected</th><th>Actual</th>');
+		$table.append($tr);
+		
 		for(var x in data.data.checkImages.data){
+			var temp = data.data.checkImages.data[x];
 			var result;
-			switch(data.data.checkImages.data[x].result){
+			switch(temp.result){
 			case 0:
 				result = 'Bad Size';
 				break;
@@ -250,9 +264,20 @@ $(document).ready(function(){
 				result = 'Failed';
 				break;
 			}
-			$ul.append(createList(result, data.data.checkImages.data[x].url));
+			var sizeHtml = (temp.result === 1) ? temp.htmlWidth + 'x' + temp.htmlHeight : 'N/A';
+			var sizeAct = (temp.result === 1) ? temp.actualWidth + 'x' + temp.actualHeight : 'N/A';  
+			var row = [
+				result,
+				'<div style="text-overflow:clip;max-width:250px;"><a href="'+temp.url+'">'+temp.url.substr(temp.url.lastIndexOf("/") + 1)+'</a></div>',
+				temp.alt,temp.title,
+				sizeAct,
+				sizeHtml
+			];
+			var $tr = createTableRow(row);
+			console.log($tr);
+			$table.append($tr);
 		}
-		$img.html($ul);
+		$img.html($table);
 	});
 
 	//get the header information

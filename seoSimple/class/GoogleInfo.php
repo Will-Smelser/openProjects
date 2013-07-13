@@ -43,6 +43,10 @@ class GoogleInfo{
 	public function setUrl(){
 		$this->obj->setUrl($this->url);
 	}
+	
+	public function getPagespeedScore(){
+		return $this->google->getPagespeedScore($this->url);
+	}
 }
 
 ?>

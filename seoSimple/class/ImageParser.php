@@ -36,6 +36,10 @@ class ImageLoadResponse{
 	public $htmlWidth;
 	
 	public $htmlHeight;
+	
+	public $alt;
+	
+	public $title;
 }
 
 /**
@@ -137,6 +141,8 @@ class ImageParser{
 		$resp->htmlHeight = $height;
 		$resp->actualWidth = $x;
 		$resp->actualHeight = $y;
+		$resp->alt = (isset($img->attributes['alt'])) ? $img->attributes['alt'] : null;
+		$resp->title = (isset($img->attributes['title'])) ? $img->attributes['title'] : null;
 		
 		return $resp;
 	}
@@ -161,23 +167,27 @@ class ImageParser{
 			
 			$url = $node->attributes['src'];
 			
+			$resp = new ImageLoadResponse();
+			$resp->htmlWidth = $width;
+			$resp->htmlHeight = $height;
+			$resp->result = self::$BAD;
+			$resp->url = $url;
+			$resp->hash = $node->hash;
+			$resp->actualWidth = -1;
+			$resp->actualHeight = -1;
+			$resp->time = -1;
+			$result[$node->hash] = $resp;
+			$resp->alt = (isset($node->attributes['alt'])) ? $node->attributes['alt'] : null;
+			$resp->title = (isset($node->attributes['title'])) ? $node->attributes['title'] : null;
+			
 			//bad image dont need to bother checking
 			if(empty($url) || $width === 0 || $height == 0){
-				
-				$resp = new ImageLoadResponse();
-				$resp->result = self::$BAD;
-				$resp->url = $url;
-				$resp->hash = $node->hash;
-				$result[$node->hash] = $resp;
-				$resp->htmlWidth = $width;
-				$resp->htmlHeight = $height;
-				$resp->actualWidth = -1;
-				$resp->actualHeight = -1;
+				//do nothing				
 				
 			//image had the entire http
 			}elseif(preg_match('@^https?://@i',$url)){
 				$loader->addPage($url, $node->hash, $width, $height);
-				
+								
 			//data type of image
 			}elseif(preg_match('/^data/',$url)){
 				//data:[<MIME-type>][;charset=<encoding>][;base64],<data>
@@ -187,13 +197,7 @@ class ImageParser{
 				$x = imagesx($image);
 				$y = imagesy($image);
 				
-				$resp = new ImageLoadResponse();
 				$resp->result = self::respond($image, $width, $height);
-				$resp->url = $url;
-				$resp->hash = $node->hash;
-				$result[$node->hash] = $resp;
-				$resp->htmlWidth = $width;
-				$resp->htmlHeight = $height;
 				$resp->actualWidth = $x;
 				$resp->actualHeight = $y;
 				
@@ -202,6 +206,7 @@ class ImageParser{
 				
 				$url = 'http://'.$node->host.'/'.ltrim($node->attributes['src'],'/\\');
 				$loader->addPage($url, $node->hash, $width, $height);
+				
 			}
 			
 		}
@@ -222,6 +227,8 @@ class ImageParser{
 			$resp->actualWidth = $val->actualWidth;
 			$resp->actualHeight = $val->actualHeight;
 			$resp->time = $val->time;
+			$resp->title = $result[$val->hash]->title;
+			$resp->alt = $result[$val->hash]->alt;
 			
 			$result[$val->hash] = $resp;
 		}
