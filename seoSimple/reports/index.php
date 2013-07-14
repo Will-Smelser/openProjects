@@ -12,7 +12,7 @@
 
 
 <style>
-table{width:100%;}
+table{width:90%;}
 td{
 	vertical-align:top;
 	padding:3px;
@@ -34,7 +34,7 @@ h3{
 }
 textarea{
 	border:solid #EFEFEF 1px;
-	width:100%;
+	width:90%;
 	height:25px;
 	color:#000;
 	font-style:italic;
