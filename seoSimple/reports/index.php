@@ -7,8 +7,9 @@
 
 <link rel="stylesheet" type="text/css" href="http://www.w3.org/StyleSheets/Core/parser.css?family=5&doc=Sampler">
 
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+
 
 <style>
 table{width:100%;}
@@ -38,6 +39,10 @@ textarea{
 	color:#000;
 	font-style:italic;
 	font-size:1.5em;
+}
+
+#popup-content{
+	font-size:.6em;
 }
 </style>
 
@@ -131,6 +136,11 @@ textarea{
 	
 
 <?php } ?>
+
+<div id="popup" title="Information">
+	<div id="popup-content"></div>
+</div>
+
 </body>
 
 <script>
@@ -159,6 +169,37 @@ $(document).ready(function(){
 			$tr.append($(document.createElement('td')).html(row[x]));
 
 		return $tr;
+	}
+
+	//do a serp query
+	function serpQuery(q){
+		var $pop = $('#popup');
+		var $child = $pop.children('#popup-content');
+
+		$child.html('Loading...');
+		
+		$.getJSON(api+"google/getSerps/"+encodeURIComponent(q)+"?request="+url,function(data){
+			console.log(data); 
+			$child.html("");
+			for(var x in data.data){
+				console.log(data.data[x]);
+				var $div = $(document.createElement('div'));
+				var $h = $(document.createElement('h4')).html((x*1+1)+'.&nbsp;&nbsp;'+data.data[x].title);
+				var $p = $(document.createElement('p')).html(data.data[x].htmlSnippet);
+				var $a = $(document.createElement('a')).html(data.data[x].displayLink).attr('href',data.data[x].link).attr('target','_blank');
+				$div.append($h).append($p).append($a);
+				$child.append($div);
+			}
+			
+			
+		});
+
+		$('#popup').dialog({
+			modal: true,
+			height: 400,
+			width: 700,
+			title: "Top Google Results - " + q
+		});
 	}
 
 	/*
@@ -224,9 +265,14 @@ $(document).ready(function(){
 				var front = phrase[x].substr(0,start-1);
 				var middle = phrase[x].substr(start, end-start);
 				var back = phrase[x].substr(end+1);
-				console.log(middle);
 
-				$ul2.append($(document.createElement('li')).html(front+' <b>'+middle+'</b> '+back));
+				var $a = $(document.createElement('a'));
+				$a.click(function(q){
+					return function(){serpQuery(q);};
+				}(phrase[x]));
+				$a.html(front+' <b>'+middle+'</b> '+back);
+				
+				$ul2.append($(document.createElement('li')).append($a));
 
 			}
 			$li.append($ul2);

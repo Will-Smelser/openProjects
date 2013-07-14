@@ -47,6 +47,26 @@ class GoogleInfo{
 	public function getPagespeedScore(){
 		return $this->google->getPagespeedScore($this->url);
 	}
+	
+	public function getSerps($query, $count=10){
+		$items = $this->google->getSearchResults(urlencode($query[0]), $count)->items;
+		
+		
+		$result = array();
+		foreach($items as $res){
+			$temp = array(
+				'title'=>$res->title,
+				'link'=>$res->link,
+				'displayLink'=>$res->displayLink,
+				'htmlSnippet'=>$res->htmlSnippet,
+				'mime'=>(isset($res->mime)?$res->mime:null)	
+			);
+			array_push($result, $temp);
+		}
+		
+		return $result;
+		
+	}
 }
 
 ?>

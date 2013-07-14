@@ -136,6 +136,16 @@ class SEOstats_Google extends SEOstats implements services, default_settings
                : intval($obj->searchInformation->formattedTotalResults);
     }
 
+    public function getSearchResults($q)
+    {
+    	$url = sprintf(services::GOOGLE_APISEARCH_URL2, $q);
+    	
+    	$ret = $this->httpSendWrapper($url);
+    
+    	
+    	return json_decode($ret);
+    }
+    
     /**
      *  Returns total amount of results for any Google search,
      *  requesting the deprecated Websearch API.

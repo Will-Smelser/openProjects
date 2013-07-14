@@ -14,7 +14,7 @@ class Controller implements Control{
 		echo (new ApiResponseJSON())->failure("Invalid Request - No Method or Class")->doPrint();
 	}
 	
-	public function exec(&$obj, $method){
+	public function exec(&$obj, $method, $args=null){
 		//run several api methods
 		if(strstr($method, '|')){
 			$results = array();
@@ -22,9 +22,9 @@ class Controller implements Control{
 			foreach(explode('|', $method) as $mthd){
 				
 				if($this->isValidMethod($obj, $mthd, $this->skip))
-					$results[$mthd] = (new ApiResponse())->success("Success", $obj->$mthd())->toArray();
+					$results[$mthd] = (new ApiResponse())->success("Success", $obj->$mthd($args))->toArray();
 				else
-					$results[$mthd] = (new ApiResponse())->success("Success", $this->no_method())->toArray();
+					$results[$mthd] = (new ApiResponse())->success("Success", $this->no_method($args))->toArray();
 			}
 			
 			echo (new ApiResponseJSON())->success("Success", $results)->doPrint();
@@ -33,7 +33,7 @@ class Controller implements Control{
 			$results = array();
 			foreach(get_class_methods($obj) as $mthd){
 				if(stripos($method,'~'.$mthd) === false && $this->isValidMethod($obj, $mthd, $this->skip)){
-					$results[$mthd] = (new ApiResponse())->success("Success", $obj->$mthd())->toArray();
+					$results[$mthd] = (new ApiResponse())->success("Success", $obj->$mthd($args))->toArray();
 				}
 			}
 			
@@ -45,7 +45,7 @@ class Controller implements Control{
 		
 		//method did not exist for the given class
 		}else{
-			$result = $obj->$method();
+			$result = $obj->$method($args);
 			echo (new ApiResponseJSON())->success("Success", $result)->doPrint();
 		}
 	}
