@@ -32,7 +32,7 @@ class Controller implements Control{
 		}else if(stripos($method,'all')!==false){
 			$results = array();
 			foreach(get_class_methods($obj) as $mthd){
-				if(stripos('~'.$mthd,$method) === false && $this->isValidMethod($obj, $mthd, $this->skip)){
+				if(stripos($method,'~'.$mthd) === false && $this->isValidMethod($obj, $mthd, $this->skip)){
 					$results[$mthd] = (new ApiResponse())->success("Success", $obj->$mthd())->toArray();
 				}
 			}
