@@ -23,12 +23,13 @@ class WordCount{
 	
 	private $result;
 	
+	
 	/**
 	 * Parse a string for words
 	 * @param String $str The string to parse for words and count them
 	 */
 	public function WordCount($str){
-		$this->phraser = new SimplePhraser(4);
+		$this->phraser = new SimplePhraser(3);
 		$this->doCount($str);
 	}
 		
@@ -65,7 +66,10 @@ class WordCount{
 		
 		foreach($words as $key=>$word){
 			$normal = $this->normalize($word);
-			if(!in_array($word,$this->stopwords) && !in_array($normal,$this->stopwords)){
+			if($word === $this->phraser->d){
+				$this->phraser->closePhrase();
+				continue;
+			}else if(!in_array($word,$this->stopwords) && !in_array($normal,$this->stopwords)){
 				
 				if(!empty($normal) && array_key_exists($normal,$result)){
 					//do nothing
@@ -120,8 +124,8 @@ class WordCount{
 	private function cleanHTML(&$str){
 		
 		//get just body
-		$start = strpos($str,"<body");
-		$end = strpos($str,"</body");
+		$start = stripos($str,"<body");
+		$end = stripos($str,"</body");
 		
 		$str = substr($str, $start, $end-$start);
 		
@@ -130,7 +134,7 @@ class WordCount{
 			$this->removeTag($tag, $str);
 		}
 		
-		
+		$str = str_replace('<',' '.$this->phraser->d.' <',$str);
 		$str = strip_tags($str);
 		$str = html_entity_decode($str);
 		
