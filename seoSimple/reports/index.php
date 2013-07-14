@@ -208,7 +208,29 @@ $(document).ready(function(){
 		$ul = $(document.createElement('ul'));
 		for(var i=0; i<5; i++){
 			var temp = data.data.getKeyWords.data[i];
-			$ul.append(createList(temp.words[0], temp.count));
+			$li = createList(temp.words[0], temp.count);
+
+			//add phrase data
+			var phrase = data.data.getPhrases.data[temp.normal][0];
+			var $ul2 = $(document.createElement('ul'));
+			for(var x in phrase){
+				var start = phrase[x].indexOf(temp.normal);
+				end = start;
+				for(var j=start; j < phrase[x].length && phrase[x].charAt(j) !== ' '; j++)
+					end = j;
+
+				end++;
+
+				var front = phrase[x].substr(0,start-1);
+				var middle = phrase[x].substr(start, end-start);
+				var back = phrase[x].substr(end+1);
+				console.log(middle);
+
+				$ul2.append($(document.createElement('li')).html(front+' <b>'+middle+'</b> '+back));
+
+			}
+			$li.append($ul2);
+			$ul.append($li);
 		}
 		$words.html($ul);
 
@@ -274,7 +296,7 @@ $(document).ready(function(){
 				sizeHtml
 			];
 			var $tr = createTableRow(row);
-			console.log($tr);
+			
 			$table.append($tr);
 		}
 		$img.html($table);
@@ -329,6 +351,7 @@ $(document).ready(function(){
 		$ul.append(createList('Load Time',load+' sec.'));
 		$ul.append(createList('Server Info', server));
 		$ul.append(createList('Gzip Compression', gzip));
+		$ul.append(createList('Robots.txt',(data.data.checkRobots.data == false) ? false : true));
 		$('#server-general-info').html($ul);
 
 		//w3c validation

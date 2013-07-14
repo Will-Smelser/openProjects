@@ -118,6 +118,16 @@ class ServerInfo{
 	}
 	
 	/**
+	 * Check if site has robots.txt file
+	 * @return boolean
+	 */
+	public function checkRobots(){
+		$info = parse_url($this->url);
+		@$result = file_get_contents('http://'.$info['host'].'/robots.txt');
+		return ($result === false) ? false : true;
+	}
+	
+	/**
 	 * Validates using W3C pear package
 	 * @return boolean True on success, False on failure
 	 * @throws Exception
