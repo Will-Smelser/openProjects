@@ -5,16 +5,16 @@ $time = explode(' ', $time);
 $time = $time[1] + $time[0];
 $start = $time;
 
-/*
+
 include "class/WordCount.php";
 
 $str = file_get_contents("http://www.inedo.com/devops");
-		
-$counter = new WordCount();
 
-print_r($counter->getCount($str));
-*/
+$counter = new WordCount($str);
 
+print_r($counter->getSortedPhrases());
+
+print_r($counter->getPhrasesWithWord('inedo'));
 
 //include "class/HtmlParser.php";
 //include "wrappers/HtmlHead.php";
@@ -68,7 +68,7 @@ var_dump($result);
 
 /*
  * TEST THE IMAGEPARSER
- */
+ 
 include "class/HtmlParser.php";
 include "class/ImageParser.php";
 
@@ -86,9 +86,8 @@ foreach($imgs as $img){
 }*/
 //var_dump($result);
 
-$result = ImageParser::checkActualDimsThreaded($imgs);
-var_dump($result);
-
+//$result = ImageParser::checkActualDimsThreaded($imgs);
+//var_dump($result);
 
 
 /*

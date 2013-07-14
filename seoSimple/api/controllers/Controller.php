@@ -20,6 +20,7 @@ class Controller implements Control{
 			$results = array();
 			
 			foreach(explode('|', $method) as $mthd){
+				
 				if($this->isValidMethod($obj, $mthd, $this->skip))
 					$results[$mthd] = (new ApiResponse())->success("Success", $obj->$mthd())->toArray();
 				else
@@ -28,11 +29,10 @@ class Controller implements Control{
 			
 			echo (new ApiResponseJSON())->success("Success", $results)->doPrint();
 		//run all api methods
-		}else if($method === 'all'){
+		}else if(stripos($method,'all')!==false){
 			$results = array();
-			
 			foreach(get_class_methods($obj) as $mthd){
-				if($this->isValidMethod($obj, $mthd, $this->skip)){
+				if(stripos('~'.$mthd,$method) === false && $this->isValidMethod($obj, $mthd, $this->skip)){
 					$results[$mthd] = (new ApiResponse())->success("Success", $obj->$mthd())->toArray();
 				}
 			}

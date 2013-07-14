@@ -6,6 +6,8 @@ class HtmlBodyWrap{
 	protected $anchors;
 	public $parser;
 	
+	public $wc;
+	
 	/**
 	 * Constructor
 	 * @param HtmlParser $parser The html parser to use.
@@ -55,13 +57,58 @@ class HtmlBodyWrap{
 	}
 	
 	/**
-	 * Get a list of key words
+	 * Get a list of key words, top 25
 	 * @return Array An array of Word
 	 * @see Word
 	 */
-	public function getKeyWords(){
-		$wc = new WordCount();
-		return array_slice($wc->getCount($this->parser->dom), 0, 25);
+	public function getKeyWords($count=25){
+		return array_slice($this->getWC()->getCount(), 0, $count);
+	}
+	
+	/**
+	 * GEt phrases for the top words
+	 * @param number $words The top words to search, defaul is 5
+	 * @return array An array of <word> => <array of phrases>. <word> is the normalized word;  
+	 */
+	public function getPhrases($words=5){
+		$result = array();
+		foreach($this->getKeyWords($words) as $word){
+			$result[$word->normal] = array();
+			array_push($result[$word->normal], $this->getWC()->getPhrasesWithWord($word->normal));
+		}
+		
+		return $result;
+	}
+	
+	/**
+	 * Look at top X words and get phrases in the document which
+	 * match the given word.
+	 * @param number $count The top X words to get phrases of
+	 * @return  array An array of phrase
+	 * @see Phrase
+	 */
+	public function getTopPhrases($count = 5){
+		$temp = $this->getWC()->getSortedPhrases();
+		return array_splice($temp, 0, $count);
+	}
+	
+	/**
+	 * Get phrases which contain the give normalized word.  Will default to top word if empty.
+	 * @param string The word to normalize and lookup matching phrases on.
+	 * @return array An array of string (phrases) which contain the normalized word.
+	 */
+	public function getPhrasesSpecific($word=''){
+		if(empty($word))
+			$word = $this->getWC()->getCount()[0]->normal;
+		
+		return $this->getWC()->getPhrasesWithWord($word);
+	}
+	
+	private function getWC(){
+		if(!is_object($this->wc))
+			$this->wc = new WordCount($this->parser->dom);
+		
+		return $this->wc;
 	}
 	
 	/**
@@ -205,7 +252,5 @@ class HtmlBodyWrap{
 		$imgs = $this->parser->getTags('img');
 		return ImageParser::checkActualDimsThreaded($imgs);
 	}
-	
-	
 }
 ?>

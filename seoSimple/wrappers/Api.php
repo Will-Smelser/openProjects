@@ -71,4 +71,32 @@ class Social extends SocialWrap{
 class Google extends GoogleWrap{
 	
 }
+
+/**
+ * This class is a placeholder to define the API.
+ * Make requests as:{@example
+ *  /api/moz/<method>?request=<url encoded link>
+ *  method = <class method> [|<class method>] | all
+ *  class method = A method that exists in the parent class
+ * }
+ * @author Will
+ *
+ */
+class Moz extends MozWrap{
+	
+} 
+
+/**
+ * This class is a placeholder to define the API.
+ * Make requests as:{@example
+ *  /api/semrush/<method>?request=<url encoded link>
+ *  method = <class method> [|<class method>] | all
+ *  class method = A method that exists in the parent class
+ * }
+ * @author Will
+ *
+ */
+class SemRush extends SemRushWrap{
+	
+}
 ?>
