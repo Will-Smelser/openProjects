@@ -235,7 +235,7 @@ function serpQuery(q){
 		
 		$child.html("");
 		for(var x in data.data){
-			console.log(data.data[x]);
+			
 			var $div = $(document.createElement('div'));
 			var $h = $(document.createElement('h4')).html((x*1+1)+'.&nbsp;&nbsp;'+data.data[x].title);
 			var $p = $(document.createElement('p')).html(data.data[x].htmlSnippet);
