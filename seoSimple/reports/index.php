@@ -1,14 +1,35 @@
 <!DOCTYPE html>
 <head>
 
+<?php 
+$host = $_SERVER['SERVER_NAME'];
+
+$base_path = __DIR__;
+$base_path = str_replace($_SERVER['DOCUMENT_ROOT'],'',$base_path);
+if (realpath( $base_path ) !== false) {
+	$base_path = realpath($base_path).'/';
+}
+
+$base_path = str_replace('\\','/',__DIR__);
+$path = str_replace('\\','/',$_SERVER['DOCUMENT_ROOT']);
+
+$base_path = str_replace($path,'',$base_path);
+
+$base_path = '/'.trim($base_path, '/').'/';
+$base_path = str_replace('\\', '/', $base_path);
+
+
+$host_loc = $host . $base_path;
+?>
+
 <title>SimpleSEO Report</title>
 
-<link href="css/custom-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet">
+<link href="http://<?php echo $host_loc; ?>/css/custom-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet">
 
 <link rel="stylesheet" type="text/css" href="http://www.w3.org/StyleSheets/Core/parser.css?family=5&doc=Sampler">
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="http://<?php echo $host_loc; ?>/js/jquery-ui-1.10.3.custom.min.js"></script>
 
 
 <style>
@@ -41,14 +62,25 @@ textarea{
 	font-size:1.5em;
 }
 
+.recommendation{
+	font-style:italic;
+	font-size:1.5em;
+}
+
 #popup-content{
-	font-size:.6em;
+	font-size:1em;
+}
+
+.li-label{
+	display:inline-block;
+	width:250px;
 }
 </style>
 
 </head>
 
 <body>
+<div id="all-content">
 <h1>SEO Report <span class="by-author">by Will Smelser</span></h1>
 <form id="form-run-report" method="GET" action="index.php">
 	<label for="url">URL <input name="url" type="text" id="url" /></label>
@@ -56,6 +88,8 @@ textarea{
 </form>
 
 <?php if(isset($_GET['url'])){ ?>
+
+<div style="float:right" id="save-edit-wrap"><input type="checkbox" id="save-edit"  /><label for="save-edit">Save / Edit</label></div>
 
 <h2 id="report-title">Report - <?php echo $_GET['url']; ?></h2>
 
@@ -141,16 +175,114 @@ textarea{
 	<div id="popup-content"></div>
 </div>
 
+<form id="save-form" action="save.php" method="POST" target="_blank" style="display:none">
+	<textarea name="data" id="save-form-data"></textarea>
+</form>
+
+<script>
+
+var url = "<?php echo isset($_GET['url']) ? urlencode($_GET['url']):''; ?>";
+var api = '/seoSimple/api/';
+
+$(document).ready(function(){
+	$('#report-title:first').click(function(){
+		$('#form-run-report').toggleClass('hide');
+		$('#save-edit-wrap').toggleClass('hide');
+	});
+
+	//this is for the save.php
+	if(document.location.href.indexOf('save.php')>0){
+		$( "#save-edit" ).prop('checked',true);
+		console.log('hello world');
+	}else{
+		$( "#save-edit" ).prop('checked',false);
+	}
+	
+	//save or edit
+	$( "#save-edit" ).button().click(function(evt){
+		$btn = $(evt.target);
+		
+		//save
+		if($btn.prop('checked')){
+			$('textarea:not(#save-form-data)').each(function(){
+				var $p = $(document.createElement('p')).html($(this).val()).attr('class','recommendation');
+				$(this).before($p).detach();
+			});
+			
+			if(document.location.href.indexOf('save.php')<0){
+				var content = '<html><head>' + $('head').html() + '</head>' + $('#all-content').html() + '</body></html>';
+				$('#save-form textarea:first').val(content).parent().submit();
+			}
+		//edit
+		}else{
+			$('.recommendation').each(function(){
+				var $txt = $(document.createElement('textarea')).val($(this).html());
+				$(this).before($txt).detach();
+			});
+		}
+
+	});
+});
+
+//do a serp query
+function serpQuery(q){
+	var $pop = $('#popup');
+	var $child = $pop.children('#popup-content');
+
+	$child.html('Loading...');
+	
+	$.getJSON(api+"google/getSerps/"+encodeURIComponent(q)+"?request="+url,function(data){
+		
+		$child.html("");
+		for(var x in data.data){
+			console.log(data.data[x]);
+			var $div = $(document.createElement('div'));
+			var $h = $(document.createElement('h4')).html((x*1+1)+'.&nbsp;&nbsp;'+data.data[x].title);
+			var $p = $(document.createElement('p')).html(data.data[x].htmlSnippet);
+			var $a = $(document.createElement('a')).html(data.data[x].displayLink).attr('href',data.data[x].link).attr('target','_blank');
+
+			$div.append($h).append($p).append($a);
+			
+			if(data.data[x].mime == null){
+				var $a = $(document.createElement('a'));
+				var url = '?url='+encodeURIComponent(data.data[x].link);
+				$a.attr('href',url).html('Create Report').attr('target','_blank');
+				$div.append(document.createElement('br'));
+				$div.append($a);
+				$a.button({icons:{primary:'ui-icon-document'}});
+			}else{
+				var $div2 = $(document.createElement('div')).html('No report available.');
+				$div.append($div2);
+			}
+			
+			
+			$child.append($div);
+		}
+		
+		
+	});
+
+	$('#popup').dialog({
+		modal: true,
+		height: 400,
+		width: 700,
+		title: "Top Google Results - " + q
+	});
+}
+
+</script>
+
+</div>
+
 </body>
 
 <script>
 $(document).ready(function(){
-	var url = "<?php echo urlencode($_GET['url']); ?>";
-	var api = '/seoSimple/api/';
+	
 
 	function createList(label, value){
 		var $ul = $(document.createElement('li'));
-		return $ul.html('<i style="display:inline-block;width:250px">'+label+'</i> '+value);
+		return $ul.html('<i class="li-label">'+label+'</i> '+value);
 	};
 
 	function w3cErrToString(info){
@@ -171,36 +303,7 @@ $(document).ready(function(){
 		return $tr;
 	}
 
-	//do a serp query
-	function serpQuery(q){
-		var $pop = $('#popup');
-		var $child = $pop.children('#popup-content');
-
-		$child.html('Loading...');
-		
-		$.getJSON(api+"google/getSerps/"+encodeURIComponent(q)+"?request="+url,function(data){
-			console.log(data); 
-			$child.html("");
-			for(var x in data.data){
-				console.log(data.data[x]);
-				var $div = $(document.createElement('div'));
-				var $h = $(document.createElement('h4')).html((x*1+1)+'.&nbsp;&nbsp;'+data.data[x].title);
-				var $p = $(document.createElement('p')).html(data.data[x].htmlSnippet);
-				var $a = $(document.createElement('a')).html(data.data[x].displayLink).attr('href',data.data[x].link).attr('target','_blank');
-				$div.append($h).append($p).append($a);
-				$child.append($div);
-			}
-			
-			
-		});
-
-		$('#popup').dialog({
-			modal: true,
-			height: 400,
-			width: 700,
-			title: "Top Google Results - " + q
-		});
-	}
+	
 
 	/*
 	//google information
@@ -249,7 +352,11 @@ $(document).ready(function(){
 		$ul = $(document.createElement('ul'));
 		for(var i=0; i<5; i++){
 			var temp = data.data.getKeyWords.data[i];
-			$li = createList(temp.words[0], temp.count);
+
+			var $a = $(document.createElement('a')).attr('onclick','serpQuery(\''+temp.words[0]+'\')').
+			attr('class','li-label').html(temp.words[0]);
+			
+			$li = $(document.createElement('li')).append($a).append(temp.count);
 
 			//add phrase data
 			var phrase = data.data.getPhrases.data[temp.normal][0];
@@ -266,11 +373,7 @@ $(document).ready(function(){
 				var middle = phrase[x].substr(start, end-start);
 				var back = phrase[x].substr(end+1);
 
-				var $a = $(document.createElement('a'));
-				$a.click(function(q){
-					return function(){serpQuery(q);};
-				}(phrase[x]));
-				$a.html(front+' <b>'+middle+'</b> '+back);
+				var $a = $(document.createElement('a')).attr('onclick','serpQuery(\''+temp.words[0]+'\')').html(front+' <b>'+middle+'</b> '+back);
 				
 				$ul2.append($(document.createElement('li')).append($a));
 
@@ -445,10 +548,6 @@ $(document).ready(function(){
 			$w3warn.html('No Warnings');
 		}
 		
-	});
-
-	$('#report-title:first').click(function(){
-		$('#form-run-report').toggleClass('hide');
 	});
 });
 
