@@ -186,7 +186,10 @@ textarea{
 	<!-- /api/server/getValidateW3Cwarnings -->
 	<h4>Warnings</h4>
 	<p id="w3c-warning">Loading...</p>
-	
+
+<h3>Keywords (Extended)</h3>
+	<h4>Contains phrases using listed key words</h4>
+	<p id="body-keywords2">Loading...</p>
 
 <?php } ?>
 
@@ -327,8 +330,8 @@ $(document).ready(function(){
 	
 	//google information
 	$.getJSON(api+"google/getPageRank|getBacklinks?request="+url,function(data){
-		console.log(data);
-		var $pr = $('#google-pr').html(data.data.getPageRank.data);
+		
+		$('#google-pr').html(data.data.getPageRank.data);
 		var $bl = $('#google-backlinks');
 
 		var $ul = $(document.createElement('ul'));
@@ -368,14 +371,21 @@ $(document).ready(function(){
 
 		//word count
 		var $words = $('#body-keywords');
+		var $phrases = $('#body-keywords2');
+		
 		$ul = $(document.createElement('ul'));
+		$pul = $(document.createElement('ul'));
 		for(var i=0; i<5; i++){
 			var temp = data.data.getKeyWords.data[i];
 
 			var $a = $(document.createElement('a')).attr('onclick','serpQuery(\''+temp.words[0]+'\')').
 			attr('class','li-label').html(temp.words[0]);
+
+			var $a2 = $(document.createElement('a')).attr('onclick','serpQuery(\''+temp.words[0]+'\')').
+			attr('class','li-label').html(temp.words[0]);
 			
-			$li = $(document.createElement('li')).append($a).append(temp.count);
+			$li = $(document.createElement('li')).append($a2).append(temp.count);
+			$pli = $(document.createElement('li')).append($a).append(temp.count);
 
 			//add phrase data
 			var phrase = data.data.getPhrases.data[temp.normal][0];
@@ -397,10 +407,13 @@ $(document).ready(function(){
 				$ul2.append($(document.createElement('li')).append($a));
 
 			}
-			$li.append($ul2);
+			$pli.append($ul2);
+			$pul.append($pli);
+
 			$ul.append($li);
 		}
 		$words.html($ul);
+		$phrases.html($pul);
 
 		//inline css
 		var $icss = $('#body-inline-style');
