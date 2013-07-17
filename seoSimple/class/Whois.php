@@ -25,7 +25,6 @@ class Whois
 		}
 		 
 		$raw = strtolower(strip_tags($result));
-		
 		return self::parse($raw);
 	}
 	

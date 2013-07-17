@@ -24,12 +24,12 @@ $host_loc = $host . $base_path;
 
 <title>SimpleSEO Report</title>
 
-<link href="http://<?php echo $host_loc; ?>/css/custom-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet">
+<link href="css/custom-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet">
 
 <link rel="stylesheet" type="text/css" href="http://www.w3.org/StyleSheets/Core/parser.css?family=5&doc=Sampler">
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="http://<?php echo $host_loc; ?>/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
 
 
 <style>
@@ -73,8 +73,10 @@ textarea{
 
 .li-label{
 	display:inline-block;
-	width:250px;
+	width:275px;
+	vertical-align: top;
 }
+
 </style>
 
 </head>
@@ -141,6 +143,7 @@ textarea{
 <h3>Social Stats</h3>
 	<h4>Rcommendations...</h4>
 	<textarea></textarea>
+	
 	<p id="social">Loading...</p>
 	
 <h3>Google Stats</h3>
@@ -151,6 +154,22 @@ textarea{
 
 	<h4>Back Links</h4>
 	<p id="google-backlinks">Loading...</p>
+	
+<h3>SEO Moz Stats</h3>
+	<h4>Rcommendations...</h4>
+	<textarea>SEO Moz is site which collects various link specific data about sites.</textarea>
+	<p id="moz">Loading...</p>
+	
+<h3>SEMrush Stats</h3>
+	<h4>Rcommendations...</h4>
+	<textarea>SEMrush collects general data about various search terms for competition analysis.  
+	This data is domain specific, but gives insight into what your competitors are doing.</textarea>
+	
+	<h4>Domain Data</h4>
+	<p id="semrush-domain">Loading...</p>
+	
+	<h4>Domain Keyword Data</h4>
+	<p id="semrush-keywords">Loading...</p>
 	
 <h3>W3C Validation</h3>
 	<h4>Rcommendations...</h4>
@@ -305,7 +324,7 @@ $(document).ready(function(){
 
 	
 
-	/*
+	
 	//google information
 	$.getJSON(api+"google/getPageRank|getBacklinks?request="+url,function(data){
 		console.log(data);
@@ -322,7 +341,7 @@ $(document).ready(function(){
 		}
 		$bl.html($ul);
 	});
-	*/
+	
 	
 	//social
 	$.getJSON(api+"social/all?request="+url,function(data){
@@ -547,6 +566,45 @@ $(document).ready(function(){
 		}else{
 			$w3warn.html('No Warnings');
 		}
+		
+	});
+
+	//some moz data
+	$.getJSON(api+"moz/all?request="+url,function(data){
+		var $ul = $(document.createElement('ul'));
+		$ul.append(createList('Page Authority',data.data.getPageAuthority.data));
+		$ul.append(createList('Domain Authority',data.data.getDomainAuthority.data));
+		$ul.append(createList('Inbound Links',data.data.getTotalInboundLinks.data));
+		$ul.append(createList('Inboutnd Domains',data.data.getTotalInboundDomains.data));
+		$('#moz').html($ul);
+	});
+
+	//semRUSH data
+	$.getJSON(api+"SemRush/all?request="+url,function(data){
+		var $ul = $(document.createElement('ul'));
+		
+		for(var x in data.data.getKeyWordsReport.data){
+			var $li = $(document.createElement('li'));
+			var $ul2 = $(document.createElement('ul'));
+		
+			//key word report
+			var temp = data.data.getKeyWordsReport.data[x];
+			
+			$li.html(temp.Ph.data);
+			for(var y in temp)	
+				$ul2.append(createList(temp[y]['short'],temp[y].data));
+
+			$ul.append($li.append($ul2));
+		}
+		$('#semrush-keywords').html($ul);
+		
+			
+		$ul = $(document.createElement('ul'));
+		for(var x in data.data.getDomainReport.data){
+			var temp = data.data.getDomainReport.data[x];
+			$ul.append(createList(temp['short'],temp.data));
+		}
+		$('#semrush-domain').html($ul);
 		
 	});
 });

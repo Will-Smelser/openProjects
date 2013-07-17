@@ -27,7 +27,7 @@ class MozWrap{
 	}
 	
 	public function getTotalInboundDomains(){
-		return $this->['linkingRootDomains'];
+		return $this->moz['linkingRootDomains'];
 	}
 }
 

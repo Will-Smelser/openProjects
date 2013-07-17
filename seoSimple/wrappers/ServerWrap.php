@@ -14,7 +14,13 @@ class ServerWrap extends ServerInfo {
 	 */
 	public function getWhois(){
 		$info = parse_url($this->url);
-		return Whois::lookup($info['host']);
+		
+		//make sure there is no subdomains
+		$parts = explode('.',$info['host']);
+		$ltd = array_pop($parts);
+		$name = array_pop($parts);
+		
+		return Whois::lookup($name.'.'.$ltd);
 	}
 }
 ?>
