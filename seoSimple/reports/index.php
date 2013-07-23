@@ -471,7 +471,7 @@ $(document).ready(function(){
 			var sizeAct = (temp.result === 1) ? temp.actualWidth + 'x' + temp.actualHeight : 'N/A';  
 			var row = [
 				result,
-				'<div style="text-overflow:clip;max-width:250px;"><a href="'+temp.url+'">'+temp.url.substr(temp.url.lastIndexOf("/") + 1)+'</a></div>',
+				'<div style="text-overflow:clip;max-width:250px;"><a target="_blank" href="'+temp.url+'">'+temp.url.substr(temp.url.lastIndexOf("/") + 1)+'</a></div>',
 				temp.alt,temp.title,
 				sizeAct,
 				sizeHtml

@@ -166,6 +166,8 @@ class ImageParser{
 			$height = $data[1];
 			
 			$url = $node->attributes['src'];
+			if(!preg_match('@^https?://@i',$url) && !preg_match('/^data/',$url))
+				$url = 'http://'.$node->host.'/'.ltrim($url,'/\\');
 			
 			$resp = new ImageLoadResponse();
 			$resp->htmlWidth = $width;

@@ -21,7 +21,7 @@ class PageLoadResponse{
  *
  */
 class PageLoad{
-	private static $loadPage = 'http://openprojects.local/seoSimple/class/helpers/';
+	private $loadPage;
 	
 	private $mh;
 	private $curls = array();
@@ -32,10 +32,10 @@ class PageLoad{
 	 * @param string $page The php page to make requests to, but relative
 	 * to self::$loadPage
 	 * 
-	 * @see self::$loadPage
+	 * @see $loadPage
 	 */
 	public function PageLoad($page='PageLoadTime.php'){
-		self::$loadPage .= $page;
+		$this->loadPage = 'http://' . SEO_HOST . SEO_CLASS_HELPERS . $page;
 		$this->mh = curl_multi_init();
 	}
 	
@@ -51,7 +51,7 @@ class PageLoad{
 		$args = func_get_args();
 		$url = array_shift($args);
 		
-		$url = self::$loadPage . '?arg0=' . urlencode($url);
+		$url = $this->loadPage . '?arg0=' . urlencode($url);
 		
 		foreach($args as $key=>$arg){
 			$temp = $key+1;
