@@ -1,5 +1,7 @@
 <?php
 header("X-XSS-Protection: 0");
-echo $_POST['data'];
-
+if(get_magic_quotes_gpc())
+	echo  stripslashes($_POST['data']);
+else
+	echo $_POST['data'];
 ?>

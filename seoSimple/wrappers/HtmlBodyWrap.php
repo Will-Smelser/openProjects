@@ -98,10 +98,14 @@ class HtmlBodyWrap{
 	 * @return array An array of string (phrases) which contain the normalized word.
 	 */
 	public function getPhrasesSpecific($word=''){
-		if(empty($word))
-			$word = $this->getWC()->getCount()[0]->normal;
+		$temp = $this->getWC();
+		if(empty($word)){
+			$temp2 = $temp->getCount();
+			$word = $temp2[0]->normal;
+		}
 		
-		return $this->getWC()->getPhrasesWithWord($word);
+		
+		return $temp->getPhrasesWithWord($word);
 	}
 	
 	private function getWC(){

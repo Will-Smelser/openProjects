@@ -62,8 +62,12 @@ class SEOstats_Google extends SEOstats implements services, default_settings
         return self::getSearchResultsTotal($query);
     }
     
-    private function doPagedRequest($api, $url, $page){
-    	return json_decode($this->httpSendWrapper(sprintf($api, $url)."&nextPage=$page"));
+    private function doPagedRequest($api, $url, $index){
+    	$start = "";
+    	if($index !== 0)
+    		$start = "&start=".$index;
+    	
+    	return json_decode($this->httpSendWrapper(sprintf($api, $url).$start));
     }
     
     /**
@@ -87,7 +91,6 @@ class SEOstats_Google extends SEOstats implements services, default_settings
      */
     public function getBacklinks($url = false, $total=10)
     {
-    	
     	$url = false != $url ? $url : self::getUrl();
     	$url = urlencode("link:$url");
     	
@@ -98,7 +101,8 @@ class SEOstats_Google extends SEOstats implements services, default_settings
     	if(!is_object($resp) || !isset($resp->items)) return null;
     	
     	$count = count($resp->items);
-    	$results = $resp->items;
+    	$results = $resp->items;    	
+    	
     	
     	for($i=1; $count < $total && isset($resp->queries->nextPage); $i++){
     		
@@ -107,7 +111,7 @@ class SEOstats_Google extends SEOstats implements services, default_settings
     		
     		$temp = $this->doPagedRequest(services::GOOGLE_APISEARCH_URL2, $url, $i);
     		$count += count($resp->items);
-    		
+    		    		
     		$results = array_merge($results, $temp->items);
     	}
     	

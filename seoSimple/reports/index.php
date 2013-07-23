@@ -204,7 +204,7 @@ textarea{
 <script>
 
 var url = "<?php echo isset($_GET['url']) ? urlencode($_GET['url']):''; ?>";
-var api = '/seoSimple/api/';
+var api = '/openProjects/seoSimple/api/';
 
 $(document).ready(function(){
 	$('#report-title:first').click(function(){

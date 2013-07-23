@@ -33,7 +33,8 @@ class SocialWrap{
 	 * @return int The number of likes
 	 */
 	public function getFbLikeCount(){
-		return $this->getFb()['like_count'];
+		$temp = $this->getFb();
+		return $temp['like_count'];
 	}
 	
 	/**
@@ -41,7 +42,8 @@ class SocialWrap{
 	 * @return int Get the facebook share count
 	 */
 	public function getFbShareCount(){
-		return $this->getFb()['share_count'];
+		$temp = $this->getFb();
+		return $temp['share_count'];
 	}
 	
 	/**
@@ -49,7 +51,8 @@ class SocialWrap{
 	 * @return int the facebook comment count
 	 */
 	public function getFbCommentCount(){
-		return $this->getFb()['comment_count'];
+		$temp = $this->getFb();
+		return $temp['comment_count'];
 	}
 	
 	/**

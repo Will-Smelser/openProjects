@@ -2,7 +2,7 @@
 class Whois
 {
 	const timeout = 30;
-	const whoishost = 'whois.internic.net';
+	const whoishost = 'reports.internic.net/cgi/whois';//'whois.internic.net';
 	
 	const keys = 'domain name,registrar,whois server,referral url,name server,name server,updated date,creation date,expiration date';
 
@@ -14,15 +14,7 @@ class Whois
 		$errno = 0;
 		$errstr='';
 
-		$fd = fsockopen(whois::whoishost,43, $errno, $errstr, whois::timeout);
-
-		if ($fd){
-			fputs($fd, $domain."\015\012");
-			while (!feof($fd))    {
-				$result .= fgets($fd,128) . "<br />";
-			}
-			fclose($fd);
-		}
+		$result = file_get_contents('http://'.Whois::whoishost.'?type=domain&whois_nic=inedo.com');
 		 
 		$raw = strtolower(strip_tags($result));
 		return self::parse($raw);

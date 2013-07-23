@@ -49,8 +49,11 @@ class GoogleInfo{
 	}
 	
 	public function getSerps($query, $count=10){
-		$items = $this->google->getSearchResults(urlencode($query[0]), $count)->items;
+		$temp = $this->google->getSearchResults(urlencode($query[0]), $count);
 		
+		if(!isset($temp->items)) return array();
+		
+		$items = $temp->items;
 		
 		$result = array();
 		foreach($items as $res){

@@ -11,7 +11,8 @@ class Controller implements Control{
 	public $skip = array();
 	
 	public function no_method(){
-		echo (new ApiResponseJSON())->failure("Invalid Request - No Method or Class")->doPrint();
+		$api = new ApiResponseJSON();
+		echo $api->failure("Invalid Request - No Method or Class")->doPrint();
 	}
 	
 	public function exec(&$obj, $method, $args=null){
@@ -20,24 +21,27 @@ class Controller implements Control{
 			$results = array();
 			
 			foreach(explode('|', $method) as $mthd){
-				
+				$api = new ApiResponseJSON();
 				if($this->isValidMethod($obj, $mthd, $this->skip))
-					$results[$mthd] = (new ApiResponse())->success("Success", $obj->$mthd($args))->toArray();
+					$results[$mthd] = $api->success("Success", $obj->$mthd($args))->toArray();
 				else
-					$results[$mthd] = (new ApiResponse())->success("Success", $this->no_method($args))->toArray();
+					$results[$mthd] = $api->success("Success", $this->no_method($args))->toArray();
 			}
-			
-			echo (new ApiResponseJSON())->success("Success", $results)->doPrint();
+			$api = new ApiResponseJSON();
+			echo $api->success("Success", $results)->doPrint();
 		//run all api methods
 		}else if(stripos($method,'all')!==false){
 			$results = array();
+			
 			foreach(get_class_methods($obj) as $mthd){
 				if(stripos($method,'~'.$mthd) === false && $this->isValidMethod($obj, $mthd, $this->skip)){
-					$results[$mthd] = (new ApiResponse())->success("Success", $obj->$mthd($args))->toArray();
+					$api = new ApiResponseJSON();
+					$results[$mthd] = $api->success("Success", $obj->$mthd($args))->toArray();
 				}
 			}
 			
-			echo (new ApiResponseJSON())->success("Success", $results)->doPrint();
+			$api = new ApiResponseJSON();
+			echo $api->success("Success", $results)->doPrint();
 			
 		//run a specific api method
 		}else if(!$this->isValidMethod($obj, $method, $this->skip)){
@@ -46,7 +50,8 @@ class Controller implements Control{
 		//method did not exist for the given class
 		}else{
 			$result = $obj->$method($args);
-			echo (new ApiResponseJSON())->success("Success", $result)->doPrint();
+			$api = new ApiResponseJSON();
+			echo $api->success("Success", $result)->doPrint();
 		}
 	}
 	

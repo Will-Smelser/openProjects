@@ -22,7 +22,8 @@ class HttpRequest extends SEOstats
     {
         $ch = curl_init($url);
         curl_setopt_array($ch, array(
-            CURLOPT_USERAGENT => sprintf('SEOstats %s https://github.com/eyecatchup/SEOstats', SEOstats::BUILD_NO),
+            //CURLOPT_USERAGENT => sprintf('SEOstats %s https://github.com/eyecatchup/SEOstats', SEOstats::BUILD_NO),
+            CURLOPT_USERAGENT=>'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.72 Safari/537.36',
             CURLOPT_RETURNTRANSFER  => 1,
             CURLOPT_CONNECTTIMEOUT  => 30,
             CURLOPT_FOLLOWLOCATION  => 1,
