@@ -2,22 +2,19 @@
 <head>
 
 <?php 
-$host = $_SERVER['SERVER_NAME'];
+$host = str_replace('\\','/',$_SERVER['SERVER_NAME']);
+$base_path = str_replace('\\','/',__DIR__);
 
-$base_path = __DIR__;
-$base_path = str_replace($_SERVER['DOCUMENT_ROOT'],'',$base_path);
+$last = array_pop(explode('/',$_SERVER['DOCUMENT_ROOT']));
+$start = strpos($base_path,$last)+strlen($last);
+
+$base_path = substr($base_path, $start);
+
 if (realpath( $base_path ) !== false) {
 	$base_path = realpath($base_path).'/';
 }
 
-$base_path = str_replace('\\','/',__DIR__);
-$path = str_replace('\\','/',$_SERVER['DOCUMENT_ROOT']);
-
-$base_path = str_replace($path,'',$base_path);
-
 $base_path = '/'.trim($base_path, '/').'/';
-$base_path = str_replace('\\', '/', $base_path);
-
 
 $host_loc = $host . $base_path;
 ?>
@@ -191,13 +188,12 @@ textarea{
 	<h4>Contains phrases using listed key words</h4>
 	<p id="body-keywords2">Loading...</p>
 
-<?php } ?>
 
 <div id="popup" title="Information">
 	<div id="popup-content"></div>
 </div>
 
-<form id="save-form" action="save.php" method="POST" target="_blank" style="display:none">
+<form id="save-form" action="http://<?php echo $host_loc; ?>save.php" method="POST" target="_blank" style="display:none">
 	<textarea name="data" id="save-form-data"></textarea>
 </form>
 
@@ -583,7 +579,7 @@ $(document).ready(function(){
 	});
 
 	//some moz data
-	$.getJSON(api+"moz/all?request="+url,function(data){
+	$.getJSON(api+"moz/getMozLinks?request="+url,function(data){
 		var $ul = $(document.createElement('ul'));
 		$ul.append(createList('Page Authority',data.data.getPageAuthority.data));
 		$ul.append(createList('Domain Authority',data.data.getDomainAuthority.data));
@@ -623,5 +619,7 @@ $(document).ready(function(){
 });
 
 </script>
+
+<?php }else{echo '</body>';} ?>
 
 </html>
