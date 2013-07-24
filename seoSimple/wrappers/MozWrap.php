@@ -1,17 +1,25 @@
 <?php
 
-require_once SEO_API_PATH . "/vendors/seostats/src/seostats.php";
+require_once SEO_API_PATH . "/class/MozConnect.php";
+require_once SEO_API_PATH . "/class/HtmlParser.php";
 
 class MozWrap{
 	
 	public $url;
 	public $moz;
-	public $stats;
 	
 	public function MozWrap($url){
-		$this->stats = new SEOstats($url);
-		$this->moz = $this->stats->OpenSiteExplorer()->getPageMetrics();
 		$this->url = $url;
+		
+		$moz = new MozConnect();
+		$parser = new HtmlParser($moz->getData($url), $url);
+		
+		$tags = $parser->getTags('td');
+		$this->moz['domainAuthority'] = strip_tags($tags[0]->text);
+		$this->moz['pageAuthority'] = strip_tags($tags[1]->text);
+		$this->moz['linkingRootDomains'] = strip_tags($tags[2]->text);
+		$this->moz['totalInboundLinks'] = strip_tags($tags[3]->text);
+		
 	}
 	
 	public function getPageAuthority(){
