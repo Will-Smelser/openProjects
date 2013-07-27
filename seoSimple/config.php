@@ -23,6 +23,7 @@ define('SEO_URI_BASE',ltrim($docRoot,'/'));
 define('SEO_URI_API', SEO_URI_BASE.'api/');
 define('SEO_URI_CLASS',SEO_URI_BASE.'class/');
 define('SEO_URI_HELPERS', SEO_URI_CLASS.'helpers/');
+define('SEO_URI_REPORTS', SEO_URI_BASE . 'reports/');
 
 error_reporting(E_ALL);
 ?>

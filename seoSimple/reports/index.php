@@ -1,17 +1,28 @@
-<!DOCTYPE html>
+<?php 
+
+require_once '../config.php';
+
+if(isset($_GET['data'])){
+	$vars = explode('/', $_GET['data']);
+	
+	if(isset($vars[0]) && $vars[0] === 'save'){
+		include 'save.php';
+		exit;
+	}
+}
+
+
+?><!DOCTYPE html>
 <head>
-
-<?php require_once '../config.php'; ?>
-
 
 <title>SimpleSEO Report</title>
 
-<link href="css/custom-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet">
+<link href="http://<?php echo SEO_HOST . SEO_URI_REPORTS; ?>css/custom-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet">
 
 <link rel="stylesheet" type="text/css" href="http://www.w3.org/StyleSheets/Core/parser.css?family=5&doc=Sampler">
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="http://<?php echo SEO_HOST . SEO_URI_REPORTS; ?>js/jquery-ui-1.10.3.custom.min.js"></script>
 
 
 <style>
@@ -183,14 +194,18 @@ textarea{
 	<div id="popup-content"></div>
 </div>
 
-<form id="save-form" action="http://<?php echo SEO_HOST; ?>/save.php" method="POST" target="_blank" style="display:none">
+<?php 
+//get the filename, we want this to save as
+$filename = str_replace('/','-',preg_replace('@https?://@i','',$_GET['url'])) . '.html';
+?>
+<form id="save-form" action="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>save/<?php echo $filename; ?>" method="POST" target="_blank" style="display:none">
 	<textarea name="data" id="save-form-data"></textarea>
 </form>
 
 <script>
 
 var url = "<?php echo isset($_GET['url']) ? urlencode($_GET['url']):''; ?>";
-var api = "<?php echo 'http://'.SEO_HOST.'/'.SEO_URI_API; ?>";//'/openProjects/seoSimple/api/';
+var api = "<?php echo 'http://'.SEO_HOST.'/'.SEO_URI_API; ?>";
 
 $(document).ready(function(){
 	$('#report-title:first').click(function(){
