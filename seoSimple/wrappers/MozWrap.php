@@ -11,10 +11,14 @@ class MozWrap{
 	public function MozWrap($url){
 		$this->url = $url;
 		
-		$this->moz = new MozConnect();
+		$this->moz = new MozConnect('willsmelser@gmail.com','Will1480');
 		
 	}
 	
+	/**
+	 * This is the moz link main page data
+	 * @return multitype:NULL
+	 */
 	public function getMozLinks(){
 		
 		$parser = new HtmlParser($this->moz->getData(MozServices::OSE, $this->url),$this->url);
@@ -29,7 +33,11 @@ class MozWrap{
 		);
 	}
 	
-	public function getMozJustDisc(){
+	/**
+	 * These are the SEOmoz just discovered data
+	 * @return multitype:
+	 */
+	public function getMozJustDiscovered(){
 		$parser = new HtmlParser($this->moz->getData(MozServices::JD, $this->url),$this->url);
 		
 		$tables = $parser->getTags('table');
@@ -66,22 +74,6 @@ class MozWrap{
 		}
 		return $results;
 	}
-	
-	
-	/*
-	public function getInboundLinks(){
-		$xpath = new DOMXpath($this->doc);
-		
-		$elements = $xpath->query("/html/body/div[@id='content']/table[@id='results']/tbody/tr");
-		foreach($elements as $el){
-			$children = $el->childNodes;
-			for($i=0; $i < $children->length; $i++){
-				var_dump($children->item($i));
-			}
-		}
-		
-	}
-	*/
 }
 
 ?>

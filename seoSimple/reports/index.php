@@ -2,6 +2,8 @@
 <head>
 
 <?php 
+require_once '../config.php';
+
 $host = str_replace('\\','/',$_SERVER['SERVER_NAME']);
 $base_path = str_replace('\\','/',__DIR__);
 
@@ -17,6 +19,7 @@ if (realpath( $base_path ) !== false) {
 $base_path = '/'.trim($base_path, '/').'/';
 
 $host_loc = $host . $base_path;
+
 ?>
 
 <title>SimpleSEO Report</title>
@@ -155,7 +158,12 @@ textarea{
 <h3>SEO Moz Stats</h3>
 	<h4>Rcommendations...</h4>
 	<textarea>SEO Moz is site which collects various link specific data about sites.</textarea>
-	<p id="moz">Loading...</p>
+	
+	<h4>Moz General Information</h4>
+	<p id="moz-link">Loading...</p>
+	
+	<h4>Moz Just Discovered Backlinks</h4>
+	<p id="moz-disc">Loading...</p>
 	
 <h3>SEMrush Stats</h3>
 	<h4>Rcommendations...</h4>
@@ -200,7 +208,7 @@ textarea{
 <script>
 
 var url = "<?php echo isset($_GET['url']) ? urlencode($_GET['url']):''; ?>";
-var api = '/openProjects/seoSimple/api/';
+var api = "<?php echo SEO_API_PATH_URL; ?>";//'/openProjects/seoSimple/api/';
 
 $(document).ready(function(){
 	$('#report-title:first').click(function(){
@@ -579,13 +587,37 @@ $(document).ready(function(){
 	});
 
 	//some moz data
-	$.getJSON(api+"moz/getMozLinks?request="+url,function(data){
+	$.getJSON(api+"moz/all?request="+url,function(data){
+
+
+		
 		var $ul = $(document.createElement('ul'));
-		$ul.append(createList('Page Authority',data.data.getPageAuthority.data));
-		$ul.append(createList('Domain Authority',data.data.getDomainAuthority.data));
-		$ul.append(createList('Inbound Links',data.data.getTotalInboundLinks.data));
-		$ul.append(createList('Inboutnd Domains',data.data.getTotalInboundDomains.data));
-		$('#moz').html($ul);
+		$ul.append(createList('Page Authority',data.data.getMozLinks.data.pageAuthority));
+		$ul.append(createList('Domain Authority',data.data.getMozLinks.data.domainAuthority));
+		$ul.append(createList('Inbound Links',data.data.getMozLinks.data.totalInboundLinks));
+		$ul.append(createList('Inboutnd Domains',data.data.getMozLinks.data.linkingRootDomains));
+		$('#moz-link').html($ul);
+
+		$ul = $(document.createElement('ul'));
+		
+		
+		for(var x in data.data.getMozJustDiscovered.data){
+			
+			var $li = $(document.createElement('li'));
+			var $ul2 = $(document.createElement('ul'));
+			
+			var temp = data.data.getMozJustDiscovered.data[x];
+			$ul2.append(createList('Link Text',temp.text));
+			$ul2.append(createList('Page Authority',temp.pageAuthority));
+			$ul2.append(createList('Domain Authority',temp.DomainAuthority));
+			$ul2.append(createList('Discovery Time',temp.DiscoveryTime));
+			
+			$li.append(temp.link);
+			$li.append($ul2);
+			$ul.append($li);
+		}
+		$('#moz-disc').html($ul);
+		
 	});
 
 	//semRUSH data
