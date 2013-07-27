@@ -1,6 +1,6 @@
 <?php
 
-require_once SEO_API_PATH . '/wrappers/MozWrap.php';
+require_once SEO_PATH_WRAPPERS . 'MozWrap.php';
 
 class Moz extends Controller{
 	

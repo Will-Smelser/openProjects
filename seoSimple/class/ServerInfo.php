@@ -7,7 +7,7 @@
  */
 
 require_once 'Services/W3C/HTMLValidator.php';
-require_once 'helpers/Utility.php';
+require_once SEO_PATH_HELPERS.'Utility.php';
 
 class ServerInfo{
 	protected $url;

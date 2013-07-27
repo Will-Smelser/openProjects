@@ -1,6 +1,6 @@
 <?php
-require_once SEO_API_PATH . '/class/ServerInfo.php';
-require_once SEO_API_PATH . '/class/Whois.php';
+require_once SEO_PATH_CLASS . 'ServerInfo.php';
+require_once SEO_PATH_CLASS . 'Whois.php';
 
 class ServerWrap extends ServerInfo {
 	public function ServerWrap($url){

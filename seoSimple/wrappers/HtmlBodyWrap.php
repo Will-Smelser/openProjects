@@ -1,6 +1,6 @@
 <?php
 
-include SEO_API_PATH . "/class/WordCount.php";
+include SEO_PATH_CLASS . 'WordCount.php';
 
 class HtmlBodyWrap{
 	protected $anchors;

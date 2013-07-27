@@ -1,10 +1,29 @@
 <?php
 
+/**
+ * A list of moz opensite explorer endpoint to request data from.
+ * @author Will
+ *
+ */
 class MozServices{
 	const OSE = 'http://www.opensiteexplorer.org/links?site=';
 	const JD = 'http://www.opensiteexplorer.org/just-discovered?site=';
 }
 
+/**
+ * Will attempt to get load data anonymously, but some
+ * things require a login.  It a login is required this
+ * will login using the given credentials.
+ * 
+ * Once login is complete, the session is stored to be used
+ * later.
+ * 
+ * This operation can take some time, since if a login is required,
+ * moz redirects several time, and then a login has to happen, which
+ * then a page request cab be made.  Not very efficient.
+ * @author Will
+ *
+ */
 class MozConnect{
 	
 	private $formKeyRedirect = 'data[User][redirect]';
@@ -18,6 +37,8 @@ class MozConnect{
 	
 	private $mozCookie = 'MozCookie.txt';
 	private $mozLogin = 'https://moz.com/login';
+	
+	private $loginAttempt = 0;
 	
 	
 	public function MozConnect($user, $pass){
@@ -42,7 +63,7 @@ class MozConnect{
 			CURLOPT_RETURNTRANSFER  => 1,
 			CURLOPT_CONNECTTIMEOUT  => 30,
 			CURLOPT_FOLLOWLOCATION  => 1,
-			CURLOPT_MAXREDIRS       => 2,
+			CURLOPT_MAXREDIRS       => 5,
 			CURLOPT_SSL_VERIFYPEER  => 0,
 			CURLOPT_COOKIEFILE      =>$this->cookieFile,
 			CURLOPT_COOKIEJAR       =>$this->cookieFile,
@@ -55,6 +76,13 @@ class MozConnect{
 	 * @return unknown
 	 */
 	private function login(){
+		if($this->loginAttempt > 2){
+			echo "LOGIN FAILED\n\n";
+			return 'Failed to login.';
+		}
+		
+		$this->loginAttempt++;
+		
 		$ch = curl_init($this->$mozLogin);
 		$this->setCurlOpts($ch);
 		
@@ -64,12 +92,20 @@ class MozConnect{
 			$this->formKeyPass=>$this->pass
 		);
 		
+		
 		$data = http_build_query($temp);
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 		
 		$response = curl_exec($ch);
 		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		
+		if(curl_errno($ch))
+		{
+			//echo 'error:' . curl_error($ch);
+			//TODO: Handle Error
+		}
+		
 		curl_close($ch);
 		
 		return $response;
@@ -88,6 +124,13 @@ class MozConnect{
 		
 		$response = curl_exec($ch);
 		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		
+		if(curl_errno($ch))
+		{
+			//TODO: Handle this error
+			//echo 'error:' . curl_error($ch);
+		}
+		
 		curl_close($ch);
 		
 		return $response;

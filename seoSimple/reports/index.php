@@ -1,26 +1,8 @@
 <!DOCTYPE html>
 <head>
 
-<?php 
-require_once '../config.php';
+<?php require_once '../config.php'; ?>
 
-$host = str_replace('\\','/',$_SERVER['SERVER_NAME']);
-$base_path = str_replace('\\','/',__DIR__);
-
-$last = array_pop(explode('/',$_SERVER['DOCUMENT_ROOT']));
-$start = strpos($base_path,$last)+strlen($last);
-
-$base_path = substr($base_path, $start);
-
-if (realpath( $base_path ) !== false) {
-	$base_path = realpath($base_path).'/';
-}
-
-$base_path = '/'.trim($base_path, '/').'/';
-
-$host_loc = $host . $base_path;
-
-?>
 
 <title>SimpleSEO Report</title>
 
@@ -201,14 +183,14 @@ textarea{
 	<div id="popup-content"></div>
 </div>
 
-<form id="save-form" action="http://<?php echo $host_loc; ?>save.php" method="POST" target="_blank" style="display:none">
+<form id="save-form" action="http://<?php echo SEO_HOST; ?>/save.php" method="POST" target="_blank" style="display:none">
 	<textarea name="data" id="save-form-data"></textarea>
 </form>
 
 <script>
 
 var url = "<?php echo isset($_GET['url']) ? urlencode($_GET['url']):''; ?>";
-var api = "<?php echo SEO_API_PATH_URL; ?>";//'/openProjects/seoSimple/api/';
+var api = "<?php echo 'http://'.SEO_HOST.'/'.SEO_URI_API; ?>";//'/openProjects/seoSimple/api/';
 
 $(document).ready(function(){
 	$('#report-title:first').click(function(){

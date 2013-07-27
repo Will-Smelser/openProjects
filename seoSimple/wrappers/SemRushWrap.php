@@ -1,5 +1,5 @@
 <?php
-require_once SEO_API_PATH . "/vendors/seostats/src/seostats.php";
+require_once SEO_PATH_VENDORS . 'seostats/src/seostats.php';
 
 class SemRushWrap{
 	public $url;

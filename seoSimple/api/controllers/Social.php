@@ -1,5 +1,5 @@
 <?php
-require_once SEO_API_PATH . '/wrappers/SocialWrap.php';
+require_once SEO_PATH_WRAPPERS . 'SocialWrap.php';
 
 class Social extends Controller{
 	

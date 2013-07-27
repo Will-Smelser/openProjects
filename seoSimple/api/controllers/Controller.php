@@ -1,7 +1,7 @@
 <?php
 
-require_once SEO_API_PATH . "/class/helpers/ApiResponse.php";
-require_once SEO_API_PATH . "/class/helpers/Vars.php";
+require_once SEO_PATH_HELPERS . 'ApiResponse.php';
+require_once SEO_PATH_HELPERS . 'Vars.php';
 
 interface Control{
 	public function no_method();

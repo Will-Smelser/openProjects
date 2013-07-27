@@ -1,7 +1,7 @@
 <?php
 
-require_once SEO_API_PATH . '/class/MozConnect.php';
-require_once SEO_API_PATH . '/class/HtmlParser.php';
+require_once SEO_PATH_CLASS . 'MozConnect.php';
+require_once SEO_PATH_CLASS . 'HtmlParser.php';
 
 class MozWrap{
 	
@@ -20,10 +20,12 @@ class MozWrap{
 	 * @return multitype:NULL
 	 */
 	public function getMozLinks(){
-		
-		$parser = new HtmlParser($this->moz->getData(MozServices::OSE, $this->url),$this->url);
-		
+		$html = $this->moz->getData(MozServices::OSE, $this->url);
+		file_put_contents('moz-links.txt',$html);
+		$parser = new HtmlParser($html,$this->url);
 		$data = $parser->getTags('td');
+		
+		
 		
 		return array(
 			'domainAuthority'=>trim(strip_tags($data[0]->text)),
@@ -38,7 +40,9 @@ class MozWrap{
 	 * @return multitype:
 	 */
 	public function getMozJustDiscovered(){
-		$parser = new HtmlParser($this->moz->getData(MozServices::JD, $this->url),$this->url);
+		$html = $this->moz->getData(MozServices::JD, $this->url);
+		file_put_contents('just-discovered.txt',$html);
+		$parser = new HtmlParser($html,$this->url);
 		
 		$tables = $parser->getTags('table');
 		
@@ -47,7 +51,7 @@ class MozWrap{
 		if(count($tables) > 0){
 			$table;
 			foreach($tables as $tbl){
-				if($tbl->attributes['id']=='results'){
+				if(isset($tbl->attributes['id']) && $tbl->attributes['id']=='results'){
 					$table = $tbl;
 					break;	
 				}

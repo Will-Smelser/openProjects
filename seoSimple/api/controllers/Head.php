@@ -1,6 +1,6 @@
 <?php
-require_once SEO_API_PATH . '/class/HtmlParser.php';
-require_once SEO_API_PATH . '/wrappers/HtmlHeadWrap.php';
+require_once SEO_PATH_CLASS . 'HtmlParser.php';
+require_once SEO_PATH_WRAPPERS . 'HtmlHeadWrap.php';
 
 class Head extends Controller{
 	public function Head($method){

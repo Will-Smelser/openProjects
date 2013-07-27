@@ -11,7 +11,7 @@ $_METHOD = isset($_VARS[1]) ? $_VARS[1] : 'no_method';
 @array_shift($_VARS);
 
 //verify the controller and method exist
-if(!file_exists(SEO_API_PATH . 'api/controllers/' . $_CONTROLLER . '.php'))
+if(!file_exists(SEO_PATH_CONTROLLERS . $_CONTROLLER . '.php'))
 	$_CONTROLLER = 'Error';
 
 ?>

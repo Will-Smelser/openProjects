@@ -1,5 +1,5 @@
 <?php 
-require_once SEO_API_PATH . '/class/GoogleInfo.php';
+require_once SEO_PATH_CLASS . 'GoogleInfo.php';
 
 class GoogleWrap extends GoogleInfo {
 	public function GoogleWrap($url){

@@ -1,6 +1,6 @@
 <?php
 
-require_once SEO_API_PATH . '/wrappers/ServerWrap.php';
+require_once SEO_PATH_WRAPPERS . 'ServerWrap.php';
 
 class Server extends Controller{
 	

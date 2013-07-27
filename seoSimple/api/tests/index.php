@@ -57,7 +57,7 @@ $tests = array('sample1.html');
 $class = explode('|',$_GET['class']);
 
 //get all the class methods
-require_once SEO_API_PATH . 'wrappers/'.$class[0].'.php';
+require_once SEO_PATH_WRAPPERS .$class[0].'.php';
 
 echo '<table border="1">';
 

@@ -1,6 +1,6 @@
 <?php
 
-require_once SEO_API_PATH . '/wrappers/GoogleWrap.php';
+require_once SEO_PATH_WRAPPERS . 'GoogleWrap.php';
 
 class Google extends Controller{
 	

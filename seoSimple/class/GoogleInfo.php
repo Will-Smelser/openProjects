@@ -1,5 +1,5 @@
 <?php
-require_once SEO_API_PATH . "/vendors/seostats/src/seostats.php";
+require_once SEO_PATH_VENDORS . 'seostats/src/seostats.php';
 
 class GoogleInfo{
 	public $cx = "AIzaSyA_wkenQWzwHcxuaozcfIc_gcuMo9E09TM";//google for SEO project key
