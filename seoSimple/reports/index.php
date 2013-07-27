@@ -5,7 +5,7 @@ require_once '../config.php';
 if(isset($_GET['data'])){
 	$vars = explode('/', $_GET['data']);
 	
-	if(isset($vars[0]) && $vars[0] === 'save'){
+	if(isset($vars[0]) && $vars[0] === 'dosave'){
 		include 'save.php';
 		exit;
 	}
@@ -17,12 +17,12 @@ if(isset($_GET['data'])){
 
 <title>SimpleSEO Report</title>
 
-<link href="http://<?php echo SEO_HOST . SEO_URI_REPORTS; ?>css/custom-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet">
+<link href="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>css/custom-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet">
 
 <link rel="stylesheet" type="text/css" href="http://www.w3.org/StyleSheets/Core/parser.css?family=5&doc=Sampler">
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="http://<?php echo SEO_HOST . SEO_URI_REPORTS; ?>js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>js/jquery-ui-1.10.3.custom.min.js"></script>
 
 
 <style>
@@ -198,7 +198,7 @@ textarea{
 //get the filename, we want this to save as
 $filename = str_replace('/','-',preg_replace('@https?://@i','',$_GET['url'])) . '.html';
 ?>
-<form id="save-form" action="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>save/<?php echo $filename; ?>" method="POST" target="_blank" style="display:none">
+<form id="save-form" action="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>dosave/<?php echo $filename; ?>" method="POST" target="_blank" style="display:none">
 	<textarea name="data" id="save-form-data"></textarea>
 </form>
 

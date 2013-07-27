@@ -15,7 +15,12 @@ define('SEO_PATH_WRAPPERS',SEO_PATH_ROOT.'wrappers/');
 define('SEO_PATH_HELPERS',SEO_PATH_CLASS.'helpers/');
 define('SEO_PATH_VENDORS',SEO_PATH_ROOT.'vendors/');
 
-$docRoot = str_replace('\\','/',$_SERVER['DOCUMENT_ROOT']);
+
+$root = $_SERVER['DOCUMENT_ROOT'];
+if(realpath($root) !== false)
+	$root = realpath($root);
+
+$docRoot = str_replace('\\','/',$root);
 $docRoot = str_replace($docRoot,'',SEO_PATH_ROOT);
 
 define('SEO_HOST', $_SERVER['HTTP_HOST']);
