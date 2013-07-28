@@ -26,6 +26,7 @@ if(isset($_GET['data'])){
 
 
 <style>
+body{font-size:.8em;}
 table{width:90%;}
 td{
 	vertical-align:top;
@@ -49,15 +50,21 @@ h3{
 textarea{
 	border:solid #EFEFEF 1px;
 	width:90%;
-	height:25px;
+	height:100px;
 	color:#000;
 	font-style:italic;
 	font-size:1.5em;
+}
+.addComment{
+	font-size:.5em;
+	cursor:pointer;
 }
 
 .recommendation{
 	font-style:italic;
 	font-size:1.5em;
+	color:#333;
+	font-weight:normal;
 }
 
 #popup-content{
@@ -68,6 +75,10 @@ textarea{
 	display:inline-block;
 	width:275px;
 	vertical-align: top;
+}
+
+.loading-text{
+	font-size:18px;
 }
 
 </style>
@@ -84,110 +95,96 @@ textarea{
 
 <?php if(isset($_GET['url'])){ ?>
 
-<div style="float:right" id="save-edit-wrap"><input type="checkbox" id="save-edit"  /><label for="save-edit">Save / Edit</label></div>
+<div style="float:right" id="save-edit-wrap">
+	<button id="save" >Save</button>
+	<button id="edit" >Edit</button>
+</div>
 
 <h2 id="report-title">Report - <?php echo $_GET['url']; ?></h2>
 
 <!-- api/server -->
-<h3>Server Information</h3>
-	<h4>Rcommendations...</h4>
-	<textarea></textarea>
+<h3>Server Information <a class='addComment'>add comment</a></h3>
 	<!-- 
 		api/server/
 			getHeaderResponseLine, getHeaderField, getServer, getServer, isGzip, getLoadTime, getWhois
 	-->
 	<h4>General Info</h4>
-	<p id="server-general-info">Loading...</p>
+	<p id="server-general-info" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
 	
 	<h4>Domain Information</h4>
-	<p id="server-whois">Loading...</p>
+	<p id="server-whois" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
 	
 <!-- api/head -->
-<h3>HTML Head Information</h3>
-<h4>Rcommendations...</h4>
-<textarea></textarea>
+<h3>HTML Head Information <a class='addComment'>add comment</a></h3>
 	
-<p id="head-info">Loading...</p>
+<p id="head-info" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
 
 <!-- api/body -->
-<h3>HTML Body Information</h3>
-	<h4>Rcommendations...</h4>
-	<textarea></textarea>
+<h3>HTML Body Information <a class='addComment'>add comment</a></h3>
 	
 	<!-- checkH1, checkH2, checkH3, checkH4 -->
 	<h4>Header Tags</h4>
-	<p id="body-header-tags">Loading...</p>
+	<p id="body-header-tags" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
 	
 	<h4>Keywords</h4>
-	<p id="body-keywords">Loading...</p>
+	<p id="body-keywords" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
 	
 	<h4>Inline Styles</h4>
-	<p id="body-inline-style">Loading...</p>
+	<p id="body-inline-style" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
 	
 	<h4>Link Data</h4>
-	<p id="body-anchors">Loading...</p>
+	<p id="body-anchors" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
 	
 	<h4>Frames / Object Tags</h4>
-	<p id="body-bad-stuff">Loading...</p>
+	<p id="body-bad-stuff" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
 	
 	<h4>Image Analysis</h4>
-	<p id="body-images">Loading...</p>
+	<p id="body-images" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
 	
-<h3>Social Stats</h3>
-	<h4>Rcommendations...</h4>
-	<textarea></textarea>
+<h3>Social Stats <a class='addComment'>add comment</a></h3>
 	
-	<p id="social">Loading...</p>
+	<p id="social" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
 	
-<h3>Google Stats</h3>
-	<h4>Rcommendations...</h4>
-	<textarea></textarea>
+<h3>Google Stats <a class='addComment'>add comment</a></h3>
 	
-	<h4>Page Rank: <b id="google-pr">Loading...</b></h4>
+	<h4>Page Rank: <b id="google-pr" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</b></h4>
 
 	<h4>Back Links</h4>
-	<p id="google-backlinks">Loading...</p>
+	<p id="google-backlinks" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
 	
-<h3>SEO Moz Stats</h3>
-	<h4>Rcommendations...</h4>
-	<textarea>SEO Moz is site which collects various link specific data about sites.</textarea>
+<h3>SEO Moz Stats <a class='addComment'>add comment</a></h3>
 	
 	<h4>Moz General Information</h4>
-	<p id="moz-link">Loading...</p>
+	<p id="moz-link" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
 	
 	<h4>Moz Just Discovered Backlinks</h4>
-	<p id="moz-disc">Loading...</p>
+	<p id="moz-disc" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
 	
-<h3>SEMrush Stats</h3>
-	<h4>Rcommendations...</h4>
-	<textarea>SEMrush collects general data about various search terms for competition analysis.  
-	This data is domain specific, but gives insight into what your competitors are doing.</textarea>
+<h3>SEMrush Stats <a class='addComment'>add comment</a></h3>
 	
 	<h4>Domain Data</h4>
-	<p id="semrush-domain">Loading...</p>
+	<p id="semrush-domain" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
 	
 	<h4>Domain Keyword Data</h4>
-	<p id="semrush-keywords">Loading...</p>
+	<p id="semrush-keywords" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
 	
-<h3>W3C Validation</h3>
-	<h4>Rcommendations...</h4>
-	<textarea></textarea>
+<h3>W3C Validation <a class='addComment'>add comment</a></h3>
 
 	<!-- /api/server/validateW3C -->
 	<h4>General</h4>
-	<p id="w3c-general">Loading...</p>
+	<p id="w3c-general" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
 	
 	<!-- api/server/getValidateW3Cerrors -->
 	<h4>Errors</h4>
-	<p id="w3c-error">Loading...</p>
+	<p id="w3c-error" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
 
 	<!-- /api/server/getValidateW3Cwarnings -->
 	<h4>Warnings</h4>
-	<p id="w3c-warning">Loading...</p>
+	<p id="w3c-warning" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
 
-<h3>Keywords (Extended)</h3>
+<h3>Keywords (Extended) <a class='addComment'>add comment</a></h3>
 	<h4>Contains phrases using listed key words</h4>
-	<p id="body-keywords2">Loading...</p>
+	<p id="body-keywords2" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
 
 
 <div id="popup" title="Information">
@@ -208,43 +205,68 @@ var url = "<?php echo isset($_GET['url']) ? urlencode($_GET['url']):''; ?>";
 var api = "<?php echo 'http://'.SEO_HOST.'/'.SEO_URI_API; ?>";
 
 $(document).ready(function(){
+	$('.addComment').click(function(){
+		editOn();
+		
+		var $parent = $(this).parent();
+		
+		var $el = $parent.next();
+
+		//already have a comment
+		if($el.hasClass('comment')){
+			$el.remove();
+			$(this).html('add comment').removeClass('removeComment');
+			return;
+		}
+
+		//create the comment element
+		var $div = $(document.createElement('div')).addClass('comment');
+		var $txt = $(document.createElement('textarea'));
+		var $h4 = $(document.createElement('h4')).html('Comments:');
+
+		$div.append($h4).append($txt);
+		$parent.after($div);
+
+		$(this).html('remove comment').addClass('removeComment');
+	});
+
+	
 	$('#report-title:first').click(function(){
 		$('#form-run-report').toggleClass('hide');
 		$('#save-edit-wrap').toggleClass('hide');
 	});
 
-	//this is for the save.php
-	if(document.location.href.indexOf('save.php')>0){
-		$( "#save-edit" ).prop('checked',true);
-		console.log('hello world');
-	}else{
-		$( "#save-edit" ).prop('checked',false);
-	}
-	
-	//save or edit
-	$( "#save-edit" ).button().click(function(evt){
-		$btn = $(evt.target);
-		
-		//save
-		if($btn.prop('checked')){
-			$('textarea:not(#save-form-data)').each(function(){
-				var $p = $(document.createElement('p')).html($(this).val()).attr('class','recommendation');
-				$(this).before($p).detach();
-			});
-			
-			if(document.location.href.indexOf('save.php')<0){
-				var content = '<html><head>' + $('head').html() + '</head>' + $('#all-content').html() + '</body></html>';
-				$('#save-form textarea:first').val(content).parent().submit();
-			}
-		//edit
-		}else{
-			$('.recommendation').each(function(){
-				var $txt = $(document.createElement('textarea')).val($(this).html());
-				$(this).before($txt).detach();
-			});
-		}
 
+	var editing = !(document.location.href.indexOf('save') > 0);
+	var editOff = function(){
+		$('textarea:not(#save-form-data)').each(function(){
+			var $p = $(document.createElement('p')).html($(this).val()).attr('class','recommendation');
+			$(this).before($p).detach();
+		});
+		editing = false;
+	};
+
+	var editOn = function(){
+		$('.recommendation').each(function(){
+			var $txt = $(document.createElement('textarea')).val($(this).html());
+			$(this).before($txt).detach();
+		});
+		editing = true;
+	};
+		
+	
+	$('#save').button({icons:{primary:"ui-icon-disk"}}).click(function(evt){
+		editOff();
+		
+		var content = '<html><head>' + $('head').html() + '</head>' + $('#all-content').html() + '</body></html>';
+		$('#save-form textarea:first').val(content).parent().submit();
+		
 	});
+
+	$('#edit').button({icons:{primary:"ui-icon-pencil"}}).click(function(){
+		(editing) ? editOff() : editOn();
+	});
+	
 });
 
 //do a serp query
@@ -252,7 +274,7 @@ function serpQuery(q){
 	var $pop = $('#popup');
 	var $child = $pop.children('#popup-content');
 
-	$child.html('Loading...');
+	$child.html('<img src="images/loading.gif" />&nbsp;Loading...');
 	
 	$.getJSON(api+"google/getSerps/"+encodeURIComponent(q)+"?request="+url,function(data){
 		
@@ -302,7 +324,7 @@ function serpQuery(q){
 <script>
 $(document).ready(function(){
 	
-
+/*
 	function createList(label, value){
 		var $ul = $(document.createElement('li'));
 		return $ul.html('<i class="li-label">'+label+'</i> '+value);
@@ -645,6 +667,7 @@ $(document).ready(function(){
 		$('#semrush-domain').html($ul);
 		
 	});
+	*/
 });
 
 </script>
