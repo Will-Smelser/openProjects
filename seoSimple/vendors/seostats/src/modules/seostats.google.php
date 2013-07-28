@@ -97,7 +97,6 @@ class SEOstats_Google extends SEOstats implements services, default_settings
     	$results = array();
     	
     	$resp = $this->doPagedRequest(services::GOOGLE_APISEARCH_URL2, $url, 0);
-    	
     	if(!is_object($resp) || !isset($resp->items)) return null;
     	
     	$count = count($resp->items);
@@ -110,6 +109,9 @@ class SEOstats_Google extends SEOstats implements services, default_settings
     		$num = $resp->queries->nextPage[0]->count;
     		
     		$temp = $this->doPagedRequest(services::GOOGLE_APISEARCH_URL2, $url, $i);
+    		
+    		if(!is_object($temp) || !isset($temp->items)) break;
+    		
     		$count += count($resp->items);
     		    		
     		$results = array_merge($results, $temp->items);

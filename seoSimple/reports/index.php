@@ -11,7 +11,6 @@ if(isset($_GET['data'])){
 	}
 }
 
-
 ?><!DOCTYPE html>
 <head>
 
@@ -24,6 +23,11 @@ if(isset($_GET['data'])){
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>js/jquery-ui-1.10.3.custom.min.js"></script>
 
+<script>
+$(document).ready(function(){
+	$('#run-report').button();
+});
+</script>
 
 <style>
 body{font-size:.8em;}
@@ -90,7 +94,7 @@ textarea{
 <h1>SEO Report <span class="by-author">by Will Smelser</span></h1>
 <form id="form-run-report" method="GET" action="index.php">
 	<label for="url">URL <input name="url" type="text" id="url" /></label>
-	<input type="submit" value="Run Report" />
+	<input id="run-report" type="submit" value="Run Report" />
 </form>
 
 <?php if(isset($_GET['url'])){ ?>
@@ -109,82 +113,83 @@ textarea{
 			getHeaderResponseLine, getHeaderField, getServer, getServer, isGzip, getLoadTime, getWhois
 	-->
 	<h4>General Info</h4>
-	<p id="server-general-info" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
+	<p id="server-general-info" class="loading-text"><img src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>images/loading.gif" />&nbsp;Loading...</p>
 	
 	<h4>Domain Information</h4>
-	<p id="server-whois" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
+	<p id="server-whois" class="loading-text"><img src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>images/loading.gif" />&nbsp;Loading...</p>
 	
 <!-- api/head -->
 <h3>HTML Head Information <a class='addComment'>add comment</a></h3>
 	
-<p id="head-info" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
+<p id="head-info" class="loading-text"><img src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>images/loading.gif" />&nbsp;Loading...</p>
 
 <!-- api/body -->
 <h3>HTML Body Information <a class='addComment'>add comment</a></h3>
 	
 	<!-- checkH1, checkH2, checkH3, checkH4 -->
 	<h4>Header Tags</h4>
-	<p id="body-header-tags" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
+	<p id="body-header-tags" class="loading-text"><img src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>images/loading.gif" />&nbsp;Loading...</p>
 	
 	<h4>Keywords</h4>
-	<p id="body-keywords" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
+	<p id="body-keywords" class="loading-text"><img src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>images/loading.gif" />&nbsp;Loading...</p>
 	
 	<h4>Inline Styles</h4>
-	<p id="body-inline-style" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
+	<p id="body-inline-style" class="loading-text"><img src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>images/loading.gif" />&nbsp;Loading...</p>
 	
 	<h4>Link Data</h4>
-	<p id="body-anchors" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
+	<p id="body-anchors" class="loading-text"><img src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>images/loading.gif" />&nbsp;Loading...</p>
 	
 	<h4>Frames / Object Tags</h4>
-	<p id="body-bad-stuff" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
+	<p id="body-bad-stuff" class="loading-text"><img src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>images/loading.gif" />&nbsp;Loading...</p>
 	
 	<h4>Image Analysis</h4>
-	<p id="body-images" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
-	
-<h3>Social Stats <a class='addComment'>add comment</a></h3>
-	
-	<p id="social" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
-	
-<h3>Google Stats <a class='addComment'>add comment</a></h3>
-	
-	<h4>Page Rank: <b id="google-pr" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</b></h4>
+	<p id="body-images" class="loading-text"><img src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>images/loading.gif" />&nbsp;Loading...</p>
 
-	<h4>Back Links</h4>
-	<p id="google-backlinks" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
-	
-<h3>SEO Moz Stats <a class='addComment'>add comment</a></h3>
-	
-	<h4>Moz General Information</h4>
-	<p id="moz-link" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
-	
-	<h4>Moz Just Discovered Backlinks</h4>
-	<p id="moz-disc" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
-	
-<h3>SEMrush Stats <a class='addComment'>add comment</a></h3>
-	
-	<h4>Domain Data</h4>
-	<p id="semrush-domain" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
-	
-	<h4>Domain Keyword Data</h4>
-	<p id="semrush-keywords" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
-	
 <h3>W3C Validation <a class='addComment'>add comment</a></h3>
 
 	<!-- /api/server/validateW3C -->
 	<h4>General</h4>
-	<p id="w3c-general" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
+	<p id="w3c-general" class="loading-text"><img src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>images/loading.gif" />&nbsp;Loading...</p>
 	
 	<!-- api/server/getValidateW3Cerrors -->
 	<h4>Errors</h4>
-	<p id="w3c-error" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
+	<p id="w3c-error" class="loading-text"><img src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>images/loading.gif" />&nbsp;Loading...</p>
 
 	<!-- /api/server/getValidateW3Cwarnings -->
 	<h4>Warnings</h4>
-	<p id="w3c-warning" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
+	<p id="w3c-warning" class="loading-text"><img src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>images/loading.gif" />&nbsp;Loading...</p>
+	
+<h3>Social Stats <a class='addComment'>add comment</a></h3>
+	
+	<p id="social" class="loading-text"><img src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>images/loading.gif" />&nbsp;Loading...</p>
+	
+<h3>Google Stats <a class='addComment'>add comment</a></h3>
+	
+	<h4>Page Rank: <b id="google-pr" class="loading-text"><img src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>images/loading.gif" />&nbsp;Loading...</b></h4>
+
+	<h4>Back Links</h4>
+	<p id="google-backlinks" class="loading-text"><img src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>images/loading.gif" />&nbsp;Loading...</p>
+	
+<h3>SEO Moz Stats <a class='addComment'>add comment</a></h3>
+	
+	<h4>Moz General Information</h4>
+	<p id="moz-link" class="loading-text"><img src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>images/loading.gif" />&nbsp;Loading...</p>
+	
+	<h4>Moz Just Discovered Backlinks</h4>
+	<p id="moz-disc" class="loading-text"><img src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>images/loading.gif" />&nbsp;Loading...</p>
+	
+	
+<h3>SEMrush Stats <a class='addComment'>add comment</a></h3>
+	
+	<h4>Domain Data</h4>
+	<p id="semrush-domain" class="loading-text"><img src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>images/loading.gif" />&nbsp;Loading...</p>
+	
+	<h4>Domain Keyword Data</h4>
+	<p id="semrush-keywords" class="loading-text"><img src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>images/loading.gif" />&nbsp;Loading...</p>
 
 <h3>Keywords (Extended) <a class='addComment'>add comment</a></h3>
 	<h4>Contains phrases using listed key words</h4>
-	<p id="body-keywords2" class="loading-text"><img src="images/loading.gif" />&nbsp;Loading...</p>
+	<p id="body-keywords2" class="loading-text"><img src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>images/loading.gif" />&nbsp;Loading...</p>
 
 
 <div id="popup" title="Information">
@@ -205,6 +210,8 @@ var url = "<?php echo isset($_GET['url']) ? urlencode($_GET['url']):''; ?>";
 var api = "<?php echo 'http://'.SEO_HOST.'/'.SEO_URI_API; ?>";
 
 $(document).ready(function(){
+	$('#run-report').button();
+	
 	$('.addComment').click(function(){
 		editOn();
 		
@@ -258,7 +265,7 @@ $(document).ready(function(){
 	$('#save').button({icons:{primary:"ui-icon-disk"}}).click(function(evt){
 		editOff();
 		
-		var content = '<html><head>' + $('head').html() + '</head>' + $('#all-content').html() + '</body></html>';
+		var content = '<html><head>' + $('head').html() + '</head><body><div id="all-content">' + $('#all-content').html() + '</div></body></html>';
 		$('#save-form textarea:first').val(content).parent().submit();
 		
 	});
@@ -274,7 +281,7 @@ function serpQuery(q){
 	var $pop = $('#popup');
 	var $child = $pop.children('#popup-content');
 
-	$child.html('<img src="images/loading.gif" />&nbsp;Loading...');
+	$child.html('<img src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>images/loading.gif" />&nbsp;Loading...');
 	
 	$.getJSON(api+"google/getSerps/"+encodeURIComponent(q)+"?request="+url,function(data){
 		
@@ -324,7 +331,6 @@ function serpQuery(q){
 <script>
 $(document).ready(function(){
 	
-/*
 	function createList(label, value){
 		var $ul = $(document.createElement('li'));
 		return $ul.html('<i class="li-label">'+label+'</i> '+value);
@@ -358,10 +364,13 @@ $(document).ready(function(){
 		var $bl = $('#google-backlinks');
 
 		var $ul = $(document.createElement('ul'));
-		$ul.append(createList('Total Backlinks',data.data.getBacklinks.data.length));
-		for(var x in data.data.getBacklinks.data){
-			var title = data.data.getBacklinks.data[x].title;
-			var link = data.data.getBacklinks.data[x].link;
+		
+		$ul.append(createList('Total Domains',data.data.getBacklinks.data.domainTotals));
+		$ul.append(createList('Total Backlinks',data.data.getBacklinks.data.backlinks.length));
+		$ul.append(createList('Totals by Domain','<div style="display:inline-block;max-width:600px;">'+data.data.getBacklinks.data.domainComposite+'</div>'));
+		for(var x in data.data.getBacklinks.data.backlinks){
+			var title = data.data.getBacklinks.data.backlinks[x].title;
+			var link = data.data.getBacklinks.data.backlinks[x].link;
 			var a = "<a href='"+link+"'>"+title+"</a>";
 			$ul.append(createList('Link',a));
 		}
@@ -630,8 +639,10 @@ $(document).ready(function(){
 			$ul2.append(createList('Page Authority',temp.pageAuthority));
 			$ul2.append(createList('Domain Authority',temp.DomainAuthority));
 			$ul2.append(createList('Discovery Time',temp.DiscoveryTime));
+
+			var $a = $(document.createElement('a')).attr('target','_blank').attr('href',temp.link).html(temp.link);
 			
-			$li.append(temp.link);
+			$li.append($a);
 			$li.append($ul2);
 			$ul.append($li);
 		}
@@ -667,11 +678,11 @@ $(document).ready(function(){
 		$('#semrush-domain').html($ul);
 		
 	});
-	*/
+	
 });
 
 </script>
 
-<?php }else{echo '</body>';} ?>
+<?php }else{ echo '</body>';} ?>
 
 </html>

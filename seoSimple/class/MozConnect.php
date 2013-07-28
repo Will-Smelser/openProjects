@@ -45,7 +45,9 @@ class MozConnect{
 		$this->user = $user;
 		$this->pass = $pass;
 		$this->base64user = base64_encode($user);
-		$this->cookieFile = 'moz-'.$this->base64user.'.txt'; 
+		$this->cookieFile = SEO_PATH_HELPERS . 'moz-'.$this->base64user.'.txt'; 
+		
+		$this->loadCookies();
 	}
 	
 	private function loadCookies(){
@@ -83,13 +85,14 @@ class MozConnect{
 		
 		$this->loginAttempt++;
 		
-		$ch = curl_init($this->$mozLogin);
+		$ch = curl_init($this->mozLogin);
 		$this->setCurlOpts($ch);
 		
 		$temp = array(
 			$this->formKeyRedirect=>'/',
 			$this->formKeyEmail=>$this->user,
-			$this->formKeyPass=>$this->pass
+			$this->formKeyPass=>$this->pass,
+			'data[User][remember]'=>1
 		);
 		
 		
@@ -102,7 +105,7 @@ class MozConnect{
 		
 		if(curl_errno($ch))
 		{
-			//echo 'error:' . curl_error($ch);
+			$response = 'error:' . curl_error($ch);
 			//TODO: Handle Error
 		}
 		
@@ -128,7 +131,7 @@ class MozConnect{
 		if(curl_errno($ch))
 		{
 			//TODO: Handle this error
-			//echo 'error:' . curl_error($ch);
+			$response = 'error:' . curl_error($ch);
 		}
 		
 		curl_close($ch);
@@ -148,11 +151,9 @@ class MozConnect{
 		$data = $this->getSite($service, $url);
 		
 		//been forwarded to a login page
-		if(strpos('hit your daily report limit',$data) > 0){
-			$this->login();
+		if(strpos($data,'hit your daily report limit') > 0){
 			$data = $this->getSite($service, $url);
 		}
-		
 		return $data;
 	}
 }
