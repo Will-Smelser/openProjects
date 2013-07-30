@@ -9,7 +9,7 @@ class GoogleInfo{
 	
 	public function GoogleInfo($url){
 		if(empty($url)) return;
-		
+		$url = preg_replace('@https?://@i','',$url);
 		$this->stats = new SEOstats($url);
 		$this->google = $this->stats->Google();
 		$this->url = $url;
@@ -47,6 +47,7 @@ class GoogleInfo{
 	public function getPagespeedScore(){
 		return $this->google->getPagespeedScore($this->url);
 	}
+	
 	
 	public function getSerps($query, $count=10){
 		$temp = $this->google->getSearchResults(urlencode($query[0]), $count);

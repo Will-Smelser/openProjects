@@ -3,6 +3,7 @@ require_once SEO_PATH_CLASS . 'GoogleInfo.php';
 
 class GoogleWrap extends GoogleInfo {
 	public function GoogleWrap($url){
+		$url = preg_replace('@https?://@i','',$url);
 		parent::__construct($url);
 	}
 	
@@ -14,6 +15,8 @@ class GoogleWrap extends GoogleInfo {
 	 * @return multitype:
 	 */
 	public function getBacklinks($max=100){
+		if(is_array($max))
+			$max = $max[0]*1.0;
 		if($max > 100)
 			$max = 100;
 		
@@ -23,8 +26,9 @@ class GoogleWrap extends GoogleInfo {
 
 		$backlinks = $this->google->getBacklinks($this->url, $max);
 		
-		if(!empty($backlinks) && is_object($backlinks)){
-			foreach($backlinks as $entry){	
+		if(!empty($backlinks)){
+			foreach($backlinks as $entry){
+				
 				array_push($result,
 					array(
 						'title'=>$entry->title,

@@ -92,7 +92,7 @@ class SEOstats_Google extends SEOstats implements services, default_settings
     public function getBacklinks($url = false, $total=10)
     {
     	$url = false != $url ? $url : self::getUrl();
-    	$url = urlencode("link:$url");
+    	$url = urlencode("link:").'+'.trim(urlencode($url));
     	
     	$results = array();
     	
@@ -117,7 +117,7 @@ class SEOstats_Google extends SEOstats implements services, default_settings
     		$results = array_merge($results, $temp->items);
     	}
     	
-    	return $results;    	
+    	return $results;
     }
     
 

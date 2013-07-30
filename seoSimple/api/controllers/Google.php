@@ -8,7 +8,8 @@ class Google extends Controller{
 	
 	public function Google($method, $args=null){
 		
-		$google = new GoogleWrap($_GET['request']);
+		$url = preg_replace('@https?://@i','',$_GET['request']);
+		$google = new GoogleWrap($url);
 		
 		$this->exec($google, $method, $args);
 	}
