@@ -388,6 +388,24 @@ $(document).ready(function(){
 		$soc.html($ul);
 	});
 
+	var addHXcontent = function(obj){
+		var $ul = $(document.createElement('ul'));
+		for(var x in obj){
+			
+			var div = document.createElement('div');
+			var txt = obj[x].text;
+			div.innerHTML = txt;
+
+			if(typeof div.textContent === "string")
+				txt = div.textContent;
+			else if(typeof div.innerText === "string")
+				txt = div.innerText;
+
+			$ul.append($(document.createElement('li')).html(txt));
+		}
+		return $ul;
+	};
+
 	//get the body data
 	$.getJSON(api+"body/all?request="+url,function(data){
 		//check the header data
@@ -395,10 +413,32 @@ $(document).ready(function(){
 
 		//header tags
 		var $ul = $(document.createElement('ul'));
-		$ul.append(createList('&lt;H1&gt;',data.data.checkH1.data.length));
-		$ul.append(createList('&lt;H2&gt;',data.data.checkH2.data.length));
-		$ul.append(createList('&lt;H3&gt;',data.data.checkH3.data.length));
-		$ul.append(createList('&lt;H4&gt;',data.data.checkH4.data.length));
+		
+		var $li = createList('&lt;H1&gt;',data.data.checkH1.data.length);
+		$li.wrapInner(document.createElement('a'));
+		$li.append(addHXcontent(data.data.checkH1.data));
+		$li.click(function(){$(this).find('ul').slideToggle()});
+		$ul.append($li);
+
+		$li = createList('&lt;H2&gt;',data.data.checkH2.data.length);
+		$li.wrapInner(document.createElement('a'));
+		$li.append(addHXcontent(data.data.checkH2.data).hide());
+		$li.click(function(){$(this).find('ul').slideToggle()});
+		$ul.append($li);
+
+		$li = createList('&lt;H3&gt;',data.data.checkH3.data.length);
+		$li.wrapInner(document.createElement('a'));
+		$li.append(addHXcontent(data.data.checkH3.data).hide());
+		$li.click(function(){$(this).find('ul').slideToggle()});
+		$ul.append($li);
+
+		
+		$li = createList('&lt;H4&gt;',data.data.checkH4.data.length);
+		$li.wrapInner(document.createElement('a'));
+		$li.append(addHXcontent(data.data.checkH4.data).hide());
+		$li.click(function(){$(this).find('ul').slideToggle()});
+		$ul.append($li);
+		
 		$htags.html($ul);
 
 		//word count
@@ -609,7 +649,7 @@ $(document).ready(function(){
 			$w3cwarn.html($table);
 			
 		}else{
-			$w3warn.html('No Warnings');
+			$w3cwarn.html('No Warnings');
 		}
 		
 	});
