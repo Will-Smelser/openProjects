@@ -1,6 +1,26 @@
-var SeoApiBase = {
+(function(){
+	var temp = document.location.href.split('?');
+	namespace = (temp.length > 1) ? temp[1] : 'SeoApi';
+	
+	if(typeof window[namespace] == "undefined") window[namespace] = {};
+	
+	window[namespace].base = {
+	
+	/**
+	 * Url that api requests are being made for.  The url
+	 * that report data is being generated for
+	 */
 	url : '',
-	api : 'should be overwritten by global',
+	
+	/**
+	 * The api url where request should be made
+	 */
+	api : '',
+	
+	/**
+	 * Once the data is load ensure body is loaded before calling callbacks
+	 */
+	waitOnLoad : true,
 	methodAll : false,
 	methods : [],
 	targetMap : {},
@@ -11,11 +31,10 @@ var SeoApiBase = {
 		return this.api+this.apiController+'/'+method+'?request='+url;
 	},
 	checkApi : function(){
-		if(typeof window.SeoApi == "undefined"){
-			console.log('Missing global window.SeoApi');
+		if(this.api == ''){
+			console.log('local api variable has not been set.');
 			return false;
 		}
-		this.api = window.SeoApi;
 		return true;
 	},
 	/**
@@ -54,7 +73,6 @@ var SeoApiBase = {
 	},
 	handleError : function(){
 		for(var x in this.methods){
-			console.log(this.methods[x]);
 			this.targetMap[this.methods[x]].html(this.failObj.find('.reason').html('Ajax Request Failure'));
 		}
 	},
@@ -94,9 +112,24 @@ var SeoApiBase = {
 			}else
 				resp = data.data;
 			
-			callback.call(scope, resp);
+			if(scope.waitOnLoad){
+				$(document).ready(function(){
+					callback.call(scope, resp);
+				});
+			}else{
+				callback.call(scope, resp);
+			}
 		})
-		.fail(function(){errCallback.call(scope);});
+		.fail(function(){
+			if(scope.waitOnLoad){
+				$(document).ready(function(){
+					errCallback.call(scope);
+				});
+			}else{
+				errCallback.call(scope);
+			}
+				
+		});
 	},
 	
 	/**
@@ -106,7 +139,7 @@ var SeoApiBase = {
 	/**
 	 * Which controller the API should use
 	 */
-	apiController : 'body',
+	apiController : 'controller',
 	
 	/**
 	 * This class is intended to be extended.  So just extend
@@ -131,3 +164,4 @@ var SeoApiBase = {
 				
 	}
 };
+})();
