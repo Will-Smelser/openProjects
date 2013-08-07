@@ -16,7 +16,10 @@ class GoogleWrap extends GoogleInfo {
 	 */
 	public function getBacklinks($max=100){
 		if(is_array($max))
-			$max = $max[0]*1.0;
+			if(count($max) > 0)
+				$max = array_shift($max)*1.0;
+			else
+				$max = 100;
 		if($max > 100)
 			$max = 100;
 		

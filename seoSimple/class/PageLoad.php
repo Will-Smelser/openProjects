@@ -35,7 +35,7 @@ class PageLoad{
 	 * @see $loadPage
 	 */
 	public function PageLoad($page='PageLoadTime.php'){
-		$this->loadPage = 'http://' . SEO_HOST . SEO_URI_HELPERS . $page;
+		$this->loadPage = 'http://' . SEO_HOST . '/' . SEO_URI_HELPERS . $page;
 		$this->mh = curl_multi_init();
 	}
 	
@@ -57,7 +57,6 @@ class PageLoad{
 			$temp = $key+1;
 			$url .= "&arg{$temp}=" . urlencode($arg);
 		}
-		
 		
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
