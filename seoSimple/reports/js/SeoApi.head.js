@@ -4,8 +4,8 @@
 	
 	if(typeof window[namespace] == "undefined") window[namespace] = {};
 	
-	window[namespace].body = {
-		apiController : 'body'/*,
+	window[namespace].head = {
+		apiController : 'head'/*,
 		render_getTitle : function(data, $target){
 			console.log(data);
 		}*/

@@ -1,0 +1,41 @@
+<div class='page_content'>
+        <h1>Source for file MozWrap.php</h1>
+    <p>Documentation is available at <a rel="contents" href="default/_wrappers---MozWrap.php.html">MozWrap.php</a></p>
+    <div class="src-code">
+    <ol><li><div class="src-line"><a name="a1"></a><span class="src-php">&lt;?php</span></div></li>
+<li><div class="src-line"><a name="a2"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a3"></a><span class="src-inc">require_once&nbsp;</span><span class="src-id">SEO_API_PATH&nbsp;</span>.&nbsp;<span class="src-str">&quot;/vendors/seostats/src/seostats.php&quot;</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a4"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a5"></a><span class="src-key">class&nbsp;</span><a rel="contents" href="default/MozWrap.html">MozWrap</a><span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a6"></a>&nbsp;&nbsp;&nbsp;&nbsp;</div></li>
+<li><div class="src-line"><a name="a7"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">public&nbsp;</span><a rel="contents" href="default/MozWrap.html#var$url">$url</a><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a8"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">public&nbsp;</span><a rel="contents" href="default/MozWrap.html#var$moz">$moz</a><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a9"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">public&nbsp;</span><a rel="contents" href="default/MozWrap.html#var$stats">$stats</a><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a10"></a>&nbsp;&nbsp;&nbsp;&nbsp;</div></li>
+<li><div class="src-line"><a name="a11"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">public&nbsp;</span><span class="src-key">function&nbsp;</span><a rel="contents" href="default/MozWrap.html#methodMozWrap">MozWrap</a><span class="src-sym">(</span><span class="src-var">$url</span><span class="src-sym">)</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a12"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$this</span><span class="src-sym">-&gt;</span><a rel="contents" href="default/MozWrap.html#var$stats">stats</a>&nbsp;=&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id">SEOstats</span><span class="src-sym">(</span><span class="src-var">$url</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a13"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$this</span><span class="src-sym">-&gt;</span><a rel="contents" href="default/MozWrap.html#var$moz">moz</a>&nbsp;=&nbsp;<span class="src-var">$this</span><span class="src-sym">-&gt;</span><a rel="contents" href="default/MozWrap.html#var$stats">stats</a><span class="src-sym">-&gt;</span><span class="src-id">OpenSiteExplorer</span><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">-&gt;</span><span class="src-id">getPageMetrics</span><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a14"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$this</span><span class="src-sym">-&gt;</span><a rel="contents" href="default/MozWrap.html#var$url">url</a>&nbsp;=&nbsp;<span class="src-var">$url</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a15"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">}</span></div></li>
+<li><div class="src-line"><a name="a16"></a>&nbsp;&nbsp;&nbsp;&nbsp;</div></li>
+<li><div class="src-line"><a name="a17"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">public&nbsp;</span><span class="src-key">function&nbsp;</span><a rel="contents" href="default/MozWrap.html#methodgetPageAuthority">getPageAuthority</a><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a18"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">return&nbsp;</span><span class="src-var">$this</span><span class="src-sym">-&gt;</span><a rel="contents" href="default/MozWrap.html#var$moz">moz</a><span class="src-sym">[</span><span class="src-str">'pageAuthority'</span><span class="src-sym">]</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a19"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">}</span></div></li>
+<li><div class="src-line"><a name="a20"></a>&nbsp;&nbsp;&nbsp;&nbsp;</div></li>
+<li><div class="src-line"><a name="a21"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">public&nbsp;</span><span class="src-key">function&nbsp;</span><a rel="contents" href="default/MozWrap.html#methodgetDomainAuthority">getDomainAuthority</a><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a22"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">return&nbsp;</span><span class="src-var">$this</span><span class="src-sym">-&gt;</span><a rel="contents" href="default/MozWrap.html#var$moz">moz</a><span class="src-sym">[</span><span class="src-str">'domainAuthority'</span><span class="src-sym">]</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a23"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">}</span></div></li>
+<li><div class="src-line"><a name="a24"></a>&nbsp;&nbsp;&nbsp;&nbsp;</div></li>
+<li><div class="src-line"><a name="a25"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">public&nbsp;</span><span class="src-key">function&nbsp;</span><a rel="contents" href="default/MozWrap.html#methodgetTotalInboundLinks">getTotalInboundLinks</a><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a26"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">return&nbsp;</span><span class="src-var">$this</span><span class="src-sym">-&gt;</span><a rel="contents" href="default/MozWrap.html#var$moz">moz</a><span class="src-sym">[</span><span class="src-str">'totalInboundLinks'</span><span class="src-sym">]</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a27"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">}</span></div></li>
+<li><div class="src-line"><a name="a28"></a>&nbsp;&nbsp;&nbsp;&nbsp;</div></li>
+<li><div class="src-line"><a name="a29"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">public&nbsp;</span><span class="src-key">function&nbsp;</span><a rel="contents" href="default/MozWrap.html#methodgetTotalInboundDomains">getTotalInboundDomains</a><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a30"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">return&nbsp;</span><span class="src-var">$this</span><span class="src-sym">-&gt;</span><a rel="contents" href="default/MozWrap.html#var$moz">moz</a><span class="src-sym">[</span><span class="src-str">'linkingRootDomains'</span><span class="src-sym">]</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a31"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">}</span></div></li>
+<li><div class="src-line"><a name="a32"></a><span class="src-sym">}</span></div></li>
+<li><div class="src-line"><a name="a33"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a34"></a><span class="src-php">?&gt;</span></div></li>
+</ol>
+    </div>
+</div>

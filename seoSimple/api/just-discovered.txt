@@ -1,0 +1,468 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <title>Open Site Explorer</title>
+
+  
+
+  <meta name="description" content="Open Site Explorer is Moz's Search Engine for Links. Perform competitive link research, explore backlinks, anchor text, and more for free." />
+  <meta content="authenticity_token" name="csrf-param" />
+<meta content="G6Ymypas6S7P4RIMNDEO+789gcPxP/mMzknlQItywXQ=" name="csrf-token" />
+  <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/themes/ui-lightness/jquery-ui.css" media="all" rel="stylesheet" type="text/css" />
+  <link href="/stylesheets/jquery.ui.selectmenu.css?1374080320" media="all" rel="stylesheet" type="text/css" />
+  <link href="/stylesheets/application.css?1374080320" media="all" rel="stylesheet" type="text/css" />
+    
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js" type="text/javascript"></script>
+  <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.8.1/jquery.validate.min.js" type="text/javascript"></script>
+  <!--[if lte IE 8]><script src="/javascripts/lib/flot/excanvas.min.js?1374080320" type="text/javascript"></script><![endif]-->
+  <script src="/javascripts/lib/jquery.tools.min.js?1374080320" type="text/javascript"></script>
+  <script src="/javascripts/lib/jshashtable-2.1.js?1374080320" type="text/javascript"></script>
+<script src="/javascripts/lib/jquery.numberformatter-1.2.1.min.js?1374080320" type="text/javascript"></script>
+  <script src="/javascripts/lib/jquery.ui.selectmenu.js?1374080320" type="text/javascript"></script>
+  <script src="/javascripts/lib/jquery.placeholder.js?1374080320" type="text/javascript"></script>
+  <script src="/javascripts/app/application.js?1374080320" type="text/javascript"></script>
+
+  <link rel="shortcut icon" href="/favicon.ico?v=2" />
+  
+  <script>
+    window._token = "G6Ymypas6S7P4RIMNDEO+789gcPxP/mMzknlQItywXQ=";
+  </script>
+    <link href="/stylesheets/shiny.css?1374080320" media="all" rel="stylesheet" type="text/css" />
+  <script>
+    var REPORT_SITE = "www.willsmelser.com";
+      $(function() {
+        checkRedirect("www.willsmelser.com");
+      });
+  </script>
+
+  <script src="/javascripts/lib/jquery.cookies.js?1374080320" type="text/javascript"></script>
+  <script src="/javascripts/lib/neteye/jquery.activity-indicator-1.0.0.min.js?1374080320" type="text/javascript"></script>
+  <script src="/javascripts/lib/flot/jquery.flot.min.js?1374080320" type="text/javascript"></script>
+  <script src="/javascripts/lib/flot/jquery.flot.pie.min.js?1374080320" type="text/javascript"></script>
+  <script src="/javascripts/app/comparisons_index.js?1374080320" type="text/javascript"></script>
+
+  <link href="/stylesheets/reports.css?1374080320" media="all" rel="stylesheet" type="text/css" />
+  <link href="/stylesheets/compare_dialog.css?1374080320" media="all" rel="stylesheet" type="text/css" />
+  <script>
+    $(function () {
+      var options = {maxComparisons: 5};
+        options.completion = function () {
+          var baseUrl = "/comparisons?site=www.willsmelser.com";
+          $(".add-sites input:visible").each(function (index) {
+            baseUrl += "&comparisons[" + index + "]=" + $(this).val();
+          });
+          window.location.href = baseUrl;
+          return false;
+        };
+      var manager = $("#add-comparisons").manageComparisons(options);
+    
+      $("#compare-button").click(function () {
+        manager.manageComparisons("open");
+        return false;
+      });
+
+    $("table.comparison").comparison({manager: manager});
+    $("table.comparison").comparison("populate", "www.willsmelser.com", {"total":0,"results":[],"args":{"sort":"crawled","count":"50","target":"domain","source":"all","query":"http://www.willsmelser.com","offset":"0","follow":"all","order":"desc"},"time":{"elasticsearch":615}}, 0);
+    $("table.comparison").comparison("social", "www.willsmelser.com", 0);
+
+  });
+  </script>
+
+
+  
+  <script type="text/javascript"> 
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-1870679-1']);
+      _gaq.push(['_setDomainName', 'opensiteexplorer.org']);
+      _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_setAllowAnchor', true]);
+      
+      _gaq.push(['_setCustomVar', 5,'User-Type','free', 2]);
+      _gaq.push(['_trackPageview']);
+      _gaq.push(['_trackPageLoadTime']);
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+        $(function() {
+  function login (url) {
+    if (!navigator.cookieEnabled) {
+      displayError("Cookies are required to login and use OpenSiteExplorer.org");
+      return;
+    }
+    $.getJSON("http://oseauth.moz.com/users/get_ssso_from_cookie.json?rand=" + new Date().getTime() + "&callback=?", function(ssso){
+      doSSSOLogin(ssso)      
+    }).error(function(data){console.log(data)})
+  } 
+
+
+  function doSSSOLogin(ssso) {
+    $.post("/users/credentials.json", {ssso: ssso}, function(data) {
+      new_user_id = data.data.id || 0
+      old_user_id = 0
+      if (new_user_id != old_user_id && new_user_id != 0) {
+        window.location = "http://www.opensiteexplorer.org/"
+      }
+    }, 'json')
+  }
+  login();
+})
+    </script>
+
+  <script src="//cdn.optimizely.com/js/28887501.js"></script>
+</head>
+<body class="just_discovered-index">
+  <!--[if IE 9]><div id="ie9" class="ie"><![endif]-->
+  <!--[if IE 8]><div id="ie8" class="ie"><![endif]-->
+  <!--[if lte IE 7]><div id="ie7" class="ie"><![endif]-->
+  <div id="logo-header-container">
+    <div id="logo-header">
+      <div id="login-header" class="">
+
+  <div class="account">
+    <span>
+        <a href="http://moz.com/tools">More Moz Tools</a>
+    </span>
+    <div class='menu-container'>
+      <span>
+        <a href="http://moz.com/help/pro/ose-overview" class="help">Help</a>
+      </span>
+      <div class='menu help-menu'>
+        <p class='icon-roger-help'>
+          <strong><a href="http://moz.com/help/pro/ose-overview">The Help Hub:</a></strong>
+          everything you need to know about <a href="http://moz.com/help/pro/ose-overview">OSE.</a>
+        </p>
+        <hr />
+        <p>
+          <strong>Have questions about Open Site Explorer?</strong>
+        </p>
+        <ul>
+          <li>
+            Check out the <a href="http://moz.com/community/q">Moz Q&amp;A Forum</a> to read questions with answers from industry experts.
+          </li>
+          <li>
+            Visit the Help Hub to ask our <a href="http://moz.com/help/contact">Help Team</a>.
+          </li>
+        </ul>
+      </div>
+    </div>
+      <div class="menu-container">
+        <span class='button-container'>
+          <a href="http://moz.com/login?redirect=http://www.opensiteexplorer.org/users/logged_in" class="login button-analytics">Login</a>
+        </span>
+        <div class="menu">
+          <form action="https://moz.com/login" method="post" target="_top">
+            <input id="data_User_remember" name="data[User][remember]" type="hidden" value="1" />
+            <input id="data_User_redirect" name="data[User][redirect]" type="hidden" value="http://www.opensiteexplorer.org/users/logged_in" />
+            <label>Account Email</label>
+            <div class="input-wrapper">
+              <input id="data_User_login_email" name="data[User][login_email]" placeholder="Email" type="text" value="" />
+            </div>
+            <label>Password</label>
+            <div class="input-wrapper">
+              <input id="data_User_password" name="data[User][password]" placeholder="Password" type="password" value="" />
+            </div>
+            <div class='account-links'>
+              <p>
+                <a href="http://moz.com/community/join">Create an Account</a>
+              </p>
+              <p>
+                <a href="http://moz.com/lost-password">Forgot Password?</a>
+              </p>
+            </div>
+            <input align="absmiddle" alt="Login" id="login_button" onclick="_gaq.push(['_trackPageview', '/vpv/header/login-button/referral']);" src="/images/btn-login.png?1374080320" type="image" />
+          </form>
+        </div>
+      </div>
+  </div>
+</div>
+
+<a href="/"><img alt="Open Site Explorer - Link Popularity Checker + Backlink Analysis Tool" src="/images/oselogo_small.png?1374080320" /></a>
+
+    </div>
+  </div>
+
+    <div id="header">
+    <div class="dark">
+  <form id="comparison-form" method="get">
+    http://<input class="ose_site required" name="site" tabindex="1" type="text" value="www.willsmelser.com">
+    <input type="submit" value="Search" />
+    <div class="error"></div>
+    <a href="/comparisons?site=www.willsmelser.com" id="compare-button">
+      +
+      <span class='has-tooltip-hint'>Compare up to 5 sites</span>
+    </a>
+  </form>
+  
+  <div id="metrics-wrapper">
+    <div id="domain-metrics">
+      <span class="metrics-label">Domain Metrics:</span>
+	  <div class="clearfix"></div>
+      <table class="metrics" cellspacing="1">
+        <tr>
+          <th>
+            <span class="has-tooltip hint">Domain Authority</span>
+            <div class="tooltip">Predicts this domain's ranking potential in the search engines based on an algorithmic combination of all link metrics.</div>
+          </th>
+        </tr>
+        <tr>
+          <td>
+              16<span class="subdued">/100</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div id="page-metrics">
+      <span class="metrics-label">Page Metrics:</span>
+	  <span id="metrics-refresh">
+      Just-Discovered Links index updated continuously. 
+      Last Mozscape index update: July 11, 2013.
+      Next Mozscape index update: August 8, 2013.
+	  </span>
+	  <div class="clearfix"></div>
+
+      <table class="metrics" cellspacing="1">
+        <tr>
+          <th>
+            <span class="has-tooltip hint">Page Authority</span>
+            <div class="tooltip">Predicts this page's ranking potential in the search engines based on an algorithmic combination of all link metrics.</div>
+          </th>
+          <th>
+            <span class="has-tooltip hint">Linking Root Domains</span>
+            <div class="tooltip">Number of unique root domains (e.g., *.example.com) containing at least one linking page to this URL.</div>
+          </th>
+          <th>
+            <span class="has-tooltip hint">Total Links</span>
+            <div class="tooltip">All links to this page including internal, external, followed, and nofollowed.</div>
+          </th>
+          <th><span class="has-tooltip hint subscribers-only">Facebook Shares</span> <div class="tooltip">Total number of times the URL was posted on a public Facebook page.</div></th>
+          <th><span class="has-tooltip hint subscribers-only">Facebook Likes</span> <div class="tooltip">Total number of times this URL and Facebook comments on this URL were Liked. Does not include Likes of a Facebook page or Likes via embedded buttons on the URL.</div></th>
+          <th><span class="has-tooltip hint subscribers-only">Tweets</span> <div class="tooltip">Total tweets and retweets of this URL since March 2010, including tweets of the URL with unique parameters added. Data provided by Tweetmeme.</div></th>
+          <th><span class="has-tooltip hint subscribers-only">Google +1s</span> <div class="tooltip">Total number of times this URL has been Google +1ed. Note: This data is in beta.</div></th>
+        </tr>
+        <tr>
+          <td>
+              30<span class="subdued">/100</span>
+          </td>
+          <td>
+              1
+          </td>
+          <td>
+              1,027
+          </td>
+            <td colspan='4'>
+              <span class='learn-more'>
+                Social metrics only available to paid Moz subscribers.
+                <a href="http://moz.com/pro">Learn more</a>
+              </span>
+            </td>
+        </tr>
+      </table>
+    </div>
+    <div style="clear:both"></div>
+  </div>
+</div>
+
+  </div>
+  <div id="subnav">
+    <ul>
+  <li>
+    <a class="" href="/links?site=www.willsmelser.com">
+      Inbound Links
+      <span class="info-icon has-tooltip"></span>
+      <div class="tooltip"><strong>Gauge the site's influence.</strong><br />See inbound links to the URL or domain you've entered and analyze the linking pages.</div>
+    </a>
+  </li>
+  <li>
+    <a class="" href="/pages?site=www.willsmelser.com">
+      Top Pages
+      <span class="info-icon has-tooltip"></span>
+      <div class="tooltip"><strong>Target the best pages to maximize link building.</strong><br/>See top pages on this domain according to Page Authority.</div>
+    </a>
+  </li>
+  <li>
+    <a class="" href="/domains?site=www.willsmelser.com">
+      Linking Domains
+      <span class="info-icon has-tooltip"></span>
+      <div class="tooltip"><strong>Gauge your site's influence.</strong><br/>Analyze the root domains that link to the URL or domain you've entered.</div>
+    </a>
+  </li>
+  <li>
+    <a class="" href="/anchors?site=www.willsmelser.com">
+      Anchor Text
+      <span class="info-icon has-tooltip"></span>
+      <div class="tooltip"><strong>Learn what keywords the site might be ranking for.</strong><br/>Analyze the phrases and terms most commonly used as anchor text to link to the provided URL or domain.</div>
+    </a>
+  </li>
+  <li>
+    <a class=" compare-link-metrics" href="/comparisons?site=www.willsmelser.com">
+      Compare Link Metrics
+      <span class="info-icon has-tooltip"></span>
+      <div class="tooltip"><strong>See detailed metrics</strong> about the URL you've entered on the page level, subdomain level, and root domain level. Compare these metrics for up to five URLs.</div>
+    </a>
+  </li>
+  <li>
+    <a class="" href="/advanced_exports?site=www.willsmelser.com">
+      Advanced Reports
+      <span class="info-icon has-tooltip"></span>
+      <div class="tooltip"><strong>Request CSV reports</strong> of links, pages, or domains using advanced filters.</div>
+    </a>
+  </li>
+  <li>
+    <a class="active just-discovered" href="/just-discovered?site=www.willsmelser.com">
+      Just-Discovered <span class="beta">beta</span>
+      <span class="info-icon has-tooltip"></span>
+      <div class="tooltip"><strong>Find New Links.</strong><br/>Find links to the domain, subdomain, or URL you've searched within minutes after they're shared.</div>
+    </a>
+  </li>
+</ul>
+<div style="clear:left;"></div>
+
+  </div>
+  <div id="content">
+      
+  <div class="message error no-results">
+    <div>
+
+      <h2>No Data Available for this URL</h2>
+
+      <p>Our Fresh Index is updated continuously with URLs shared on Twitter. We crawl the URLs, and include links on the pages that have been shared. There are a number of reasons why we may not have data on a URL. These can include:</p>
+
+      <ul>
+        <li>
+          <strong>When Page Was Last Shared:</strong><br />
+          To keep our index fresh we only include links that have been shared in the last 30 days. If there is no data returned for a URL, it may not have been shared recently. You can tweet the URL to add it back to the index.
+        </li>
+        <li>
+          <strong>Blocked Pages:</strong><br />
+          If our crawlers or data sources are blocked from reaching your URLs, they may not be included in our index (though links that points to those pages will still be available)
+        </li>
+      </ul>
+    </div>
+  </div>
+
+      
+      <div class="hidden" id="export-progress" data-limit="200">
+  <p>
+    Hi! Your report has been started. This may take 
+      up to 15 minutes
+    while we gather the data
+    and create the report.
+  </p>
+  
+  <div id="export-progress-info">
+    <div class="progress-container">
+      <div class="status"><strong>Pending</strong>Waiting politely in line while other users' reports finish up!</div>
+      <div class="progress"></div>  
+    </div>
+  </div>
+  
+  <p>
+    <strong>If you close this box</strong>, your report will continue to be created. You can always view your pending and 
+    completed reports by clicking the <a href="/exports">Recent CSV Reports</a> link in the top right. You 
+    can also <a class="view-all" href="/exports" target="exports">monitor this download in a new window</a> while you continue 
+    to browse.
+  </p>
+  
+  <img src="../images/recent_reports_link_screenshot.png" />
+  
+  <div class="delivery-options hidden">
+    <div class="field-label">
+  <input type="checkbox" id="instant-" checked="checked" class="download" />
+  <label for="instant-">
+    Start download automatically when report completes if this window is open.
+  </label>
+</div>
+<div class="field-label">
+  <input type="checkbox" id="email-" class="email" checked="checked" />
+  <label for="email-">
+    Email me when my report is complete.
+  </label>
+</div>
+  </div>
+  <a class="download image-button" style="display: none;"><span>Download</span></a>
+  <a class="close image-button" href="javascript:;"><span>Close</span></a>
+</div>
+  </div>
+
+  <form id="add-comparisons" class="hidden">
+
+    <p>You can add up to five URLs to compare page, subdomain and root domain level metrics.</p>
+
+    <div class="add-sites">
+      <ul>
+        <li><input type="text" /></li>
+      </ul>
+      <div class="add">Add Another URL</div>
+    </div>
+    <div class="edit-site">
+      <input type="hidden" id="index" />
+      <input type="text" />
+    </div>
+    <a class="compare">Compare</a>
+  </form>
+
+
+
+  <div id="footer">
+    Powered by
+    <a href="http://moz.com/"><img alt="Moz" src="/images/../images/footer_moz_logo.png?1374080320" /></a>
+    Analytics software to manage all your inbound marketing. Learn more about
+    <a href="http://moz.com/products">Moz Analytics</a> and our <a href="http://moz.com/products/api">Mozscape API</a>.
+  </div>
+    <img src="http://ad.retargeter.com/seg?add=85254&t=2" width="1" height="1" />
+  
+  <!--[if lte IE 7]></div><![endif]-->
+  <!--[if IE 8]></div><![endif]-->
+  <!--[if IE 9]></div><![endif]-->
+  
+    <!-- Google Code for OSE Remarketing List -->
+    <script type="text/javascript">
+        /* <![CDATA[ */
+        var google_conversion_id = 1018567859;
+        var google_conversion_language = "en";
+        var google_conversion_format = "3";
+        var google_conversion_color = "ffffff";
+        var google_conversion_label = "zhIACI2AugMQs7nY5QM";
+        var google_conversion_value = 0;
+        /* ]]> */
+    </script>
+    <script type="text/javascript" src="http://www.googleadservices.com/pagead/conversion.js">
+    </script>
+    <noscript>
+      <div style="display:inline;">
+        <img height="1" width="1" style="border-style:none;" alt="" src="http://www.googleadservices.com/pagead/conversion/1018567859/?label=zhIACI2AugMQs7nY5QM&amp;guid=ON&amp;script=0"/>
+      </div>
+    </noscript>
+
+
+
+
+  <script type="text/javascript">
+  adroll_adv_id = "FPS3PUPAPFHF3LWTAI6QH3";
+  adroll_pix_id = "JZCVX6QX35AFZBBPINOJUS";
+  (function () {
+  var oldonload = window.onload;
+  window.onload = function(){
+     __adroll_loaded=true;
+     var scr = document.createElement("script");
+     var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
+     scr.setAttribute('async', 'true');
+     scr.type = "text/javascript";
+     scr.src = host + "/j/roundtrip.js";
+     ((document.getElementsByTagName('head') || [null])[0] ||
+      document.getElementsByTagName('script')[0].parentNode).appendChild(scr);
+     if(oldonload){oldonload()}};
+  }());
+  </script>
+  <script type="text/javascript">
+   adroll_segments = "opensiteexplorer"
+  </script>
+  
+  <!-- This page served from ose6 -->
+</body>
+</html>
+

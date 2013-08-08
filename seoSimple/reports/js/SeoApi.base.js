@@ -58,11 +58,17 @@
 				this.targetMap[method](data[method]);
 			}else{
 				//render this
-				this.handleSuccessTrue(method, data[method],this.targetMap[method]);
+				this.handleSuccessTrue(method, data[method].data,this.targetMap[method]);
 			}
 		}
+		
+		//clear everything
+		this.targetMap = [];
+		this.methods = [];
+		this.methodAll = false;
 	},
-	handleSuccessTrue : function(method, data, $target){
+	handleSuccessTrue : function(method, data, target){
+		$target = $(target);
 		if(typeof this['render_'+method] != "function"){
 			console.log('Custom handler render_'+method+' did not exist. Using default...');
 			$target.html("");
@@ -73,11 +79,12 @@
 	},
 	handleError : function(){
 		for(var x in this.methods){
-			this.targetMap[this.methods[x]].html(this.failObj.find('.reason').html('Ajax Request Failure'));
+			$(this.targetMap[this.methods[x]]).html(this.failObj.find('.reason').html('Ajax Request Failure'));
 		}
 	},
 	//need to handle this better
 	defaultRender : function(data, $target){
+		console.log('loading pretty print');
 		var rUrl = (typeof window.SeoReport == "undefined") ? "" : "js/";
 		rUrl += 'prettyPrint.js';
 		$.ajax({
@@ -85,6 +92,7 @@
 		  dataType: "script",
 		  cache: true,
 		  success: function(){
+			  console.log('About to set html content of target',$target,data,$target.html());
 			  $target.html(prettyPrint(data));
 		  }
 		});
@@ -94,12 +102,14 @@
 		this.url = url;
 		var req = this.buildRequest(url);
 		
+		//make sure we have callbacks defined
 		if(typeof callback != "function")
 			callback = this.handleSuccess;
+		
 		if(typeof errCallback != "function")
 			errCallback = this.handleError;
 		
-		//information
+		//get data
 		$.getJSON(req,function(data){
 			//we dont get nested responses when
 			//only a single method is requested,
@@ -114,6 +124,7 @@
 			
 			if(scope.waitOnLoad){
 				$(document).ready(function(){
+					console.log('document is loaded');
 					callback.call(scope, resp);
 				});
 			}else{
