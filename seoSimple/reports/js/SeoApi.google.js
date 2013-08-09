@@ -15,12 +15,9 @@
 		 */
 		
 		render_getPageRank : function(data, $target){
-			console.log(data,$target);
 			$target.html(data);
 		},
 		render_getBacklinks : function(data, $target){
-			
-			window.testdata = data;
 			var render = window[namespace].render;
 
 			var $ul = render.newEl('ul');

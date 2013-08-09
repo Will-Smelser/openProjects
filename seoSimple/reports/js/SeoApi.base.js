@@ -68,11 +68,12 @@
 		this.methodAll = false;
 	},
 	handleSuccessTrue : function(method, data, target){
+		console.log("rendered",data);
 		$target = $(target);
 		if(typeof this['render_'+method] != "function"){
 			console.log('Custom handler render_'+method+' did not exist. Using default...');
 			$target.html("");
-			this.defaultRender(data.data, $target);
+			this.defaultRender(data, $target);
 		}else{
 			this['render_'+method](data, $target);
 		}
@@ -84,7 +85,7 @@
 	},
 	//need to handle this better
 	defaultRender : function(data, $target){
-		console.log('loading pretty print');
+		console.log('loading pretty print',data);
 		var rUrl = (typeof window.SeoReport == "undefined") ? "" : "js/";
 		rUrl += 'prettyPrint.js';
 		$.ajax({

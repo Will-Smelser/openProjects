@@ -31,7 +31,7 @@ SeoApi.load("<?php echo 'http://'.SEO_HOST.'/'.SEO_URI_API; ?>",'base');
 SeoApi.load('render');
 //SeoApi.load('head').depends('render').addMethod('getTitle','#reuslts3').exec('willsmelser.com');
 SeoApi.load('body').addMethod('checkForFrames','#reuslts2').exec('willsmelser.com');
-SeoApi.load('google').addMethod('getPageRank','#reuslts').addMethod('getBacklinks','#reuslts3').exec('willsmelser.com');
+SeoApi.load('social').addMethod('all','#reuslts').exec('willsmelser.com');
 /*
 SeoApi.waitOn('head',function(){
 	console.log('head loaded');

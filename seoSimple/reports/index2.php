@@ -345,17 +345,6 @@ SeoApi.load('google').depends('render')
 
 $(document).ready(function(){
 
-	
-	//social
-	$.getJSON(api+"social/all?request="+url,function(data){
-		var $soc = $('#social');
-		var $ul = $(document.createElement('ul'));
-		for(var x in data.data){
-			$ul.append(createList(x.replace('get',''), data.data[x].data));
-		}
-		$soc.html($ul);
-	});
-
 	var addHXcontent = function(obj){
 		var $ul = $(document.createElement('ul'));
 		for(var x in obj){
