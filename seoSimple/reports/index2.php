@@ -359,84 +359,25 @@ SeoApi.load('body').depends('render')
 	.addMethod('checkForFlash','#body-bad-stuff')
 	.addMethod('checkImages','#body-images')
 	.exec(url);
+	
 SeoApi.load('head').depends('render')
 	.addMethod('all',"#head-info")
+	.exec(url);
+	
+SeoApi.load('server').depends('render')
+	.addMethod('getWhois','#server-whois')
+	.addMethod('getHeaderResponseLine','#server-general-info')
+	.addMethod('getLoadTime','#server-general-info')
+	.addMethod('isGzip','#server-general-info')
+	.addMethod('getServer','#server-general-info')
+	.addMethod('validateW3C','#w3c-general')
+	.addMethod('getValidateW3Cerrors','#w3c-error')
+	.addMethod('getValidateW3Cwarnings','#w3c-warning')
 	.exec(url);
 	
 $(document).ready(function(){
 
 
-	
-	//get the server data
-	$.getJSON(api+"server/all?request="+url,function(data){
-
-		//whois
-		var $ul = $(document.createElement('ul'));
-		var whois = data.data.getWhois.data;
-		for(var x in whois){
-			$ul.append(createList(x.replace('_',' '),whois[x]));
-		}
-		$('#server-whois').html($ul);
-
-		//general
-		$ul = $(document.createElement('ul'));
-		var response = data.data.getHeaderResponseLine.data;
-		var load = data.data.getLoadTime.data;
-		var gzip = data.data.isGzip.data;
-		var server = data.data.getServer.data;
-		$ul.append(createList('HTTP Response Code',response));
-		$ul.append(createList('Load Time',load+' sec.'));
-		$ul.append(createList('Server Info', server));
-		$ul.append(createList('Gzip Compression', gzip));
-		$ul.append(createList('Robots.txt',(data.data.checkRobots.data == false) ? false : true));
-		$('#server-general-info').html($ul);
-
-		//w3c validation
-		$ul = $(document.createElement('ul'));
-		var w3cgen = data.data.validateW3C.data;
-		var w3cerr = data.data.getValidateW3Cerrors.data;
-		var w3cwarn= data.data.getValidateW3Cwarnings.data;
-		$('#w3c-general').html('The HTML document is '+(w3cgen?'<b>VALID</b>':'<b style="color:red">INVALID</b>'));
-
-		//w3c errors
-		var $w3cerr = $('#w3c-error');
-		if(w3cerr.length > 0){
-			var $table = $(document.createElement('table'));
-			var $tr = $(document.createElement('tr'));
-			for(var x in w3cerr[0])
-				$tr.append($(document.createElement('th')).html(x));
-
-			$table.append($tr);
-			
-			for(var x in w3cerr)
-				$table.append(w3cErrToString(w3cerr[x]));
-
-			$w3cerr.html($table);
-			
-		}else{
-			$w3cerr.html('No Errors');
-		}
-
-		//w3c warning
-		var $w3cwarn = $('#w3c-warning');
-		if(w3cwarn.length > 0){
-			var $table = $(document.createElement('table'));
-			var $tr = $(document.createElement('tr'));
-			for(var x in w3cwarn[0])
-				$tr.append($(document.createElement('th')).html(x));
-
-			$table.append($tr);
-			
-			for(var x in w3cwarn)
-				$table.append(w3cErrToString(w3cwarn[x]));
-
-			$w3cwarn.html($table);
-			
-		}else{
-			$w3cwarn.html('No Warnings');
-		}
-		
-	});
 
 	//some moz data
 	$.getJSON(api+"moz/all?request="+url,function(data){

@@ -63,12 +63,20 @@
 		
 		render_getValidateW3Cerrors : function(data,$target){
 			var render = window[namespace].render;
-			$target.append(render.newTbl(data));
+			if(data.length > 0){
+				$target.append(render.newTbl(data));
+			}else{
+				$target.append('No Errors');
+			}
 		},
 		
 		render_getValidateW3Cwarnings : function(data,$target){
 			var render = window[namespace].render;
-			$target.append(render.newTbl(data));
+			if(data.length > 0){
+				$target.append(render.newTbl(data));
+			}else{
+				$target.append('No Warnings');
+			}
 		},
 		/*
 		render_getTitle : function(data, $target){
