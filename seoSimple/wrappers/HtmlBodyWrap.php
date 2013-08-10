@@ -70,7 +70,7 @@ class HtmlBodyWrap{
 	}
 	
 	/**
-	 * GEt phrases for the top words
+	 * Get phrases for the top words
 	 * @param number $words The top words to search, defaul is 5
 	 * @return array An array of <word> => <array of phrases>. <word> is the normalized word;  
 	 */
@@ -82,28 +82,60 @@ class HtmlBodyWrap{
 		
 		$result = array();
 		foreach($this->getKeyWords($words) as $word){
-			$result[$word->normal] = array();
-			array_push($result[$word->normal], $this->getWC()->getPhrasesWithWord($word->normal));
+			$result[$word->normal] = $this->getWC()->getPhrasesWithWord($word->normal);
 		}
 		
 		return $result;
 	}
 	
+	private function getDefault($arg, $arg1, $argIndex, $default){
+		//came from api, arguments are an array
+		if(is_array($arg1)){
+			return (count($arg1) > $argIndex && $arg1[$argIndex] > 0) ? $arg1[$argIndex]*1 : $default;
+		}
+		return ($arg*1 > 0) ? $arg*1 : $default;
+	}
+	
 	/**
 	 * Look at top X words and get phrases in the document which
 	 * match the given word.
-	 * @param number $count The top X words to get phrases of
+	 * 
+	 * @param number $count Number of results to return in result set
+	 * 
+	 * @param number $thresh Default is 3.<br/<br/>
+	 * 
+	 * The threshold for minimum number of words
+	 * that must exist for it to be considered a phrase.  This is becuase
+	 * some single words, like a navigation link, are seen as a single
+	 * word phrase.<br/><br/>
+	 * 
+	 * Threshold must be considered delicately.  Phrases are determined by their
+	 * normalized word count.  For example, "today is a good day", normalized becomes
+	 * "today good day".  The threshold will look at this normalized phrase.<br/><br/>
+	 * 
+	 * It should also be considered that internally phrases are built with a normalized
+	 * phrase length of 3.  So this means there will be no normalized phrases longer
+	 * than 3, but there can be phrases shorted.
+	 * 
 	 * @return  array An array of phrase
 	 * @see Phrase
 	 */
-	public function getTopPhrases($count = 5){
-		if(is_array($count))
-			$count = (count($count) < 1) ? 0 : 1 * $count[0];
-		if($count < 1)
-			$count = 5;
+	public function getTopPhrases($count=10, $thresh = 2){
+		$count = $this->getDefault($count, $count, 0, 10);
+		$thresh = $this->getDefault($thresh, $count, 1, 2);
 		
+		$result = array();
 		$temp = $this->getWC()->getSortedPhrases();
-		return array_splice($temp, 0, $count);
+		
+		$size = 0;
+		foreach($temp as $entry){
+			if(str_word_count($entry->normal) >= $thresh){
+				array_push($result,$entry);
+				$size++;
+			}
+			if($size >= $count) break;
+		}
+		return $result;
 	}
 	
 	/**

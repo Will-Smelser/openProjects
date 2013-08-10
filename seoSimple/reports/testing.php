@@ -30,8 +30,9 @@ window.SeoReport = "<?php echo 'http://'.SEO_HOST.'/'.SEO_URI_REPORTS; ?>";
 SeoApi.load("<?php echo 'http://'.SEO_HOST.'/'.SEO_URI_API; ?>",'base');
 SeoApi.load('render');
 //SeoApi.load('head').depends('render').addMethod('getTitle','#reuslts3').exec('willsmelser.com');
-SeoApi.load('body').addMethod('checkH1','#reuslts2').exec('willsmelser.com');
-SeoApi.load('social').addMethod('all','#reuslts').exec('willsmelser.com');
+//SeoApi.load('body').addMethod('checkH1','#reuslts2').exec('willsmelser.com');
+SeoApi.load('server').addMethod('getValidateW3Cerrors','#reuslts').exec('willsmelser.com');
+
 /*
 SeoApi.waitOn('head',function(){
 	console.log('head loaded');
