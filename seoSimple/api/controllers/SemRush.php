@@ -6,11 +6,11 @@ class SemRush extends Controller{
 	
 	public $skip = array();
 	
-	public function SemRush($method){
+	public function SemRush($method,$args=null){
 		
 		$obj = new SemRushWrap($_GET['request']);
 		
-		$this->exec($obj, $method);
+		$this->exec($obj, $method, $args);
 	}
 
 }

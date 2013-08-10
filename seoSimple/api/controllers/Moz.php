@@ -6,11 +6,11 @@ class Moz extends Controller{
 	
 	public $skip = array();
 	
-	public function Moz($method){
+	public function Moz($method, $args=null){
 		
 		$moz = new MozWrap($_GET['request']);
 		
-		$this->exec($moz, $method);
+		$this->exec($moz, $method, $args);
 	}
 
 }
