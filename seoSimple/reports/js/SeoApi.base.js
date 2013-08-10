@@ -112,6 +112,7 @@
 		
 		//get data
 		$.getJSON(req,function(data){
+			
 			//we dont get nested responses when
 			//only a single method is requested,
 			//this will give us same response regardless

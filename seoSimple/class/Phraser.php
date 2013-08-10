@@ -14,7 +14,7 @@ function PhraseSort($a, $b){
 	if($a->count < $b->count)
 		return 1;
 	elseif($a->count == $b->count)
-	return 0;
+		return 0;
 	else
 		return -1;
 }
@@ -112,15 +112,6 @@ class SimplePhraser implements Phraser{
 			foreach($p->actual as $a)
 				if(stripos($a, $word) !== false)
 					array_push($result, $a);
-		}
-		return $result;
-	}
-	
-	public function getPhrasesWithNormalizedWord($word){
-		$result = array();
-		foreach($this->phrases as $p=>$obj){
-			if(stripos($p, $word) !== false)
-				array_push($result, $p);
 		}
 		return $result;
 	}

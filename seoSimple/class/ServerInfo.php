@@ -127,21 +127,31 @@ class ServerInfo{
 		return ($result === false) ? false : true;
 	}
 	
+	private $w3cCalled = false;
+	private $w3cValid = false;
+	private function initW3c(){
+		if(!$this->w3cCalled){
+			$this->w3cCalled = true;
+			$v = new Services_W3C_HTMLValidator();
+			$r = $v->validate($this->url);
+			if($r !== false){
+				$this->lastW3Cerrors = $r->errors;
+				$this->lastW3Cwarnings = $r->warnings;
+				$this->w3cValid = $r->isValid();
+			}else{
+				throw new Exception("Request to W3C failed.");
+			}
+		}
+	}
+	
 	/**
 	 * Validates using W3C pear package
 	 * @return boolean True on success, False on failure
 	 * @throws Exception
 	 */
 	public function validateW3C(){
-		$v = new Services_W3C_HTMLValidator();
-		$r = $v->validate($this->url);
-		if($r !== false){
-			$this->lastW3Cerrors = $r->errors;
-			$this->lastW3Cwarnings = $r->warnings;
-			return $r->isValid();
-		}else{
-			throw new Exception("Request to W3C failed.");
-		}
+		$this->initW3c();
+		return $this->w3cValid;
 	}
 	
 	/**
@@ -151,6 +161,7 @@ class ServerInfo{
 	 * @see http://pear.php.net/package/Services_W3C_HTMLValidator/docs/latest/Services_W3C_HTMLValidator/Services_W3C_HTMLValidator_Message.html
 	 */
 	public function getValidateW3Cerrors(){
+		$this->initW3c();
 		return $this->lastW3Cerrors;
 	}
 	
@@ -161,6 +172,7 @@ class ServerInfo{
 	 * @see http://pear.php.net/package/Services_W3C_HTMLValidator/docs/latest/Services_W3C_HTMLValidator/Services_W3C_HTMLValidator_Message.html
 	 */
 	public function getValidateW3Cwarnings(){
+		$this->initW3c();
 		return $this->lastW3Cwarnings;
 	}
 }

@@ -341,204 +341,31 @@ SeoApi.load('google').depends('render')
 	.addMethod('getPageRank','#google-pr')
 	.addMethod('getBacklinks','#google-backlinks')
 	.exec(url);
-
-
+	
+SeoApi.load('body').depends('render')
+	.addMethod('checkH1','#body-header-tags')
+	.addMethod('checkH2','#body-header-tags')
+	.addMethod('checkH3','#body-header-tags')
+	.addMethod('checkH4','#body-header-tags')
+	.addMethod('getKeyWords','#body-keywords')
+	.addMethod('getPhrases','#body-keywords2')
+	.addMethod('checkLinkTags','#body-inline-style')
+	.addMethod('checkInlineCSS','#body-inline-style')
+	.addMethod('checkInlineStyle','#body-inline-style')
+	.addMethod('getInternalAnchor','#body-anchors')
+	.addMethod('getExternalAnchor','#body-anchors')
+	.addMethod('checkForFrames','#body-bad-stuff')
+	.addMethod('checkForIframes','#body-bad-stuff')
+	.addMethod('checkForFlash','#body-bad-stuff')
+	.addMethod('checkImages','#body-images')
+	.exec(url);
+SeoApi.load('head').depends('render')
+	.addMethod('all',"#head-info")
+	.exec(url);
+	
 $(document).ready(function(){
 
-	var addHXcontent = function(obj){
-		var $ul = $(document.createElement('ul'));
-		for(var x in obj){
-			
-			var div = document.createElement('div');
-			var txt = obj[x].text;
-			div.innerHTML = txt;
 
-			if(typeof div.textContent === "string")
-				txt = div.textContent;
-			else if(typeof div.innerText === "string")
-				txt = div.innerText;
-
-			$ul.append($(document.createElement('li')).html(txt));
-		}
-		return $ul;
-	};
-
-	//get the body data
-	$.getJSON(api+"body/all?request="+url,function(data){
-		//check the header data
-		var $htags = $('#body-header-tags');
-
-		//header tags
-		var $ul = $(document.createElement('ul'));
-		
-		var $li = createList('&lt;H1&gt;',data.data.checkH1.data.length);
-		$li.wrapInner(document.createElement('a'));
-		$li.append(addHXcontent(data.data.checkH1.data));
-		$li.click(function(){$(this).find('ul').slideToggle()});
-		$ul.append($li);
-
-		$li = createList('&lt;H2&gt;',data.data.checkH2.data.length);
-		$li.wrapInner(document.createElement('a'));
-		$li.append(addHXcontent(data.data.checkH2.data).hide());
-		$li.click(function(){$(this).find('ul').slideToggle()});
-		$ul.append($li);
-
-		$li = createList('&lt;H3&gt;',data.data.checkH3.data.length);
-		$li.wrapInner(document.createElement('a'));
-		$li.append(addHXcontent(data.data.checkH3.data).hide());
-		$li.click(function(){$(this).find('ul').slideToggle()});
-		$ul.append($li);
-
-		
-		$li = createList('&lt;H4&gt;',data.data.checkH4.data.length);
-		$li.wrapInner(document.createElement('a'));
-		$li.append(addHXcontent(data.data.checkH4.data).hide());
-		$li.click(function(){$(this).find('ul').slideToggle()});
-		$ul.append($li);
-		
-		$htags.html($ul);
-
-		//word count
-		var $words = $('#body-keywords');
-		var $phrases = $('#body-keywords2');
-		
-		$ul = $(document.createElement('ul'));
-		$pul = $(document.createElement('ul'));
-		for(var i=0; i<5; i++){
-			var temp = data.data.getKeyWords.data[i];
-
-			var $a = $(document.createElement('a')).attr('onclick','serpQuery(\''+temp.words[0]+'\')').
-			attr('class','li-label').html(temp.words[0]);
-
-			var $a2 = $(document.createElement('a')).attr('onclick','serpQuery(\''+temp.words[0]+'\')').
-			attr('class','li-label').html(temp.words[0]);
-			
-			$li = $(document.createElement('li')).append($a2).append(temp.count);
-			$pli = $(document.createElement('li')).append($a).append(temp.count);
-
-			//add phrase data
-			var phrase = data.data.getPhrases.data[temp.normal][0];
-			var $ul2 = $(document.createElement('ul'));
-			for(var x in phrase){
-				var start = phrase[x].indexOf(temp.normal);
-				end = start;
-				for(var j=start; j < phrase[x].length && phrase[x].charAt(j) !== ' '; j++)
-					end = j;
-
-				end++;
-
-				var front = phrase[x].substr(0,start-1);
-				var middle = phrase[x].substr(start, end-start);
-				var back = phrase[x].substr(end+1);
-
-				var $a = $(document.createElement('a')).attr('onclick','serpQuery(\''+temp.words[0]+'\')').html(front+' <b>'+middle+'</b> '+back);
-				
-				$ul2.append($(document.createElement('li')).append($a));
-
-			}
-			$pli.append($ul2);
-			$pul.append($pli);
-
-			$ul.append($li);
-		}
-		$words.html($ul);
-		$phrases.html($pul);
-
-		//inline css
-		var $icss = $('#body-inline-style');
-		$ul = $(document.createElement('ul'));
-		var ltagcount = 0;
-		var ltaghosts = 0;
-		for(var host in data.data.checkLinkTags.data)
-			ltaghosts++;
-			ltagcount += data.data.checkLinkTags.data[host].length;
-		
-		$ul.append(createList('Total &lt;link&gt; tag count',ltagcount));
-		$ul.append(createList('Total &lt;link&gt; tag host count',ltaghosts));
-		$ul.append(createList('Inline CSS count',data.data.checkInlineCSS.data.length));
-		$ul.append(createList('Inline &lt;style&gt; count',data.data.checkInlineStyle.data.length));
-		$icss.html($ul);
-
-		//anchors
-		var $anchor = $('#body-anchors');
-		$ul = $(document.createElement('ul'));
-		$ul.append(createList('Internal &lt;a&gt; tags',data.data.getInternalAnchor.data.length));
-		$ul.append(createList('External &lt;a&gt; tags',data.data.getExternalAnchors.data.length));
-		$anchor.html($ul);
-
-		//bad stuff like frames
-		var $bad = $('#body-bad-stuff');
-		$ul = $(document.createElement('ul'));
-		$ul.append(createList('Page contains frames?',data.data.checkForFrames.data));
-		$ul.append(createList('Page contains iframes?',data.data.checkForIframes.data));
-		$ul.append(createList('Page contains flash/objects?',data.data.checkForFlash.data));
-		$bad.html($ul);
-
-		//images
-		var $img = $('#body-images');
-
-		var $table = $(document.createElement('table'));
-		var $tr = $(document.createElement('tr'));
-		$tr.html('<th>Result</th><th>Url</th><th>Alt</th><th>Title</th><th>Expected</th><th>Actual</th>');
-		$table.append($tr);
-		
-		for(var x in data.data.checkImages.data){
-			var temp = data.data.checkImages.data[x];
-			var result;
-			switch(temp.result){
-			case 0:
-				result = 'Bad Size';
-				break;
-			case 1:
-				result = 'Good';
-				break;
-			default:
-				result = 'Failed';
-				break;
-			}
-			var sizeHtml = (temp.result === 1) ? temp.htmlWidth + 'x' + temp.htmlHeight : 'N/A';
-			var sizeAct = (temp.result === 1) ? temp.actualWidth + 'x' + temp.actualHeight : 'N/A';  
-			var row = [
-				result,
-				'<div style="text-overflow:clip;max-width:250px;"><a target="_blank" href="'+temp.url+'">'+temp.url.substr(temp.url.lastIndexOf("/") + 1)+'</a></div>',
-				temp.alt,temp.title,
-				sizeAct,
-				sizeHtml
-			];
-			var $tr = createTableRow(row);
-			
-			$table.append($tr);
-		}
-		$img.html($table);
-	});
-
-	//get the header information
-	$.getJSON(api+"head/all?request="+url,function(data){
-		
-		var $head = $("#head-info");
-
-		var title = data.data.getTitle.data.text;
-		var mdesc = (data.data.getMetaDesc.data === null) ? 'None' : data.data.getMetaDesc.data;
-		var mkwrd = (data.data.getMetaKeywords.data === null) ? 'None' : data.data.getMetaKeywords.data;
-		var fav = data.data.getFavicon.data;
-		if(fav === null)
-			fav = (data.data.getFaviconNoTag.data === null) ? 'None' : data.data.getFaviconNoTag.data;
-		var doc = data.data.getDoctype.data;
-		var enc = (data.data.getEncoding.data == null) ? 'None' : data.data.getEncoding.data;
-		var lang= (data.data.getLang.data == null) ? 'None' : data.data.getLang.data;
-
-		$ul = $(document.createElement('ul'));
-		$ul.append(createList('Title',title));
-		$ul.append(createList('Meta Description', mdesc));
-		$ul.append(createList('Meta Keywords',mkwrd));
-		$ul.append(createList('Favicon',fav));
-		$ul.append(createList('Document Type',doc));
-		$ul.append(createList('Content Encoding',enc));
-		$ul.append(createList('Language',lang));
-
-		$head.html($ul); 	
-		
-	});
 	
 	//get the server data
 	$.getJSON(api+"server/all?request="+url,function(data){

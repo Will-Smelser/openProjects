@@ -46,8 +46,11 @@ class WordCount{
 		return $this->phraser->getPhrasesWithWord($normal);
 	}
 	
+	/**
+	 * Deprecated.  Use getSortedPhrases()
+	 */
 	public function getPhrases(){
-		return $this->phraser->getPhrases();
+		return $this->phraser->getSortedPhrases();
 	}
 	
 	public function getSortedPhrases(){
@@ -62,14 +65,19 @@ class WordCount{
 		$this->addSpaces($str);
 		$this->cleanHTML($str);
 		
-		$words = str_word_count($str,1);//gives all unique workds
+		$words = str_word_count($str,1);//gives all unique words
 		
 		foreach($words as $key=>$word){
 			$normal = $this->normalize($word);
+			
+			//word was a delimiter
 			if($word === $this->phraser->d){
 				$this->phraser->closePhrase();
 				continue;
-			}else if(!in_array($word,$this->stopwords) && !in_array($normal,$this->stopwords)){
+			//not a stop word and more than a character
+			}else if(!in_array($word,$this->stopwords) && !in_array($normal,$this->stopwords)
+				&& strlen($word) > 1		
+			){
 				
 				if(!empty($normal) && array_key_exists($normal,$result)){
 					//do nothing
@@ -81,6 +89,7 @@ class WordCount{
 				if(is_object($this->phraser))
 					$this->phraser->addWord($word, $normal, false);
 				
+			//must be a stop word
 			}else{
 				if(is_object($this->phraser))
 					$this->phraser->addWord($word, $normal, true);
@@ -134,9 +143,14 @@ class WordCount{
 			$this->removeTag($tag, $str);
 		}
 		
+		//prepend my delimiter to front of html tags
 		$str = str_replace('<',' '.$this->phraser->d.' <',$str);
+		
 		$str = strip_tags($str);
 		$str = html_entity_decode($str);
+		
+		//fix a bug in the godaddy hosted environment
+		$str = preg_replace('/\&[\w\d]+\;/i','',$str);
 		
 	}
 	

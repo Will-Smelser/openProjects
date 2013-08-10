@@ -19,33 +19,35 @@
 		return $ul;
 	},
 	newRow : function(obj, type, useKeys){
-		type = (typeof type == undefined) ? 'tr' : type;
+		type = (typeof type === "undefined") ? 'td' : type;
 		useKeys = (typeof useKeys == undefined) ? false : useKeys;
 		var $tr = this.newEl('tr');
 		for(var x in obj){
-			
 			var val = x;
 			if(useKeys)
 				val = (obj[x] == null) ? "Null" : obj[x];
 
-			$tr.append(this.newEl('td').addClass('c'+x).html(val));
+			$tr.append(this.newEl(type).addClass('c'+x).html(val));
 		}
 		return $tr;
 	},
 	
-	newTblHead : function(obj){
-		return this.newRow(obj,'th',true);
+	newTblHead : function(obj, useKeys){
+		if(typeof useKeys === "undefined") useKeys = false;
+		console.log(obj,'th',useKeys);
+		return this.newRow(obj,'th',useKeys);
 	},
 	
 	newTbl : function(objRows, objHead){
 		var $tbl = this.newEl('table');
-		if(typeof objHead == undefined)
-			$tbl.append(this.newTblHead(objRows[0]));
-		else
-			$tbl.append(this.newTblHead(objHead));
+		if(typeof objHead === "undefined"){
+			console.log(objRows,objRows[0]);
+			$tbl.append(this.newTblHead(objRows[0],false));
+		}else
+			$tbl.append(this.newTblHead(objHead,false));
 		
 		for(var x in objRows)
-			$tbl.append(this.newRow(objRows[x]));
+			$tbl.append(this.newRow(objRows[x],'td',true));
 		
 		return $tbl;
 	}

@@ -24,8 +24,9 @@
 		 * to apiObject and api is set to null.
 		 * @param api  The url of seo api
 		 * @param apiObject The api controller to load
+		 * @param callback A callback to be executed after load and merge
 		 */
-		load : function(api, apiObject){
+		load : function(api, apiObject, callback){
 			
 			if(typeof apiObject == "undefined"){
 				apiObject = api;
@@ -49,6 +50,8 @@
 					  
 					  if(typeof window[namespace][apiObject].init === 'function')
 						  window[namespace][apiObject].init();
+					  
+					  if(typeof callback === "function") callback();
 					  
 				  });
 				  
