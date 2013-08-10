@@ -62,6 +62,10 @@ class HtmlBodyWrap{
 	 * @see Word
 	 */
 	public function getKeyWords($count=25){
+		if(is_array($count))
+			$count = (count($count) < 1) ? 0 : 1 * $count[0];
+		if($count < 1)
+			$count = 25;
 		return array_slice($this->getWC()->getCount(), 0, $count);
 	}
 	
@@ -71,6 +75,11 @@ class HtmlBodyWrap{
 	 * @return array An array of <word> => <array of phrases>. <word> is the normalized word;  
 	 */
 	public function getPhrases($words=5){
+		if(is_array($words))
+			$words = (count($words) < 1) ? 0 : 1 * $words[0];
+		if($words < 1)
+			$words = 5;
+		
 		$result = array();
 		foreach($this->getKeyWords($words) as $word){
 			$result[$word->normal] = array();
@@ -88,6 +97,11 @@ class HtmlBodyWrap{
 	 * @see Phrase
 	 */
 	public function getTopPhrases($count = 5){
+		if(is_array($count))
+			$count = (count($count) < 1) ? 0 : 1 * $count[0];
+		if($count < 1)
+			$count = 5;
+		
 		$temp = $this->getWC()->getSortedPhrases();
 		return array_splice($temp, 0, $count);
 	}
@@ -98,6 +112,9 @@ class HtmlBodyWrap{
 	 * @return array An array of string (phrases) which contain the normalized word.
 	 */
 	public function getPhrasesSpecific($word=''){
+		if(is_array($word))
+			$word = (count($word) < 1) ? '' : $word[0];
+		
 		$temp = $this->getWC();
 		if(empty($word)){
 			$temp2 = $temp->getCount();
