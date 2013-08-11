@@ -31,7 +31,7 @@ SeoApi.load("<?php echo 'http://'.SEO_HOST.'/'.SEO_URI_API; ?>",'base');
 SeoApi.load('render');
 //SeoApi.load('head').depends('render').addMethod('getTitle','#reuslts3').exec('willsmelser.com');
 //SeoApi.load('body').addMethod('checkH1','#reuslts2').exec('willsmelser.com');
-SeoApi.load('server').addMethod('getValidateW3Cerrors','#reuslts').exec('willsmelser.com');
+SeoApi.load('semrush').addMethod('getDomainReport','#reuslts').exec('www.inedo.com');
 
 /*
 SeoApi.waitOn('head',function(){

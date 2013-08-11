@@ -6,6 +6,7 @@
 	
 	window[namespace].head = {
 		apiController : 'head',
+		dependencies: ['render'],
 		
 		init:function(){
 			window[namespace].load('render');

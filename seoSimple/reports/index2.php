@@ -374,65 +374,17 @@ SeoApi.load('server').depends('render')
 	.addMethod('getValidateW3Cerrors','#w3c-error')
 	.addMethod('getValidateW3Cwarnings','#w3c-warning')
 	.exec(url);
+
+SeoApi.load('moz').depends('render')
+	.addMethod('getMozLinks','#moz-link')
+	.addMethod('getMozJustDiscovered','#moz-disc')
+	.exec(url);
 	
 $(document).ready(function(){
-
-
-
-	//some moz data
-	$.getJSON(api+"moz/all?request="+url,function(data){
-
-
-		
-		var $ul = $(document.createElement('ul'));
-		$ul.append(createList('Page Authority',data.data.getMozLinks.data.pageAuthority));
-		$ul.append(createList('Domain Authority',data.data.getMozLinks.data.domainAuthority));
-		$ul.append(createList('Inbound Links',data.data.getMozLinks.data.totalInboundLinks));
-		$ul.append(createList('Inboutnd Domains',data.data.getMozLinks.data.linkingRootDomains));
-		$('#moz-link').html($ul);
-
-		$ul = $(document.createElement('ul'));
-		
-		
-		for(var x in data.data.getMozJustDiscovered.data){
-			
-			var $li = $(document.createElement('li'));
-			var $ul2 = $(document.createElement('ul'));
-			
-			var temp = data.data.getMozJustDiscovered.data[x];
-			$ul2.append(createList('Link Text',temp.text));
-			$ul2.append(createList('Page Authority',temp.pageAuthority));
-			$ul2.append(createList('Domain Authority',temp.DomainAuthority));
-			$ul2.append(createList('Discovery Time',temp.DiscoveryTime));
-
-			var $a = $(document.createElement('a')).attr('target','_blank').attr('href',temp.link).html(temp.link);
-			
-			$li.append($a);
-			$li.append($ul2);
-			$ul.append($li);
-		}
-		$('#moz-disc').html($ul);
-		
-	});
-
 	//semRUSH data
 	$.getJSON(api+"SemRush/all?request="+url,function(data){
 		var $ul = $(document.createElement('ul'));
 		
-		for(var x in data.data.getKeyWordsReport.data){
-			var $li = $(document.createElement('li'));
-			var $ul2 = $(document.createElement('ul'));
-		
-			//key word report
-			var temp = data.data.getKeyWordsReport.data[x];
-			
-			$li.html(temp.Ph.data);
-			for(var y in temp)	
-				$ul2.append(createList(temp[y]['short'],temp[y].data));
-
-			$ul.append($li.append($ul2));
-		}
-		$('#semrush-keywords').html($ul);
 		
 			
 		$ul = $(document.createElement('ul'));

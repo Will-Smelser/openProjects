@@ -6,6 +6,7 @@
 	
 	window[namespace].body = {
 		apiController : 'body',
+		dependencies: ['render'],
 			
 		init:function(){
 			window[namespace].load('render');

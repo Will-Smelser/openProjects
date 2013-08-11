@@ -49,31 +49,44 @@ class MozWrap{
 		$results = array();
 		
 		if(count($tables) > 0){
-			$table;
+			$table = null;
 			foreach($tables as $tbl){
-				if(isset($tbl->attributes['id']) && $tbl->attributes['id']=='results'){
+				if(isset($tbl->attributes['id']) && $tbl->attributes['id']==='results'){
 					$table = $tbl;
 					break;	
 				}
 			}
 			
-			$p2 = new HtmlParser($table->raw, $this->url);
-			$rows = $p2->getTags('tr');
-			
-			foreach($rows as $tr){
-				$p3 = new HtmlParser($tr->raw, $this->url);
-				$tds = $p3->getTags('td');
+			//moz has data
+			if(!empty($table)){
 				
-				if(!empty($tds[0]->text)){
-					array_push($results, array(
-						'link'=>trim(strip_tags($tds[0]->text)),
-						'text'=>trim(strip_tags($tds[1]->text)),
-						'pageAuthority'=>trim(strip_tags($tds[2]->text)),
-						'DomainAuthority'=>trim(strip_tags($tds[3]->text)),
-						'DiscoveryTime'=>preg_replace('/\s+/',' ',trim(strip_tags($tds[4]->text)))
-					));
+				$p2 = new HtmlParser($table->raw, $this->url);
+				$rows = $p2->getTags('tr');
+				
+				foreach($rows as $tr){
+					$p3 = new HtmlParser($tr->raw, $this->url);
+					$tds = $p3->getTags('td');
+					
+					if(!empty($tds[0]->text)){
+						array_push($results, array(
+							'link'=>trim(strip_tags($tds[0]->text)),
+							'text'=>trim(strip_tags($tds[1]->text)),
+							'pageAuthority'=>trim(strip_tags($tds[2]->text)),
+							'DomainAuthority'=>trim(strip_tags($tds[3]->text)),
+							'DiscoveryTime'=>preg_replace('/\s+/',' ',trim(strip_tags($tds[4]->text)))
+						));
+					}
+					
 				}
-				
+			//no moz data
+			}else{
+				array_push($results, array(
+				'link'=>'No Data',
+				'text'=>'No Data',
+				'pageAuthority'=>'No Data',
+				'DomainAuthority'=>'No Data',
+				'DiscoveryTime'=>'No Data'
+				));
 			}
 		}
 		return $results;
