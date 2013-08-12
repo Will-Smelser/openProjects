@@ -87,17 +87,20 @@ class SemRushWrap{
 		$data = $this->sem->getDomainRank();
 		
 		$result = array();
-		foreach($data as $key=>$val){
-			if(isset($this->params['DomainReports'][$key])){
-				$temp = array(
-						'short'=>$this->paramsExt['DR'][$key],
-						'desc'=>$this->params['DomainReports'][$key],
-						'data'=>$this->getPhrase('DR',$key,$val)
-					);
-				array_push($result,$temp);
+		
+		if(!empty($data)){
+			
+			foreach($data as $key=>$val){
+				if(isset($this->params['DomainReports'][$key])){
+					$temp = array(
+							'short'=>$this->paramsExt['DR'][$key],
+							'desc'=>$this->params['DomainReports'][$key],
+							'data'=>$this->getPhrase('DR',$key,$val)
+						);
+					array_push($result,$temp);
+				}
 			}
-		}
-	
+		}	
 		return $result;
 	}
 }

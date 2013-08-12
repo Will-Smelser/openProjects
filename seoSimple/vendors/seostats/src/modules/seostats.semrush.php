@@ -82,7 +82,8 @@ class SEOstats_SEMRush extends SEOstats
                 return false;
             }
         }
-        return $data['rank']['data'][0];
+        
+        return isset($data['rank']['data'][0])?$data['rank']['data'][0]:null;
     }
 
     public function getDomainRankHistory($url = false, $db = false)

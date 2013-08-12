@@ -16,86 +16,84 @@ if(isset($_GET['data'])){
 
 <title>SimpleSEO Report</title>
 
-<link href="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>css/custom-theme/jquery-ui-1.10.3.custom.css" rel="stylesheet">
-
-<link rel="stylesheet" type="text/css" href="http://www.w3.org/StyleSheets/Core/parser.css?family=5&doc=Sampler">
-
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>js/jquery-ui-1.10.3.custom.min.js"></script>
-
-<script src="js/SeoApi.js?SeoApi"></script>
+<script src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>js/SeoApi.js" id="seo-api-init" name-space="SeoApi"></script>
 
 <script>
-$(document).ready(function(){
-	$('#run-report').button();
-});
+var url = "<?php echo isset($_GET['url']) ? urlencode($_GET['url']):''; ?>";
+var api = "<?php echo 'http://'.SEO_HOST.'/'.SEO_URI_API; ?>";
+
+window.SeoReport = "<?php echo 'http://'.SEO_HOST.'/'.SEO_URI_REPORTS; ?>";
+SeoApi.load(api,'base');
+SeoApi.load('render');
+
+
+SeoApi.load('google').depends('render')
+	.addMethod('getPageRank','#google-pr')
+	.addMethod('getBacklinks','#google-backlinks')
+	.exec(url);
+	
+SeoApi.load('body').depends('render')
+	.addMethod('checkH1','#body-header-tags')
+	.addMethod('checkH2','#body-header-tags')
+	.addMethod('checkH3','#body-header-tags')
+	.addMethod('checkH4','#body-header-tags')
+	.addMethod('getKeyWords','#body-keywords')
+	.addMethod('getPhrases','#body-keywords2')
+	.addMethod('checkLinkTags','#body-inline-style')
+	.addMethod('checkInlineCSS','#body-inline-style')
+	.addMethod('checkInlineStyle','#body-inline-style')
+	.addMethod('getInternalAnchor','#body-anchors')
+	.addMethod('getExternalAnchors','#body-anchors')
+	.addMethod('checkForFrames','#body-bad-stuff')
+	.addMethod('checkForIframes','#body-bad-stuff')
+	.addMethod('checkForFlash','#body-bad-stuff')
+	.addMethod('checkImages','#body-images')
+	.exec(url);
+	
+SeoApi.load('head').depends('render')
+	.addMethod('all',"#head-info")
+	.exec(url);
+	
+SeoApi.load('server').depends('render')
+	.addMethod('getWhois','#server-whois')
+	.addMethod('getHeaderResponseLine','#server-general-info')
+	.addMethod('getLoadTime','#server-general-info')
+	.addMethod('isGzip','#server-general-info')
+	.addMethod('getServer','#server-general-info')
+	.addMethod('validateW3C','#w3c-general')
+	.addMethod('getValidateW3Cerrors','#w3c-error')
+	.addMethod('getValidateW3Cwarnings','#w3c-warning')
+	.exec(url);
+
+SeoApi.load('moz').depends('render')
+	.addMethod('getMozLinks','#moz-link')
+	.addMethod('getMozJustDiscovered','#moz-disc')
+	.exec(url);
+
+SeoApi.load('semrush').depends('render')
+	.addMethod('getDomainReport','#semrush-domain')
+	.addMethod('getKeyWordsReport','#semrush-keywords')
+	.exec(url);
+
+SeoApi.load('social').depends('render')
+	.addMethod('all','#social')
+	.exec(url);
 </script>
 
-<style>
-body{font-size:.8em;}
-table{width:90%;}
-td{
-	vertical-align:top;
-	padding:3px;
-}
-h2{
-	margin-top:1em;
-}
-h3{
-	background-color:#EFEFEF;
-	padding:3px;
-	font-size:2em;
-}
-.by-author{
-	font-style:italic;
-	font-size:.5em;
-}
-.hide{
-	display:none;
-}
-textarea{
-	border:solid #EFEFEF 1px;
-	width:90%;
-	height:100px;
-	color:#000;
-	font-style:italic;
-	font-size:1.5em;
-}
-.addComment{
-	font-size:.5em;
-	cursor:pointer;
-}
 
-.recommendation{
-	font-style:italic;
-	font-size:1.5em;
-	color:#333;
-	font-weight:normal;
-}
+<link rel="stylesheet" type="text/css" href="http://www.w3.org/StyleSheets/Core/parser.css?family=5&doc=Sampler" />
+<link rel="stylesheet" type="text/css" href="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>css/custom-theme/jquery-ui-1.10.3.custom.css" />
+<link rel="stylesheet" type="text/css" href="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>css/report_basic.css" />
 
-#popup-content{
-	font-size:1em;
-}
-a{cursor:pointer;}
-
-.li-label{
-	display:inline-block;
-	width:275px;
-	vertical-align: top;
-}
-
-.loading-text{
-	font-size:18px;
-}
-
-</style>
+<script src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>js/jquery-ui-1.10.3.custom.min.js"></script>
 
 </head>
 
 <body>
 <div id="all-content">
 <h1>SEO Report <span class="by-author">by Will Smelser</span></h1>
-<form id="form-run-report" method="GET" action="index.php">
+<form id="form-run-report" method="GET" action="index2.php">
 	<label for="url">URL <input name="url" type="text" id="url" /></label>
 	<input id="run-report" type="submit" value="Run Report" />
 </form>
@@ -208,10 +206,6 @@ $filename = str_replace('/','-',preg_replace('@https?://@i','',$_GET['url'])) . 
 </form>
 
 <script>
-
-var url = "<?php echo isset($_GET['url']) ? urlencode($_GET['url']):''; ?>";
-var api = "<?php echo 'http://'.SEO_HOST.'/'.SEO_URI_API; ?>";
-
 
 
 $(document).ready(function(){
@@ -332,73 +326,6 @@ function serpQuery(q){
 </div>
 
 </body>
-
-<script>
-
-SeoApi.load(api,'base');
-SeoApi.load('render');
-SeoApi.load('google').depends('render')
-	.addMethod('getPageRank','#google-pr')
-	.addMethod('getBacklinks','#google-backlinks')
-	.exec(url);
-	
-SeoApi.load('body').depends('render')
-	.addMethod('checkH1','#body-header-tags')
-	.addMethod('checkH2','#body-header-tags')
-	.addMethod('checkH3','#body-header-tags')
-	.addMethod('checkH4','#body-header-tags')
-	.addMethod('getKeyWords','#body-keywords')
-	.addMethod('getPhrases','#body-keywords2')
-	.addMethod('checkLinkTags','#body-inline-style')
-	.addMethod('checkInlineCSS','#body-inline-style')
-	.addMethod('checkInlineStyle','#body-inline-style')
-	.addMethod('getInternalAnchor','#body-anchors')
-	.addMethod('getExternalAnchor','#body-anchors')
-	.addMethod('checkForFrames','#body-bad-stuff')
-	.addMethod('checkForIframes','#body-bad-stuff')
-	.addMethod('checkForFlash','#body-bad-stuff')
-	.addMethod('checkImages','#body-images')
-	.exec(url);
-	
-SeoApi.load('head').depends('render')
-	.addMethod('all',"#head-info")
-	.exec(url);
-	
-SeoApi.load('server').depends('render')
-	.addMethod('getWhois','#server-whois')
-	.addMethod('getHeaderResponseLine','#server-general-info')
-	.addMethod('getLoadTime','#server-general-info')
-	.addMethod('isGzip','#server-general-info')
-	.addMethod('getServer','#server-general-info')
-	.addMethod('validateW3C','#w3c-general')
-	.addMethod('getValidateW3Cerrors','#w3c-error')
-	.addMethod('getValidateW3Cwarnings','#w3c-warning')
-	.exec(url);
-
-SeoApi.load('moz').depends('render')
-	.addMethod('getMozLinks','#moz-link')
-	.addMethod('getMozJustDiscovered','#moz-disc')
-	.exec(url);
-	
-$(document).ready(function(){
-	//semRUSH data
-	$.getJSON(api+"SemRush/all?request="+url,function(data){
-		var $ul = $(document.createElement('ul'));
-		
-		
-			
-		$ul = $(document.createElement('ul'));
-		for(var x in data.data.getDomainReport.data){
-			var temp = data.data.getDomainReport.data[x];
-			$ul.append(createList(temp['short'],temp.data));
-		}
-		$('#semrush-domain').html($ul);
-		
-	});
-	
-});
-
-</script>
 
 <?php }else{ echo '</body>';} ?>
 

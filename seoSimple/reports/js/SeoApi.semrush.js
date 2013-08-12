@@ -1,6 +1,5 @@
 (function(){
-	var temp = document.location.href.split('?');
-	namespace = (temp.length > 1) ? temp[1] : 'SeoApi';
+	var namespace = document.getElementById('seo-api-init').getAttribute('name-space');
 	
 	if(typeof window[namespace] === "undefined") window[namespace] = {};
 	
@@ -20,6 +19,12 @@
 		
 		render_getDomainReport : function(data,$target){
 			var render = window[namespace].render;
+			
+			if(data === null || data.length === 0){
+				$target.html("No Data");
+				return;
+			}
+			
 			for(var x in data){
 				var temp = data[x];
 				$target.append(render.newLi(temp['short'],temp.data));
@@ -28,6 +33,12 @@
 		
 		render_getKeyWordsReport : function(data,$target){
 			var render = window[namespace].render;
+
+			if(data === null || data.length === 0){
+				$target.html("No Data");
+				return;
+			}
+
 			
 			for(var x in data){
 				var $li = render.newEl('li');

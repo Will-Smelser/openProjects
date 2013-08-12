@@ -1,6 +1,5 @@
 (function(){
-	var temp = document.location.href.split('?');
-	namespace = (temp.length > 1) ? temp[1] : 'SeoApi';
+	var namespace = document.getElementById('seo-api-init').getAttribute('name-space');
 	
 	if(typeof window[namespace] == "undefined") window[namespace] = {};
 	
@@ -42,7 +41,7 @@
 	 * @param method The API method to call
 	 * @param target Either dom object or function to callback
 	 */
-	addMethod : function(method, target, params){
+	addMethod : function(method, target){
 		this.methods.push(method);
 		this.targetMap[method] = target;
 		if(method === "all")
@@ -53,10 +52,19 @@
 		//success does not mean we got a good response,
 		//just that it wasnt an HTTP error
 		//TODO handle error cases
+		
+		//empty content
+		var targets = "";
+		
 		for(var method in data){
 			if(typeof this.targetMap[method] == "function"){
 				this.targetMap[method](data[method]);
 			}else{
+				//clear the contents
+				if(targets.indexOf(this.targetMap[method]) < 0)
+					$(this.targetMap[method]).html("");
+				
+				targets += this.targetMap[method];
 				//render this
 				this.handleSuccessTrue(method, data[method].data,this.targetMap[method]);
 			}
@@ -68,11 +76,9 @@
 		this.methodAll = false;
 	},
 	handleSuccessTrue : function(method, data, target){
-		console.log("rendered",data);
 		$target = $(target);
 		if(typeof this['render_'+method] != "function"){
 			console.log('Custom handler render_'+method+' did not exist. Using default...');
-			$target.html("");
 			this.defaultRender(data, $target);
 		}else{
 			this['render_'+method](data, $target);

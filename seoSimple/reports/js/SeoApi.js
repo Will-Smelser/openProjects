@@ -1,12 +1,10 @@
 (function(){
-	var temp = document.location.href.split('?');
-	namespace = (temp.length > 1) ? temp[1] : 'SeoApi';
 	
-	var jsLoc = temp[0].split('/');
+	var el = document.getElementById('seo-api-init');
+	var namespace = el.getAttribute('name-space');
+	var jsLoc = el.getAttribute('src').split('/');
 	jsLoc.pop();
 	jsLoc = jsLoc.join('/');
-	
-	var apiObject = null;
 	
 	
 	window[namespace] = {
@@ -35,13 +33,14 @@
 			
 			
 			$.ajax({
-			  url: jsLoc + '/js/SeoApi.'+apiObject+'.js?'+namespace,
+			  url: jsLoc + '/SeoApi.'+apiObject+'.js',
 			  dataType: "script",
 			  cache: true,
 			  success: function(){
 				  
 				  //TODO fix this!
-				  window[namespace].waitOn('base', function(){
+				  //window[namespace].waitOn('base', function(){
+				  window[namespace].ready(function(){
 					  if(apiObject !== 'base')
 						  window[namespace][apiObject] = $.extend(true, {}, window[namespace].base, window[namespace][apiObject]);
 
@@ -87,23 +86,10 @@
 				$.extend(true,window[namespace][apiObject],window[namespace][targetObj],object);				
 			}
 		},
-		/**
-		 * Wait on a api object to complete loading
-		 * @param apiObject The api object/controller to wait on.  
-		 * For example: base, body, head, google, etc... 
-		 * @param func The callback function to execute one it has loaded
-		 */
-		waitOn : function(apiObject, func){
-			var scope = this;
-			if(typeof window[namespace][apiObject] === "undefined")
-				setTimeout(function(){scope.waitOn(apiObject, func);},50);
-			else
-				func();
-		},
 		
 		addMethod : function(method,target){
 			var apiObject = this.currentApiObject;
-			this.waitOn(this.currentApiObject,function(){
+			this.ready(function(){
 				window[namespace][apiObject].addMethod(method,target);
 			});
 			
@@ -120,7 +106,7 @@
 			return this;
 		},
 		
-		dependencies : [],
+		dependencies : ['base'],
 		depends : function(apiObject){
 			this.dependencies.push(apiObject);
 			return this;
@@ -128,7 +114,7 @@
 		
 		/**
 		 * Wait till all dependencies are ready
-		 * @param callback
+		 * @param callback Callback to fire one all the dependencies are loaded
 		 * @returns self
 		 */
 		ready : function(callback){
@@ -141,10 +127,7 @@
 				}
 			}
 			
-			if(!ready) 
-				setTimeout(function(){scope.ready(callback);},50);
-			else 
-				callback();
+			(!ready)? setTimeout(function(){scope.ready(callback);},50) : callback();
 			
 			return this;
 		}

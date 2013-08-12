@@ -1,6 +1,5 @@
 (function(){
-	var temp = document.location.href.split('?');
-	namespace = (temp.length > 1) ? temp[1] : 'SeoApi';
+	var namespace = document.getElementById('seo-api-init').getAttribute('name-space');
 	
 	if(typeof window[namespace] === "undefined") window[namespace] = {};
 	
@@ -43,9 +42,7 @@
 			var render = this.render;
 			
 			for(var i in data){
-				console.log(i);
-				var $li = render.newLi('Normalized Key Word '+
-						'('+data[i]+')',i);
+				var $li = render.newLi('Normalized Key Word', i);
 				var $ul = render.newEl('ul');
 				
 				for(var j=0; j<data[i].length; j++){
@@ -81,7 +78,7 @@
 		},
 		render_checkInlineStyle : function(data,$target){
 			var render = this.render;
-			$ul.append(render.newLi('Inline &lt;style&gt; count',data.length));
+			$target.append(render.newLi('Inline &lt;style&gt; count',data.length));
 		},
 		render_checkLinkTags : function(data,$target){
 			var render = this.render;
@@ -102,21 +99,21 @@
 			var render = this.render;
 			$target.append(render.newLi('External &lt;a&gt; tags',data.length));
 		},
-		render_getInternalAnchors : function(data,$target){
+		render_getInternalAnchor : function(data,$target){
 			var render = this.render;
 			$target.append(render.newLi('Internal &lt;a&gt; tags',data.length));
 		},
 		render_checkForFrames: function(data,$target){
 			var render = this.render;
-			$target.append(render.newLi('Page contains frames?',data));
+			$target.append(render.newLi('Page contains frames?',(data?"True":"False")));
 		},
 		render_checkForIframes:function(data,$target){
 			var render = this.render;
-			$target.append(render.newLi('Page contains iframes?',data));
+			$target.append(render.newLi('Page contains iframes?',(data?"True":"False")));
 		},
 		render_checkForFlash:function(data,$target){
 			var render = this.render;
-			$target.append(render.newLi('Page contains flash/objects?',data));
+			$target.append(render.newLi('Page contains flash/objects?',(data?"True":"False")));
 		},
 		
 		render_checkImages : function(data,$target){

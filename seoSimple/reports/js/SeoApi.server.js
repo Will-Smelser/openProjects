@@ -1,6 +1,5 @@
 (function(){
-	var temp = document.location.href.split('?');
-	namespace = (temp.length > 1) ? temp[1] : 'SeoApi';
+	var namespace = document.getElementById('seo-api-init').getAttribute('name-space');
 	
 	if(typeof window[namespace] === "undefined") window[namespace] = {};
 	
@@ -28,7 +27,7 @@
 		render_getWhois : function(data,$target){
 			var render = window[namespace].render;
 			for(var x in data){
-				$ul.append(render.newLi(x.replace('_',' '),data[x]));
+				$target.append(render.newLi(x.replace('_',' '),data[x]));
 			}
 		},
 		
@@ -49,7 +48,7 @@
 		
 		render_isGzip:function(data,$target){
 			var render = window[namespace].render;
-			$target.append(render.newLi('Gzip Compression',data));
+			$target.append(render.newLi('Gzip Compression',(data?"True":"False")));
 		},
 		
 		render_checkRobots : function(data,$target){

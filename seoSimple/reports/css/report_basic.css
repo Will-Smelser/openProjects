@@ -1,0 +1,60 @@
+
+body{font-size:.8em;}
+table{width:90%;}
+td{
+	vertical-align:top;
+	padding:3px;
+}
+h2{
+	margin-top:1em;
+}
+h3{
+	background-color:#EFEFEF;
+	padding:3px;
+	font-size:2em;
+}
+.by-author{
+	font-style:italic;
+	font-size:.5em;
+}
+.hide{
+	display:none;
+}
+textarea{
+	border:solid #EFEFEF 1px;
+	width:90%;
+	height:100px;
+	color:#000;
+	font-style:italic;
+	font-size:1.5em;
+}
+.addComment{
+	font-size:.5em;
+	cursor:pointer;
+}
+
+.recommendation{
+	font-style:italic;
+	font-size:1.5em;
+	color:#333;
+	font-weight:normal;
+}
+
+#popup-content{
+	font-size:1em;
+}
+
+a{
+	cursor:pointer;
+}
+
+.li-label,.list-key{
+	display:inline-block;
+	width:275px;
+	vertical-align: top;
+	
+}
+
+.loading-text{
+	font-size:18px;
+}

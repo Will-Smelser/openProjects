@@ -10,9 +10,9 @@ interface Control{
 class Controller implements Control{
 	public $skip = array();
 	
-	public function no_method(){
+	public function no_method($method="Unknown"){
 		$api = new ApiResponseJSON();
-		echo $api->failure("Invalid Request - No Method or Class")->doPrint();
+		echo $api->failure("Invalid Request - No Method or Class - $method")->doPrint();
 	}
 	
 	public function exec(&$obj, $method, $args=null){
@@ -24,8 +24,10 @@ class Controller implements Control{
 				$api = new ApiResponseJSON();
 				if($this->isValidMethod($obj, $mthd, $this->skip))
 					$results[$mthd] = $api->success("Success", $obj->$mthd($args))->toArray();
-				else
-					$results[$mthd] = $api->success("Success", $this->no_method($args))->toArray();
+				else{
+					echo "No Method - $mthd";
+					$results[$mthd] = $api->success("Success", $this->no_method($mthd))->toArray();
+				}
 			}
 			$api = new ApiResponseJSON();
 			echo $api->success("Success", $results)->doPrint();
@@ -45,7 +47,7 @@ class Controller implements Control{
 			
 		//run a specific api method
 		}else if(!$this->isValidMethod($obj, $method, $this->skip)){
-			$this->no_method();
+			$this->no_method($method);
 		
 		//method did not exist for the given class
 		}else{

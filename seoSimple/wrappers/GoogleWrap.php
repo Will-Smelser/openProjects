@@ -47,13 +47,13 @@ class GoogleWrap extends GoogleInfo {
 					$uniqueDomains[$host1] = 0;
 				
 				$uniqueDomains[$host1]++;
-				
-				//make some composite data
-				foreach($uniqueDomains as $host=>$count){
-					$composite .= $host . "($count), ";
-				}
-				$composite = rtrim($composite,', ');
 			}
+			
+			//make some composite data
+			foreach($uniqueDomains as $host=>$count)
+				$composite .= $host . "($count), ";
+			
+			$composite = rtrim($composite,', ');
 		};
 		return array(
 				'domainTotals'=>count($uniqueDomains),

@@ -7,7 +7,7 @@
 
   <meta name="description" content="Open Site Explorer is Moz's Search Engine for Links. Perform competitive link research, explore backlinks, anchor text, and more for free." />
   <meta content="authenticity_token" name="csrf-param" />
-<meta content="fH69YbG/FaDWDa77KLMgnoi6o2QFPQ5LvRqp6kkMRaU=" name="csrf-token" />
+<meta content="3zRqnqf93tdEb9flE+29f8WzOyjm6h/sX5OSk9EIEnc=" name="csrf-token" />
   <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/themes/ui-lightness/jquery-ui.css" media="all" rel="stylesheet" type="text/css" />
   <link href="/stylesheets/jquery.ui.selectmenu.css?1375244263" media="all" rel="stylesheet" type="text/css" />
   <link href="/stylesheets/application.css?1375244263" media="all" rel="stylesheet" type="text/css" />
@@ -26,11 +26,14 @@
   <link rel="shortcut icon" href="/favicon.ico?v=2" />
   
   <script>
-    window._token = "fH69YbG/FaDWDa77KLMgnoi6o2QFPQ5LvRqp6kkMRaU=";
+    window._token = "3zRqnqf93tdEb9flE+29f8WzOyjm6h/sX5OSk9EIEnc=";
   </script>
     <link href="/stylesheets/shiny.css?1375244263" media="all" rel="stylesheet" type="text/css" />
   <script>
-    var REPORT_SITE = "willsmelser.com";
+    var REPORT_SITE = "www.inedo.com/devops";
+      $(function() {
+        checkRedirect("www.inedo.com/devops");
+      });
   </script>
 
   <script src="/javascripts/lib/jquery.cookies.js?1375244263" type="text/javascript"></script>
@@ -45,7 +48,7 @@
     $(function () {
       var options = {maxComparisons: 5};
         options.completion = function () {
-          var baseUrl = "/comparisons?site=willsmelser.com";
+          var baseUrl = "/comparisons?site=www.inedo.com%2Fdevops";
           $(".add-sites input:visible").each(function (index) {
             baseUrl += "&comparisons[" + index + "]=" + $(this).val();
           });
@@ -60,8 +63,8 @@
       });
 
     $("table.comparison").comparison({manager: manager});
-    $("table.comparison").comparison("populate", "willsmelser.com", {"total":0,"results":[],"args":{"sort":"crawled","count":"50","target":"domain","source":"all","query":"http://willsmelser.com","offset":"0","follow":"all","order":"desc"},"time":{"elasticsearch":31}}, 0);
-    $("table.comparison").comparison("social", "willsmelser.com", 0);
+    $("table.comparison").comparison("populate", "www.inedo.com/devops", {"total":75,"results":[{"status":200,"links":[{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"c62fd90a5ee9421e92d81b0f2d3f652b","da":76.696,"url":"http://thedailywtf.com/Articles/The-Automated-Curse-Generator.aspx","pa":43.854473,"fetched":"2013-08-11T15:08:39.772Z","tweeted":"2013-08-11T15:04:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Allrecipes.com and others"},{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"984adc06e9b24c1db62dcfc0883a547c","da":76.696,"url":"http://thedailywtf.com/Articles/These-Arent-the-Socks-Youre-Looking-For.aspx","pa":1.0,"fetched":"2013-08-09T10:07:42.265Z","tweeted":"2013-08-09T10:02:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/buildmaster/","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Inedo's BuildMaster"}],"did":"a6000c03c56245e8a4433b2dc34fe79b","da":47.759804,"url":"http://paulstovell.com/blog/octopus/intro","pa":30.366537,"fetched":"2013-08-09T02:08:33.245Z","tweeted":"2013-08-09T02:01:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/buildmaster/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"9578cf2d0c3e44d5a41cc2c1c7658a19","da":63.26267,"url":"http://www.dotnetrocks.com/default.aspx?ShowNum=896","pa":1.0,"fetched":"2013-08-08T19:10:38.751Z","tweeted":"2013-08-08T19:05:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/buildmaster/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"cb775d6f221c453da6f3d7585cd537de","da":63.26267,"url":"http://dotnetrocks.com/default.aspx?showNum=896","pa":1.0,"fetched":"2013-08-08T13:36:51.887Z","tweeted":"2013-08-08T13:32:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Allrecipes.com and others"},{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"88473ced55bf4fd092cdcefec2fb39f9","da":76.696,"url":"http://thedailywtf.com/Articles/The-Last-Straw.aspx","pa":1.0,"fetched":"2013-08-08T10:37:19.238Z","tweeted":"2013-08-08T10:32:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Allrecipes.com and others"},{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"a1b0b08281b04b4a84557ab004bf2a2b","da":76.696,"url":"http://thedailywtf.com/Articles/Dont-Touch-That-Dial!.aspx","pa":1.0,"fetched":"2013-08-07T10:25:24.715Z","tweeted":"2013-08-07T10:19:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/buildmaster/sdk","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Project Site"}],"did":"d5690adfe04149fcb02b945cf445228d","da":70.74674,"url":"http://www.nuget.org/packages/Inedo.BuildMaster.SDK/3.7","pa":1.0,"fetched":"2013-08-07T02:48:22.274Z","tweeted":"2013-08-07T02:41:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Allrecipes.com and others"},{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"90285109775647f28b6c814c89d5f6f7","da":76.696,"url":"http://thedailywtf.com/Articles/Hurry-Up-and-Wait.aspx","pa":1.0,"fetched":"2013-08-06T10:38:18.256Z","tweeted":"2013-08-06T10:33:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"cb924eebe5d047a497d5b844ebbb7f4e","da":76.696,"url":"http://thedailywtf.com/Comments/1-or-2-or-3-or-4.aspx","pa":1.0,"fetched":"2013-08-05T19:39:02.898Z","tweeted":"2013-08-05T19:32:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Allrecipes.com and others"},{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"56d0410b38994c11ad3ed42a97de538d","da":76.696,"url":"http://thedailywtf.com/Articles/Galapagos.aspx","pa":1.0,"fetched":"2013-08-05T10:25:21.003Z","tweeted":"2013-08-05T10:18:00.000Z"},{"status":200,"links":[{"url":"http://www.inedo.com/","follow":true,"domain":"www.inedo.com.1","pld":"inedo.com.1","anchor":"Inedo"}],"did":"96efaf02641a415ba97205f0e67a69fe","da":48.952995,"url":"http://blog.maartenballiauw.be/default.aspx","pa":22.739548,"fetched":"2013-08-05T09:03:00.674Z","tweeted":"2013-08-05T08:58:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"a753701e1aee480b880bc22486497fe5","da":76.696,"url":"http://thedailywtf.com/Articles/Labview-Spaghetti.aspx","pa":39.023018,"fetched":"2013-08-04T17:07:00.441Z","tweeted":"2013-08-04T17:01:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"aa133809dd6c4572afc96c0844e5d52a","da":76.696,"url":"http://thedailywtf.com/Articles/The-Online-Ordering-System.aspx","pa":44.36703,"fetched":"2013-08-03T00:55:16.050Z","tweeted":"2013-08-03T00:50:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Allrecipes.com and others"},{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"5b48e2868c194783b1d88485a3634d02","da":76.696,"url":"http://thedailywtf.com/Articles/A-Drafty-Flight.aspx","pa":1.0,"fetched":"2013-08-02T10:22:12.474Z","tweeted":"2013-08-02T10:15:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":""},{"url":"http://inedo.com/buildmaster/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Overview"},{"url":"http://inedo.com/buildmaster/features","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Features"},{"url":"http://inedo.com/buildmaster/pricing","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Pricing & Licensing"},{"url":"http://inedo.com/buildmaster/integration","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Integrations"},{"url":"http://inedo.com/buildmaster/download","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Downloads"},{"url":"http://inedo.com/buildmaster/download","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/download/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Agents"},{"url":"http://inedo.com/buildmaster/extensions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Extensions"},{"url":"http://inedo.com/buildmaster/sdk","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster SDK"},{"url":"http://inedo.com/buildmaster/download/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Previous Versions"},{"url":"http://inedo.com/buildmaster/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Release Notes"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Case Studies"},{"url":"http://inedo.com/proget","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"ProGet"},{"url":"http://inedo.com/proget/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Overview"},{"url":"http://inedo.com/proget/features","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Features"},{"url":"http://inedo.com/proget/pricing","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Pricing & Licensing"},{"url":"http://inedo.com/proget/sdk","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"ProGet SDK"},{"url":"http://inedo.com/company/news/announcing-proget-20-and-proget-client-tools","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Client Tools"},{"url":"http://inedo.com/proget/download","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Download"},{"url":"http://inedo.com/support","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Support"},{"url":"http://inedo.com/support","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Learning Center"},{"url":"http://inedo.com/support/documentation","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Documentation"},{"url":"http://inedo.com/support/questions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Q & A"},{"url":"http://inedo.com/support/tutorials","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Tutorials"},{"url":"http://inedo.com/support/enterprise-support","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Enterprise Support"},{"url":"http://inedo.com/company","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Company"},{"url":"http://inedo.com/company/about-us","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"About Inedo"},{"url":"http://inedo.com/company/professional-services","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Professional Services"},{"url":"http://inedo.com/company/scotch-menu","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"The Scotch Library"},{"url":"http://inedo.com/company/swag","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Conference Swag"},{"url":"http://inedo.com/company/news","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"News"},{"url":"http://inedo.com/company/careers","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Careers"},{"url":"http://inedo.com/vip/about","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Inedo VIP"},{"url":"http://inedo.com/buildmaster/extensions/fogbugz","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Other Projects"},{"url":"http://inedo.com/downloads/submit-to-wtf","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"VS TDWTF Extension"},{"url":"http://inedo.com/downloads/icon-maker","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"IconMaker"},{"url":"http://inedo.com/downloads/smart-paster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"SmartPaster"},{"url":"http://inedo.com/contact","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Contact Us"},{"url":"https://my.inedo.com/","follow":true,"domain":"my.inedo.com.1","pld":"inedo.com.1","anchor":"MyInedo"},{"url":"http://inedo.com/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/extensions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Extensions"},{"url":"http://inedo.com/buildmaster/edit-extension-tags?extensionName=FogBugz","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"[edit]"},{"url":"http://inedo.com/buildmaster/extension-release-notes/FogBugz","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"notes"},{"url":"http://inedo.com/files/buildmaster-extensions/FogBugz/3.2","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":""},{"url":"http://inedo.com/support/documentation/buildmaster/installation/extension-installation","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"refer to the documentation"},{"url":"http://inedo.com/buildmaster/extension-release-notes/FogBugz","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"notes"},{"url":"http://inedo.com/files/buildmaster-extensions/FogBugz/3.1","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":""},{"url":"http://inedo.com/files/buildmaster-extensions/FogBugz/3.0","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":""},{"url":"http://inedo.com/files/buildmaster-extensions/FogBugz/2.6","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":""},{"url":"http://inedo.com/support/documentation/buildmaster/toolset-integration/issue-tracking","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Issue Tracking Provider"},{"url":"http://inedo.com/support/kb/1035/integrating-fogbugz-with-buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Integrating FogBugz with BuildMaster"},{"url":"http://inedo.com/support/kb/1006/integrating-an-issue-tracker-with-buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"KB #1006: Integrating an Issue Tracker with BuildMaster"},{"url":"http://inedo.com/support/kb/1029/integrating-leankit-kanban-with-buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"KB #1029: Integrating LeanKit Kanban with BuildMaster"},{"url":"http://inedo.com/support/documentation/buildmaster/buildmaster-administration/toolset-integration/issue-tracking","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Issue Tracking Integration"},{"url":"http://inedo.com/support/tutorials/appending-an-issue-description-or-comment-with-buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Appending an Issue Description or Comment with BuildMaster"},{"url":"http://inedo.com/support/tutorials/blocking-promotions-until-all-issues-are-closed-in-buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Blocking Promotions Until All Issues Are Closed in BuildMaster"},{"url":"http://inedo.com/support/questions/918","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Why is Append Issue Description action failing with \"System.NotSupportedException\"?"},{"url":"http://inedo.com/support/questions/333","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Are there (near-term) plans to support TFS2012 for source control in BuildMaster?"},{"url":"http://inedo.com/support/questions/496","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Error connecting to issue tracker"},{"url":"http://inedo.com/buildmaster/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Overview"},{"url":"http://inedo.com/buildmaster/features","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Features"},{"url":"http://inedo.com/buildmaster/pricing","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Pricing & Licensing"},{"url":"http://inedo.com/buildmaster/integration","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Integrations"},{"url":"http://inedo.com/buildmaster/download","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Downloads"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Case Studies"},{"url":"http://inedo.com/proget","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"ProGet"},{"url":"http://inedo.com/proget/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Overview"},{"url":"http://inedo.com/proget/features","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Features"},{"url":"http://inedo.com/proget/pricing","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Pricing & Licensing"},{"url":"http://inedo.com/proget/sdk","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"ProGet SDK"},{"url":"http://inedo.com/company/news/announcing-proget-20-and-proget-client-tools","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Client Tools"},{"url":"http://inedo.com/proget/download","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Download"},{"url":"http://inedo.com/support","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Support"},{"url":"http://inedo.com/support","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Learning Center"},{"url":"http://inedo.com/support/documentation","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Documentation"},{"url":"http://inedo.com/support/questions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Q & A"},{"url":"http://inedo.com/support/tutorials","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Tutorials"},{"url":"http://inedo.com/support/enterprise-support","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Enterprise Support"},{"url":"http://inedo.com/company","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Company"},{"url":"http://inedo.com/company/about-us","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"About Inedo"},{"url":"http://inedo.com/company/news","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"News"},{"url":"http://inedo.com/company/careers","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Careers"},{"url":"http://inedo.com/vip/about","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Inedo VIP"},{"url":"http://inedo.com/buildmaster/extensions/fogbugz","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Other Projects"},{"url":"http://inedo.com/contact","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Contact Us"},{"url":"http://inedo.com/rss","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":""},{"url":"http://inedo.com/contact","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Contact Us"}],"did":"245b87cc557548159ee01469a33314a3","da":38.18982,"url":"http://inedo.com/buildmaster/extensions/fogbugz","pa":12.702737,"fetched":"2013-08-01T22:35:00.382Z","tweeted":"2013-08-01T22:30:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Allrecipes.com and others"},{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"1025018f5563407e937efe12d9fdecae","da":76.696,"url":"http://thedailywtf.com/Articles/The-Old-Switch-n-Bait.aspx","pa":1.0,"fetched":"2013-08-01T10:50:42.049Z","tweeted":"2013-08-01T10:45:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":""},{"url":"http://inedo.com/buildmaster/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Overview"},{"url":"http://inedo.com/buildmaster/features","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Features"},{"url":"http://inedo.com/buildmaster/pricing","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Pricing & Licensing"},{"url":"http://inedo.com/buildmaster/integration","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Integrations"},{"url":"http://inedo.com/buildmaster/download","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Downloads"},{"url":"http://inedo.com/buildmaster/download","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/download/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Agents"},{"url":"http://inedo.com/buildmaster/extensions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Extensions"},{"url":"http://inedo.com/buildmaster/sdk","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster SDK"},{"url":"http://inedo.com/buildmaster/download/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Previous Versions"},{"url":"http://inedo.com/buildmaster/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Release Notes"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Case Studies"},{"url":"http://inedo.com/proget","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"ProGet"},{"url":"http://inedo.com/proget/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Overview"},{"url":"http://inedo.com/proget/features","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Features"},{"url":"http://inedo.com/proget/pricing","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Pricing & Licensing"},{"url":"http://inedo.com/proget/sdk","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"ProGet SDK"},{"url":"http://inedo.com/company/news/announcing-proget-20-and-proget-client-tools","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Client Tools"},{"url":"http://inedo.com/proget/download","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Download"},{"url":"http://inedo.com/support","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Support"},{"url":"http://inedo.com/support","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Learning Center"},{"url":"http://inedo.com/support/documentation","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Documentation"},{"url":"http://inedo.com/support/questions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Q & A"},{"url":"http://inedo.com/support/tutorials","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Tutorials"},{"url":"http://inedo.com/support/enterprise-support","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Enterprise Support"},{"url":"http://inedo.com/company","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Company"},{"url":"http://inedo.com/company/about-us","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"About Inedo"},{"url":"http://inedo.com/company/professional-services","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Professional Services"},{"url":"http://inedo.com/company/scotch-menu","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"The Scotch Library"},{"url":"http://inedo.com/company/swag","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Conference Swag"},{"url":"http://inedo.com/company/news","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"News"},{"url":"http://inedo.com/company/careers","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Careers"},{"url":"http://inedo.com/vip/about","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Inedo VIP"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Other Projects"},{"url":"http://inedo.com/downloads/submit-to-wtf","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"VS TDWTF Extension"},{"url":"http://inedo.com/downloads/icon-maker","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"IconMaker"},{"url":"http://inedo.com/downloads/smart-paster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"SmartPaster"},{"url":"http://inedo.com/contact","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Contact Us"},{"url":"https://my.inedo.com/","follow":true,"domain":"my.inedo.com.1","pld":"inedo.com.1","anchor":"MyInedo"},{"url":"http://inedo.com/proget","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"ProGet"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"2.1.2 (Released on Jul 31, 2013)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"2.1.1 (Released on Jul 11, 2013)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"2.1.0 (Released on Jul 3, 2013)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"2.0.8 (Released on Jun 26, 2013)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"2.0.7 (Released on Jun 25, 2013)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"2.0.6 (Released on May 8, 2013)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"2.0.5 (Released on May 6, 2013)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"2.0.4 (Released on Apr 22, 2013)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"2.0.3 (Released on Apr 22, 2013)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"2.0.2 (Released on Apr 19, 2013)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"2.0.1 (Released on Mar 26, 2013)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"2.0.0 (Released on Mar 15, 2013)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"1.1.4 (Released on Feb 20, 2013)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"1.1.3 (Released on Jan 29, 2013)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"1.1.2 (Released on Jan 2, 2013)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"1.1.1 (Released on Dec 4, 2012)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"1.1.0 (Released on Oct 26, 2012)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"1.0.11 (Released on Oct 22, 2012)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"1.0.10 (Released on Sep 24, 2012)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"1.0.9 (Released on Aug 14, 2012)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"1.0.8 (Released on Jul 30, 2012)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"1.0.7 (Released on Jul 23, 2012)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"1.0.6 (Released on Jul 3, 2012)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"1.0.5 (Released on Jun 29, 2012)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"1.0.4 (Released on Jun 28, 2012)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"1.0.3 (Released on Jun 12, 2012)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"1.0.2 (Released on Jun 8, 2012)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"1.0.1 (Released on Jun 4, 2012)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"1.0.0 (Released on Jun 1, 2012)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"0.9.0 (Released on May 11, 2012)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"0.1.1 (Released on Mar 2, 2012)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"0.1.0 (Released on Feb 24, 2012)"},{"url":"http://inedo.com/proget/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"all versions"},{"url":"http://inedo.com/buildmaster/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Overview"},{"url":"http://inedo.com/buildmaster/features","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Features"},{"url":"http://inedo.com/buildmaster/pricing","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Pricing & Licensing"},{"url":"http://inedo.com/buildmaster/integration","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Integrations"},{"url":"http://inedo.com/buildmaster/download","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Downloads"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Case Studies"},{"url":"http://inedo.com/proget","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"ProGet"},{"url":"http://inedo.com/proget/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Overview"},{"url":"http://inedo.com/proget/features","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Features"},{"url":"http://inedo.com/proget/pricing","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Pricing & Licensing"},{"url":"http://inedo.com/proget/sdk","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"ProGet SDK"},{"url":"http://inedo.com/company/news/announcing-proget-20-and-proget-client-tools","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Client Tools"},{"url":"http://inedo.com/proget/download","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Download"},{"url":"http://inedo.com/support","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Support"},{"url":"http://inedo.com/support","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Learning Center"},{"url":"http://inedo.com/support/documentation","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Documentation"},{"url":"http://inedo.com/support/questions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Q & A"},{"url":"http://inedo.com/support/tutorials","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Tutorials"},{"url":"http://inedo.com/support/enterprise-support","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Enterprise Support"},{"url":"http://inedo.com/company","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Company"},{"url":"http://inedo.com/company/about-us","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"About Inedo"},{"url":"http://inedo.com/company/news","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"News"},{"url":"http://inedo.com/company/careers","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Careers"},{"url":"http://inedo.com/vip/about","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Inedo VIP"},{"url":"http://inedo.com/proget/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Other Projects"},{"url":"http://inedo.com/contact","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Contact Us"},{"url":"http://inedo.com/rss","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":""},{"url":"http://inedo.com/contact","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Contact Us"}],"did":"08d0b05153e34f2da48452334f57b650","da":38.18982,"url":"http://inedo.com/proget/release-notes","pa":17.11112,"fetched":"2013-08-01T00:06:53.710Z","tweeted":"2013-08-01T00:02:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Allrecipes.com and others"},{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"c0f5ac1ac2ec42c5ba89ae99f376bbd8","da":76.696,"url":"http://thedailywtf.com/Articles/The-Page-at-Fault.aspx","pa":1.0,"fetched":"2013-07-31T10:51:48.852Z","tweeted":"2013-07-31T10:46:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"f86e81b1514c441fa5a76f040ff01a7d","da":76.696,"url":"http://thedailywtf.com/Articles/VB_0x2b__0x2b_.aspx","pa":36.48081,"fetched":"2013-07-30T23:33:13.934Z","tweeted":"2013-07-30T23:26:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"d5e75a8de0ac4599860c8536f963a9f8","da":76.696,"url":"http://thedailywtf.com/Articles/Bulletproof-JavaScript-Detection.aspx","pa":49.374195,"fetched":"2013-07-30T19:49:59.662Z","tweeted":"2013-07-30T19:45:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/proget/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"http://inedo.com/proget/overview"}],"did":"3605e42ccc0241f985d1b9cef0b56c35","da":12.423104,"url":"http://b4root.com/2013/02/28/installing-octopack-in-a-solution-with-multipliable-projects/","pa":1.0,"fetched":"2013-07-30T14:56:56.852Z","tweeted":"2013-07-30T14:52:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":""},{"url":"http://inedo.com/buildmaster/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Overview"},{"url":"http://inedo.com/buildmaster/features","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Features"},{"url":"http://inedo.com/buildmaster/pricing","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Pricing & Licensing"},{"url":"http://inedo.com/buildmaster/integration","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Integrations"},{"url":"http://inedo.com/buildmaster/download","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Downloads"},{"url":"http://inedo.com/buildmaster/download","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/download/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Agents"},{"url":"http://inedo.com/buildmaster/extensions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Extensions"},{"url":"http://inedo.com/buildmaster/sdk","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster SDK"},{"url":"http://inedo.com/buildmaster/download/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Previous Versions"},{"url":"http://inedo.com/buildmaster/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Release Notes"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Case Studies"},{"url":"http://inedo.com/proget","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"ProGet"},{"url":"http://inedo.com/proget/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Overview"},{"url":"http://inedo.com/proget/features","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Features"},{"url":"http://inedo.com/proget/pricing","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Pricing & Licensing"},{"url":"http://inedo.com/proget/sdk","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"ProGet SDK"},{"url":"http://inedo.com/company/news/announcing-proget-20-and-proget-client-tools","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Client Tools"},{"url":"http://inedo.com/proget/download","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Download"},{"url":"http://inedo.com/support","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Support"},{"url":"http://inedo.com/support","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Learning Center"},{"url":"http://inedo.com/support/documentation","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Documentation"},{"url":"http://inedo.com/support/questions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Q & A"},{"url":"http://inedo.com/support/tutorials","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Tutorials"},{"url":"http://inedo.com/support/enterprise-support","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Enterprise Support"},{"url":"http://inedo.com/company","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Company"},{"url":"http://inedo.com/company/about-us","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"About Inedo"},{"url":"http://inedo.com/company/professional-services","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Professional Services"},{"url":"http://inedo.com/company/scotch-menu","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"The Scotch Library"},{"url":"http://inedo.com/company/swag","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Conference Swag"},{"url":"http://inedo.com/company/news","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"News"},{"url":"http://inedo.com/company/careers","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Careers"},{"url":"http://inedo.com/vip/about","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Inedo VIP"},{"url":"http://inedo.com/support/questions/900","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Other Projects"},{"url":"http://inedo.com/downloads/submit-to-wtf","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"VS TDWTF Extension"},{"url":"http://inedo.com/downloads/icon-maker","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"IconMaker"},{"url":"http://inedo.com/downloads/smart-paster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"SmartPaster"},{"url":"http://inedo.com/contact","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Contact Us"},{"url":"https://my.inedo.com/","follow":true,"domain":"my.inedo.com.1","pld":"inedo.com.1","anchor":"MyInedo"},{"url":"http://inedo.com/support","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Support"},{"url":"http://inedo.com/support/questions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Q&A"},{"url":"http://inedo.com/support/questions/new","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Ask A Question"},{"url":"http://inedo.com/support/questions/900","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Problem adding a connector to a feed - Mirrored MyGet"},{"url":"http://inedo.com/support/questions/reply/900","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Answer Question"},{"url":"http://inedo.com/buildmaster/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Overview"},{"url":"http://inedo.com/buildmaster/features","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Features"},{"url":"http://inedo.com/buildmaster/pricing","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Pricing & Licensing"},{"url":"http://inedo.com/buildmaster/integration","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Integrations"},{"url":"http://inedo.com/buildmaster/download","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Downloads"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Case Studies"},{"url":"http://inedo.com/proget","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"ProGet"},{"url":"http://inedo.com/proget/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Overview"},{"url":"http://inedo.com/proget/features","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Features"},{"url":"http://inedo.com/proget/pricing","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Pricing & Licensing"},{"url":"http://inedo.com/proget/sdk","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"ProGet SDK"},{"url":"http://inedo.com/company/news/announcing-proget-20-and-proget-client-tools","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Client Tools"},{"url":"http://inedo.com/proget/download","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Download"},{"url":"http://inedo.com/support","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Support"},{"url":"http://inedo.com/support","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Learning Center"},{"url":"http://inedo.com/support/documentation","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Documentation"},{"url":"http://inedo.com/support/questions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Q & A"},{"url":"http://inedo.com/support/tutorials","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Tutorials"},{"url":"http://inedo.com/support/enterprise-support","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Enterprise Support"},{"url":"http://inedo.com/company","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Company"},{"url":"http://inedo.com/company/about-us","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"About Inedo"},{"url":"http://inedo.com/company/news","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"News"},{"url":"http://inedo.com/company/careers","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Careers"},{"url":"http://inedo.com/vip/about","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Inedo VIP"},{"url":"http://inedo.com/support/questions/900","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Other Projects"},{"url":"http://inedo.com/contact","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Contact Us"},{"url":"http://inedo.com/rss","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":""},{"url":"http://inedo.com/contact","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Contact Us"}],"did":"5d5cad1f754048b885209536dd77fbc5","da":38.18982,"url":"http://inedo.com/support/questions/900","pa":1.0,"fetched":"2013-07-30T11:18:43.065Z","tweeted":"2013-07-30T11:13:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Allrecipes.com and others"},{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"3e086d35054941bb8e24c83e95e2c79e","da":76.696,"url":"http://thedailywtf.com/Articles/A-Crony-Joke.aspx","pa":1.0,"fetched":"2013-07-30T10:51:46.486Z","tweeted":"2013-07-30T10:45:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"e5f18e64f800488485a771d6e4c13329","da":76.696,"url":"http://thedailywtf.com/Articles/A-Gift-from-Above.aspx","pa":35.856857,"fetched":"2013-07-30T10:33:00.349Z","tweeted":"2013-07-30T10:26:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"764077b43a7d40eda70e7d6315ccc205","da":76.696,"url":"http://thedailywtf.com/Articles/Unused-Plural-Form.aspx","pa":33.955055,"fetched":"2013-07-30T10:09:11.729Z","tweeted":"2013-07-30T10:04:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/proget/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"ProGet"},{"url":"http://inedo.com/support/documentation/table-of-contents","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"http://inedo.com/support/documentation/table-of-contents"}],"did":"54cc45b5915a4951ab964ef8f85aa887","da":88.28949,"url":"http://www.codeproject.com/Reference/628210/An-Overview-of-the-NuGet-Ecosystem","pa":1.0,"fetched":"2013-07-30T03:39:32.597Z","tweeted":"2013-07-30T03:34:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"89359625bc8c4943a001f944ad7cf95d","da":76.696,"url":"http://thedailywtf.com/Articles/Server-Tent,-Bridging-The-Gap,-and-More-Server-Setups.aspx","pa":37.309124,"fetched":"2013-07-29T15:44:15.556Z","tweeted":"2013-07-29T15:38:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"43f9b20e6104410c9db13e046390bce6","da":76.696,"url":"http://thedailywtf.com/Articles/Server-Room-Fans-and-More-Server-Room-Fun.aspx","pa":37.04249,"fetched":"2013-07-29T15:19:32.500Z","tweeted":"2013-07-29T15:14:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Allrecipes.com and others"},{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"d45641d99f6f43c6bfad21375df239af","da":76.696,"url":"http://thedailywtf.com/Articles/Its-Nobodys-Baby.aspx","pa":1.0,"fetched":"2013-07-29T10:50:35.797Z","tweeted":"2013-07-29T10:46:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"a4193b6f6a5c496f99707934ed83023e","da":76.696,"url":"http://thedailywtf.com/Articles/Trauma-Center.aspx","pa":40.83275,"fetched":"2013-07-27T19:22:19.583Z","tweeted":"2013-07-27T19:15:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"1e4681af788043279c460afcdc74c5b9","da":76.696,"url":"http://thedailywtf.com/Articles/Else-where.aspx","pa":34.80628,"fetched":"2013-07-27T00:15:13.947Z","tweeted":"2013-07-27T00:10:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Allrecipes.com and others"}],"did":"10666e8c2c374285b490c77c46815060","da":75.3232,"url":"http://andrewburgess.newsblur.com/story/fuck-off-as-a-servic/733057","pa":1.0,"fetched":"2013-07-26T20:46:34.216Z","tweeted":"2013-07-26T20:40:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Allrecipes.com and others"},{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"0c8795bbfea24e3bb5727c3f9886d856","da":76.696,"url":"http://thedailywtf.com/Articles/100-Chance-of-Laser-Beams.aspx","pa":1.0,"fetched":"2013-07-26T09:21:49.357Z","tweeted":"2013-07-26T09:15:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Allrecipes.com and others"},{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"3484e19b4d3741bbb2ddf268b61c335d","da":76.696,"url":"http://thedailywtf.com/Articles/Ubertrim.aspx","pa":1.0,"fetched":"2013-07-25T11:46:59.785Z","tweeted":"2013-07-25T11:40:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":""},{"url":"http://inedo.com/buildmaster/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Overview"},{"url":"http://inedo.com/buildmaster/features","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Features"},{"url":"http://inedo.com/buildmaster/pricing","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Pricing & Licensing"},{"url":"http://inedo.com/buildmaster/integration","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Integrations"},{"url":"http://inedo.com/buildmaster/download","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Downloads"},{"url":"http://inedo.com/buildmaster/download","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/download/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Agents"},{"url":"http://inedo.com/buildmaster/extensions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Extensions"},{"url":"http://inedo.com/buildmaster/sdk","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster SDK"},{"url":"http://inedo.com/buildmaster/download/versions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Previous Versions"},{"url":"http://inedo.com/buildmaster/release-notes","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Release Notes"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Case Studies"},{"url":"http://inedo.com/proget","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"ProGet"},{"url":"http://inedo.com/proget/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Overview"},{"url":"http://inedo.com/proget/features","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Features"},{"url":"http://inedo.com/proget/pricing","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Pricing & Licensing"},{"url":"http://inedo.com/proget/sdk","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"ProGet SDK"},{"url":"http://inedo.com/company/news/announcing-proget-20-and-proget-client-tools","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Client Tools"},{"url":"http://inedo.com/proget/download","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Download"},{"url":"http://inedo.com/support","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Support"},{"url":"http://inedo.com/support","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Learning Center"},{"url":"http://inedo.com/support/documentation","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Documentation"},{"url":"http://inedo.com/support/questions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Q & A"},{"url":"http://inedo.com/support/tutorials","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Tutorials"},{"url":"http://inedo.com/support/enterprise-support","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Enterprise Support"},{"url":"http://inedo.com/company","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Company"},{"url":"http://inedo.com/company/about-us","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"About Inedo"},{"url":"http://inedo.com/company/professional-services","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Professional Services"},{"url":"http://inedo.com/company/scotch-menu","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"The Scotch Library"},{"url":"http://inedo.com/company/swag","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Conference Swag"},{"url":"http://inedo.com/company/news","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"News"},{"url":"http://inedo.com/company/careers","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Careers"},{"url":"http://inedo.com/vip/about","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Inedo VIP"},{"url":"http://inedo.com/buildmaster/extensions/perforce","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Other Projects"},{"url":"http://inedo.com/downloads/submit-to-wtf","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"VS TDWTF Extension"},{"url":"http://inedo.com/downloads/icon-maker","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"IconMaker"},{"url":"http://inedo.com/downloads/smart-paster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"SmartPaster"},{"url":"http://inedo.com/contact","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Contact Us"},{"url":"https://my.inedo.com/","follow":true,"domain":"my.inedo.com.1","pld":"inedo.com.1","anchor":"MyInedo"},{"url":"http://inedo.com/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/extensions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Extensions"},{"url":"http://inedo.com/buildmaster/edit-extension-tags?extensionName=Perforce","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"[edit]"},{"url":"http://inedo.com/buildmaster/extension-release-notes/Perforce","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"notes"},{"url":"http://inedo.com/files/buildmaster-extensions/Perforce/3.5","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":""},{"url":"http://inedo.com/support/documentation/buildmaster/installation/extension-installation","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"refer to the documentation"},{"url":"http://inedo.com/buildmaster/extension-release-notes/Perforce","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"notes"},{"url":"http://inedo.com/files/buildmaster-extensions/Perforce/3.4","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":""},{"url":"http://inedo.com/buildmaster/extension-release-notes/Perforce","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"notes"},{"url":"http://inedo.com/files/buildmaster-extensions/Perforce/3.3","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":""},{"url":"http://inedo.com/buildmaster/extension-release-notes/Perforce","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"notes"},{"url":"http://inedo.com/files/buildmaster-extensions/Perforce/3.2","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":""},{"url":"http://inedo.com/buildmaster/extension-release-notes/Perforce","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"notes"},{"url":"http://inedo.com/files/buildmaster-extensions/Perforce/3.1","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":""},{"url":"http://inedo.com/files/buildmaster-extensions/Perforce/3.0","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":""},{"url":"http://inedo.com/files/buildmaster-extensions/Perforce/2.8","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":""},{"url":"http://inedo.com/files/buildmaster-extensions/Perforce/2.6","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":""},{"url":"http://inedo.com/support/documentation/buildmaster/toolset-integration/source-control","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Source Control Provider"},{"url":"http://inedo.com/support/kb/1025/integrated-buildmaster-and-perforce","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Integrating BuildMaster and Mercurial"},{"url":"http://inedo.com/support/kb/1025/integrating-buildmaster-and-perforce","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"KB #1025: Integrating BuildMaster and Perforce"},{"url":"http://inedo.com/support/kb/1022/integrating-buildmaster-and-sourcegear-vault","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"KB #1022: Integrating BuildMaster and SourceGear Vault"},{"url":"http://inedo.com/support/kb/1028/integrating-buildmaster-and-git","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"KB #1028: Integrating BuildMaster and Git"},{"url":"http://inedo.com/support/documentation/buildmaster/buildmaster-administration/toolset-integration/source-control","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Source Control Integration"},{"url":"http://inedo.com/support/tutorials/getting-a-simple-application-into-buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Getting a Simple Application Into BuildMaster"},{"url":"http://inedo.com/support/tutorials/labeling-a-build-in-source-control-with-buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Labeling a Build in Source Control with BuildMaster"},{"url":"http://inedo.com/support/questions/333","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Are there (near-term) plans to support TFS2012 for source control in BuildMaster?"},{"url":"http://inedo.com/support/questions/366","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"How to configure github with buildmaster?"},{"url":"http://inedo.com/support/questions/359","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"How do I get Buildmaster to Merge in TFS"},{"url":"http://inedo.com/buildmaster/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Overview"},{"url":"http://inedo.com/buildmaster/features","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Features"},{"url":"http://inedo.com/buildmaster/pricing","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Pricing & Licensing"},{"url":"http://inedo.com/buildmaster/integration","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Integrations"},{"url":"http://inedo.com/buildmaster/download","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Downloads"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Case Studies"},{"url":"http://inedo.com/proget","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"ProGet"},{"url":"http://inedo.com/proget/overview","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Overview"},{"url":"http://inedo.com/proget/features","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Features"},{"url":"http://inedo.com/proget/pricing","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Pricing & Licensing"},{"url":"http://inedo.com/proget/sdk","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"ProGet SDK"},{"url":"http://inedo.com/company/news/announcing-proget-20-and-proget-client-tools","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Client Tools"},{"url":"http://inedo.com/proget/download","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Download"},{"url":"http://inedo.com/support","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Support"},{"url":"http://inedo.com/support","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Learning Center"},{"url":"http://inedo.com/support/documentation","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Documentation"},{"url":"http://inedo.com/support/questions","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Q & A"},{"url":"http://inedo.com/support/tutorials","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Tutorials"},{"url":"http://inedo.com/support/enterprise-support","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Enterprise Support"},{"url":"http://inedo.com/company","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Company"},{"url":"http://inedo.com/company/about-us","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"About Inedo"},{"url":"http://inedo.com/company/news","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"News"},{"url":"http://inedo.com/company/careers","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Careers"},{"url":"http://inedo.com/vip/about","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Inedo VIP"},{"url":"http://inedo.com/buildmaster/extensions/perforce","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Other Projects"},{"url":"http://inedo.com/contact","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Contact Us"},{"url":"http://inedo.com/rss","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":""},{"url":"http://inedo.com/contact","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Contact Us"}],"did":"be5ac5b241bf4ea09e58d91b240b10c0","da":38.18982,"url":"http://inedo.com/buildmaster/extensions/perforce","pa":14.568163,"fetched":"2013-07-24T14:39:28.441Z","tweeted":"2013-07-24T14:32:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Allrecipes.com and others"},{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"ab8f49b6b62f438491639b00185dfab2","da":76.696,"url":"http://thedailywtf.com/Articles/The-Circle-of-Fail.aspx","pa":1.0,"fetched":"2013-07-24T10:21:37.677Z","tweeted":"2013-07-24T10:15:00.000Z"},{"status":200,"links":[{"url":"http://www.inedo.com/","follow":true,"domain":"www.inedo.com.1","pld":"inedo.com.1","anchor":""}],"did":"ee569c5f1f474ce0bb64d035c3970a33","da":28.19317,"url":"http://clevelanddotnet.info/","pa":36.74848,"fetched":"2013-07-23T14:18:23.855Z","tweeted":"2013-07-23T14:13:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Allrecipes.com and others"},{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"28b2b92ed79c4134b1dbd87b55bb6d9d","da":76.696,"url":"http://thedailywtf.com/Articles/1-or-2-or-3-or-4.aspx","pa":1.0,"fetched":"2013-07-23T10:52:52.273Z","tweeted":"2013-07-23T10:46:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"d46592be1374445c94e2ea6b888fa135","da":76.696,"url":"http://thedailywtf.com/Articles/CAN(ACCIDENTALLY)SPAM.aspx","pa":1.0,"fetched":"2013-07-23T10:48:30.676Z","tweeted":"2013-07-23T10:43:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"35a3f1e3beec4f97839704dfae28c2a6","da":76.696,"url":"http://thedailywtf.com/Articles/Whoops!.aspx","pa":45.33164,"fetched":"2013-07-23T06:31:44.815Z","tweeted":"2013-07-23T06:25:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"487cf574f02b48109d894b888734ca71","da":76.696,"url":"http://thedailywtf.com/Articles/Random-Stupidity.aspx","pa":37.50967,"fetched":"2013-07-23T03:59:37.930Z","tweeted":"2013-07-23T03:52:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"1ed3e50353054f7a86859527dd632116","da":76.696,"url":"http://thedailywtf.com/Articles/K2C.aspx","pa":33.787975,"fetched":"2013-07-23T03:47:08.996Z","tweeted":"2013-07-23T03:40:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"6cdd9b3d289b4ddc8d5b34b5e2f62e09","da":1.0,"url":"Http://thedailywtf.com/articles/the-unknown.Aspx","pa":1.0,"fetched":"2013-07-23T03:33:35.224Z","tweeted":"2013-07-23T03:29:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"d5a8fd67c96b437f821b548d72b01c5b","da":76.696,"url":"http://thedailywtf.com/Default.aspx","pa":73.678734,"fetched":"2013-07-23T02:57:59.070Z","tweeted":"2013-07-23T02:52:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"68ab5b10be344df2be798bd97ecd6529","da":76.696,"url":"http://fr.thedailywtf.com/","pa":50.926483,"fetched":"2013-07-23T02:03:13.179Z","tweeted":"2013-07-23T01:55:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"06bd904b350b404baa086b9c06dbb999","da":76.696,"url":"http://thedailywtf.com/Articles/So-You-Hacked-Our-Site!.aspx","pa":61.427994,"fetched":"2013-07-23T00:48:45.129Z","tweeted":"2013-07-23T00:41:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Allrecipes.com and others"},{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"b24a33ec108d4bf6a5e78e695673e221","da":76.696,"url":"http://thedailywtf.com/Articles/Outlet-to-the-Danger-Zone.aspx","pa":1.0,"fetched":"2013-07-22T10:50:49.001Z","tweeted":"2013-07-22T10:46:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Allrecipes.com and others"},{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"837faff7a82340bebc98704676e9cf32","da":76.696,"url":"http://thedailywtf.com/Articles/An-Exact-Measurement-of-Evil.aspx","pa":1.0,"fetched":"2013-07-19T12:57:36.214Z","tweeted":"2013-07-19T12:51:00.000Z"},{"status":200,"links":[{"url":"http://inedo.com/","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"},{"url":"http://inedo.com/buildmaster/case-studies","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"Allrecipes.com and others"},{"url":"http://inedo.com/landing/buildmaster","follow":true,"domain":"inedo.com.1","pld":"inedo.com.1","anchor":"BuildMaster"}],"did":"f247536a6380482a89e20c9ec82f4459","da":76.696,"url":"http://thedailywtf.com/Articles/SQL-Injection-Not-Found.aspx","pa":1.0,"fetched":"2013-07-18T10:21:58.202Z","tweeted":"2013-07-18T10:17:00.000Z"}],"args":{"sort":"crawled","count":"50","target":"domain","source":"all","query":"http://www.inedo.com/devops","offset":"0","follow":"all","order":"desc"},"time":{"elasticsearch":45}}, 0);
+    $("table.comparison").comparison("social", "www.inedo.com/devops", 0);
 
   });
   </script>
@@ -185,10 +188,10 @@
     <div id="header">
     <div class="dark">
   <form id="comparison-form" method="get">
-    http://<input class="ose_site required" name="site" tabindex="1" type="text" value="willsmelser.com">
+    http://<input class="ose_site required" name="site" tabindex="1" type="text" value="www.inedo.com/devops">
     <input type="submit" value="Search" />
     <div class="error"></div>
-    <a href="/comparisons?site=willsmelser.com" id="compare-button">
+    <a href="/comparisons?site=www.inedo.com%2Fdevops" id="compare-button">
       +
       <span class='has-tooltip-hint'>Compare up to 5 sites</span>
     </a>
@@ -207,7 +210,7 @@
         </tr>
         <tr>
           <td>
-              16<span class="subdued">/100</span>
+              38<span class="subdued">/100</span>
           </td>
         </tr>
       </table>
@@ -242,13 +245,13 @@
         </tr>
         <tr>
           <td>
-              1<span class="subdued">/100</span>
+              27<span class="subdued">/100</span>
           </td>
           <td>
-              0
+              2
           </td>
           <td>
-              0
+              6
           </td>
             <td colspan='4'>
               <span class='learn-more'>
@@ -267,49 +270,49 @@
   <div id="subnav">
     <ul>
   <li>
-    <a class="" href="/links?site=willsmelser.com">
+    <a class="" href="/links?site=www.inedo.com%2Fdevops">
       Inbound Links
       <span class="info-icon has-tooltip"></span>
       <div class="tooltip"><strong>Gauge the site's influence.</strong><br />See inbound links to the URL or domain you've entered and analyze the linking pages.</div>
     </a>
   </li>
   <li>
-    <a class="" href="/pages?site=willsmelser.com">
+    <a class="" href="/pages?site=www.inedo.com%2Fdevops">
       Top Pages
       <span class="info-icon has-tooltip"></span>
       <div class="tooltip"><strong>Target the best pages to maximize link building.</strong><br/>See top pages on this domain according to Page Authority.</div>
     </a>
   </li>
   <li>
-    <a class="" href="/domains?site=willsmelser.com">
+    <a class="" href="/domains?site=www.inedo.com%2Fdevops">
       Linking Domains
       <span class="info-icon has-tooltip"></span>
       <div class="tooltip"><strong>Gauge your site's influence.</strong><br/>Analyze the root domains that link to the URL or domain you've entered.</div>
     </a>
   </li>
   <li>
-    <a class="" href="/anchors?site=willsmelser.com">
+    <a class="" href="/anchors?site=www.inedo.com%2Fdevops">
       Anchor Text
       <span class="info-icon has-tooltip"></span>
       <div class="tooltip"><strong>Learn what keywords the site might be ranking for.</strong><br/>Analyze the phrases and terms most commonly used as anchor text to link to the provided URL or domain.</div>
     </a>
   </li>
   <li>
-    <a class=" compare-link-metrics" href="/comparisons?site=willsmelser.com">
+    <a class=" compare-link-metrics" href="/comparisons?site=www.inedo.com%2Fdevops">
       Compare Link Metrics
       <span class="info-icon has-tooltip"></span>
       <div class="tooltip"><strong>See detailed metrics</strong> about the URL you've entered on the page level, subdomain level, and root domain level. Compare these metrics for up to five URLs.</div>
     </a>
   </li>
   <li>
-    <a class="" href="/advanced_exports?site=willsmelser.com">
+    <a class="" href="/advanced_exports?site=www.inedo.com%2Fdevops">
       Advanced Reports
       <span class="info-icon has-tooltip"></span>
       <div class="tooltip"><strong>Request CSV reports</strong> of links, pages, or domains using advanced filters.</div>
     </a>
   </li>
   <li>
-    <a class="active just-discovered" href="/just-discovered?site=willsmelser.com">
+    <a class="active just-discovered" href="/just-discovered?site=www.inedo.com%2Fdevops">
       Just-Discovered <span class="beta">beta</span>
       <span class="info-icon has-tooltip"></span>
       <div class="tooltip"><strong>Find New Links.</strong><br/>Find links to the domain, subdomain, or URL you've searched within minutes after they're shared.</div>
@@ -321,24 +324,874 @@
   </div>
   <div id="content">
       
-  <div class="message error no-results">
+
+  <h2>Introducing Just-Discovered Links beta:</h2>
+  <div class="intro">
+    <p>
+      A new report that helps you identify recently created URLs and links. The Just-Discovered Links report indexes URLs within about one hour of being shared on Twitter, as well as the URLs linked from those tweeted pages. URLs that display a Page Authority score are in the Mozscape index or have been included previously; URLs marked "[No data]" are ones we've just discovered. This report is currently in beta mode; please keep this in mind when determining how to use this data in your workflow.
+    </p>
+
+    <p>
+      Read more about the Just-Discovered Links report in this
+      <a href="http://moz.com/blog/announcing-the-just-discovered-links-report">blog post.</a>
+    </p>
+  </div>
+
+  <form method="get" id="filters">
+  <input type="hidden" name="page" value="1" />
+  <input type="hidden" name="site" value="www.inedo.com/devops" />
+  <input name="sort" type="hidden" value="crawled" />
+  <div class="clearfix"></div>
+  <div id="filter-menus">
+    Show
+    <select id="filter" name="filter"><option value="">all</option>
+<option value="equity">link equity</option>
+<option value="nonequity">no link equity</option>
+<option value="follow">only follow</option>
+<option value="nofollow">only rel=nofollow</option>
+<option value="301">only 301</option></select>
+
+      links
+      <span class="info-icon has-tooltip"></span>
+    <div class="tooltip"><strong>Link Types:</strong><ul><li><strong>Link equity:</strong> Juice-passing links, including followed links and 301 (permanent) redirects.</li><li><strong>No link equity:</strong> Links that do not pass link juice.</li><li><strong>Only follow:</strong> Links that have not been defined as nofollow links.</li><li><strong>Only rel=nofollow:</strong> Links with the rel=nofollow attribute.</li><li><strong>Only 301:</strong> 301 (permanent) redirect links that pass link juice.</li></ul></div>
+      from
+      <select id="source" name="source"><option value="">all</option>
+<option value="external">only external</option>
+<option value="internal">only internal</option></select>
+      pages
+      <span class="info-icon has-tooltip"></span>
+    <div class="tooltip"><strong>Link Sources:</strong><ul><li><strong>Internal Pages Only:</strong> Links from pages on the domain</li><li><strong>External Pages Only:</strong> Links from pages from external sites</li></ul></div>
+    
+      to
+      <select id="target" name="target"><option value="page">this page</option>
+<option value="subdomain">pages on this subdomain</option>
+<option value="domain" selected="selected">pages on this root domain</option></select>
+      <span class="info-icon has-tooltip"></span>
+    <div class="tooltip"><strong>Link Targets:</strong><ul><li><strong>Subdomain:</strong> Links to pages that live on the subdomain.</li><li><strong>Root Domain:</strong> Links to pages on the root domain *.domain.com. This includes pages on subdomains (ex. blog.seomoz.org or www.seomoz.org). Selecting Root Domain will expand your search beyond the initial page you entered.</li></ul></div>
+
+    <span class="grouping-filter">
+      and
+      <select disabled="disabled" id="group" name="group"><option value="1">group by domain - Group links from the same domain to show the most link variety.</option>
+<option value="0">show links ungrouped - Show linking pages across domains, ungrouped. We display the top 25 links per domain.</option></select>
+    </span>
+
+    <input class="looks-like-button" type="submit" value="Filter" />
+  </div>
+</form>
+
+
+  <div class="export">
+      <span class="has-tooltip button disabled">Download CSV</span>
+      <div class="tooltip">
+        You must <a href="https://moz.com/login">log in</a> or <a href="http://moz.com/pro">register</a> for an account to download this report.
+      </div>
+  </div>
+
+  <span class="current-page-indeces">
+    <span class="whatever-of-whatnot">
+      1 - 50
+    </span>
+    of the newest  links
+  </span>
+  <div class="pagination"><em class="current">First</em> <span class="previous_page disabled"></span> <em class="current">1</em> <a rel="next" href="/just-discovered.html?page=2&amp;site=http%3A%2F%2Fwww.inedo.com%2Fdevops&amp;sort=crawled">2</a> <a class="next_page" rel="next" href="/just-discovered.html?page=2&amp;site=http%3A%2F%2Fwww.inedo.com%2Fdevops&amp;sort=crawled"></a> <a rel="next" href="/just-discovered.html?page=2&amp;site=http%3A%2F%2Fwww.inedo.com%2Fdevops&amp;sort=crawled">Last</a></div>
+
+  <table class=" clearfix fresh-results" id="results" cellpadding="0" cellspacing="0">
+    <thead>
+      <tr>
+        <th class="link-title destination-url">
+          <div class="has-tooltip">URL of Linking Page</div>
+          <div class="tooltip">The URL where we found a link to the domain, subdomain, or page you queried.</div>
+        </th>
+        <th class="link-title anchor-text">
+          <div class="has-tooltip">Link Anchor Text</div>
+          <div class="tooltip">The visible, clickable text in a hyperlink.</div>
+        </th>
+        <th class="link-title page-authority">
+          <div class="has-tooltip">
+              Page Authority
+          </div>
+          <div class="tooltip">Predicts this page's ranking potential in the search engines based on an algorithmic combination of all link metrics. [No data] indicates a link that may be new.</div>
+        </th>
+        <th class="link-title domain-authority">
+          <div class="has-tooltip"><a href="/just-discovered.html?page=1&amp;site=http%3A%2F%2Fwww.inedo.com%2Fdevops&amp;sort=da">Domain Authority</a></div>
+          <div class="tooltip">Predicts this domain's ranking potential in the search engines based on an algorithmic combination of all link metrics.</div>
+        </th>
+        <th class="link-title date-found">
+          <div class="has-tooltip">
+              Date Discovered (UTC)
+          </div>
+          <div class="tooltip">The date and time that we crawled the URL.</div>
+        </th>
+    </thead>
+    <tbody>
+      
+<tr>
+    <td><a href="http://thedailywtf.com/Articles/The-Automated-Curse-Generator.aspx" target="_blank">http://thedailywtf.com/Articles/The-Automated-Curse-Generator.aspx</a></td>
+    <td>BuildMaster</td>
+  <td>
+    44
+  </td>
+  <td>77</td>
+  <td>
     <div>
-
-      <h2>No Data Available for this URL</h2>
-
-      <p>Our Fresh Index is updated continuously with URLs shared on Twitter. We crawl the URLs, and include links on the pages that have been shared. There are a number of reasons why we may not have data on a URL. These can include:</p>
-
-      <ul>
-        <li>
-          <strong>When Page Was Last Shared:</strong><br />
-          To keep our index fresh we only include links that have been shared in the last 30 days. If there is no data returned for a URL, it may not have been shared recently. You can tweet the URL to add it back to the index.
-        </li>
-        <li>
-          <strong>Blocked Pages:</strong><br />
-          If our crawlers or data sources are blocked from reaching your URLs, they may not be included in our index (though links that points to those pages will still be available)
-        </li>
-      </ul>
+      Today
     </div>
+    <div class="date-shared-time">3:08 pm</div>
+  </td>
+</tr>
+
+<tr>
+    <td><a href="http://thedailywtf.com/Articles/These-Arent-the-Socks-Youre-Looking-For.aspx" target="_blank">http://thedailywtf.com/Articles/These-Arent-the-Socks-Youre-Looking-For.aspx</a></td>
+    <td>BuildMaster</td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      August 09, 2013
+    </div>
+    <div class="date-shared-time">10:07 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td><a href="http://paulstovell.com/blog/octopus/intro" target="_blank">http://paulstovell.com/blog/octopus/intro</a></td>
+    <td>Inedo&#x27;s BuildMaster</td>
+  <td>
+    30
+  </td>
+  <td>48</td>
+  <td>
+    <div>
+      August 09, 2013
+    </div>
+    <div class="date-shared-time">2:08 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td><a href="http://www.dotnetrocks.com/default.aspx?ShowNum=896" target="_blank">http://www.dotnetrocks.com/default.aspx?ShowNum=896</a></td>
+    <td>BuildMaster</td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>63</td>
+  <td>
+    <div>
+      August 08, 2013
+    </div>
+    <div class="date-shared-time">7:10 pm</div>
+  </td>
+</tr>
+
+<tr>
+    <td><a href="http://dotnetrocks.com/default.aspx?showNum=896" target="_blank">http://dotnetrocks.com/default.aspx?showNum=896</a></td>
+    <td>BuildMaster</td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>63</td>
+  <td>
+    <div>
+      August 08, 2013
+    </div>
+    <div class="date-shared-time">1:36 pm</div>
+  </td>
+</tr>
+<td colspan="5" class="limit-notice">
+  <div class="limit-notice partial" onclick="location.href='http://moz.com/pro'">
+    <h3>As a paid Moz subscriber you get:</h3>
+    <div class="right">
+      <a href="http://moz.com/pro" class="blue-button">Learn More About PRO</a>
+    </div>
+    <ul>
+      <li>Unlimited Open Site Explorer reports</li>
+      <li>Valuable metrics for up to 10,000 links</li>
+      <li>Other top inbound marketing tools</li>
+    </ul>
+  </div>
+</td>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      August 08, 2013
+    </div>
+    <div class="date-shared-time">10:37 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      August 07, 2013
+    </div>
+    <div class="date-shared-time">10:25 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>71</td>
+  <td>
+    <div>
+      August 07, 2013
+    </div>
+    <div class="date-shared-time">2:48 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      August 06, 2013
+    </div>
+    <div class="date-shared-time">10:38 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      August 05, 2013
+    </div>
+    <div class="date-shared-time">7:39 pm</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      August 05, 2013
+    </div>
+    <div class="date-shared-time">10:25 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    23
+  </td>
+  <td>49</td>
+  <td>
+    <div>
+      August 05, 2013
+    </div>
+    <div class="date-shared-time">9:03 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    39
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      August 04, 2013
+    </div>
+    <div class="date-shared-time">5:07 pm</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    44
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      August 03, 2013
+    </div>
+    <div class="date-shared-time">12:55 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      August 02, 2013
+    </div>
+    <div class="date-shared-time">10:22 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    13
+  </td>
+  <td>38</td>
+  <td>
+    <div>
+      August 01, 2013
+    </div>
+    <div class="date-shared-time">10:35 pm</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      August 01, 2013
+    </div>
+    <div class="date-shared-time">10:50 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    17
+  </td>
+  <td>38</td>
+  <td>
+    <div>
+      August 01, 2013
+    </div>
+    <div class="date-shared-time">12:06 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      July 31, 2013
+    </div>
+    <div class="date-shared-time">10:51 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    36
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      July 30, 2013
+    </div>
+    <div class="date-shared-time">11:33 pm</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    49
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      July 30, 2013
+    </div>
+    <div class="date-shared-time">7:49 pm</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>12</td>
+  <td>
+    <div>
+      July 30, 2013
+    </div>
+    <div class="date-shared-time">2:56 pm</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>38</td>
+  <td>
+    <div>
+      July 30, 2013
+    </div>
+    <div class="date-shared-time">11:18 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      July 30, 2013
+    </div>
+    <div class="date-shared-time">10:51 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    36
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      July 30, 2013
+    </div>
+    <div class="date-shared-time">10:33 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    34
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      July 30, 2013
+    </div>
+    <div class="date-shared-time">10:09 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>88</td>
+  <td>
+    <div>
+      July 30, 2013
+    </div>
+    <div class="date-shared-time">3:39 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    37
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      July 29, 2013
+    </div>
+    <div class="date-shared-time">3:44 pm</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    37
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      July 29, 2013
+    </div>
+    <div class="date-shared-time">3:19 pm</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      July 29, 2013
+    </div>
+    <div class="date-shared-time">10:50 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    41
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      July 27, 2013
+    </div>
+    <div class="date-shared-time">7:22 pm</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    35
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      July 27, 2013
+    </div>
+    <div class="date-shared-time">12:15 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>75</td>
+  <td>
+    <div>
+      July 26, 2013
+    </div>
+    <div class="date-shared-time">8:46 pm</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      July 26, 2013
+    </div>
+    <div class="date-shared-time">9:21 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      July 25, 2013
+    </div>
+    <div class="date-shared-time">11:46 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    15
+  </td>
+  <td>38</td>
+  <td>
+    <div>
+      July 24, 2013
+    </div>
+    <div class="date-shared-time">2:39 pm</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      July 24, 2013
+    </div>
+    <div class="date-shared-time">10:21 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    37
+  </td>
+  <td>28</td>
+  <td>
+    <div>
+      July 23, 2013
+    </div>
+    <div class="date-shared-time">2:18 pm</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      July 23, 2013
+    </div>
+    <div class="date-shared-time">10:52 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      July 23, 2013
+    </div>
+    <div class="date-shared-time">10:48 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    45
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      July 23, 2013
+    </div>
+    <div class="date-shared-time">6:31 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    38
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      July 23, 2013
+    </div>
+    <div class="date-shared-time">3:59 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    34
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      July 23, 2013
+    </div>
+    <div class="date-shared-time">3:47 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>1</td>
+  <td>
+    <div>
+      July 23, 2013
+    </div>
+    <div class="date-shared-time">3:33 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    74
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      July 23, 2013
+    </div>
+    <div class="date-shared-time">2:57 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    51
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      July 23, 2013
+    </div>
+    <div class="date-shared-time">2:03 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    61
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      July 23, 2013
+    </div>
+    <div class="date-shared-time">12:48 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      July 22, 2013
+    </div>
+    <div class="date-shared-time">10:50 am</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      July 19, 2013
+    </div>
+    <div class="date-shared-time">12:57 pm</div>
+  </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td></td>
+  <td>
+    <em>[No data]</em>
+  </td>
+  <td>77</td>
+  <td>
+    <div>
+      July 18, 2013
+    </div>
+    <div class="date-shared-time">10:21 am</div>
+  </td>
+</tr>
+
+    </tbody>
+  </table>
+  <div class="bottom-pagination">
+    <div class="pagination"><em class="current">First</em> <span class="previous_page disabled"></span> <em class="current">1</em> <a rel="next" href="/just-discovered.html?page=2&amp;site=http%3A%2F%2Fwww.inedo.com%2Fdevops&amp;sort=crawled">2</a> <a class="next_page" rel="next" href="/just-discovered.html?page=2&amp;site=http%3A%2F%2Fwww.inedo.com%2Fdevops&amp;sort=crawled"></a> <a rel="next" href="/just-discovered.html?page=2&amp;site=http%3A%2F%2Fwww.inedo.com%2Fdevops&amp;sort=crawled">Last</a></div>
   </div>
 
       
@@ -459,7 +1312,7 @@
    adroll_segments = "opensiteexplorer"
   </script>
   
-  <!-- This page served from ose8 -->
+  <!-- This page served from ose3 -->
 </body>
 </html>
 

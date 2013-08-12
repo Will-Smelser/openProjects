@@ -22,7 +22,7 @@ if(isset($_GET['data'])){
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
-<script src="js/SeoApi.js?SeoApi"></script>
+<script src="http://<?php echo SEO_HOST . '/' . SEO_URI_REPORTS; ?>js/SeoApi.js" id="seo-api-init" name-space="SeoApi"></script>
 
 <script>
 //window.SeoApi.base.api = "<?php echo 'http://'.SEO_HOST.'/'.SEO_URI_API; ?>";
@@ -31,7 +31,7 @@ SeoApi.load("<?php echo 'http://'.SEO_HOST.'/'.SEO_URI_API; ?>",'base');
 SeoApi.load('render');
 //SeoApi.load('head').depends('render').addMethod('getTitle','#reuslts3').exec('willsmelser.com');
 //SeoApi.load('body').addMethod('checkH1','#reuslts2').exec('willsmelser.com');
-SeoApi.load('semrush').addMethod('getDomainReport','#reuslts').exec('www.inedo.com');
+SeoApi.load('server').addMethod('getDomainReport','#reuslts').exec('www.inedo.com');
 
 /*
 SeoApi.waitOn('head',function(){
