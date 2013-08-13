@@ -2,6 +2,7 @@
 class ApiCodes {
 	static $success = array("200 OK","Success");
 	static $badRequest = array("400 Bad Request","Invalid Request");
+	static $systemError = array("500 Internal Server Error", "Internal Error");
 }
 
 class ApiResponse{
@@ -20,14 +21,18 @@ class ApiResponse{
 		return $this;
 	}
 	
-	public function failure($msg){
+	public function failure($msg, $apiCode=null){
 		$resp = $this;
-		$resp->apiCode = ApiCodes::$badRequest;
+		$resp->apiCode = (empty($apiCode))?ApiCodes::$badRequest:$apiCode;
 		$resp->error = true;
 		$resp->msg = $msg;
 		$resp->data = null;
 		$resp->header();
 		return $this;
+	}
+	
+	public function setData($data){
+		$this->data = $data;
 	}
 	
 	private function header(){

@@ -169,7 +169,7 @@ class HtmlBodyWrap{
 	 * @return string[] An array of inline css content
 	 */
 	public function checkInlineCSS(){
-		preg_match_all('@style[\s+]?=[\s+]?[\'|"].*?[\'|"]@i', $this->parser->dom, $matches);
+		preg_match_all('@style[\s+]?=[\s+]?[\'|"].*?[\'|"]i', $this->parser->dom, $matches);
 		return $matches[0];
 	}
 	
