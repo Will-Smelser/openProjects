@@ -3,58 +3,100 @@
 require_once SEO_PATH_HELPERS . 'ApiResponse.php';
 require_once SEO_PATH_HELPERS . 'Vars.php';
 
-interface Control{
-	public function no_method();
-}
-
-class Controller implements Control{
+class Controller{
 	public $skip = array();
 	
-	public function no_method($method="Unknown"){
-		$api = new ApiResponseJSON();
-		echo $api->failure("Invalid Request - No Method or Class - $method")->doPrint();
+	private $error = false;
+		
+	private function callWrapper(&$obj, $method, $args=null){
+		
 	}
 	
-	public function exec(&$obj, $method, $args=null){
-		//run several api methods
-		if(strstr($method, '|')){
-			$results = array();
+	private function execGroup(&$obj, $method, $args){
+		$results = array();
 			
-			foreach(explode('|', $method) as $mthd){
-				$api = new ApiResponseJSON();
+		foreach(explode('|', $method) as $mthd){
+			$api = new ApiResponseJSON();
+			
+			try{
 				if($this->isValidMethod($obj, $mthd, $this->skip))
 					$results[$mthd] = $api->success("Success", $obj->$mthd($args))->toArray();
 				else{
-					echo "No Method - $mthd";
-					$results[$mthd] = $api->success("Success", $this->no_method($mthd))->toArray();
+					throw new BadMethodCallException("No Method - $mthd");
 				}
+			}catch(Exception $e){
+				$this->error = true;
+				$temp = new ApiResponseJSON();
+				$results[$mthd] = $temp->failure($e->getMessage())->toArray();
 			}
-			$api = new ApiResponseJSON();
-			echo $api->success("Success", $results)->doPrint();
-		//run all api methods
-		}else if(stripos($method,'all')!==false){
-			$results = array();
-			
-			foreach(get_class_methods($obj) as $mthd){
-				if(stripos($method,'~'.$mthd) === false && $this->isValidMethod($obj, $mthd, $this->skip)){
-					$api = new ApiResponseJSON();
-					$results[$mthd] = $api->success("Success", $obj->$mthd($args))->toArray();
-				}
-			}
-			
-			$api = new ApiResponseJSON();
-			echo $api->success("Success", $results)->doPrint();
-			
-		//run a specific api method
-		}else if(!$this->isValidMethod($obj, $method, $this->skip)){
-			$this->no_method($method);
-		
-		//method did not exist for the given class
-		}else{
-			$result = $obj->$method($args);
-			$api = new ApiResponseJSON();
-			echo $api->success("Success", $result)->doPrint();
 		}
+			
+		return $results;
+	}
+	
+	public function execAll(&$obj, $method, $args){
+		$results = array();
+			
+		foreach(get_class_methods($obj) as $mthd){
+			if(stripos($method,'~'.$mthd) === false && $this->isValidMethod($obj, $mthd, $this->skip)){
+				try{
+					$results[$mthd] = $api->success("Success", $obj->$mthd($args))->toArray();
+				}catch(Exception $e){
+					$this->error = true;
+					$temp = new ApiResponseJSON();
+					$results[$mthd] = $temp->failure($e->getMessage())->toArray();
+				}
+			}
+		}
+			
+		return $results;
+	}
+	
+	public function execWrapper(&$obj, $method, $args){
+		if(strstr($method, '|'))
+			return $this->execGroup($obj, $method, $args);
+			
+		//run all api methods
+		else if(stripos($method,'all')!==false)
+			return $this->execAll($obj, $method, $args);
+				
+		//method doesnt exist, or is a skip method
+		else if(!$this->isValidMethod($obj, $method, $this->skip))
+			throw new BadMethodCallException("No Method - $method");
+			
+		//just run method
+		return $obj->$method($args);
+	}
+	
+	public function handleException(Exception &$e, &$obj, $method, $args){
+		$this->error = true;
+		if($e instanceof BadMethodCallException){
+			return array();
+		}elseif($e instanceof InvalidArgumentException){
+			
+		}elseif($e instanceof OutOfRangeException){
+			
+		}elseif($e instanceof Exception){
+			
+		}
+	}
+	
+	public function exec(&$obj, $method, $args=null){
+		$result = null;
+		$api = new ApiResponseJSON();
+		
+		try{
+			$result = $this->execWrapper($obj, $method, $args);
+			
+		//if the exception made its way up here then it is a top level error
+		//meaning it is most likely the failure of a single method call
+		}catch(Exception $e){
+			$this->error = true;
+			$result = $this->handleException($e, $obj, $method, $args);
+			echo $api->failure("Method Execution Failed - $method")->doPrint();
+			return;
+		}
+		echo $api->success("Success",$result,$this->error)->doPrint();
 	}
 	
 	public function isValidMethod($obj, $method, &$skip){

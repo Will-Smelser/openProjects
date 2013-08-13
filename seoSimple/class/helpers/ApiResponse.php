@@ -10,11 +10,12 @@ class ApiResponse{
 	protected $msg="Default Response";
 	protected $data; //should be an associative array
 	
-	public function success($msg, $data){
+	public function success($msg, $data, $error=false){
 		$resp = $this;
 		$resp->apiCode = ApiCodes::$success;
 		$resp->data = $data;
 		$resp->msg = $msg;
+		$resp->error = $error;
 		$resp->header();
 		return $this;
 	}
