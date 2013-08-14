@@ -2,7 +2,6 @@
 
 require_once SEO_PATH_HELPERS . 'ApiResponse.php';
 require_once SEO_PATH_HELPERS . 'Vars.php';
-//require_once SEO_PATH_CLASS . 'ExceptionHandler.php';
 
 $FATAL_ERROR = true;
 
