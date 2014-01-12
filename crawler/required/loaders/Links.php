@@ -1,7 +1,7 @@
 <?php
-include_once 'PageLoad.php';
-include_once 'HtmlParser.php';
-include_once 'Utils.php';
+include_once '../class/PageLoad.php';
+include_once '../class/HtmlParser.php';
+include_once '../class/Utils.php';
 
 
 //TODO: validate $_GET['arg0'] is set
@@ -11,24 +11,20 @@ include_once 'Utils.php';
 $resp = new PageLoadResponse();
 
 //get start
-$time = microtime();
-$time = explode(' ', $time);
-$time = $time[1] + $time[0];
-$start = $time;
+$start = microtime(true);
 
-
-//make a curl request
-$curl = curl_init($_GET['arg0']);
-curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-$result = curl_exec($curl);
-curl_close($curl);
+$result = '';
+if(isset($_GET['arg0'])){
+    //make a curl request
+    $curl = curl_init($_GET['arg0']);
+    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $result = curl_exec($curl);
+    curl_close($curl);
+}
 
 //get finish
-$time = microtime();
-$time = explode(' ', $time);
-$time = $time[1] + $time[0];
-$finish = $time;
+$finish = microtime(true);
 $total_time = round(($finish - $start), 4);
 
 $resp->url = $_GET['arg0'];
