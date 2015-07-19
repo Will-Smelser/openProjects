@@ -52,7 +52,7 @@
 
                     this._itrForm($form,function($el){
                         if(!$el.attr('name')) return; //skip elements without a name
-                        self.getHandler($el,self.out.handlers).call(self.out.handlers,$el, null, result);
+                        self.getHandler($el,self.out.handlers).call(self.out.handlers, $el, null, result, self._setValue);
                     });
                     return result;
                 },
@@ -104,36 +104,69 @@
                             handler = scope['_none'];
 
                     }
-
-                    //we have the handler, but apply filters
                     return handler;
                 },
-                //default handlers
+                //handle arrays names and such
+                _setValue : function(target,name,val){
+                    //get the initial name
+                    var bracket = name.indexOf("[");
+
+                    if(bracket > 0){
+                        var index= name.substring(0,bracket);
+                        var subs = name.substring(bracket).split("][");
+
+                        //build the object
+                        var _target = target;
+                        for(var x in subs){
+                            var _name = subs[x].replace("[","").replace("]","");
+
+                            //just empty brackets []
+                            var obj;
+                            if(_name === ""){
+                                _name = name.replace("[]","");
+                                obj = [];
+                            }else{
+                                obj = {};
+                            }
+
+                            if(!_target[_name] || typeof _target[_name] !== "object") _target[_name] = obj;
+                            _target = _target[_name];
+
+                        }
+
+                        //do the save
+                        console.log(_target);
+                        _target.push(val);
+                    }else{
+                        target[name] = val;
+                    }
+                },
+                //default handlers, copied into in/out .handlers
                 _handlers : {
                     _none : function(){},
-                    _text : function($el,json,result){
+                    _text : function($el,json,result,saveFunc){
                         if(json){
                             $el.val(json[$el.attr("name")])
                         }else{
-                            result[$el.attr('name')] =  $el.val();
+                            saveFunc(result,$el.attr('name'),$el.val());
                         }
                     },
-                    _check : function($el,json,result){
+                    _check : function($el,json,result,saveFunc){
                         //in
                         if(json){
                             var val = json[$el.attr("name")];
                             $el.prop('checked',(val && (val === true || val == 1 || val === "true")));
                         //out
                         }else{
-                            result[$el.attr('name')] =  $el.is(':checked');
+                            saveFunc(result,$el.attr('name'),$el.is(':checked'));
                         }
                     },
-                    'input-hidden' : function($el,json,result){ return this._text($el,json,result)},
-                    'input-text' : function($el,json,result){ return this._text($el,json,result)},
-                    'textarea' : function($el,json,result){ return this._text($el,json,result)},
-                    'input-checkbox' : function($el,json,result){ return this._check($el,json,result)},
-                    'input-radio' : function($el,json,result){ return this._check($el,json,result)},
-                    'select' : function($el,json,result){
+                    'input-hidden' : function($el,json,result,saveFunc){ return this._text($el,json,result,saveFunc)},
+                    'input-text' : function($el,json,result,saveFunc){ return this._text($el,json,result,saveFunc)},
+                    'textarea' : function($el,json,result,saveFunc){ return this._text($el,json,result,saveFunc)},
+                    'input-checkbox' : function($el,json,result,saveFunc){ return this._check($el,json,result,saveFunc)},
+                    'input-radio' : function($el,json,result,saveFunc){ return this._check($el,json,result,saveFunc)},
+                    'select' : function($el,json,result,saveFunc,saveFunc){
                         //in
                         if(json){
                             $el.children('option').each(function(){
@@ -142,7 +175,7 @@
                         //out
                         }else{
                             $el.children('option').each(function(){
-                                result[$(this).attr("name")] = $(this).is("checked");
+                                saveFunc(result,$(this).attr("name"),$(this).is("checked"));
                             });
                         }
                     }
@@ -185,3 +218,5 @@
 </body>
 
 </html>
+
+
