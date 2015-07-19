@@ -41,31 +41,33 @@
                 },
                 fill : function($form,json){
                     var self = this;
+
                     this._itrForm($form,function($el){
-                        self.getHandler($el).call(self.handlers,$el,json);
+                        self.getHandler($el,self.in.handlers).call(self.in.handlers, $el, json);
                     });
                 },
                 extract : function($form){
-                    var name = $form.attr('name');
-                    var result = {};
                     var self = this;
+                    var result = {};
+
                     this._itrForm($form,function($el){
-                        var obj = self.getHandler($el).call(self.handlers,$el);
-                        if(obj){
-                            $.extend(result,obj);
-                        }
+                        if(!$el.attr('name')) return; //skip elements without a name
+                        self.getHandler($el,self.out.handlers).call(self.out.handlers,$el, null, result);
                     });
                     return result;
                 },
+                //user defined filters and handlers
                 in : {
-
+                    filters : {},
+                    handlers : {}
                 },
                 out : {
                     filters : {
                         form_date : function($el){
 
                         }
-                    }
+                    },
+                    handlers : {}
                 },
 
                 getFilterList : function($el, dir){
@@ -78,73 +80,81 @@
                     }
                     return filters;
                 },
-                getHandler : function($el){
+                getHandler : function($el,scope){
                     var name = $el.prop('tagName').toLowerCase();
                     var handler;
+
                     switch(name){
                         case 'select':
-                            handler = this.handlers.select;
+                            handler = scope.select; break;
                         case 'textarea':
-                            handler = this.handlers.textarea;
+                            handler = scope.textarea; break;
                         case 'input':
                             switch($el.prop('type').toLowerCase()){
                                 case 'radio':
-                                    handler = this.handlers['input-radio'];
+                                    handler = scope['input-radio']; break;
                                 case 'checkbox':
-                                    handler = this.handlers['input-checkbox'];
+                                    handler = scope['input-checkbox']; break;
                                 default:
-                                    handler = this.handlers['input-text'];
+                                    handler = scope['input-text']; break;
                             }
-                        case 'option':
+                            break;
                         default:
                             if(debug) console.log("Unmatched form elment: "+name);
-                            return this.handlers['_none'];
+                            handler = scope['_none'];
+
                     }
 
                     //we have the handler, but apply filters
+                    return handler;
                 },
                 //default handlers
                 _handlers : {
                     _none : function(){},
-                    _text : function($el,json){
+                    _text : function($el,json,result){
                         if(json){
                             $el.val(json[$el.attr("name")])
                         }else{
-                            var temp = {};
-                            temp[$el.attr('name')] =  $el.val();
-                            return temp;
+                            result[$el.attr('name')] =  $el.val();
                         }
                     },
-                    _check : function($el,json){
+                    _check : function($el,json,result){
+                        //in
                         if(json){
                             var val = json[$el.attr("name")];
                             $el.prop('checked',(val && (val === true || val == 1 || val === "true")));
+                        //out
                         }else{
-                            var temp = {};
-                            temp[$el.attr('name')] =  $el.is(':checked');
-                            return temp;
+                            result[$el.attr('name')] =  $el.is(':checked');
                         }
                     },
-                    'input-hidden' : function($el,json){ return this._text($el,json)},
-                    'input-text' : function($el,json){ return this._text($el,json)},
-                    'textarea' : function($el,json){ return this._text($el,json)},
-                    'input-checkbox' : function($el,json){ return this._check($el,json)},
-                    'input-radio' : function($el,json){ return this._check($el,json)},
-                    'select' : function($el,json){
+                    'input-hidden' : function($el,json,result){ return this._text($el,json,result)},
+                    'input-text' : function($el,json,result){ return this._text($el,json,result)},
+                    'textarea' : function($el,json,result){ return this._text($el,json,result)},
+                    'input-checkbox' : function($el,json,result){ return this._check($el,json,result)},
+                    'input-radio' : function($el,json,result){ return this._check($el,json,result)},
+                    'select' : function($el,json,result){
+                        //in
                         if(json){
                             $el.children('option').each(function(){
                                 $(this).prop('checked',(json[$(this).attr("name")]));
                             });
+                        //out
                         }else{
-                            var result = {};
                             $el.children('option').each(function(){
                                 result[$(this).attr("name")] = $(this).is("checked");
                             });
-                            return result;
                         }
                     }
                 }
             };
+
+            //add pointers to _handlers in user defined handlers for in/out
+            for(var x in result._handlers){
+                result.in.handlers[x] = result._handlers[x];
+                result.out.handlers[x] = result._handlers[x];
+            }
+
             return result;
         }
         jQuery.fn.forms = function(options,json){
