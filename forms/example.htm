@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example of HTML forms</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+
+<body>
+<form name="myform" id="myform">
+    <input type="text" name="sometext"/>
+    <div>test</div>
+    <input name="other"/>
+
+        <legend>What is Your Favorite Pet?</legend>
+        <input type="checkbox" name="animal[]" value="Cat" />Cats <br />
+        <input type="checkbox" name="animal[]" value="Dog" />Dogs<br />
+        <input type="checkbox" name="animal[]" value="Bird" />Birds<br />
+        <input type="submit" value="Submit now" />
+
+</form>
+
+
+
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script>
+    var data = {"sometext":"hello","other":"","animal[]":false,"undefined":"Submit now"};
+    (function( $ ){
+        var regex = /^(?:input|select|textarea|keygen)/i;
+        function Forms(config){
+            var debug = (config && config.debug) ? config.debug : false ;
+            var result = {
+                _itrForm : function($form, cb){
+                    var name = $form.attr('name');
+                    if(document.forms[name]){
+                        for(var i=0; i<document.forms[name].length; i++){
+                            var $el = $(document.forms[name].elements[i]);
+                            cb($el);
+                        }
+                    }
+                },
+                fill : function($form,json){
+                    var self = this;
+                    this._itrForm($form,function($el){
+                        self.getHandler($el).call(self.handlers,$el,json);
+                    });
+                },
+                extract : function($form){
+                    var name = $form.attr('name');
+                    var result = {};
+                    var self = this;
+                    this._itrForm($form,function($el){
+                        var obj = self.getHandler($el).call(self.handlers,$el);
+                        if(obj){
+                            $.extend(result,obj);
+                        }
+                    });
+                    return result;
+                },
+                in : {
+
+                },
+                out : {
+                    filters : {
+                        form_date : function($el){
+
+                        }
+                    }
+                },
+
+                getFilterList : function($el, dir){
+                    var filters = [];
+                    var css = $el.attr('class');
+                    for(var name in css.split(" ")){
+                        if(this[dir].filters[name]){
+                            filters.push(this[dir].filters[name]);
+                        }
+                    }
+                    return filters;
+                },
+                getHandler : function($el){
+                    var name = $el.prop('tagName').toLowerCase();
+                    var handler;
+                    switch(name){
+                        case 'select':
+                            handler = this.handlers.select;
+                        case 'textarea':
+                            handler = this.handlers.textarea;
+                        case 'input':
+                            switch($el.prop('type').toLowerCase()){
+                                case 'radio':
+                                    handler = this.handlers['input-radio'];
+                                case 'checkbox':
+                                    handler = this.handlers['input-checkbox'];
+                                default:
+                                    handler = this.handlers['input-text'];
+                            }
+                        case 'option':
+                        default:
+                            if(debug) console.log("Unmatched form elment: "+name);
+                            return this.handlers['_none'];
+                    }
+
+                    //we have the handler, but apply filters
+                },
+                //default handlers
+                _handlers : {
+                    _none : function(){},
+                    _text : function($el,json){
+                        if(json){
+                            $el.val(json[$el.attr("name")])
+                        }else{
+                            var temp = {};
+                            temp[$el.attr('name')] =  $el.val();
+                            return temp;
+                        }
+                    },
+                    _check : function($el,json){
+                        if(json){
+                            var val = json[$el.attr("name")];
+                            $el.prop('checked',(val && (val === true || val == 1 || val === "true")));
+                        }else{
+                            var temp = {};
+                            temp[$el.attr('name')] =  $el.is(':checked');
+                            return temp;
+                        }
+                    },
+                    'input-hidden' : function($el,json){ return this._text($el,json)},
+                    'input-text' : function($el,json){ return this._text($el,json)},
+                    'textarea' : function($el,json){ return this._text($el,json)},
+                    'input-checkbox' : function($el,json){ return this._check($el,json)},
+                    'input-radio' : function($el,json){ return this._check($el,json)},
+                    'select' : function($el,json){
+                        if(json){
+                            $el.children('option').each(function(){
+                                $(this).prop('checked',(json[$(this).attr("name")]));
+                            });
+                        }else{
+                            var result = {};
+                            $el.children('option').each(function(){
+                                result[$(this).attr("name")] = $(this).is("checked");
+                            });
+                            return result;
+                        }
+                    }
+                }
+            };
+            return result;
+        }
+        jQuery.fn.forms = function(options,json){
+            //do config stuff
+
+            var form = new Forms();
+
+            var result = {};
+
+            //all the elements from jquery selector, expecting "form" tags
+            this.each(function(index,el){
+                if(options === "extract"){
+                    $.extend(result,form.extract($(el)));
+                } else if(options === "fill"){
+                    form.fill($(el),json);
+                }
+            });
+
+            if(options === "extract"){
+                return result;
+            }
+
+            return this;
+        }
+    })(jQuery );
+
+</script>
+</body>
+
+</html>
