@@ -18,25 +18,33 @@
 <body>
 <h2>Sample Form</h2>
 <form name="myform" id="myform">
-    <fieldset name="group1">
     <div class="form-group">
         <label for="input">Enter Name</label>
-        <input class="form-control" name="name" id="input" placeholder="Enter Name">
+        <input class="form-control" name="Test" id="input" placeholder="Enter Something">
     </div>
-
-    <div class="form-group">
-        <legend>What is Your Favorite Pet?</legend>
-        <div class="checkbox"><label class="checkbox"><input type="checkbox" name="animal[]" value="Cat" />Cats</label></div>
-        <div class="checkbox"><label class="checkbox"><input type="checkbox" name="animal[]" value="Dog" />Dog</label></div>
-        <div class="checkbox"><label class="checkbox"><input type="checkbox" name="animal[]" value="Bird" />Bird</label></div>
-    </div>
+    <fieldset name="group1">
+        <div class="form-group">
+            <legend>What is Your Favorite Pet?</legend>
+            <div class="checkbox"><label class="checkbox"><input type="checkbox" name="animal[]" value="Cat" />Cats</label></div>
+            <div class="checkbox"><label class="checkbox"><input type="checkbox" name="animal[]" value="Dog" />Dog</label></div>
+            <div class="checkbox"><label class="checkbox"><input type="checkbox" name="animal[]" value="Bird" />Bird</label></div>
+        </div>
+    </fieldset>
+    <fieldset name="group1">
+        <div class="form-group">
+            <legend>What is Your Favorite Pet?</legend>
+            <div class="checkbox"><label class="checkbox"><input type="radio" name="animal2" value="Cat" />Cats</label></div>
+            <div class="checkbox"><label class="checkbox"><input type="radio" name="animal2" value="Dog" />Dog</label></div>
+            <div class="checkbox"><label class="checkbox"><input type="radio" name="animal2" value="Bird" />Bird</label></div>
+        </div>
     </fieldset>
 </form>
 
 <hr/>
 <h2>Form Extract</h2>
-<textarea id="form-data"></textarea><br/>
+<textarea id="form-data" style="width:400px"></textarea><br/>
 <button id="form-process" class="btn btn-default">Process Form</button>
+<button id="form-use" class="btn btn-default">Fill Form</button>
 
 </body>
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -44,8 +52,46 @@
 <script src="required/js/forms-core2.js"></script>
 <script>
 $(document).ready(function(){
+
+    $('#myform').forms('getForm',function(form){
+        /*
+        form.addTypeFilter(new RegExp(".*"),'extract',function(name,type){
+            if(type.type === 'Radio' || type.type === 'Checkbox'){
+                if(type.checked){
+                    return type.value;
+                }
+            }else if(type.type === 'Fieldset'){
+                return type.elements;
+            }else{
+                return type.value;
+            }
+        });
+
+        form.addTypeFilter(new RegExp(".*"),'fill',function(name,value,target){
+            var json = target.toJSON();
+            switch(target.type){
+                case 'Checkbox':
+                case 'Radio':
+                    json.checked = true;
+                    break;
+                case 'Fieldset':
+                    //console.log('fieldset',name,value,target);
+                    break;
+                default:
+                    json.value = value;
+            }
+            //console.log(name,value,target);
+            return json;
+        });
+        */
+    });
+
     $('#form-process').click(function(){
         $('#form-data').val(JSON.stringify($('#myform').forms('extract'),null,8));
+    });
+    $('#form-use').click(function(){
+        var json = JSON.parse($('#form-data').val());
+        $('#myform').forms('fill',json);
     });
 });
 </script>
