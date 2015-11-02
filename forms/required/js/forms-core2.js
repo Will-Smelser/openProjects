@@ -6,6 +6,23 @@
 (function( $ ){
 
     /**
+     * Simplifies adding to an object.  If an object key already exists, change it to an array
+     * and add the value to the array.
+     */
+    var _add = function(obj, key, value){
+        if(typeof obj[key] === 'undefined'){
+            obj[key] = value;
+        }else if($.isArray(obj[key])){
+            obj[key].push(value);
+        }else{
+            var temp = obj[key];
+            obj[key] = [];
+            obj[key].push(temp);
+            obj[key].push(value);
+        }
+    };
+
+    /**
      * Iterate the form elements
      * @param $form The form tag to iterate
      * @param cb Callback function which takes a jQuery element
@@ -62,8 +79,21 @@
     Types.Checkbox.prototype.updateValue = function(json){this.$el.prop('checked',json.checked)};
     Types.Radio.prototype.updateValue = function(json){this.$el.prop('checked',json.checked)};
 
-    //specifit for fieldset
+    //specific for fieldset
     Types.Fieldset.prototype.updateValue = function(elements){this.elements=elements};
+    Types.Fieldset.prototype.toJSON = function(includeEl){
+        var result = {};
+        for(var x in this.elements){
+            if($.isArray(this.elements[x])){
+                for(var y in this.elements[x]){
+                    _add(result, this.elements[x][y].name, this.elements[x][y].toJSON(includeEl));
+                }
+            }else{
+                _add(result, this.elements[x].name, this.elements[x].toJSON(includeEl));
+            }
+        }
+        return result;
+    };
 
     /**
      *  Convert a '<input type="x"' into a Type object.  Will default to Type.Text
@@ -116,33 +146,30 @@
         }
     };
 
-    var typeToEl = function(type){
-        var name = type.getName
-    };
-
     /**
      * Apply the filters to the given Type object
      * @param name The name of form element
      * @param obj This is a Types JSON object representation
      * @param filters The filters to apply
      * @param method Which filters method to call.  Either 'extract' or 'fill'
-     * @param target Only available when this is a fill call.
+     * @param type A Type object for current element.
      */
-    var _applyFilters = function(name, obj, filters, method, target){
+    var _applyFilters = function(name, obj, filters, method){
+        var temp = obj;
         for(var x in filters){
             for(var filter in filters[x]){
                 if(typeof filters[x][filter][method] === 'function'){
-                    obj = filters[x][filter][method](name,obj,target);
+                    temp = filters[x][filter][method](name,temp,obj);
                 }
             }
         }
-        return obj;
+        return temp;
     }
 
     /**
-     * Iterate a form elements and mark nodes as visited as you visit them.  This is for extracting values.
+     * Iterate the form elements creating a schema, which is an Object comprised of Type objects.
      */
-    var _itr = function(formEls, ctx, filters, includeEl){
+    var _schema = function(formEls, ctx){
         for(var i=0; i < formEls.length; i++){
             var $el = $(formEls[i]);
 
@@ -156,43 +183,32 @@
             //special case <fieldset>
             if(type instanceof Types.Fieldset){
                 var elements = {};
-                _itr(formEls[i].elements, elements, filters, includeEl);
+                _schema(formEls[i].elements, elements);
                 type.updateValue(elements);
-                var temp = _applyFilters(name,type.toJSON(includeEl), filters, 'extract');
-                if(typeof temp !== 'undefined'){
-                    if(typeof ctx[name] === 'undefined'){
-                        ctx[name] = [];
-                    }
-                    ctx[name].push(temp);
+
+                if(typeof ctx[name] === 'undefined'){
+                    ctx[name] = [];
                 }
+                ctx[name].push(type);
 
             //normal case, store object on result with the given name
             } else if(typeof ctx[name] === 'undefined'){
-                var temp = _applyFilters(name,type.toJSON(includeEl), filters, 'extract');
-                if(typeof temp !== 'undefined'){
-                    ctx[name] = temp;
-                }
+                ctx[name] = type;
 
             //we already have duplicate names, just add to the array
             }else if($.isArray(ctx[name])){
-                var temp = _applyFilters(name,type.toJSON(includeEl), filters, 'extract');
-                if(typeof temp !== 'undefined'){
-                    ctx[name].push(temp);
-                }
+                ctx[name].push(type);
 
             //have an object, need to convert to array of objects.  Means duplicate name in the form
             }else{
-                var temp2 = _applyFilters(name,type.toJSON(includeEl), filters, 'extract');
-
-                if(typeof temp2 !== 'undefined'){
-                    var temp = ctx[name];
-                    ctx[name] = [];
-                    ctx[name].push(temp);
-                    ctx[name].push(temp2);
-                }
+                var temp = ctx[name];
+                ctx[name] = [];
+                ctx[name].push(temp);
+                ctx[name].push(type);
             }
         }
     }
+
 
     /**
      * Make all elments as not visitied.
@@ -202,47 +218,43 @@
             var $el = $(formEls[i]);
             $el.attr('data-forms-visited',false);
         }
-    }
+    };
 
-    function Forms($form){
+    var _extractJsonFilter = function(schema){
+        var result = {};
+
+        for(var x in schema){
+            if($.isArray(schema[x])){
+                for(var y in schema[x]){
+                    _add(result, x, schema[x][y].toJSON());
+                }
+            }else{
+                _add(result, x, schema[x].toJSON());
+            }
+        }
+        return result;
+    };
+
+    window.Forms = function($form){
         this.form = $form;
 
         var TYPE_FILTER = 0;
         var NAME_FILTER = 1;
 
         this.filters = {};
-        this.filters[TYPE_FILTER] = [];
-        this.filters[NAME_FILTER] = [];
+        this.filters[TYPE_FILTER] = []; //type filters
+        this.filters[NAME_FILTER] = []; //name filters
 
         var self = this;
-
-        var _extract = function(includeEl){
-            if(typeof includeEl === 'undefined') includeEl = false;
-
-            var output = {};
-
-            var formName = $form.attr('name');
-
-            if(!formName) return output;
-
-            _itr(document.forms[formName].elements, output, self.filters, includeEl);
-            _itrUnvisit(document.forms[formName].elements); //need to unmark elements as visited
-
-            return output;
-        };
-
 
         /**
          * Fill a form from the JSON output and schema,  should really do an extract and iterate that along with the json
          */
         var _fill = function(name, json, schema){
-            //console.log(json,schema);
-            //var name = $form.attr('name');
 
             for(var x in schema){
-                if(typeof json[x] !== 'undefined'){
+                if(typeof json !== 'undefined' && typeof json[x] !== 'undefined'){
                     if(schema[x].type === 'Fieldset'){
-                        //_applyFilters(x,json[x],self.filters,'fill',type)
                         _fill(name, json[x].elements, schema[x].elements);
                     }else if($.isArray(schema[x])){
                         for(var y in schema[x]){
@@ -254,25 +266,24 @@
                             _fill(name, temp2, temp1);
                         }
                     }else{
-                        console.log(x,schema[x]);
                         var type = elToType(schema[x].$el);
-                        type.updateValue(_applyFilters(x,json[x],self.filters,'fill',schema[x].type));
+                        type.updateValue(_applyFilters(x,json[x],self.filters,'fill',type));
                     }
                 }else{
-                    if(console) console.log("Had to skip: "+json[x])
+                    if(console) console.log("Element was undefined, skipped.",json)
                 }
             }
         };
 
-
         return {
-            addTypeFilter : function(type1,method,fn){
+            addTypeFilter : function(typeName,method,fn){
                 var obj = {};
-                obj[method] = function(name,type2,target){
-                    if(type1 === type2.type || (type1 instanceof RegExp && type1.test(type2.type))){
-                        return fn(name,type2,target)
+                obj[method] = function(name,type){
+                    console.log(name,type);
+                    if(typeName === type.type || (typeName instanceof RegExp && typeName.test(type.type))){
+                        return fn(name,type)
                     }
-                    return type2;
+                    return type;
                 };
                 self.filters[TYPE_FILTER].push(obj);
             },
@@ -286,17 +297,43 @@
                 }
                 self.filters[NAME_FILTER].push(obj);
             },
-            extract : _extract,
             fill : _fill,
             getFilters : function(){
                 return self.filters;
+            },
+            extract : function(){
+                var result = {};
+                var schema = this.getSchema();
+                for(var x in schema){
+                    if($.isArray(schema[x])){
+                        for(var y in schema[x]){
+                            _add(result,x,_applyFilters(x, schema[x][y], this.getFilters(), 'extract'));
+                        }
+                    }else{
+                        _add(result,x,_applyFilters(x, schema[x], this.getFilters(), 'extract'));
+                    }
+                }
+                return result;
+            },
+            getSchema : function(){
+                var output = {};
+
+                var formName = $form.attr('name');
+
+                if(!formName) return output;
+
+                _schema(document.forms[formName].elements, output);
+                _itrUnvisit(document.forms[formName].elements); //need to unmark elements as visited
+
+                return output;
             }
         }
 
     };
 
 
-    jQuery.fn.forms = function(options,nameOrJson,method,fn){
+
+    $.fn.forms = function(options,nameOrJson,method,fn){
 
         //for holding results of extract
         var result = [];
@@ -340,4 +377,6 @@
         }
         return this;
     }
+
+
 })(jQuery );

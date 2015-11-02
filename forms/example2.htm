@@ -50,11 +50,12 @@
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="required/js/forms-core2.js"></script>
+<script src="required/js/forms-filter-core.js"></script>
 <script>
 $(document).ready(function(){
 
     $('#myform').forms('getForm',function(form){
-        /*
+/*
         form.addTypeFilter(new RegExp(".*"),'extract',function(name,type){
             if(type.type === 'Radio' || type.type === 'Checkbox'){
                 if(type.checked){
@@ -68,6 +69,7 @@ $(document).ready(function(){
         });
 
         form.addTypeFilter(new RegExp(".*"),'fill',function(name,value,target){
+            //console.log(target);
             var json = target.toJSON();
             switch(target.type){
                 case 'Checkbox':
@@ -83,7 +85,7 @@ $(document).ready(function(){
             //console.log(name,value,target);
             return json;
         });
-        */
+*/
     });
 
     $('#form-process').click(function(){
