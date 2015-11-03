@@ -148,22 +148,18 @@
 
     /**
      * Apply the filters to the given Type object
-     * @param name The name of form element
+     * @param type A Type object for current element.
      * @param obj This is a Types JSON object representation
      * @param filters The filters to apply
-     * @param method Which filters method to call.  Either 'extract' or 'fill'
-     * @param type A Type object for current element.
+
      */
-    var _applyFilters = function(name, obj, filters, method){
-        var temp = obj;
-        for(var x in filters){
-            for(var filter in filters[x]){
-                if(typeof filters[x][filter][method] === 'function'){
-                    temp = filters[x][filter][method](name,temp,obj);
-                }
+    var _applyFilters = function(type, obj, filters){
+        for(var filter in filters){
+            if(typeof filters[filter] === 'function'){
+                obj = filters[filter](type, obj);
             }
         }
-        return temp;
+        return obj;
     }
 
     /**
@@ -235,27 +231,35 @@
         return result;
     };
 
-    window.Forms = function($form){
+    window.Forms = function($form, options){
+        var self = this;
+
         this.form = $form;
 
-        var TYPE_FILTER = 0;
-        var NAME_FILTER = 1;
+        var settings = {
+            filters : {
+                extract:[],
+                fill:[]
+            }
+        };
 
-        this.filters = {};
-        this.filters[TYPE_FILTER] = []; //type filters
-        this.filters[NAME_FILTER] = []; //name filters
+        if(options){
+            $.extend(settings, options);
+        }
 
-        var self = this;
+        //the most basic extract function
+        settings.filters.extract.unshift(function(type, obj){return type.toJSON();});
 
         /**
          * Fill a form from the JSON output and schema,  should really do an extract and iterate that along with the json
          */
-        var _fill = function(name, json, schema){
+        var _fill = function(json, schema, filters){
 
             for(var x in schema){
                 if(typeof json !== 'undefined' && typeof json[x] !== 'undefined'){
                     if(schema[x].type === 'Fieldset'){
-                        _fill(name, json[x].elements, schema[x].elements);
+                        _fill(json[x], schema[x].elements, filters);
+
                     }else if($.isArray(schema[x])){
                         for(var y in schema[x]){
                             var sname = schema[x][y].name;
@@ -263,11 +267,11 @@
                             var temp2 = {};
                             temp1[sname] = schema[x][y];
                             temp2[sname] = json[x][y];
-                            _fill(name, temp2, temp1);
+                            _fill(temp2, temp1, filters);
                         }
                     }else{
                         var type = elToType(schema[x].$el);
-                        type.updateValue(_applyFilters(x,json[x],self.filters,'fill',type));
+                        type.updateValue(_applyFilters(schema[x].type, json[x], filters));
                     }
                 }else{
                     if(console) console.log("Element was undefined, skipped.",json)
@@ -276,28 +280,12 @@
         };
 
         return {
-            addTypeFilter : function(typeName,method,fn){
-                var obj = {};
-                obj[method] = function(name,type){
-                    console.log(name,type);
-                    if(typeName === type.type || (typeName instanceof RegExp && typeName.test(type.type))){
-                        return fn(name,type)
-                    }
-                    return type;
-                };
-                self.filters[TYPE_FILTER].push(obj);
+            filters : settings.filters,
+            addFillFilter : function(fn){filters.fill.push(fn);},
+            addExtractFilter : function(fn){filters.extract.push(fn);},
+            fill : function(json){
+                _fill(json, this.getSchema(), this.filters.fill);
             },
-            addNameFilter : function(name,method,fn){
-                var obj = {};
-                obj[method] = function(name,type,target){
-                    if(type.name === name || (name instanceof RegExp && name.test(type2.type))){
-                        return fn(name,type,target);
-                    }
-                    return type;
-                }
-                self.filters[NAME_FILTER].push(obj);
-            },
-            fill : _fill,
             getFilters : function(){
                 return self.filters;
             },
@@ -307,10 +295,10 @@
                 for(var x in schema){
                     if($.isArray(schema[x])){
                         for(var y in schema[x]){
-                            _add(result,x,_applyFilters(x, schema[x][y], this.getFilters(), 'extract'));
+                            _add(result,x,_applyFilters(schema[x][y], schema[x][y], this.filters.extract));
                         }
                     }else{
-                        _add(result,x,_applyFilters(x, schema[x], this.getFilters(), 'extract'));
+                        _add(result,x,_applyFilters(schema[x], schema[x], this.filters.extract));
                     }
                 }
                 return result;
@@ -327,54 +315,27 @@
 
                 return output;
             }
-        }
-
+        };
     };
 
 
 
-    $.fn.forms = function(options,nameOrJson,method,fn){
-
-        //for holding results of extract
-        var result = [];
+    $.fn.forms = function(options){
 
         //all the elements from jquery selector, expecting "form" tags
         this.each(function(index,el){
             var $el = $(el);
             var form = $el.data("forms");
             if(!form){
-                form = new Forms($el);
+                form = new Forms($el, options);
                 $el.data("forms", form);
             }
 
-            if(options === "extract"){
-                result.push(form.extract());
-            } else if(options === "fill"){
-                form.fill($el.attr('name'),nameOrJson,form.extract(true));
-            } else if(options === "addTypeFilter"){
-                if(method === 'fill' || method === 'extract'){
-                    form.addTypeFilter(nameOrJson,method,fn);
-                }else{
-                    if(console) console.log("expected 'fill' or 'extract', but got "+method);
-                }
-
-            } else if(options === "addNameFilter"){
-                if(method === 'fill' || method === 'extract'){
-                    form.addNameFilter(nameOrJson,method,fn);
-                }else{
-                    if(console) console.log("expected 'fill' or 'extract', but got "+method);
-                }
-            } else if(options === "getForm"){
-                nameOrJson(form);
+            if(typeof options === 'function'){
+                options(form);
             }
         });
 
-        if(options === "extract"){
-            if(result.length === 1){
-                return result[0];
-            }
-            return result;
-        }
         return this;
     }
 

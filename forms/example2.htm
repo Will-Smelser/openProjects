@@ -53,9 +53,9 @@
 <script src="required/js/forms-filter-core.js"></script>
 <script>
 $(document).ready(function(){
-
-    $('#myform').forms('getForm',function(form){
 /*
+    $('#myform').forms(function(form){
+
         form.addTypeFilter(new RegExp(".*"),'extract',function(name,type){
             if(type.type === 'Radio' || type.type === 'Checkbox'){
                 if(type.checked){
@@ -85,15 +85,19 @@ $(document).ready(function(){
             //console.log(name,value,target);
             return json;
         });
-*/
-    });
 
+    });
+*/
     $('#form-process').click(function(){
-        $('#form-data').val(JSON.stringify($('#myform').forms('extract'),null,8));
+        $('#myform').forms(FormSettings).forms(function(form){
+            $('#form-data').val(JSON.stringify(form.extract(),null,8));
+        });
     });
     $('#form-use').click(function(){
         var json = JSON.parse($('#form-data').val());
-        $('#myform').forms('fill',json);
+        $('#myform').forms(function(form){
+            form.fill(json);
+        });
     });
 });
 </script>
