@@ -278,7 +278,7 @@
                     case 'Checkbox':
                     case 'Radio':
                         json.checked = (type.value === obj);
-                        json.value = (type.value === obj) ? obj : type.value;
+                        json.value = obj;
                         break;
                     case 'Fieldset':
                         //console.log('fieldset',name,value,target);
@@ -325,11 +325,11 @@
 
                                 var temp = _applyFilters(schema[x][y], json[x][y-skips], filters);
 
-                                console.log(x,y,temp,json[x][y-skips]);
+
 
                                 //possible we are missing elements in json, that schema has.  So skip.
                                 if(!schema[x][y].equals(temp) && schema[x][y].type !== 'Fieldset'){
-
+                                    //todo set to default value
                                     skips++;
                                     continue;
                                 }
