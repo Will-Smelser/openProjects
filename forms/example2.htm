@@ -89,7 +89,7 @@ $(document).ready(function(){
     });
 */
     $('#form-process').click(function(){
-        $('#myform').forms(FormSettings).forms(function(form){
+        $('#myform').forms(function(form){
             $('#form-data').val(JSON.stringify(form.extract(),null,8));
         });
     });

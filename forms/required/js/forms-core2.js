@@ -63,6 +63,7 @@
         Types[x].prototype.getName = function(){return this.name};
         Types[x].prototype.getValue = function(){return this.value};
         Types[x].prototype.getType = function(){return this.prototype.constructor};
+        Types[x].prototype.equals = function(type){return (type && this.type === type.type && this.name === type.name)};
         Types[x].prototype.toJSON = function(includeEl){
             var result = {name : this.name, value : this.value, type : this.type}
             if(typeof this.checked !== 'undefined') result.checked = this.checked; //for radios and checkboxes
@@ -74,8 +75,12 @@
     }
 
     //specific for checkbox and radios
+    Types.Checkbox.prototype.equals = function(type){return (type && this.type === type.type && this.value === type.value && this.name === type.name)};
+    Types.Radio.prototype.equals = function(type){return (type && this.type === type.type && this.value === type.value && this.name === type.name)};
+
     Types.Checkbox.prototype.isChecked = function(){return this.checked};
     Types.Radio.prototype.isChecked = function(){return this.checked};
+
     Types.Checkbox.prototype.updateValue = function(json){this.$el.prop('checked',json.checked)};
     Types.Radio.prototype.updateValue = function(json){this.$el.prop('checked',json.checked)};
 
@@ -159,6 +164,7 @@
                 obj = filters[filter](type, obj);
             }
         }
+
         return obj;
     }
 
@@ -231,12 +237,14 @@
         return result;
     };
 
-    window.Forms = function($form, options){
+    Forms = function($form, options){
         var self = this;
 
         this.form = $form;
 
         var settings = {
+            filterBase : true,
+            filterSlim : true,
             filters : {
                 extract:[],
                 fill:[]
@@ -247,8 +255,28 @@
             $.extend(settings, options);
         }
 
-        //the most basic extract function
-        settings.filters.extract.unshift(function(type, obj){return type.toJSON();});
+        /*
+        if(settings.filterSlim){
+            settings.filters.extract.unshift(function(type, obj){
+                console.log(type,obj);
+                if(type.type === 'Radio' || type.type === 'Checkbox'){
+                    if(type.checked){
+                        return type.value;
+                    }
+                }else if(type.type === 'Fieldset'){
+                    return type.elements;
+                }else{
+                    return type.value;
+                }
+            });
+        };
+        */
+
+
+        if(settings.filterBase || settings.filterSlim){
+            //the most basic extract function
+            settings.filters.extract.unshift(function(type, obj){return type.toJSON();});
+        }
 
         /**
          * Fill a form from the JSON output and schema,  should really do an extract and iterate that along with the json
@@ -261,12 +289,24 @@
                         _fill(json[x], schema[x].elements, filters);
 
                     }else if($.isArray(schema[x])){
+
+                        //possible we have fewer entries in JSON than we have in
+                        //the schema, may need to skip schema entries
+                        var skips = 0;
+
                         for(var y in schema[x]){
+
+                            //possible we are missing elements in json, that schema has.  So skip.
+                            if(!schema[x][y].equals(json[x][y-skips]) && schema[x][y].type !== 'Fieldset'){
+                                skips++;
+                                continue;
+                            }
+
                             var sname = schema[x][y].name;
                             var temp1 = {};
                             var temp2 = {};
                             temp1[sname] = schema[x][y];
-                            temp2[sname] = json[x][y];
+                            temp2[sname] = json[x][y-skips];
                             _fill(temp2, temp1, filters);
                         }
                     }else{
@@ -274,9 +314,28 @@
                         type.updateValue(_applyFilters(schema[x].type, json[x], filters));
                     }
                 }else{
-                    if(console) console.log("Element was undefined, skipped.",json)
+                    if(console) console.log("Element was undefined, skipped.",json,x)
                 }
             }
+        };
+
+        var _extract = function(schema,result,filters){
+            for(var x in schema){
+                if(schema[x].type === 'Fieldset'){
+                    var result2 = {};
+                    _extract(schema[x].elements, result2, filters);
+                    _add(result,schema[x].name,result2);
+
+
+                }else if($.isArray(schema[x])){
+                    for(var y in schema[x]){
+                        _extract([schema[x][y]], result, filters);
+                    }
+                }else{
+                    _add(result,schema[x].name,_applyFilters(schema[x], schema[x], filters));
+                }
+            }
+            return result;
         };
 
         return {
@@ -292,15 +351,9 @@
             extract : function(){
                 var result = {};
                 var schema = this.getSchema();
-                for(var x in schema){
-                    if($.isArray(schema[x])){
-                        for(var y in schema[x]){
-                            _add(result,x,_applyFilters(schema[x][y], schema[x][y], this.filters.extract));
-                        }
-                    }else{
-                        _add(result,x,_applyFilters(schema[x], schema[x], this.filters.extract));
-                    }
-                }
+                window.temp = this.getSchema();
+
+                _extract(schema, result, this.filters.extract);
                 return result;
             },
             getSchema : function(){
