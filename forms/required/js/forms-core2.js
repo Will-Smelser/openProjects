@@ -74,6 +74,11 @@
             return result;
         };
         Types[x].prototype.updateValue = function(json){this.$el.val(json.value)};
+        Types[x].prototype.clone = function(){
+            var clone = jQuery.extend(true, {}, this);
+            clone.value = null;
+            return clone;
+        };
     }
 
     //specific for checkbox and radios
@@ -85,6 +90,15 @@
 
     Types.Checkbox.prototype.updateValue = function(json){this.$el.prop('checked',json.checked)};
     Types.Radio.prototype.updateValue = function(json){this.$el.prop('checked',json.checked)};
+
+    Types.Checkbox.prototype.clone = function(){
+        var clone = jQuery.extend(true, {}, this);
+        clone.checked = false;
+    };
+    Types.Radio.prototype.clone = function(){
+        var clone = jQuery.extend(true, {}, this);
+        clone.checked = false;
+    };
 
     //specific for fieldset
     Types.Fieldset.prototype.updateValue = function(elements){this.elements=elements};
@@ -329,7 +343,7 @@
 
                                 //possible we are missing elements in json, that schema has.  So skip.
                                 if(!schema[x][y].equals(temp) && schema[x][y].type !== 'Fieldset'){
-                                    //todo set to default value
+                                    schema[x][y].updateValue(schema[x][y].clone());
                                     skips++;
                                     continue;
                                 }
