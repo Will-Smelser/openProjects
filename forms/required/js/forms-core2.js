@@ -10,6 +10,8 @@
      * and add the value to the array.
      */
     var _add = function(obj, key, value){
+        if(typeof value === 'undefined' || value === null) return;
+
         if(typeof obj[key] === 'undefined'){
             obj[key] = value;
         }else if($.isArray(obj[key])){
@@ -255,10 +257,9 @@
             $.extend(settings, options);
         }
 
-        /*
+
         if(settings.filterSlim){
             settings.filters.extract.unshift(function(type, obj){
-                console.log(type,obj);
                 if(type.type === 'Radio' || type.type === 'Checkbox'){
                     if(type.checked){
                         return type.value;
@@ -269,8 +270,27 @@
                     return type.value;
                 }
             });
+
+            settings.filters.fill.unshift(function(type, obj){
+
+                var json = type.toJSON();
+                switch(type.type){
+                    case 'Checkbox':
+                    case 'Radio':
+                        json.checked = (type.value === obj);
+                        json.value = (type.value === obj) ? obj : type.value;
+                        break;
+                    case 'Fieldset':
+                        //console.log('fieldset',name,value,target);
+                        break;
+                    default:
+                        json.value = obj;
+                }
+                //console.log(name,value,target);
+                return json;
+            });
         };
-        */
+
 
 
         if(settings.filterBase || settings.filterSlim){
@@ -289,29 +309,41 @@
                         _fill(json[x], schema[x].elements, filters);
 
                     }else if($.isArray(schema[x])){
-
-                        //possible we have fewer entries in JSON than we have in
-                        //the schema, may need to skip schema entries
-                        var skips = 0;
-
-                        for(var y in schema[x]){
-
-                            //possible we are missing elements in json, that schema has.  So skip.
-                            if(!schema[x][y].equals(json[x][y-skips]) && schema[x][y].type !== 'Fieldset'){
-                                skips++;
-                                continue;
+                        //maybe a checkbox or multiselect, but only 1 element given
+                        if(!$.isArray(json[x])){
+                            for(var y in schema[x]){
+                                var temp = _applyFilters(schema[x][y], json[x], filters);
+                                schema[x][y].updateValue(temp);
                             }
+                        }else{
 
-                            var sname = schema[x][y].name;
-                            var temp1 = {};
-                            var temp2 = {};
-                            temp1[sname] = schema[x][y];
-                            temp2[sname] = json[x][y-skips];
-                            _fill(temp2, temp1, filters);
+                            //possible we have fewer entries in JSON than we have in
+                            //the schema, may need to skip schema entries
+                            var skips = 0;
+
+                            for(var y in schema[x]){
+
+                                var temp = _applyFilters(schema[x][y], json[x][y-skips], filters);
+
+                                console.log(x,y,temp,json[x][y-skips]);
+
+                                //possible we are missing elements in json, that schema has.  So skip.
+                                if(!schema[x][y].equals(temp) && schema[x][y].type !== 'Fieldset'){
+
+                                    skips++;
+                                    continue;
+                                }
+
+                                var sname = schema[x][y].name;
+                                var temp1 = {};
+                                var temp2 = {};
+                                temp1[sname] = schema[x][y];
+                                temp2[sname] = json[x][y-skips];
+                                _fill(temp2, temp1, filters);
+                            }
                         }
                     }else{
-                        var type = elToType(schema[x].$el);
-                        type.updateValue(_applyFilters(schema[x].type, json[x], filters));
+                        schema[x].updateValue(_applyFilters(schema[x], json[x], filters));
                     }
                 }else{
                     if(console) console.log("Element was undefined, skipped.",json,x)
@@ -319,7 +351,7 @@
             }
         };
 
-        var _extract = function(schema,result,filters){
+        var _extract = function(schema, result, filters){
             for(var x in schema){
                 if(schema[x].type === 'Fieldset'){
                     var result2 = {};
