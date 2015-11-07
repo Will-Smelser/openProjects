@@ -6,7 +6,7 @@
 (function( $ ){
 
     /**
-     * Simplifies adding to an object.  If an object key already exists, change it to an array
+     * Simplifies adding to an object.  If an object key already exists, change value to an array
      * and add the value to the array.
      */
     var _add = function(obj, key, value){
@@ -58,7 +58,7 @@
         Fieldset:function($el, name){this.$el=$el;this.name=name;}
     };
 
-    //we will extend the above Type objects
+    //we will extend the above Type objects with their prototypes.  Just trying to save some repeated code.
     for(var x in Types){
         Types[x].prototype.type = x;
         Types[x].prototype.constructor = x;
@@ -66,11 +66,10 @@
         Types[x].prototype.getValue = function(){return this.value};
         Types[x].prototype.getType = function(){return this.prototype.constructor};
         Types[x].prototype.equals = function(type){return (type && this.type === type.type && this.name === type.name)};
-        Types[x].prototype.toJSON = function(includeEl){
+        Types[x].prototype.toJSON = function(){
             var result = {name : this.name, value : this.value, type : this.type}
             if(typeof this.checked !== 'undefined') result.checked = this.checked; //for radios and checkboxes
             if(typeof this.elements !== 'undefined') result.elements = this.elements; //for fieldset
-            if(includeEl) result.$el = this.$el;
             return result;
         };
         Types[x].prototype.updateValue = function(json){this.$el.val(json.value)};
@@ -104,15 +103,15 @@
 
     //specific for fieldset
     Types.Fieldset.prototype.updateValue = function(elements){this.elements=elements};
-    Types.Fieldset.prototype.toJSON = function(includeEl){
+    Types.Fieldset.prototype.toJSON = function(){
         var result = {};
         for(var x in this.elements){
             if($.isArray(this.elements[x])){
                 for(var y in this.elements[x]){
-                    _add(result, this.elements[x][y].name, this.elements[x][y].toJSON(includeEl));
+                    _add(result, this.elements[x][y].name, this.elements[x][y].toJSON());
                 }
             }else{
-                _add(result, this.elements[x].name, this.elements[x].toJSON(includeEl));
+                _add(result, this.elements[x].name, this.elements[x].toJSON());
             }
         }
         return result;
@@ -139,6 +138,9 @@
         }
     };
 
+    /**
+     * Create a Type object form an HTML Dom element.
+     */
     var elToType = function($el){
         var name = $el.attr('name');
         var val = $el.val();
@@ -174,7 +176,6 @@
      * @param type A Type object for current element.
      * @param obj This is a Types JSON object representation
      * @param filters The filters to apply
-
      */
     var _applyFilters = function(type, obj, filters){
         for(var filter in filters){
@@ -240,6 +241,10 @@
         }
     };
 
+    /**
+     * Convert schema into its JSON form.  Basically just recursively calls toJSON() on
+     * elements in the Schema.
+     */
     var _extractJsonFilter = function(schema){
         var result = {};
 
@@ -255,6 +260,11 @@
         return result;
     };
 
+    /**
+     * Wrapper for methods for working on a form element.
+     * @param $form The jquery "<form>" element.
+     * @param options Options configuration for form processing.
+     */
     Forms = function($form, options){
         var self = this;
 
@@ -274,7 +284,9 @@
         }
 
 
+        //add the slim filter.  This gives a minimal form representation.
         if(settings.filterSlim){
+            //extract filter for slim
             settings.filters.extract.unshift(function(type, obj){
                 if(type.type === 'Radio' || type.type === 'Checkbox'){
                     if(type.checked){
@@ -287,6 +299,7 @@
                 }
             });
 
+            //the slim fill filter.  Use the Type and json to rebuild the representation.
             settings.filters.fill.unshift(function(type, obj){
 
                 var json = type.toJSON();
@@ -308,7 +321,7 @@
         };
 
 
-
+        //this is the minimum filter for converting Type object to a serializable JSON representation.
         if(settings.filterBase || settings.filterSlim){
             //the most basic extract function
             settings.filters.extract.unshift(function(type, obj){return type.toJSON();});
@@ -388,14 +401,104 @@
 
         return {
             filters : settings.filters,
+
+            /**
+             * Add a filter which happens at fill time.  You will be given a properly filled
+             * Type object to work with.  Meaning, this adds to the end of the fill process.
+             * @param fn The function to be called during the filter process.  The signature is
+             * fn(Type, JSON).  Where the Type is a Types object that represents the form elment.
+             * And JSON is the incoming representation of the form element.  You should modify the the JSON and
+             * return it.  The returned element should be in the same format as Types.Type.toJSON() output.
+             */
             addFillFilter : function(fn){filters.fill.push(fn);},
-            addExtractFilter : function(fn){filters.extract.push(fn);},
+
+            /**
+             * Add a filter that happens at the extract time.  This adds to filter at index 1.  Meaning it is the second
+             * filter called.  The first filter is always calling Types.Type.toJSON() so you will be working on the
+             * JSON representation of the form element.
+             *
+             * @param fn The function to be called during the filter process.  The signature is
+             * fn(Type, JSON).  Where the Type is a Types object that represents the form elment.
+             * And JSON is the incoming representation of the form element.  You should modify the the JSON and
+             * return it.  The returned element should be in the same format as Types.Type.toJSON() output.
+             */
+            addExtractFilter : function(fn){filters.extract.splice(1,0,fn);},
+
+            /**
+             * Add a filter that will only filter on the form element's "name" attribute.
+             * @param name Sting or Regex.  Will check the elements name.
+             * @param fn The function to apply if the name matches.  See {@link #addFillFilter}.
+             */
+            addNameFillFilter : function(name, fn){
+                this.addFillFilter(this._filter(name, function(type){return type.name}, fn));
+            },
+
+            /**
+             * Add a filter that will only filter on the form element's "name" attribute.
+             * @param name Sting or Regex.  Will check the elements name.
+             * @param fn The function to apply if the name matches.  See {@link #addFillFilter}.
+             */
+            addNameExtractFilter : function(name, fn){
+                this.addExtractFilter(this._filter(name,function(type){return type.name},fn));
+            },
+
+            /**
+             * Add a filter that will only filter on the form element's tag name.
+             * @param name Sting or Regex.  Will check the elements tag name.
+             * @param fn The function to apply if the name matches.  See {@link #addFillFilter}.
+             */
+            addTypeFillFilter : function(typeName, fn){
+                this.addFillFilter(this._filter(typeName, function(type){return type.$el.tagName}, fn));
+            },
+
+            /**
+             * Add a filter that will only filter on the form element's tag name.
+             * @param name Sting or Regex.  Will check the elements tag name.
+             * @param fn The function to apply if the name matches.  See {@link #addFillFilter}.
+             */
+            addTypeExtractFilter : function(typeName, fn){
+                this.addExtractFilter(this._filter(typeName, function(type){return type.$el.tagName}, fn));
+            },
+
+            /**
+             * Used by filter functions to avoid code duplication.
+             * @param name The String or RegExp to be used for comparison.
+             * @param get A function that returns the value from a Types.Type to be compared to {@param name}
+             * @param fn A function to apply if a comparison is true.
+             */
+            _filter : function(name, get, fn){
+                return
+                    function(type, json){
+                       if(name instanceof RegExp){
+                           if(name.test(get(type)){
+                               return fn(type,json);
+                           }
+                       }else if(name === get(type)){
+                           return fn(type,json);
+                       }
+                       return json;
+                   };
+            },
+
+            /**
+             * Fill the form given the json.  This will perform filters on the given json.
+             * @param json A JSON object created from an extract call.
+             */
             fill : function(json){
                 _fill(json, this.getSchema(), this.filters.fill);
             },
+
+            /**
+             * Returns the filters used by this Form object.
+             */
             getFilters : function(){
                 return self.filters;
             },
+
+            /**
+             * Extract the current form element data into a JSON object which can be serialized.  The filters will be applied
+             * during the extract process.
+             */
             extract : function(){
                 var result = {};
                 var schema = this.getSchema();
@@ -404,6 +507,10 @@
                 _extract(schema, result, this.filters.extract);
                 return result;
             },
+
+            /**
+             * Get a JSON object comprised of name and Types.Type that represent this form.
+             */
             getSchema : function(){
                 var output = {};
 
