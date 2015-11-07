@@ -94,10 +94,12 @@
     Types.Checkbox.prototype.clone = function(){
         var clone = jQuery.extend(true, {}, this);
         clone.checked = false;
+        return clone;
     };
     Types.Radio.prototype.clone = function(){
         var clone = jQuery.extend(true, {}, this);
         clone.checked = false;
+        return clone;
     };
 
     //specific for fieldset
