@@ -1,6 +1,6 @@
 /**
-1.  Serialized form elements
-2.  Take serialized form elements and fill
+* {@link http://api.jquery.com/}
+* @namespace jQuery
 */
 
 (function( $ ){
@@ -40,45 +40,194 @@
     };
 
     /**
-     *  Supported form elements
+     * Supported form elements
+     * @namespace Types
      */
     var Types = {
         //text, password, radio, checkbox, html5 types
-        Text:function($el, name, value){this.$el=$el;this.name=name;this.value=value;},
-        Checkbox:function($el, name, value, checked){this.$el=$el;this.name=name;this.value=value;this.checked=checked;},
-        Radio:function($el, name, value, checked){this.$el=$el;this.name=name;this.value=value;this.checked=checked;},
-        Select:function($el, name, value){this.$el=$el;this.name=name;this.value=value;},
-        SelectMulti:function($el, name, value){this.$el=$el;this.name=name;this.value=value;},
-        TextArea:function($el, name, value){this.$el=$el;this.name=name;this.value=value;},
-        Button:function($el, name, value){this.$el=$el;this.name=name;this.value=value;},
-        DataList:function($el, name, value){this.$el=$el;this.name=name;this.value=value;},
-        KeyGen:function($el, name, value){this.$el=$el;this.name=name;this.value=value;},
+        /**
+         * Represents an HTML &lt;input type="text"&gt; element.
+         * @constructor
+         * @memberof Types
+         * @extends TypeBase
+         * @param $el {jQuery} A jquery element, should be an HTML input element.
+         * @param name {String} The name attribute of $el.
+         * @param value {Object} The value attribute of $el.
+         */
+        Text:function($el, name, value){this.$el=$el;this.name=name;this.value=value;this.type='Text';},
+        /**
+         * Represents an HTML checkbox representation
+         * @constructor
+         * @memberof Types
+         * @extends TypeBase
+         * @param $el {jQuery} A jquery element, should be an HTML &lt;input type="checkbox"&gt; element.
+         * @param name {String} The name attribute of $el.
+         * @param value {Object} The value attribute of $el.
+         * @param checked {boolean} Boolean representing whether $el is checked or not.
+         */
+        Checkbox:function($el, name, value, checked){this.$el=$el;this.name=name;this.value=value;this.checked=checked;this.type='Checkbox'},
+        /**
+         * Represents an HTML radio representation
+         * @constructor
+         * @memberof Types
+         * @extends TypeBase
+         * @param $el {jQuery} A jquery element, should be an HTML &lt;input type="radio"&gt; element.
+         * @param name {String} The name attribute of $el.
+         * @param value {Object} The value attribute of $el.
+         * @param checked {boolean} Boolean representing whether $el is checked or not.
+         */
+        Radio:function($el, name, value, checked){this.$el=$el;this.name=name;this.value=value;this.checked=checked;this.type='Radio';},
+        /**
+         * Represents an HTML &lt;select&gt; element.
+         * @constructor
+         * @memberof Types
+         * @extends TypeBase
+         * @param $el {jQuery} A jquery element, should be an HTML select element.
+         * @param name {String} The name attribute of $el.
+         * @param value {Object} The value attribute of $el.
+         */
+        Select:function($el, name, value){this.$el=$el;this.name=name;this.value=value;this.type='Select';},
+        /**
+         * Represents an HTML &lt;select multiple&gt; element.
+         * @constructor
+         * @memberof Types
+         * @extends TypeBase
+         * @param $el {jQuery} A jquery element, should be an HTML &lt;select multiple&gt; element.
+         * @param name {String} The name attribute of $el.
+         * @param value {Object} The value attribute of $el.
+         */
+        SelectMulti:function($el, name, value){this.$el=$el;this.name=name;this.value=value;this.type='SelectMulti';},
+        /**
+         * Represents an HTML &lt;textarea&gt; element.
+         * @constructor
+         * @memberof Types
+         * @extends TypeBase
+         * @param $el {jQuery} A jquery element, should be an HTML &lt;textarea&gt; element.
+         * @param name {String} The name attribute of $el.
+         * @param value {Object} The value attribute of $el.
+         */
+        TextArea:function($el, name, value){this.$el=$el;this.name=name;this.value=value;this.type='TextArea';},
+        /**
+         * Represents an HTML &lt;button&gt; element or an &lt;input type="button"&gt; element.
+         * @constructor
+         * @memberof Types
+         * @extends TypeBase
+         * @param $el {jQuery} A jquery element, should be an HTML button or input of type &lt;button&gt; element.
+         * @param name {String} The name attribute of $el.
+         * @param value {Object} The value attribute of $el.
+         */
+        Button:function($el, name, value){this.$el=$el;this.name=name;this.value=value;this.type='Button';},
+        /**
+         * @constructor
+         * @memberof Types
+         * @extends TypeBase
+         * @param $el {jQuery} A jquery element, should be an HTML &lt;datalist&gt; element.
+         * @param name {String} The name attribute of $el.
+         * @param value {Object} The value attribute of $el.
+         */
+        DataList:function($el, name, value){this.$el=$el;this.name=name;this.value=value;this.type='DataList';},
+        /**
+         * @constructor
+         * @memberof Types
+         */
+        KeyGen:function($el, name, value){this.$el=$el;this.name=name;this.value=value;this.type='KeyGen'},
 
-        //fieldset is actually a little special
-        Fieldset:function($el, name){this.$el=$el;this.name=name;}
+        /**
+         * A special type that allows for grouping.  Used for organizational purposes.
+         * @constructor
+         * @memberof Types
+         * @extends TypeBase
+         * @param $el {jQuery} A jquery element, shoudl be an HTML &lt;fieldset&gt; element.
+         * @param name {string} The name attribute of $el.
+         */
+        Fieldset:function($el, name){this.$el=$el;this.name=name;this.type='Fieldset';}
     };
 
-    //we will extend the above Type objects with their prototypes.  Just trying to save some repeated code.
-    for(var x in Types){
-        Types[x].prototype.type = x;
-        Types[x].prototype.constructor = x;
-        Types[x].prototype.getName = function(){return this.name};
-        Types[x].prototype.getValue = function(){return this.value};
-        Types[x].prototype.getType = function(){return this.prototype.constructor};
-        Types[x].prototype.equals = function(type){return (type && this.type === type.type && this.name === type.name)};
-        Types[x].prototype.toJSON = function(){
-            var result = {name : this.name, value : this.value, type : this.type}
-            if(typeof this.checked !== 'undefined') result.checked = this.checked; //for radios and checkboxes
-            if(typeof this.elements !== 'undefined') result.elements = this.elements; //for fieldset
-            return result;
-        };
-        Types[x].prototype.updateValue = function(json){this.$el.val(json.value)};
-        Types[x].prototype.clone = function(){
-            var clone = jQuery.extend(true, {}, this);
-            clone.value = null;
-            return clone;
-        };
-    }
+    /**
+     * This is the base class that all Types objects extend.
+     * @class TypeBase
+     */
+    var TypeBase = function(){
+        return {
+            /**
+             * Returns the elements name attribute.
+             * @method getName
+             * @instance
+             * @memberof TypeBase
+             * @return {String} The form elements name attribute value.
+             */
+            getName : function(){return this.name},
+            /**
+             * @method getValue
+             * @instance
+             * @memberof TypeBase
+             * @return {Object} The form elements value attribute value.
+             */
+            getValue : function(){return this.value},
+            /**
+             * Gets the type of the object.
+             * @method getType
+             * @instance
+             * @memberof TypeBase
+             * @return {String} The string name of the Types object.
+             */
+            getType : function(){return this.prototype.constructor},
+            /**
+             * @method equals Checks if two {@link Types} are equal.
+             * @memberof TypeBase
+             * @instance
+             * @method equals
+             * @param type {Types} A Types object.
+             * @return {boolean} True if they are equivalent, false otherwise.
+             */
+            equals : function(type){return (type && this.type === type.type && this.name === type.name)},
+            /**
+             * Get the serializable JSON representation of the Types object.
+             * @memberof TypeBase
+             * @instance
+             * @method equals
+             */
+            toJSON : function(){
+                var result = {name : this.name, value : this.value, type : this.type}
+                if(typeof this.checked !== 'undefined') result.checked = this.checked; //for radios and checkboxes
+                if(typeof this.elements !== 'undefined') result.elements = this.elements; //for fieldset
+                return result;
+            },
+            /**
+             * Update the inner representation of Types object from a given JSON represetation.  See {@link TypeBase#toJSON}.
+             * @instance
+             * @memberof TypeBase
+             * @method updateValue
+             * @param json {Object} A JSON representation of a Types object.  See {@link TypeBase#toJSON}.
+             */
+            updateValue : function(json){this.$el.val(json.value)},
+            /**
+             * Make a copy of the Types object.  It really returns a "default" value of a the current Type.  The "value"
+             * will not be copied.
+             * @instance
+             * @method clone
+             * @memberof TypeBase
+             */
+            clone : function(){
+                var clone = jQuery.extend(true, {}, this);
+                clone.value = null;
+                return clone;
+            }
+        }
+    };
+
+    //create the base prototype, some Types will override these
+    Types.Text.prototype = new TypeBase();
+    Types.Checkbox.prototype = new TypeBase();
+    Types.Radio.prototype = new TypeBase();
+    Types.Select.prototype = new TypeBase();
+    Types.SelectMulti.prototype = new TypeBase();
+    Types.TextArea.prototype = new TypeBase();
+    Types.Button.prototype = new TypeBase();
+    Types.DataList.prototype = new TypeBase();
+    Types.KeyGen.prototype = new TypeBase();
+    Types.Fieldset.prototype = new TypeBase();
+
 
     //specific for checkbox and radios
     Types.Checkbox.prototype.equals = function(type){return (type && this.type === type.type && this.value === type.value && this.name === type.name)};
@@ -127,6 +276,8 @@
         var type = $el.attr('type') || 'text';
 
         switch(type.toLowerCase()){
+            case 'button':
+                return new Types.Button($el,name,val);
             case 'checkbox':
                 return new Types.Checkbox($el,name,val,$el.is(':checked'));
             case 'radio':
@@ -262,10 +413,11 @@
 
     /**
      * Wrapper for methods for working on a form element.
-     * @param $form The jquery "<form>" element.
-     * @param options Options configuration for form processing.
+     * @constructor Forms
+     * @param $form {jQuery} The jquery "&lt;form&gt;" element.
+     * @param options {Object} Options configuration for form processing.
      */
-    Forms = function($form, options){
+    var Forms = function($form, options){
         var self = this;
 
         this.form = $form;
@@ -400,15 +552,29 @@
         };
 
         return {
+            /**
+             * Let user's create {@link Types}.
+             * @instance
+             * @memberof Forms
+             */
+            Types : Types,
+            /**
+             * All the filters that will be applied.  Depending on the options passed in at construction, you will
+             * be given some default filters.
+             * @memberof Forms
+             * @instance
+             */
             filters : settings.filters,
 
             /**
              * Add a filter which happens at fill time.  You will be given a properly filled
              * Type object to work with.  Meaning, this adds to the end of the fill process.
-             * @param fn The function to be called during the filter process.  The signature is
+             * @param fn {function} The function to be called during the filter process.  The signature is
              * fn(Type, JSON).  Where the Type is a Types object that represents the form elment.
              * And JSON is the incoming representation of the form element.  You should modify the the JSON and
              * return it.  The returned element should be in the same format as Types.Type.toJSON() output.
+             * @memberof Forms
+             * @instance
              */
             addFillFilter : function(fn){filters.fill.push(fn);},
 
@@ -417,17 +583,21 @@
              * filter called.  The first filter is always calling Types.Type.toJSON() so you will be working on the
              * JSON representation of the form element.
              *
-             * @param fn The function to be called during the filter process.  The signature is
+             * @param fn {function} The function to be called during the filter process.  The signature is
              * fn(Type, JSON).  Where the Type is a Types object that represents the form elment.
              * And JSON is the incoming representation of the form element.  You should modify the the JSON and
              * return it.  The returned element should be in the same format as Types.Type.toJSON() output.
+             * @memberof Forms
+             * @instance
              */
             addExtractFilter : function(fn){filters.extract.splice(1,0,fn);},
 
             /**
              * Add a filter that will only filter on the form element's "name" attribute.
-             * @param name Sting or Regex.  Will check the elements name.
-             * @param fn The function to apply if the name matches.  See {@link #addFillFilter}.
+             * @memberof Forms
+             * @param name {String|RegExp}  Will check the elements name.
+             * @param fn {function} The function to apply if the name matches.  See {@link #addFillFilter}.
+             * @instance
              */
             addNameFillFilter : function(name, fn){
                 this.addFillFilter(this._filter(name, function(type){return type.name}, fn));
@@ -435,8 +605,10 @@
 
             /**
              * Add a filter that will only filter on the form element's "name" attribute.
-             * @param name Sting or Regex.  Will check the elements name.
-             * @param fn The function to apply if the name matches.  See {@link #addFillFilter}.
+             * @memberof Forms
+             * @param name {String|RegExp}  Will check the elements name.
+             * @param fn {function} The function to apply if the name matches.  See {@link #addFillFilter}.
+             * @instance
              */
             addNameExtractFilter : function(name, fn){
                 this.addExtractFilter(this._filter(name,function(type){return type.name},fn));
@@ -444,8 +616,10 @@
 
             /**
              * Add a filter that will only filter on the form element's tag name.
-             * @param name Sting or Regex.  Will check the elements tag name.
-             * @param fn The function to apply if the name matches.  See {@link #addFillFilter}.
+             * @memberof Forms
+             * @param name {String|RegExp}  Will check the elements tag name.
+             * @param fn {function} The function to apply if the name matches.  See {@link #addFillFilter}.
+             * @instance
              */
             addTypeFillFilter : function(typeName, fn){
                 this.addFillFilter(this._filter(typeName, function(type){return type.$el.tagName}, fn));
@@ -453,8 +627,10 @@
 
             /**
              * Add a filter that will only filter on the form element's tag name.
-             * @param name Sting or Regex.  Will check the elements tag name.
-             * @param fn The function to apply if the name matches.  See {@link #addFillFilter}.
+             * @memberof Forms
+             * @param name {String|RegExp}  Will check the elements tag name.
+             * @param fn {function} The function to apply if the name matches.  See {@link #addFillFilter}.
+             * @instance
              */
             addTypeExtractFilter : function(typeName, fn){
                 this.addExtractFilter(this._filter(typeName, function(type){return type.$el.tagName}, fn));
@@ -462,15 +638,16 @@
 
             /**
              * Used by filter functions to avoid code duplication.
-             * @param name The String or RegExp to be used for comparison.
-             * @param get A function that returns the value from a Types.Type to be compared to {@param name}
-             * @param fn A function to apply if a comparison is true.
+             * @memberof Forms
+             * @param name {String} The String or RegExp to be used for comparison.
+             * @param get {function} A function that returns the value from a Types.Type to be compared to {@param name}
+             * @param fn {function} A function to apply if a comparison is true.
+             * @instance
              */
             _filter : function(name, get, fn){
-                return
-                    function(type, json){
+                return function(type, json){
                        if(name instanceof RegExp){
-                           if(name.test(get(type)){
+                           if(name.test(get(type))){
                                return fn(type,json);
                            }
                        }else if(name === get(type)){
@@ -482,13 +659,18 @@
 
             /**
              * Fill the form given the json.  This will perform filters on the given json.
-             * @param json A JSON object created from an extract call.
+             * @memberof Forms
+             * @param json {Object} A JSON object created from an extract call.
+             * @instance
              */
             fill : function(json){
                 _fill(json, this.getSchema(), this.filters.fill);
             },
 
             /**
+             * Get the this#filters object.
+             * @memberof Forms
+             * @instance
              * Returns the filters used by this Form object.
              */
             getFilters : function(){
@@ -498,6 +680,8 @@
             /**
              * Extract the current form element data into a JSON object which can be serialized.  The filters will be applied
              * during the extract process.
+             * @instance
+             * @memberof Forms
              */
             extract : function(){
                 var result = {};
@@ -510,6 +694,8 @@
 
             /**
              * Get a JSON object comprised of name and Types.Type that represent this form.
+             * @memberof Forms
+             * @instance
              */
             getSchema : function(){
                 var output = {};
@@ -527,7 +713,14 @@
     };
 
 
-
+    /**
+     * The forms namespace extends jQuery.fn to be a jQuery plugin.
+     * @namespace "$.fn.forms"
+     * @function
+     * @param options {Object|function} If Object, then the options are applied to {@link Forms}.  If function, then the
+     * function is called being passed the {@link Forms} object as a first parameter to the function.
+     * @return {jQuery} The matched jQuery element.
+     */
     $.fn.forms = function(options){
 
         //all the elements from jquery selector, expecting "form" tags
@@ -548,4 +741,4 @@
     }
 
 
-})(jQuery );
+})(jQuery);
