@@ -1,5 +1,5 @@
 ## Forms
-    Forms was created to help extract data from HTML &lt;form&gt; elements in a standardized manner allowing for easy 
+    Forms was created to help extract data from HTML <form> elements in a standardized manner allowing for easy 
     extraction and filling of forms.
 
     This is a normal jquery plugin.
