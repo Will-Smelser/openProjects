@@ -200,7 +200,7 @@
              * @method updateValue
              * @param json {Object} A JSON representation of a Types object.  See {@link TypeBase#toJSON}.
              */
-            updateValue : function(json){this.$el.val(json.value)},
+            updateValue : function(json){this.$el.val(json.value);this.$el.trigger("update");},
             /**
              * Make a copy of the Types object.  It really returns a "default" value of a the current Type.  The "value"
              * will not be copied.
@@ -236,8 +236,8 @@
     Types.Checkbox.prototype.isChecked = function(){return this.checked};
     Types.Radio.prototype.isChecked = function(){return this.checked};
 
-    Types.Checkbox.prototype.updateValue = function(json){this.$el.prop('checked',json.checked)};
-    Types.Radio.prototype.updateValue = function(json){this.$el.prop('checked',json.checked)};
+    Types.Checkbox.prototype.updateValue = function(json){this.$el.prop('checked',json.checked);this.$el.trigger("update");};
+    Types.Radio.prototype.updateValue = function(json){this.$el.prop('checked',json.checked);this.$el.trigger("update");};
 
     Types.Checkbox.prototype.clone = function(){
         var clone = jQuery.extend(true, {}, this);
