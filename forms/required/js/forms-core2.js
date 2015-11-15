@@ -148,73 +148,72 @@
      * @class TypeBase
      */
     var TypeBase = function(){
-        return {
-            /**
-             * Returns the elements name attribute.
-             * @method getName
-             * @instance
-             * @memberof TypeBase
-             * @return {String} The form elements name attribute value.
-             */
-            getName : function(){return this.name},
-            /**
-             * @method getValue
-             * @instance
-             * @memberof TypeBase
-             * @return {Object} The form elements value attribute value.
-             */
-            getValue : function(){return this.value},
-            /**
-             * Gets the type of the object.
-             * @method getType
-             * @instance
-             * @memberof TypeBase
-             * @return {String} The string name of the Types object.
-             */
-            getType : function(){return this.prototype.constructor},
-            /**
-             * @method equals Checks if two {@link Types} are equal.
-             * @memberof TypeBase
-             * @instance
-             * @method equals
-             * @param type {Types} A Types object.
-             * @return {boolean} True if they are equivalent, false otherwise.
-             */
-            equals : function(type){return (type && this.type === type.type && this.name === type.name)},
-            /**
-             * Get the serializable JSON representation of the Types object.
-             * @memberof TypeBase
-             * @instance
-             * @method toJSON
-             * @return {Object} A json representation of this Type.
-             */
-            toJSON : function(){
-                var result = {name : this.name, value : this.value, type : this.type}
-                if(typeof this.checked !== 'undefined') result.checked = this.checked; //for radios and checkboxes
-                if(typeof this.elements !== 'undefined') result.elements = this.elements; //for fieldset
-                return result;
-            },
-            /**
-             * Update the inner representation of Types object from a given JSON represetation.  See {@link TypeBase#toJSON}.
-             * @instance
-             * @memberof TypeBase
-             * @method updateValue
-             * @param json {Object} A JSON representation of a Types object.  See {@link TypeBase#toJSON}.
-             */
-            updateValue : function(json){this.$el.val(json.value);this.$el.trigger("update");},
-            /**
-             * Make a copy of the Types object.  It really returns a "default" value of a the current Type.  The "value"
-             * will not be copied.
-             * @instance
-             * @method clone
-             * @memberof TypeBase
-             */
-            clone : function(){
-                var clone = jQuery.extend(true, {}, this);
-                clone.value = null;
-                return clone;
-            }
-        }
+        /**
+         * Returns the elements name attribute.
+         * @method getName
+         * @instance
+         * @memberof TypeBase
+         * @return {String} The form elements name attribute value.
+         */
+        this.getName = function(){return this.name};
+        /**
+         * @method getValue
+         * @instance
+         * @memberof TypeBase
+         * @return {Object} The form elements value attribute value.
+         */
+        this.getValue = function(){return this.value};
+        /**
+         * Gets the type of the object.
+         * @method getType
+         * @instance
+         * @memberof TypeBase
+         * @return {String} The string name of the Types object.
+         */
+        this.getType = function(){return this.prototype.constructor};
+        /**
+         * @method equals Checks if two {@link Types} are equal.
+         * @memberof TypeBase
+         * @instance
+         * @method equals
+         * @param type {Types} A Types object.
+         * @return {boolean} True if they are equivalent, false otherwise.
+         */
+        this.equals = function(type){return (type && this.type === type.type && this.name === type.name)};
+        /**
+         * Get the serializable JSON representation of the Types object.
+         * @memberof TypeBase
+         * @instance
+         * @method toJSON
+         * @return {Object} A json representation of this Type.
+         */
+        this.toJSON = function(){
+            var result = {name : this.name, value : this.value, type : this.type}
+            if(typeof this.checked !== 'undefined') result.checked = this.checked; //for radios and checkboxes
+            if(typeof this.elements !== 'undefined') result.elements = this.elements; //for fieldset
+            return result;
+        };
+        /**
+         * Update the inner representation of Types object from a given JSON represetation.  See {@link TypeBase#toJSON}.
+         * @instance
+         * @memberof TypeBase
+         * @method updateValue
+         * @param json {Object} A JSON representation of a Types object.  See {@link TypeBase#toJSON}.
+         */
+        this.updateValue = function(json){this.$el.val(json.value);this.$el.trigger("update");};
+
+        /**
+         * Make a copy of the Types object.  It really returns a "default" value of a the current Type.  The "value"
+         * will not be copied.
+         * @instance
+         * @method clone
+         * @memberof TypeBase
+         */
+        this.clone = function(){
+            var clone = jQuery.extend(true, {}, this);
+            clone.value = null;
+            return clone;
+        };
     };
 
     //create the base prototype, some Types will override these
