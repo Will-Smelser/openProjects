@@ -449,6 +449,7 @@
 
     /**
      * Wrapper for methods for working on a form element.
+     * @class Forms
      * @constructor Forms
      * @param $form {jQuery} The jquery "&lt;form&gt;" element.
      * @param options {Object} Options configuration for form processing.
@@ -615,6 +616,7 @@
          * And JSON is the incoming representation of the form element.  You should modify the the JSON and
          * return it.  The returned element should be in the same format as Types.Type.toJSON() output.
          * @memberof Forms
+         * @method addFillFilter
          * @instance
          */
         this.addFillFilter = function(fn){this.filters.fill.push(fn);};
@@ -629,6 +631,7 @@
          * And JSON is the incoming representation of the form element.  You should modify the the JSON and
          * return it.  The returned element should be in the same format as Types.Type.toJSON() output.
          * @memberof Forms
+         * @method addExtractFilter
          * @instance
          */
         this.addExtractFilter = function(fn){this.filters.extract.splice(1,0,fn);};
@@ -638,6 +641,7 @@
          * @memberof Forms
          * @param name {String|RegExp}  Will check the elements name.
          * @param fn {function} The function to apply if the name matches.  See {@link #addFillFilter}.
+         * @method addNameFillFilter
          * @instance
          */
         this.addNameFillFilter = function(name, fn){
@@ -650,6 +654,7 @@
          * @param name {String|RegExp}  Will check the elements name.
          * @param fn {function} The function to apply if the name matches.  See {@link #addFillFilter}.
          * @instance
+         * @method addNameExtractFilter
          */
         this.addNameExtractFilter = function(name, fn){
             this.addExtractFilter(this._filter(name,function(type){return type.name},fn));
@@ -661,6 +666,7 @@
          * @param name {String|RegExp}  Will check the elements tag name.
          * @param fn {function} The function to apply if the name matches.  See {@link #addFillFilter}.
          * @instance
+         * @method addTypeFillFilter
          */
         this.addTypeFillFilter = function(typeName, fn){
             this.addFillFilter(this._filter(typeName, function(type){return type.$el.tagName}, fn));
@@ -672,6 +678,7 @@
          * @param name {String|RegExp}  Will check the elements tag name.
          * @param fn {function} The function to apply if the name matches.  See {@link #addFillFilter}.
          * @instance
+         * @method addTypeExtractFilter
          */
         this.addTypeExtractFilter = function(typeName, fn){
             this.addExtractFilter(this._filter(typeName, function(type){return type.$el.tagName}, fn));
@@ -703,6 +710,7 @@
          * @memberof Forms
          * @param json {Object} A JSON object created from an extract call.
          * @instance
+         * @method fill
          */
         this.fill = function(json){
             _fill(json, this.getSchema(), this.filters.fill);
@@ -712,7 +720,8 @@
          * Get the this#filters object.
          * @memberof Forms
          * @instance
-         * Returns the filters used by this Form object.
+         * @method getFilters
+         * @return the filters used by this Form object.
          */
         this.getFilters = function(){
             return this.filters;
@@ -722,6 +731,7 @@
          * Extract the current form element data into a JSON object which can be serialized.  The filters will be applied
          * during the extract process.
          * @instance
+         * @method extract
          * @memberof Forms
          */
         this.extract = function(){
@@ -736,6 +746,7 @@
          * Get a JSON object comprised of name and Types.Type that represent this form.
          * @memberof Forms
          * @instance
+         * @method getSchema
          * @return {Object} A json object representing the form.
          */
         this.getSchema = function(){
@@ -758,6 +769,7 @@
          * So you would need to use {@link #getType("Checkbox")} to override its behavior.
          * @memberof Forms
          * @instance
+         * @method getTypeBase
          * @return {TypeBase}
          */
         this.getTypeBase = function(){
@@ -776,6 +788,7 @@
          * });</pre>
          * @memberof Forms
          * @instance
+         * @method getType
          * @return {Types}
          */
         this.getType = function(TypeName){
