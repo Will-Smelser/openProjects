@@ -334,7 +334,6 @@
                 obj = filters[filter](type, obj);
             }
         }
-
         return obj;
     }
 
@@ -442,12 +441,12 @@
             settings.filters.extract.unshift(function(type, obj){
                 if(type.type === 'Radio' || type.type === 'Checkbox'){
                     if(type.checked){
-                        return type.value;
+                        return obj.value;
                     }
                 }else if(type.type === 'Fieldset'){
                     return type.elements;
                 }else{
-                    return type.value;
+                    return obj.value;
                 }
             });
 
@@ -467,7 +466,6 @@
                     default:
                         json.value = obj;
                 }
-                //console.log(name,value,target);
                 return json;
             });
         };
@@ -486,12 +484,20 @@
 
             for(var x in schema){
                 if(typeof json !== 'undefined' && typeof json[x] !== 'undefined'){
+
                     if(schema[x].type === 'Fieldset'){
                         _fill(json[x], schema[x].elements, filters);
 
                     }else if($.isArray(schema[x])){
+                        //possible this is a Fieldset Array, just the way the schemas work :(
+                        if(schema[x][0] && schema[x][0].type === 'Fieldset'){
+                            for(var y in schema[x]){
+                                _fill(json[x], schema[x][y].elements, filters);
+                            }
+
                         //maybe a checkbox or multiselect, but only 1 element given
-                        if(!$.isArray(json[x])){
+                        }else if(!$.isArray(json[x])){
+                            console.log(x,json[x]);
                             for(var y in schema[x]){
                                 var temp = _applyFilters(schema[x][y], json[x], filters);
                                 schema[x][y].updateValue(temp);
@@ -503,10 +509,8 @@
                             var skips = 0;
 
                             for(var y in schema[x]){
-
+                                //have to apply filters, so we can compare element with schema
                                 var temp = _applyFilters(schema[x][y], json[x][y-skips], filters);
-
-
 
                                 //possible we are missing elements in json, that schema has.  So skip.
                                 if(!schema[x][y].equals(temp) && schema[x][y].type !== 'Fieldset'){
@@ -576,7 +580,7 @@
              * @memberof Forms
              * @instance
              */
-            addFillFilter : function(fn){filters.fill.push(fn);},
+            addFillFilter : function(fn){this.filters.fill.push(fn);},
 
             /**
              * Add a filter that happens at the extract time.  This adds to filter at index 1.  Meaning it is the second
@@ -590,7 +594,7 @@
              * @memberof Forms
              * @instance
              */
-            addExtractFilter : function(fn){filters.extract.splice(1,0,fn);},
+            addExtractFilter : function(fn){this.filters.extract.splice(1,0,fn);},
 
             /**
              * Add a filter that will only filter on the form element's "name" attribute.
@@ -674,7 +678,7 @@
              * Returns the filters used by this Form object.
              */
             getFilters : function(){
-                return self.filters;
+                return this.filters;
             },
 
             /**
@@ -686,7 +690,6 @@
             extract : function(){
                 var result = {};
                 var schema = this.getSchema();
-                window.temp = this.getSchema();
 
                 _extract(schema, result, this.filters.extract);
                 return result;
@@ -696,6 +699,7 @@
              * Get a JSON object comprised of name and Types.Type that represent this form.
              * @memberof Forms
              * @instance
+             * @return {Object} A json object representing the form.
              */
             getSchema : function(){
                 var output = {};
@@ -708,6 +712,15 @@
                 _itrUnvisit(document.forms[formName].elements); //need to unmark elements as visited
 
                 return output;
+            },
+            /**
+             * Get a reference to TypeBase which is the base class for all Types.  This allows for prototyping.
+             * @memberof Forms
+             * @instance
+             * @return {TypeBase}
+             */
+            getTypeBase : function(){
+                return TypeBase;
             }
         };
     };
