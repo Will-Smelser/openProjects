@@ -185,7 +185,8 @@
              * Get the serializable JSON representation of the Types object.
              * @memberof TypeBase
              * @instance
-             * @method equals
+             * @method toJSON
+             * @return {Object} A json representation of this Type.
              */
             toJSON : function(){
                 var result = {name : this.name, value : this.value, type : this.type}
