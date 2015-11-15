@@ -200,7 +200,27 @@
          * @method updateValue
          * @param json {Object} A JSON representation of a Types object.  See {@link TypeBase#toJSON}.
          */
-        this.updateValue = function(json){this.$el.val(json.value);this.$el.trigger("update");};
+        this.updateValue = function(json){
+            if(!this.beforeUpdate()){
+                if(console) console.log("Skipping update for "+this.getName());
+                return;
+            }
+            this.$el.val(json.value);this.$el.trigger("update");
+            this.afterUpdate();
+        };
+
+        /**
+         * Called before {@link #updateValue()}.  Fieldset does not call this.
+         * @return {Boolean} True to continue with the update.  False to cancel the update.
+         */
+        this.beforeUpdate = function(){return true;};
+
+        /**
+         * Called after update.  This is only called if the form value is updated.  It is possible that
+         * {@link #beforeUpdate()} returned false, which would prevent this from being called.  Also
+         * this is not called by Fieldset Type.
+         */
+        this.afterUpdate = function(){};
 
         /**
          * Make a copy of the Types object.  It really returns a "default" value of a the current Type.  The "value"
@@ -236,8 +256,22 @@
     Types.Checkbox.prototype.isChecked = function(){return this.checked};
     Types.Radio.prototype.isChecked = function(){return this.checked};
 
-    Types.Checkbox.prototype.updateValue = function(json){this.$el.prop('checked',json.checked);this.$el.trigger("update");};
-    Types.Radio.prototype.updateValue = function(json){this.$el.prop('checked',json.checked);this.$el.trigger("update");};
+    Types.Checkbox.prototype.updateValue = function(json){
+        if(!this.beforeUpdate()){
+            if(console) console.log("Skipping update for "+this.getName());
+            return;
+        }
+        this.$el.prop('checked',json.checked);this.$el.trigger("update");
+        this.afterUpdate();
+    };
+    Types.Radio.prototype.updateValue = function(json){
+        if(!this.beforeUpdate()){
+            if(console) console.log("Skipping update for "+this.getName());
+            return;
+        }
+        this.$el.prop('checked',json.checked);this.$el.trigger("update");
+        this.afterUpdate();
+    };
 
     Types.Checkbox.prototype.clone = function(){
         var clone = jQuery.extend(true, {}, this);
@@ -251,7 +285,10 @@
     };
 
     //specific for fieldset
-    Types.Fieldset.prototype.updateValue = function(elements){this.elements=elements};
+    Types.Fieldset.prototype.updateValue = function(elements){
+        this.elements=elements;
+    };
+
     Types.Fieldset.prototype.toJSON = function(){
         var result = {};
         for(var x in this.elements){
@@ -555,173 +592,194 @@
             return result;
         };
 
-        return {
-            /**
-             * Let user's create {@link Types}.
-             * @instance
-             * @memberof Forms
-             */
-            Types : Types,
-            /**
-             * All the filters that will be applied.  Depending on the options passed in at construction, you will
-             * be given some default filters.
-             * @memberof Forms
-             * @instance
-             */
-            filters : settings.filters,
+        /**
+         * Let user's create {@link Types}.
+         * @instance
+         * @memberof Forms
+         */
+        this.Types = Types;
 
-            /**
-             * Add a filter which happens at fill time.  You will be given a properly filled
-             * Type object to work with.  Meaning, this adds to the end of the fill process.
-             * @param fn {function} The function to be called during the filter process.  The signature is
-             * fn(Type, JSON).  Where the Type is a Types object that represents the form elment.
-             * And JSON is the incoming representation of the form element.  You should modify the the JSON and
-             * return it.  The returned element should be in the same format as Types.Type.toJSON() output.
-             * @memberof Forms
-             * @instance
-             */
-            addFillFilter : function(fn){this.filters.fill.push(fn);},
+        /**
+         * All the filters that will be applied.  Depending on the options passed in at construction, you will
+         * be given some default filters.
+         * @memberof Forms
+         * @instance
+         */
+        this.filters = settings.filters;
 
-            /**
-             * Add a filter that happens at the extract time.  This adds to filter at index 1.  Meaning it is the second
-             * filter called.  The first filter is always calling Types.Type.toJSON() so you will be working on the
-             * JSON representation of the form element.
-             *
-             * @param fn {function} The function to be called during the filter process.  The signature is
-             * fn(Type, JSON).  Where the Type is a Types object that represents the form elment.
-             * And JSON is the incoming representation of the form element.  You should modify the the JSON and
-             * return it.  The returned element should be in the same format as Types.Type.toJSON() output.
-             * @memberof Forms
-             * @instance
-             */
-            addExtractFilter : function(fn){this.filters.extract.splice(1,0,fn);},
+        /**
+         * Add a filter which happens at fill time.  You will be given a properly filled
+         * Type object to work with.  Meaning, this adds to the end of the fill process.
+         * @param fn {function} The function to be called during the filter process.  The signature is
+         * fn(Type, JSON).  Where the Type is a Types object that represents the form elment.
+         * And JSON is the incoming representation of the form element.  You should modify the the JSON and
+         * return it.  The returned element should be in the same format as Types.Type.toJSON() output.
+         * @memberof Forms
+         * @instance
+         */
+        this.addFillFilter = function(fn){this.filters.fill.push(fn);};
 
-            /**
-             * Add a filter that will only filter on the form element's "name" attribute.
-             * @memberof Forms
-             * @param name {String|RegExp}  Will check the elements name.
-             * @param fn {function} The function to apply if the name matches.  See {@link #addFillFilter}.
-             * @instance
-             */
-            addNameFillFilter : function(name, fn){
-                this.addFillFilter(this._filter(name, function(type){return type.name}, fn));
-            },
+        /**
+         * Add a filter that happens at the extract time.  This adds to filter at index 1.  Meaning it is the second
+         * filter called.  The first filter is always calling Types.Type.toJSON() so you will be working on the
+         * JSON representation of the form element.
+         *
+         * @param fn {function} The function to be called during the filter process.  The signature is
+         * fn(Type, JSON).  Where the Type is a Types object that represents the form elment.
+         * And JSON is the incoming representation of the form element.  You should modify the the JSON and
+         * return it.  The returned element should be in the same format as Types.Type.toJSON() output.
+         * @memberof Forms
+         * @instance
+         */
+        this.addExtractFilter = function(fn){this.filters.extract.splice(1,0,fn);};
 
-            /**
-             * Add a filter that will only filter on the form element's "name" attribute.
-             * @memberof Forms
-             * @param name {String|RegExp}  Will check the elements name.
-             * @param fn {function} The function to apply if the name matches.  See {@link #addFillFilter}.
-             * @instance
-             */
-            addNameExtractFilter : function(name, fn){
-                this.addExtractFilter(this._filter(name,function(type){return type.name},fn));
-            },
+        /**
+         * Add a filter that will only filter on the form element's "name" attribute.
+         * @memberof Forms
+         * @param name {String|RegExp}  Will check the elements name.
+         * @param fn {function} The function to apply if the name matches.  See {@link #addFillFilter}.
+         * @instance
+         */
+        this.addNameFillFilter = function(name, fn){
+            this.addFillFilter(this._filter(name, function(type){return type.name}, fn));
+        };
 
-            /**
-             * Add a filter that will only filter on the form element's tag name.
-             * @memberof Forms
-             * @param name {String|RegExp}  Will check the elements tag name.
-             * @param fn {function} The function to apply if the name matches.  See {@link #addFillFilter}.
-             * @instance
-             */
-            addTypeFillFilter : function(typeName, fn){
-                this.addFillFilter(this._filter(typeName, function(type){return type.$el.tagName}, fn));
-            },
+        /**
+         * Add a filter that will only filter on the form element's "name" attribute.
+         * @memberof Forms
+         * @param name {String|RegExp}  Will check the elements name.
+         * @param fn {function} The function to apply if the name matches.  See {@link #addFillFilter}.
+         * @instance
+         */
+        this.addNameExtractFilter = function(name, fn){
+            this.addExtractFilter(this._filter(name,function(type){return type.name},fn));
+        };
 
-            /**
-             * Add a filter that will only filter on the form element's tag name.
-             * @memberof Forms
-             * @param name {String|RegExp}  Will check the elements tag name.
-             * @param fn {function} The function to apply if the name matches.  See {@link #addFillFilter}.
-             * @instance
-             */
-            addTypeExtractFilter : function(typeName, fn){
-                this.addExtractFilter(this._filter(typeName, function(type){return type.$el.tagName}, fn));
-            },
+        /**
+         * Add a filter that will only filter on the form element's tag name.
+         * @memberof Forms
+         * @param name {String|RegExp}  Will check the elements tag name.
+         * @param fn {function} The function to apply if the name matches.  See {@link #addFillFilter}.
+         * @instance
+         */
+        this.addTypeFillFilter = function(typeName, fn){
+            this.addFillFilter(this._filter(typeName, function(type){return type.$el.tagName}, fn));
+        };
 
-            /**
-             * Used by filter functions to avoid code duplication.
-             * @memberof Forms
-             * @param name {String} The String or RegExp to be used for comparison.
-             * @param get {function} A function that returns the value from a Types.Type to be compared to {@param name}
-             * @param fn {function} A function to apply if a comparison is true.
-             * @instance
-             */
-            _filter : function(name, get, fn){
-                return function(type, json){
-                       if(name instanceof RegExp){
-                           if(name.test(get(type))){
-                               return fn(type,json);
-                           }
-                       }else if(name === get(type)){
+        /**
+         * Add a filter that will only filter on the form element's tag name.
+         * @memberof Forms
+         * @param name {String|RegExp}  Will check the elements tag name.
+         * @param fn {function} The function to apply if the name matches.  See {@link #addFillFilter}.
+         * @instance
+         */
+        this.addTypeExtractFilter = function(typeName, fn){
+            this.addExtractFilter(this._filter(typeName, function(type){return type.$el.tagName}, fn));
+        };
+
+        /**
+         * Used by filter functions to avoid code duplication.
+         * @memberof Forms
+         * @param name {String} The String or RegExp to be used for comparison.
+         * @param get {function} A function that returns the value from a Types.Type to be compared to {@param name}
+         * @param fn {function} A function to apply if a comparison is true.
+         * @instance
+         */
+        this._filter = function(name, get, fn){
+            return function(type, json){
+                   if(name instanceof RegExp){
+                       if(name.test(get(type))){
                            return fn(type,json);
                        }
-                       return json;
-                   };
-            },
+                   }else if(name === get(type)){
+                       return fn(type,json);
+                   }
+                   return json;
+               };
+        };
 
-            /**
-             * Fill the form given the json.  This will perform filters on the given json.
-             * @memberof Forms
-             * @param json {Object} A JSON object created from an extract call.
-             * @instance
-             */
-            fill : function(json){
-                _fill(json, this.getSchema(), this.filters.fill);
-            },
+        /**
+         * Fill the form given the json.  This will perform filters on the given json.
+         * @memberof Forms
+         * @param json {Object} A JSON object created from an extract call.
+         * @instance
+         */
+        this.fill = function(json){
+            _fill(json, this.getSchema(), this.filters.fill);
+        };
 
-            /**
-             * Get the this#filters object.
-             * @memberof Forms
-             * @instance
-             * Returns the filters used by this Form object.
-             */
-            getFilters : function(){
-                return this.filters;
-            },
+        /**
+         * Get the this#filters object.
+         * @memberof Forms
+         * @instance
+         * Returns the filters used by this Form object.
+         */
+        this.getFilters = function(){
+            return this.filters;
+        };
 
-            /**
-             * Extract the current form element data into a JSON object which can be serialized.  The filters will be applied
-             * during the extract process.
-             * @instance
-             * @memberof Forms
-             */
-            extract : function(){
-                var result = {};
-                var schema = this.getSchema();
+        /**
+         * Extract the current form element data into a JSON object which can be serialized.  The filters will be applied
+         * during the extract process.
+         * @instance
+         * @memberof Forms
+         */
+        this.extract = function(){
+            var result = {};
+            var schema = this.getSchema();
 
-                _extract(schema, result, this.filters.extract);
-                return result;
-            },
+            _extract(schema, result, this.filters.extract);
+            return result;
+        };
 
-            /**
-             * Get a JSON object comprised of name and Types.Type that represent this form.
-             * @memberof Forms
-             * @instance
-             * @return {Object} A json object representing the form.
-             */
-            getSchema : function(){
-                var output = {};
+        /**
+         * Get a JSON object comprised of name and Types.Type that represent this form.
+         * @memberof Forms
+         * @instance
+         * @return {Object} A json object representing the form.
+         */
+        this.getSchema = function(){
+            var output = {};
 
-                var formName = $form.attr('name');
+            var formName = $form.attr('name');
 
-                if(!formName) return output;
+            if(!formName) return output;
 
-                _schema(document.forms[formName].elements, output);
-                _itrUnvisit(document.forms[formName].elements); //need to unmark elements as visited
+            _schema(document.forms[formName].elements, output);
+            _itrUnvisit(document.forms[formName].elements); //need to unmark elements as visited
 
-                return output;
-            },
-            /**
-             * Get a reference to TypeBase which is the base class for all Types.  This allows for prototyping.
-             * @memberof Forms
-             * @instance
-             * @return {TypeBase}
-             */
-            getTypeBase : function(){
-                return TypeBase;
-            }
+            return output;
+        };
+
+        /**
+         * Get a reference to TypeBase which is the base class for all Types.  This allows for prototyping.  All Types
+         * extend this Object.  However, some Types implement their own methods.  So not all Type objects are guranteed
+         * to use these implementations.  Example would be Types.Checkbox.updateValue().  This has a prototype method for updateValue().
+         * So you would need to use {@link #getType("Checkbox")} to override its behavior.
+         * @memberof Forms
+         * @instance
+         * @return {TypeBase}
+         */
+        this.getTypeBase = function(){
+            return TypeBase;
+        };
+
+        /**
+         * Get a reference to the Types[TypeName].  This allows for prototyping.  These objects actually extend
+         * TypeBase.  So if you want to override a method for all Types use the {@link #getTypeBase}.  Use this
+         * if you want to override behavior for specific Type.
+         * Example:
+         * <pre>$('form').forms(function(form){
+         *     form.getType("Text").prototype.beforeUpdate = function(){
+         *         console.log(this.value);
+         *     }
+         * });</pre>
+         * @memberof Forms
+         * @instance
+         * @return {Types}
+         */
+        this.getType = function(TypeName){
+            return Types[TypeName];
         };
     };
 

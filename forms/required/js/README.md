@@ -87,24 +87,6 @@ Make a copy of the Types object.  It really returns a "default" value of a the c
 <a name="Forms"></a>
 ## Forms
 **Kind**: global class  
-
-* [Forms](#Forms)
-  * [new Forms($form, options)](#new_Forms_new)
-  * [.Types](#Forms+Types)
-  * [.filters](#Forms+filters)
-  * [.addFillFilter(fn)](#Forms+addFillFilter)
-  * [.addExtractFilter(fn)](#Forms+addExtractFilter)
-  * [.addNameFillFilter(name, fn)](#Forms+addNameFillFilter)
-  * [.addNameExtractFilter(name, fn)](#Forms+addNameExtractFilter)
-  * [.addTypeFillFilter(name, fn)](#Forms+addTypeFillFilter)
-  * [.addTypeExtractFilter(name, fn)](#Forms+addTypeExtractFilter)
-  * [._filter(name, get, fn)](#Forms+_filter)
-  * [.fill(json)](#Forms+fill)
-  * [.getFilters()](#Forms+getFilters)
-  * [.extract()](#Forms+extract)
-  * [.getSchema()](#Forms+getSchema) ⇒ <code>Object</code>
-  * [.getTypeBase()](#Forms+getTypeBase) ⇒ <code>[TypeBase](#TypeBase)</code>
-
 <a name="new_Forms_new"></a>
 ### new Forms($form, options)
 Wrapper for methods for working on a form element.
@@ -115,123 +97,6 @@ Wrapper for methods for working on a form element.
 | $form | <code>[jQuery](#jQuery)</code> | The jquery "&lt;form&gt;" element. |
 | options | <code>Object</code> | Options configuration for form processing. |
 
-<a name="Forms+Types"></a>
-### forms.Types
-Let user's create [Types](#Types).
-
-**Kind**: instance property of <code>[Forms](#Forms)</code>  
-<a name="Forms+filters"></a>
-### forms.filters
-All the filters that will be applied.  Depending on the options passed in at construction, you willbe given some default filters.
-
-**Kind**: instance property of <code>[Forms](#Forms)</code>  
-<a name="Forms+addFillFilter"></a>
-### forms.addFillFilter(fn)
-Add a filter which happens at fill time.  You will be given a properly filledType object to work with.  Meaning, this adds to the end of the fill process.
-
-**Kind**: instance method of <code>[Forms](#Forms)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| fn | <code>function</code> | The function to be called during the filter process.  The signature is fn(Type, JSON).  Where the Type is a Types object that represents the form elment. And JSON is the incoming representation of the form element.  You should modify the the JSON and return it.  The returned element should be in the same format as Types.Type.toJSON() output. |
-
-<a name="Forms+addExtractFilter"></a>
-### forms.addExtractFilter(fn)
-Add a filter that happens at the extract time.  This adds to filter at index 1.  Meaning it is the secondfilter called.  The first filter is always calling Types.Type.toJSON() so you will be working on theJSON representation of the form element.
-
-**Kind**: instance method of <code>[Forms](#Forms)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| fn | <code>function</code> | The function to be called during the filter process.  The signature is fn(Type, JSON).  Where the Type is a Types object that represents the form elment. And JSON is the incoming representation of the form element.  You should modify the the JSON and return it.  The returned element should be in the same format as Types.Type.toJSON() output. |
-
-<a name="Forms+addNameFillFilter"></a>
-### forms.addNameFillFilter(name, fn)
-Add a filter that will only filter on the form element's "name" attribute.
-
-**Kind**: instance method of <code>[Forms](#Forms)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| name | <code>String</code> &#124; <code>RegExp</code> | Will check the elements name. |
-| fn | <code>function</code> | The function to apply if the name matches.  See [#addFillFilter](#addFillFilter). |
-
-<a name="Forms+addNameExtractFilter"></a>
-### forms.addNameExtractFilter(name, fn)
-Add a filter that will only filter on the form element's "name" attribute.
-
-**Kind**: instance method of <code>[Forms](#Forms)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| name | <code>String</code> &#124; <code>RegExp</code> | Will check the elements name. |
-| fn | <code>function</code> | The function to apply if the name matches.  See [#addFillFilter](#addFillFilter). |
-
-<a name="Forms+addTypeFillFilter"></a>
-### forms.addTypeFillFilter(name, fn)
-Add a filter that will only filter on the form element's tag name.
-
-**Kind**: instance method of <code>[Forms](#Forms)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| name | <code>String</code> &#124; <code>RegExp</code> | Will check the elements tag name. |
-| fn | <code>function</code> | The function to apply if the name matches.  See [#addFillFilter](#addFillFilter). |
-
-<a name="Forms+addTypeExtractFilter"></a>
-### forms.addTypeExtractFilter(name, fn)
-Add a filter that will only filter on the form element's tag name.
-
-**Kind**: instance method of <code>[Forms](#Forms)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| name | <code>String</code> &#124; <code>RegExp</code> | Will check the elements tag name. |
-| fn | <code>function</code> | The function to apply if the name matches.  See [#addFillFilter](#addFillFilter). |
-
-<a name="Forms+_filter"></a>
-### forms._filter(name, get, fn)
-Used by filter functions to avoid code duplication.
-
-**Kind**: instance method of <code>[Forms](#Forms)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| name | <code>String</code> | The String or RegExp to be used for comparison. |
-| get | <code>function</code> | A function that returns the value from a Types.Type to be compared to {@param name} |
-| fn | <code>function</code> | A function to apply if a comparison is true. |
-
-<a name="Forms+fill"></a>
-### forms.fill(json)
-Fill the form given the json.  This will perform filters on the given json.
-
-**Kind**: instance method of <code>[Forms](#Forms)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| json | <code>Object</code> | A JSON object created from an extract call. |
-
-<a name="Forms+getFilters"></a>
-### forms.getFilters()
-Get the this#filters object.
-
-**Kind**: instance method of <code>[Forms](#Forms)</code>  
-<a name="Forms+extract"></a>
-### forms.extract()
-Extract the current form element data into a JSON object which can be serialized.  The filters will be appliedduring the extract process.
-
-**Kind**: instance method of <code>[Forms](#Forms)</code>  
-<a name="Forms+getSchema"></a>
-### forms.getSchema() ⇒ <code>Object</code>
-Get a JSON object comprised of name and Types.Type that represent this form.
-
-**Kind**: instance method of <code>[Forms](#Forms)</code>  
-**Returns**: <code>Object</code> - A json object representing the form.  
-<a name="Forms+getTypeBase"></a>
-### forms.getTypeBase() ⇒ <code>[TypeBase](#TypeBase)</code>
-Get a reference to TypeBase which is the base class for all Types.  This allows for prototyping.
-
-**Kind**: instance method of <code>[Forms](#Forms)</code>  
 <a name="jQuery"></a>
 ## jQuery : <code>object</code>
 [http://api.jquery.com/](http://api.jquery.com/)
