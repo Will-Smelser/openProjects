@@ -30,7 +30,7 @@
   * [.getValue()](#TypeBase+getValue) ⇒ <code>Object</code>
   * [.getType()](#TypeBase+getType) ⇒ <code>String</code>
   * [.equals(type)](#TypeBase+equals) ⇒ <code>boolean</code>
-  * [.equals()](#TypeBase+equals)
+  * [.toJSON()](#TypeBase+toJSON) ⇒ <code>Object</code>
   * [.updateValue(json)](#TypeBase+updateValue)
   * [.clone()](#TypeBase+clone)
 
@@ -63,20 +63,21 @@ Gets the type of the object.
 | --- | --- | --- |
 | type | <code>[Types](#Types)</code> | A Types object. |
 
-<a name="TypeBase+equals"></a>
-### typeBase.equals()
+<a name="TypeBase+toJSON"></a>
+### typeBase.toJSON() ⇒ <code>Object</code>
 Get the serializable JSON representation of the Types object.
 
 **Kind**: instance method of <code>[TypeBase](#TypeBase)</code>  
+**Returns**: <code>Object</code> - A json representation of this Type.  
 <a name="TypeBase+updateValue"></a>
 ### typeBase.updateValue(json)
-Update the inner representation of Types object from a given JSON represetation.  See [TypeBase#toJSON](TypeBase#toJSON).
+Update the inner representation of Types object from a given JSON represetation.  See [toJSON](#TypeBase+toJSON).
 
 **Kind**: instance method of <code>[TypeBase](#TypeBase)</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| json | <code>Object</code> | A JSON representation of a Types object.  See [TypeBase#toJSON](TypeBase#toJSON). |
+| json | <code>Object</code> | A JSON representation of a Types object.  See [toJSON](#TypeBase+toJSON). |
 
 <a name="TypeBase+clone"></a>
 ### typeBase.clone()
@@ -101,7 +102,8 @@ Make a copy of the Types object.  It really returns a "default" value of a the c
   * [.fill(json)](#Forms+fill)
   * [.getFilters()](#Forms+getFilters)
   * [.extract()](#Forms+extract)
-  * [.getSchema()](#Forms+getSchema)
+  * [.getSchema()](#Forms+getSchema) ⇒ <code>Object</code>
+  * [.getTypeBase()](#Forms+getTypeBase) ⇒ <code>[TypeBase](#TypeBase)</code>
 
 <a name="new_Forms_new"></a>
 ### new Forms($form, options)
@@ -220,8 +222,14 @@ Extract the current form element data into a JSON object which can be serialized
 
 **Kind**: instance method of <code>[Forms](#Forms)</code>  
 <a name="Forms+getSchema"></a>
-### forms.getSchema()
+### forms.getSchema() ⇒ <code>Object</code>
 Get a JSON object comprised of name and Types.Type that represent this form.
+
+**Kind**: instance method of <code>[Forms](#Forms)</code>  
+**Returns**: <code>Object</code> - A json object representing the form.  
+<a name="Forms+getTypeBase"></a>
+### forms.getTypeBase() ⇒ <code>[TypeBase](#TypeBase)</code>
+Get a reference to TypeBase which is the base class for all Types.  This allows for prototyping.
 
 **Kind**: instance method of <code>[Forms](#Forms)</code>  
 <a name="jQuery"></a>
@@ -242,6 +250,7 @@ Supported form elements
     * [.getValue()](#TypeBase+getValue) ⇒ <code>Object</code>
     * [.getType()](#TypeBase+getType) ⇒ <code>String</code>
     * [.equals(type)](#TypeBase+equals) ⇒ <code>boolean</code>
+    * [.toJSON()](#TypeBase+toJSON) ⇒ <code>Object</code>
     * [.updateValue(json)](#TypeBase+updateValue)
     * [.clone()](#TypeBase+clone)
   * [.Checkbox](#Types.Checkbox) ⇐ <code>[TypeBase](#TypeBase)</code>
@@ -250,6 +259,7 @@ Supported form elements
     * [.getValue()](#TypeBase+getValue) ⇒ <code>Object</code>
     * [.getType()](#TypeBase+getType) ⇒ <code>String</code>
     * [.equals(type)](#TypeBase+equals) ⇒ <code>boolean</code>
+    * [.toJSON()](#TypeBase+toJSON) ⇒ <code>Object</code>
     * [.updateValue(json)](#TypeBase+updateValue)
     * [.clone()](#TypeBase+clone)
   * [.Radio](#Types.Radio) ⇐ <code>[TypeBase](#TypeBase)</code>
@@ -258,6 +268,7 @@ Supported form elements
     * [.getValue()](#TypeBase+getValue) ⇒ <code>Object</code>
     * [.getType()](#TypeBase+getType) ⇒ <code>String</code>
     * [.equals(type)](#TypeBase+equals) ⇒ <code>boolean</code>
+    * [.toJSON()](#TypeBase+toJSON) ⇒ <code>Object</code>
     * [.updateValue(json)](#TypeBase+updateValue)
     * [.clone()](#TypeBase+clone)
   * [.Select](#Types.Select) ⇐ <code>[TypeBase](#TypeBase)</code>
@@ -266,6 +277,7 @@ Supported form elements
     * [.getValue()](#TypeBase+getValue) ⇒ <code>Object</code>
     * [.getType()](#TypeBase+getType) ⇒ <code>String</code>
     * [.equals(type)](#TypeBase+equals) ⇒ <code>boolean</code>
+    * [.toJSON()](#TypeBase+toJSON) ⇒ <code>Object</code>
     * [.updateValue(json)](#TypeBase+updateValue)
     * [.clone()](#TypeBase+clone)
   * [.SelectMulti](#Types.SelectMulti) ⇐ <code>[TypeBase](#TypeBase)</code>
@@ -274,6 +286,7 @@ Supported form elements
     * [.getValue()](#TypeBase+getValue) ⇒ <code>Object</code>
     * [.getType()](#TypeBase+getType) ⇒ <code>String</code>
     * [.equals(type)](#TypeBase+equals) ⇒ <code>boolean</code>
+    * [.toJSON()](#TypeBase+toJSON) ⇒ <code>Object</code>
     * [.updateValue(json)](#TypeBase+updateValue)
     * [.clone()](#TypeBase+clone)
   * [.TextArea](#Types.TextArea) ⇐ <code>[TypeBase](#TypeBase)</code>
@@ -282,6 +295,7 @@ Supported form elements
     * [.getValue()](#TypeBase+getValue) ⇒ <code>Object</code>
     * [.getType()](#TypeBase+getType) ⇒ <code>String</code>
     * [.equals(type)](#TypeBase+equals) ⇒ <code>boolean</code>
+    * [.toJSON()](#TypeBase+toJSON) ⇒ <code>Object</code>
     * [.updateValue(json)](#TypeBase+updateValue)
     * [.clone()](#TypeBase+clone)
   * [.Button](#Types.Button) ⇐ <code>[TypeBase](#TypeBase)</code>
@@ -290,6 +304,7 @@ Supported form elements
     * [.getValue()](#TypeBase+getValue) ⇒ <code>Object</code>
     * [.getType()](#TypeBase+getType) ⇒ <code>String</code>
     * [.equals(type)](#TypeBase+equals) ⇒ <code>boolean</code>
+    * [.toJSON()](#TypeBase+toJSON) ⇒ <code>Object</code>
     * [.updateValue(json)](#TypeBase+updateValue)
     * [.clone()](#TypeBase+clone)
   * [.DataList](#Types.DataList) ⇐ <code>[TypeBase](#TypeBase)</code>
@@ -298,6 +313,7 @@ Supported form elements
     * [.getValue()](#TypeBase+getValue) ⇒ <code>Object</code>
     * [.getType()](#TypeBase+getType) ⇒ <code>String</code>
     * [.equals(type)](#TypeBase+equals) ⇒ <code>boolean</code>
+    * [.toJSON()](#TypeBase+toJSON) ⇒ <code>Object</code>
     * [.updateValue(json)](#TypeBase+updateValue)
     * [.clone()](#TypeBase+clone)
   * [.KeyGen](#Types.KeyGen)
@@ -307,6 +323,7 @@ Supported form elements
     * [.getValue()](#TypeBase+getValue) ⇒ <code>Object</code>
     * [.getType()](#TypeBase+getType) ⇒ <code>String</code>
     * [.equals(type)](#TypeBase+equals) ⇒ <code>boolean</code>
+    * [.toJSON()](#TypeBase+toJSON) ⇒ <code>Object</code>
     * [.updateValue(json)](#TypeBase+updateValue)
     * [.clone()](#TypeBase+clone)
 
@@ -321,6 +338,7 @@ Supported form elements
   * [.getValue()](#TypeBase+getValue) ⇒ <code>Object</code>
   * [.getType()](#TypeBase+getType) ⇒ <code>String</code>
   * [.equals(type)](#TypeBase+equals) ⇒ <code>boolean</code>
+  * [.toJSON()](#TypeBase+toJSON) ⇒ <code>Object</code>
   * [.updateValue(json)](#TypeBase+updateValue)
   * [.clone()](#TypeBase+clone)
 
@@ -354,22 +372,27 @@ Gets the type of the object.
 <a name="TypeBase+equals"></a>
 #### text.equals(type) ⇒ <code>boolean</code>
 **Kind**: instance method of <code>[Text](#Types.Text)</code>  
-**Overrides:** <code>[equals](#TypeBase+equals)</code>  
 **Returns**: <code>boolean</code> - True if they are equivalent, false otherwise.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | type | <code>[Types](#Types)</code> | A Types object. |
 
+<a name="TypeBase+toJSON"></a>
+#### text.toJSON() ⇒ <code>Object</code>
+Get the serializable JSON representation of the Types object.
+
+**Kind**: instance method of <code>[Text](#Types.Text)</code>  
+**Returns**: <code>Object</code> - A json representation of this Type.  
 <a name="TypeBase+updateValue"></a>
 #### text.updateValue(json)
-Update the inner representation of Types object from a given JSON represetation.  See [TypeBase#toJSON](TypeBase#toJSON).
+Update the inner representation of Types object from a given JSON represetation.  See [toJSON](#TypeBase+toJSON).
 
 **Kind**: instance method of <code>[Text](#Types.Text)</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| json | <code>Object</code> | A JSON representation of a Types object.  See [TypeBase#toJSON](TypeBase#toJSON). |
+| json | <code>Object</code> | A JSON representation of a Types object.  See [toJSON](#TypeBase+toJSON). |
 
 <a name="TypeBase+clone"></a>
 #### text.clone()
@@ -387,6 +410,7 @@ Make a copy of the Types object.  It really returns a "default" value of a the c
   * [.getValue()](#TypeBase+getValue) ⇒ <code>Object</code>
   * [.getType()](#TypeBase+getType) ⇒ <code>String</code>
   * [.equals(type)](#TypeBase+equals) ⇒ <code>boolean</code>
+  * [.toJSON()](#TypeBase+toJSON) ⇒ <code>Object</code>
   * [.updateValue(json)](#TypeBase+updateValue)
   * [.clone()](#TypeBase+clone)
 
@@ -421,22 +445,27 @@ Gets the type of the object.
 <a name="TypeBase+equals"></a>
 #### checkbox.equals(type) ⇒ <code>boolean</code>
 **Kind**: instance method of <code>[Checkbox](#Types.Checkbox)</code>  
-**Overrides:** <code>[equals](#TypeBase+equals)</code>  
 **Returns**: <code>boolean</code> - True if they are equivalent, false otherwise.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | type | <code>[Types](#Types)</code> | A Types object. |
 
+<a name="TypeBase+toJSON"></a>
+#### checkbox.toJSON() ⇒ <code>Object</code>
+Get the serializable JSON representation of the Types object.
+
+**Kind**: instance method of <code>[Checkbox](#Types.Checkbox)</code>  
+**Returns**: <code>Object</code> - A json representation of this Type.  
 <a name="TypeBase+updateValue"></a>
 #### checkbox.updateValue(json)
-Update the inner representation of Types object from a given JSON represetation.  See [TypeBase#toJSON](TypeBase#toJSON).
+Update the inner representation of Types object from a given JSON represetation.  See [toJSON](#TypeBase+toJSON).
 
 **Kind**: instance method of <code>[Checkbox](#Types.Checkbox)</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| json | <code>Object</code> | A JSON representation of a Types object.  See [TypeBase#toJSON](TypeBase#toJSON). |
+| json | <code>Object</code> | A JSON representation of a Types object.  See [toJSON](#TypeBase+toJSON). |
 
 <a name="TypeBase+clone"></a>
 #### checkbox.clone()
@@ -454,6 +483,7 @@ Make a copy of the Types object.  It really returns a "default" value of a the c
   * [.getValue()](#TypeBase+getValue) ⇒ <code>Object</code>
   * [.getType()](#TypeBase+getType) ⇒ <code>String</code>
   * [.equals(type)](#TypeBase+equals) ⇒ <code>boolean</code>
+  * [.toJSON()](#TypeBase+toJSON) ⇒ <code>Object</code>
   * [.updateValue(json)](#TypeBase+updateValue)
   * [.clone()](#TypeBase+clone)
 
@@ -488,22 +518,27 @@ Gets the type of the object.
 <a name="TypeBase+equals"></a>
 #### radio.equals(type) ⇒ <code>boolean</code>
 **Kind**: instance method of <code>[Radio](#Types.Radio)</code>  
-**Overrides:** <code>[equals](#TypeBase+equals)</code>  
 **Returns**: <code>boolean</code> - True if they are equivalent, false otherwise.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | type | <code>[Types](#Types)</code> | A Types object. |
 
+<a name="TypeBase+toJSON"></a>
+#### radio.toJSON() ⇒ <code>Object</code>
+Get the serializable JSON representation of the Types object.
+
+**Kind**: instance method of <code>[Radio](#Types.Radio)</code>  
+**Returns**: <code>Object</code> - A json representation of this Type.  
 <a name="TypeBase+updateValue"></a>
 #### radio.updateValue(json)
-Update the inner representation of Types object from a given JSON represetation.  See [TypeBase#toJSON](TypeBase#toJSON).
+Update the inner representation of Types object from a given JSON represetation.  See [toJSON](#TypeBase+toJSON).
 
 **Kind**: instance method of <code>[Radio](#Types.Radio)</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| json | <code>Object</code> | A JSON representation of a Types object.  See [TypeBase#toJSON](TypeBase#toJSON). |
+| json | <code>Object</code> | A JSON representation of a Types object.  See [toJSON](#TypeBase+toJSON). |
 
 <a name="TypeBase+clone"></a>
 #### radio.clone()
@@ -521,6 +556,7 @@ Make a copy of the Types object.  It really returns a "default" value of a the c
   * [.getValue()](#TypeBase+getValue) ⇒ <code>Object</code>
   * [.getType()](#TypeBase+getType) ⇒ <code>String</code>
   * [.equals(type)](#TypeBase+equals) ⇒ <code>boolean</code>
+  * [.toJSON()](#TypeBase+toJSON) ⇒ <code>Object</code>
   * [.updateValue(json)](#TypeBase+updateValue)
   * [.clone()](#TypeBase+clone)
 
@@ -554,22 +590,27 @@ Gets the type of the object.
 <a name="TypeBase+equals"></a>
 #### select.equals(type) ⇒ <code>boolean</code>
 **Kind**: instance method of <code>[Select](#Types.Select)</code>  
-**Overrides:** <code>[equals](#TypeBase+equals)</code>  
 **Returns**: <code>boolean</code> - True if they are equivalent, false otherwise.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | type | <code>[Types](#Types)</code> | A Types object. |
 
+<a name="TypeBase+toJSON"></a>
+#### select.toJSON() ⇒ <code>Object</code>
+Get the serializable JSON representation of the Types object.
+
+**Kind**: instance method of <code>[Select](#Types.Select)</code>  
+**Returns**: <code>Object</code> - A json representation of this Type.  
 <a name="TypeBase+updateValue"></a>
 #### select.updateValue(json)
-Update the inner representation of Types object from a given JSON represetation.  See [TypeBase#toJSON](TypeBase#toJSON).
+Update the inner representation of Types object from a given JSON represetation.  See [toJSON](#TypeBase+toJSON).
 
 **Kind**: instance method of <code>[Select](#Types.Select)</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| json | <code>Object</code> | A JSON representation of a Types object.  See [TypeBase#toJSON](TypeBase#toJSON). |
+| json | <code>Object</code> | A JSON representation of a Types object.  See [toJSON](#TypeBase+toJSON). |
 
 <a name="TypeBase+clone"></a>
 #### select.clone()
@@ -587,6 +628,7 @@ Make a copy of the Types object.  It really returns a "default" value of a the c
   * [.getValue()](#TypeBase+getValue) ⇒ <code>Object</code>
   * [.getType()](#TypeBase+getType) ⇒ <code>String</code>
   * [.equals(type)](#TypeBase+equals) ⇒ <code>boolean</code>
+  * [.toJSON()](#TypeBase+toJSON) ⇒ <code>Object</code>
   * [.updateValue(json)](#TypeBase+updateValue)
   * [.clone()](#TypeBase+clone)
 
@@ -620,22 +662,27 @@ Gets the type of the object.
 <a name="TypeBase+equals"></a>
 #### selectMulti.equals(type) ⇒ <code>boolean</code>
 **Kind**: instance method of <code>[SelectMulti](#Types.SelectMulti)</code>  
-**Overrides:** <code>[equals](#TypeBase+equals)</code>  
 **Returns**: <code>boolean</code> - True if they are equivalent, false otherwise.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | type | <code>[Types](#Types)</code> | A Types object. |
 
+<a name="TypeBase+toJSON"></a>
+#### selectMulti.toJSON() ⇒ <code>Object</code>
+Get the serializable JSON representation of the Types object.
+
+**Kind**: instance method of <code>[SelectMulti](#Types.SelectMulti)</code>  
+**Returns**: <code>Object</code> - A json representation of this Type.  
 <a name="TypeBase+updateValue"></a>
 #### selectMulti.updateValue(json)
-Update the inner representation of Types object from a given JSON represetation.  See [TypeBase#toJSON](TypeBase#toJSON).
+Update the inner representation of Types object from a given JSON represetation.  See [toJSON](#TypeBase+toJSON).
 
 **Kind**: instance method of <code>[SelectMulti](#Types.SelectMulti)</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| json | <code>Object</code> | A JSON representation of a Types object.  See [TypeBase#toJSON](TypeBase#toJSON). |
+| json | <code>Object</code> | A JSON representation of a Types object.  See [toJSON](#TypeBase+toJSON). |
 
 <a name="TypeBase+clone"></a>
 #### selectMulti.clone()
@@ -653,6 +700,7 @@ Make a copy of the Types object.  It really returns a "default" value of a the c
   * [.getValue()](#TypeBase+getValue) ⇒ <code>Object</code>
   * [.getType()](#TypeBase+getType) ⇒ <code>String</code>
   * [.equals(type)](#TypeBase+equals) ⇒ <code>boolean</code>
+  * [.toJSON()](#TypeBase+toJSON) ⇒ <code>Object</code>
   * [.updateValue(json)](#TypeBase+updateValue)
   * [.clone()](#TypeBase+clone)
 
@@ -686,22 +734,27 @@ Gets the type of the object.
 <a name="TypeBase+equals"></a>
 #### textArea.equals(type) ⇒ <code>boolean</code>
 **Kind**: instance method of <code>[TextArea](#Types.TextArea)</code>  
-**Overrides:** <code>[equals](#TypeBase+equals)</code>  
 **Returns**: <code>boolean</code> - True if they are equivalent, false otherwise.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | type | <code>[Types](#Types)</code> | A Types object. |
 
+<a name="TypeBase+toJSON"></a>
+#### textArea.toJSON() ⇒ <code>Object</code>
+Get the serializable JSON representation of the Types object.
+
+**Kind**: instance method of <code>[TextArea](#Types.TextArea)</code>  
+**Returns**: <code>Object</code> - A json representation of this Type.  
 <a name="TypeBase+updateValue"></a>
 #### textArea.updateValue(json)
-Update the inner representation of Types object from a given JSON represetation.  See [TypeBase#toJSON](TypeBase#toJSON).
+Update the inner representation of Types object from a given JSON represetation.  See [toJSON](#TypeBase+toJSON).
 
 **Kind**: instance method of <code>[TextArea](#Types.TextArea)</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| json | <code>Object</code> | A JSON representation of a Types object.  See [TypeBase#toJSON](TypeBase#toJSON). |
+| json | <code>Object</code> | A JSON representation of a Types object.  See [toJSON](#TypeBase+toJSON). |
 
 <a name="TypeBase+clone"></a>
 #### textArea.clone()
@@ -719,6 +772,7 @@ Make a copy of the Types object.  It really returns a "default" value of a the c
   * [.getValue()](#TypeBase+getValue) ⇒ <code>Object</code>
   * [.getType()](#TypeBase+getType) ⇒ <code>String</code>
   * [.equals(type)](#TypeBase+equals) ⇒ <code>boolean</code>
+  * [.toJSON()](#TypeBase+toJSON) ⇒ <code>Object</code>
   * [.updateValue(json)](#TypeBase+updateValue)
   * [.clone()](#TypeBase+clone)
 
@@ -752,22 +806,27 @@ Gets the type of the object.
 <a name="TypeBase+equals"></a>
 #### button.equals(type) ⇒ <code>boolean</code>
 **Kind**: instance method of <code>[Button](#Types.Button)</code>  
-**Overrides:** <code>[equals](#TypeBase+equals)</code>  
 **Returns**: <code>boolean</code> - True if they are equivalent, false otherwise.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | type | <code>[Types](#Types)</code> | A Types object. |
 
+<a name="TypeBase+toJSON"></a>
+#### button.toJSON() ⇒ <code>Object</code>
+Get the serializable JSON representation of the Types object.
+
+**Kind**: instance method of <code>[Button](#Types.Button)</code>  
+**Returns**: <code>Object</code> - A json representation of this Type.  
 <a name="TypeBase+updateValue"></a>
 #### button.updateValue(json)
-Update the inner representation of Types object from a given JSON represetation.  See [TypeBase#toJSON](TypeBase#toJSON).
+Update the inner representation of Types object from a given JSON represetation.  See [toJSON](#TypeBase+toJSON).
 
 **Kind**: instance method of <code>[Button](#Types.Button)</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| json | <code>Object</code> | A JSON representation of a Types object.  See [TypeBase#toJSON](TypeBase#toJSON). |
+| json | <code>Object</code> | A JSON representation of a Types object.  See [toJSON](#TypeBase+toJSON). |
 
 <a name="TypeBase+clone"></a>
 #### button.clone()
@@ -785,6 +844,7 @@ Make a copy of the Types object.  It really returns a "default" value of a the c
   * [.getValue()](#TypeBase+getValue) ⇒ <code>Object</code>
   * [.getType()](#TypeBase+getType) ⇒ <code>String</code>
   * [.equals(type)](#TypeBase+equals) ⇒ <code>boolean</code>
+  * [.toJSON()](#TypeBase+toJSON) ⇒ <code>Object</code>
   * [.updateValue(json)](#TypeBase+updateValue)
   * [.clone()](#TypeBase+clone)
 
@@ -816,22 +876,27 @@ Gets the type of the object.
 <a name="TypeBase+equals"></a>
 #### dataList.equals(type) ⇒ <code>boolean</code>
 **Kind**: instance method of <code>[DataList](#Types.DataList)</code>  
-**Overrides:** <code>[equals](#TypeBase+equals)</code>  
 **Returns**: <code>boolean</code> - True if they are equivalent, false otherwise.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | type | <code>[Types](#Types)</code> | A Types object. |
 
+<a name="TypeBase+toJSON"></a>
+#### dataList.toJSON() ⇒ <code>Object</code>
+Get the serializable JSON representation of the Types object.
+
+**Kind**: instance method of <code>[DataList](#Types.DataList)</code>  
+**Returns**: <code>Object</code> - A json representation of this Type.  
 <a name="TypeBase+updateValue"></a>
 #### dataList.updateValue(json)
-Update the inner representation of Types object from a given JSON represetation.  See [TypeBase#toJSON](TypeBase#toJSON).
+Update the inner representation of Types object from a given JSON represetation.  See [toJSON](#TypeBase+toJSON).
 
 **Kind**: instance method of <code>[DataList](#Types.DataList)</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| json | <code>Object</code> | A JSON representation of a Types object.  See [TypeBase#toJSON](TypeBase#toJSON). |
+| json | <code>Object</code> | A JSON representation of a Types object.  See [toJSON](#TypeBase+toJSON). |
 
 <a name="TypeBase+clone"></a>
 #### dataList.clone()
@@ -852,6 +917,7 @@ Make a copy of the Types object.  It really returns a "default" value of a the c
   * [.getValue()](#TypeBase+getValue) ⇒ <code>Object</code>
   * [.getType()](#TypeBase+getType) ⇒ <code>String</code>
   * [.equals(type)](#TypeBase+equals) ⇒ <code>boolean</code>
+  * [.toJSON()](#TypeBase+toJSON) ⇒ <code>Object</code>
   * [.updateValue(json)](#TypeBase+updateValue)
   * [.clone()](#TypeBase+clone)
 
@@ -884,22 +950,27 @@ Gets the type of the object.
 <a name="TypeBase+equals"></a>
 #### fieldset.equals(type) ⇒ <code>boolean</code>
 **Kind**: instance method of <code>[Fieldset](#Types.Fieldset)</code>  
-**Overrides:** <code>[equals](#TypeBase+equals)</code>  
 **Returns**: <code>boolean</code> - True if they are equivalent, false otherwise.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | type | <code>[Types](#Types)</code> | A Types object. |
 
+<a name="TypeBase+toJSON"></a>
+#### fieldset.toJSON() ⇒ <code>Object</code>
+Get the serializable JSON representation of the Types object.
+
+**Kind**: instance method of <code>[Fieldset](#Types.Fieldset)</code>  
+**Returns**: <code>Object</code> - A json representation of this Type.  
 <a name="TypeBase+updateValue"></a>
 #### fieldset.updateValue(json)
-Update the inner representation of Types object from a given JSON represetation.  See [TypeBase#toJSON](TypeBase#toJSON).
+Update the inner representation of Types object from a given JSON represetation.  See [toJSON](#TypeBase+toJSON).
 
 **Kind**: instance method of <code>[Fieldset](#Types.Fieldset)</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| json | <code>Object</code> | A JSON representation of a Types object.  See [TypeBase#toJSON](TypeBase#toJSON). |
+| json | <code>Object</code> | A JSON representation of a Types object.  See [toJSON](#TypeBase+toJSON). |
 
 <a name="TypeBase+clone"></a>
 #### fieldset.clone()
