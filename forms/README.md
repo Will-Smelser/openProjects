@@ -4,6 +4,33 @@
 
     This is a normal jquery plugin.
     
+## Dependencies
+1. Requires jQuery.  However, it would not be hard to remove the dependency.  If you want a standalone, let me know.
+2. [forms-core2.js jsDoc](./required/js/)
+    
+## Notes
+* Construction
+--* You can only call jQuery.fn.forms once per element.  The first call creates the Forms object.
+* Filters
+--* Do not modify the "name" attribute of the returned JSON.  This name must align with the form elements name attribute.
+--* During Fill filters, Filter may be called multiple times, but only applied once.  This happens when evaluating radio/checkboxes.  This is because the name has to be evaluated looking for matching value attribute.
+
+## Options
+```javascript
+//default settings, these get merged with user settings
+var settings = {
+    filterBase : true,
+    filterSlim : true,
+    filters : {
+        extract:[],
+        fill:[]
+    }
+};
+
+//usage
+$('form').forms(settings);
+```
+    
 ### Examples
 #### Extract Form Data
 ```javascript
