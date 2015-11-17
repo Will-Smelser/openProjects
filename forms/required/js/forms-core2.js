@@ -490,7 +490,6 @@
 
             //the slim fill filter.  Use the Type and json to rebuild the representation.
             settings.filters.fill.unshift(function(type, obj){
-
                 var json = type.toJSON();
                 switch(type.type){
                     case 'Checkbox':
@@ -521,56 +520,52 @@
         var _fill = function(json, schema, filters){
 
             for(var x in schema){
-                if(typeof json !== 'undefined' && typeof json[x] !== 'undefined'){
 
-                    if(schema[x].type === 'Fieldset'){
-                        _fill(json[x], schema[x].elements, filters);
+                var target = (!json || typeof json[x] === undefined) ? null : json[x];
 
-                    }else if($.isArray(schema[x])){
-                        //possible this is a Fieldset Array, just the way the schemas work :(
-                        if(schema[x][0] && schema[x][0].type === 'Fieldset'){
-                            for(var y in schema[x]){
-                                _fill(json[x], schema[x][y].elements, filters);
-                            }
+                if(schema[x].type === 'Fieldset'){
+                    _fill(target, schema[x].elements, filters);
 
-                        //maybe a checkbox or multiselect, but only 1 element given
-                        }else if(!$.isArray(json[x])){
-                            console.log(x,json[x]);
-                            for(var y in schema[x]){
-                                var temp = _applyFilters(schema[x][y], json[x], filters);
-                                schema[x][y].updateValue(temp);
-                            }
-                        }else{
+                }else if($.isArray(schema[x])){
+                    //possible this is a Fieldset Array, just the way the schemas work :(
+                    if(schema[x][0] && schema[x][0].type === 'Fieldset'){
+                        for(var y in schema[x]){
+                            _fill(target, schema[x][y].elements, filters);
+                        }
 
-                            //possible we have fewer entries in JSON than we have in
-                            //the schema, may need to skip schema entries
-                            var skips = 0;
-
-                            for(var y in schema[x]){
-                                //have to apply filters, so we can compare element with schema
-                                var temp = _applyFilters(schema[x][y], json[x][y-skips], filters);
-
-                                //possible we are missing elements in json, that schema has.  So skip.
-                                if(!schema[x][y].equals(temp) && schema[x][y].type !== 'Fieldset'){
-                                    schema[x][y].updateValue(schema[x][y].clone());
-                                    skips++;
-                                    continue;
-                                }
-
-                                var sname = schema[x][y].name;
-                                var temp1 = {};
-                                var temp2 = {};
-                                temp1[sname] = schema[x][y];
-                                temp2[sname] = json[x][y-skips];
-                                _fill(temp2, temp1, filters);
-                            }
+                    //maybe a checkbox or multiselect, but only 1 element given
+                    }else if(!$.isArray(target)){
+                        for(var y in schema[x]){
+                            var temp = _applyFilters(schema[x][y], target, filters);
+                            schema[x][y].updateValue(temp);
                         }
                     }else{
-                        schema[x].updateValue(_applyFilters(schema[x], json[x], filters));
+
+                        //possible we have fewer entries in JSON than we have in
+                        //the schema, may need to skip schema entries
+                        var skips = 0;
+
+                        for(var y in schema[x]){
+                            //have to apply filters, so we can compare element with schema
+                            var temp = _applyFilters(schema[x][y], target[y-skips], filters);
+
+                            //possible we are missing elements in json, that schema has.  So skip.
+                            if(!schema[x][y].equals(temp) && schema[x][y].type !== 'Fieldset'){
+                                schema[x][y].updateValue(schema[x][y].clone());
+                                skips++;
+                                continue;
+                            }
+
+                            var sname = schema[x][y].name;
+                            var temp1 = {};
+                            var temp2 = {};
+                            temp1[sname] = schema[x][y];
+                            temp2[sname] = target[y-skips];
+                            _fill(temp2, temp1, filters);
+                        }
                     }
                 }else{
-                    schema[x].updateValue(_applyFilters(schema[x], null, filters));
-                    if(console) console.log("Element was undefined, applying null.");
+                    schema[x].updateValue(_applyFilters(schema[x], target, filters));
                 }
             }
         };
