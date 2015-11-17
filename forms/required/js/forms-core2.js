@@ -569,7 +569,8 @@
                         schema[x].updateValue(_applyFilters(schema[x], json[x], filters));
                     }
                 }else{
-                    if(console) console.log("Element was undefined, skipped.",json,x)
+                    schema[x].updateValue(_applyFilters(schema[x], null, filters));
+                    if(console) console.log("Element was undefined, applying null.");
                 }
             }
         };
@@ -733,6 +734,7 @@
          * @instance
          * @method extract
          * @memberof Forms
+         * @return {Object} The json representation of form and values after going through filters.
          */
         this.extract = function(){
             var result = {};
