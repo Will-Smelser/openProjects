@@ -515,13 +515,20 @@
         }
 
         /**
-         * Fill a form from the JSON output and schema,  should really do an extract and iterate that along with the json
+         * Fill a form from the JSON output and schema,  should really do an extract and iterate that along with the json.
+         * This function needs to be rewritten.  Very brittle!
          */
         var _fill = function(json, schema, filters){
 
             for(var x in schema){
 
-                var target = (!json || typeof json[x] === undefined) ? null : json[x];
+                var target;
+
+                 if(json === null || typeof json === 'undefined' || typeof json[x] === 'undefined'){
+                    target = null;
+                 }else{
+                    target = json[x];
+                 }
 
                 if(schema[x].type === 'Fieldset'){
                     _fill(target, schema[x].elements, filters);
@@ -530,7 +537,7 @@
                     //possible this is a Fieldset Array, just the way the schemas work :(
                     if(schema[x][0] && schema[x][0].type === 'Fieldset'){
                         for(var y in schema[x]){
-                            _fill(target, schema[x][y].elements, filters);
+                            _fill(target[y], schema[x][y].elements, filters);
                         }
 
                     //maybe a checkbox or multiselect, but only 1 element given
