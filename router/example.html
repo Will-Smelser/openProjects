@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example - HashRouter</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+
+    <script src="required/hash-router-min.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <div class="col-sm-12">
+        <h2>Example - HashRouter</h2>
+
+        <p>Change the page hash to see this working.</p>
+        <ul>Defined Routes - Click these links and look at browser URL
+            <li>Example 1 - <a href="#/user/JohnDoe@gmail.com/read">/user/{name:[\\w]+}/{action}</a></li>
+            <li>Example 2 - <a href="#/example/1234/and/something">/example/{id:[\\d]+}/and/{name}</a></li>
+            <li>Fail Example - <a href="#/matches/nothing">No Match</a></li>
+        </ul>
+
+        <h3>HashRouter Output</h3>
+
+        <form name="myform">
+            <textarea style="width:100%" name="output"></textarea>
+        </form>
+
+        <h3>Sample Code:</h3>
+
+<pre>
+var router = new HashRouter();
+
+//add a route
+router.addPath("/user/{name:[\\w]+}/{action}",function(data){
+    window.myform.elements.output.value = JSON.stringify(data);
+});
+
+//add a route
+router.addPath("/example/{id:[\\d]+}/and/{name}",function(data){
+    window.myform.elements.output.value = JSON.stringify(data);
+});
+
+//override the noRoute handler
+router.noRoute = function(path){
+    window.myform.elements.output.value = "No Path Matched - " + path;
+};
+
+//tell the router to listen for "onhashchange" events
+router.start();
+</pre>
+        <h2>About</h2>
+        <p>
+            No Dependencies<br/>
+            1.16 KB Compressed
+        </p>
+        <p>
+            Was created as a simple stand alone library to allow basic routing that resembles Java @Path annotation.
+        </p>
+    </div>
+</div>
+</body>
+
+<script>
+    var router = new HashRouter();
+    router.addPath("/user/{name:[\\w]+}/{action}", function (data) {
+        window.myform.elements.output.value = JSON.stringify(data);
+    });
+    router.addPath("/example/{id:[\\d]+}/and/{name}", function (data) {
+        window.myform.elements.output.value = JSON.stringify(data);
+    });
+    router.noRoute = function (path) {
+        window.myform.elements.output.value = "No Path Matched - " + path;
+    };
+    router.start();
+</script>
+
+</html>
