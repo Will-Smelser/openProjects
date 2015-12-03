@@ -106,5 +106,5 @@ Start listening for onhashchange event.  Calling [this.evaluate(window.location.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [pollTime] | <code>Integer</code> | If the browser does not support "window.onhashchange" event, then the document.hash will be polled every {@param pollTime} ms with a setInterval call. |
+| [pollTime] | <code>Integer</code> | If the browser does not support "window.onhashchange" event, then the document.hash will be polled every [pollTime](pollTime) ms with a setInterval call. Defaults to 100 ms. |
 

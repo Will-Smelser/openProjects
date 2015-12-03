@@ -133,7 +133,7 @@ var HashRouter = function () {
      * Start listening for onhashchange event.  Calling {@link this.evaluate(window.location.hash)} on any change.  This
      * will poll the hash ever 100ms if the browser does not support onhashchange event.
      * @param pollTime {Integer=} If the browser does not support "window.onhashchange" event, then the
-     * document.hash will be polled every {@param pollTime} ms with a setInterval call.
+     * document.hash will be polled every {@link pollTime} ms with a setInterval call. Defaults to 100 ms.
      */
     this.start = function (pollTime) {
         if(typeof pollTime === "undefined") pollTime = 100;
