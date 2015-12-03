@@ -8,16 +8,16 @@
 <dl>
 <dt><a href="#HashRouter">HashRouter()</a></dt>
 <dd><p>A utility to bind document.location.hash routes to functions.  This is meant to be very similar to the Java @Path annotation.
-Example:
-<code>
+Example:</p>
+<pre>
 var router = new HashRouter();
-router.addPath(&quot;/blog/{id:[\d]+}&quot;,function(data){console.log(&quot;blog id requested: &quot;+data.id)});
-router.addPath(&quot;/user/{name}/{action:[a-z]+}&quot;,function(data){console.log(data);});</p>
-<p>router.eval(&quot;#/blog/1234&quot;); //console prints &quot;blog id requested: 1234&quot;
-router.eval(&quot;#/user/JohnDoe@gmail.com/settings&quot;); //console prints &quot;Object {name : &#39;JohnDoe@gmail&#39;, action : &#39;settings&#39;}&quot;
-router.eval(&quot;#/blog/nothing&quot;); //nothing will happen.
-</code></p>
-</dd>
+router.addPath("/blog/{id:[\\d]+}",function(data){console.log("blog id requested: "+data.id)});
+router.addPath("/user/{name}/{action:[a-z]+}",function(data){console.log(data);});
+
+router.eval("#/blog/1234"); //console prints "blog id requested: 1234"
+router.eval("#/user/JohnDoe@gmail.com/settings"); //console prints "Object {name : 'JohnDoe@gmail', action : 'settings'}"
+router.eval("#/blog/nothing"); //nothing will happen.
+</pre></dd>
 <dt><a href="#noRoute">noRoute(path)</a></dt>
 <dd><p>Override this if you would like your own function triggered when a Path cannot be matched.</p>
 </dd>
@@ -47,7 +47,7 @@ Stores all the defined routes
 **Kind**: global variable  
 <a name="HashRouter"></a>
 ## HashRouter()
-A utility to bind document.location.hash routes to functions.  This is meant to be very similar to the Java @Path annotation.Example:<code>var router = new HashRouter();router.addPath("/blog/{id:[\\d]+}",function(data){console.log("blog id requested: "+data.id)});router.addPath("/user/{name}/{action:[a-z]+}",function(data){console.log(data);});router.eval("#/blog/1234"); //console prints "blog id requested: 1234"router.eval("#/user/JohnDoe@gmail.com/settings"); //console prints "Object {name : 'JohnDoe@gmail', action : 'settings'}"router.eval("#/blog/nothing"); //nothing will happen.</code>
+A utility to bind document.location.hash routes to functions.  This is meant to be very similar to the Java @Path annotation.Example:<pre>var router = new HashRouter();router.addPath("/blog/{id:[\\d]+}",function(data){console.log("blog id requested: "+data.id)});router.addPath("/user/{name}/{action:[a-z]+}",function(data){console.log(data);});router.eval("#/blog/1234"); //console prints "blog id requested: 1234"router.eval("#/user/JohnDoe@gmail.com/settings"); //console prints "Object {name : 'JohnDoe@gmail', action : 'settings'}"router.eval("#/blog/nothing"); //nothing will happen.</pre>
 
 **Kind**: global function  
 <a name="noRoute"></a>
