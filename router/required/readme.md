@@ -18,15 +18,15 @@ router.eval("#/blog/1234"); //console prints "blog id requested: 1234"
 router.eval("#/user/JohnDoe@gmail.com/settings"); //console prints "Object {name : 'JohnDoe@gmail', action : 'settings'}"
 router.eval("#/blog/nothing"); //nothing will happen.
 </pre></dd>
-<dt><a href="#noRoute">noRoute(path)</a></dt>
-<dd><p>Override this if you would like your own function triggered when a Path cannot be matched.</p>
-</dd>
 <dt><a href="#Expression">Expression()</a></dt>
 <dd><p>Paths are broken up into either String values or an Expression.  Expressions hold
 a variable name and potentially a regex defining what the name is allowed to match against.</p>
 </dd>
 <dt><a href="#Path">Path(path, [fn])</a></dt>
 <dd><p>Create a route from a String.</p>
+</dd>
+<dt><a href="#noRoute">noRoute(path)</a></dt>
+<dd><p>Override this if you would like your own function triggered when a Path cannot be matched.</p>
 </dd>
 <dt><a href="#addPath">addPath(path, [fn])</a></dt>
 <dd><p>Add a URL path.</p>
@@ -50,16 +50,6 @@ Stores all the defined routes
 A utility to bind document.location.hash routes to functions.  This is meant to be very similar to the Java @Path annotation.Example:<pre>var router = new HashRouter();router.addPath("/blog/{id:[\\d]+}",function(data){console.log("blog id requested: "+data.id)});router.addPath("/user/{name}/{action:[a-z]+}",function(data){console.log(data);});router.eval("#/blog/1234"); //console prints "blog id requested: 1234"router.eval("#/user/JohnDoe@gmail.com/settings"); //console prints "Object {name : 'JohnDoe@gmail', action : 'settings'}"router.eval("#/blog/nothing"); //nothing will happen.</pre>
 
 **Kind**: global function  
-<a name="noRoute"></a>
-## noRoute(path)
-Override this if you would like your own function triggered when a Path cannot be matched.
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| path | <code>String</code> | The path that failed to be matched. |
-
 <a name="Expression"></a>
 ## Expression()
 Paths are broken up into either String values or an Expression.  Expressions holda variable name and potentially a regex defining what the name is allowed to match against.
@@ -75,6 +65,16 @@ Create a route from a String.
 | --- | --- | --- |
 | path | <code>String</code> | Specified the path portion of a URL such as "/some/path/to/something" |
 | [fn] | <code>function</code> | A function to call when a Path is matched.  Either triggered from calling [this.evaluate(path)](#evaluate) or when "onhashchange" event is active. |
+
+<a name="noRoute"></a>
+## noRoute(path)
+Override this if you would like your own function triggered when a Path cannot be matched.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| path | <code>String</code> | The path that failed to be matched. |
 
 <a name="addPath"></a>
 ## addPath(path, [fn])

@@ -22,13 +22,6 @@ var HashRouter = function () {
      */
     this.paths = [];
 
-    /**
-     * Override this if you would like your own function triggered when a Path cannot be matched.
-     * @param path {String} The path that failed to be matched.
-     */
-    this.noRoute = function (path) {
-        if (console) console.log("No match for path: " + path)
-    };
 
     /**
      * Paths are broken up into either String values or an Expression.  Expressions hold
@@ -68,6 +61,15 @@ var HashRouter = function () {
             }
         }
     }
+
+
+    /**
+     * Override this if you would like your own function triggered when a Path cannot be matched.
+     * @param path {String} The path that failed to be matched.
+     */
+    this.noRoute = function (path) {
+        if (console) console.log("No match for path: " + path)
+    };
 
     /**
      * Add a URL path.
