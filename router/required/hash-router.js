@@ -6,9 +6,9 @@
  * router.addPath("/blog/{id:[\\d]+}",function(data){console.log("blog id requested: "+data.id)});
  * router.addPath("/user/{name}/{action:[a-z]+}",function(data){console.log(data);});
  *
- * router.eval("#/blog/1234"); //console prints "blog id requested: 1234"
- * router.eval("#/user/JohnDoe@gmail.com/settings"); //console prints "Object {name : 'JohnDoe@gmail', action : 'settings'}"
- * router.eval("#/blog/nothing"); //nothing will happen.
+ * router.evaluate("#/blog/1234"); //console prints "blog id requested: 1234"
+ * router.evaluate("#/user/JohnDoe@gmail.com/settings"); //console prints "Object {name : 'JohnDoe@gmail', action : 'settings'}"
+ * router.evaluate("#/blog/nothing"); //nothing will happen.
  * </pre>
  */
 var HashRouter = function () {

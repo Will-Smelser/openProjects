@@ -14,9 +14,9 @@ var router = new HashRouter();
 router.addPath("/blog/{id:[\\d]+}",function(data){console.log("blog id requested: "+data.id)});
 router.addPath("/user/{name}/{action:[a-z]+}",function(data){console.log(data);});
 
-router.eval("#/blog/1234"); //console prints "blog id requested: 1234"
-router.eval("#/user/JohnDoe@gmail.com/settings"); //console prints "Object {name : 'JohnDoe@gmail', action : 'settings'}"
-router.eval("#/blog/nothing"); //nothing will happen.
+router.evaluate("#/blog/1234"); //console prints "blog id requested: 1234"
+router.evaluate("#/user/JohnDoe@gmail.com/settings"); //console prints "Object {name : 'JohnDoe@gmail', action : 'settings'}"
+router.evaluate("#/blog/nothing"); //nothing will happen.
 </pre></dd>
 <dt><a href="#Expression">Expression()</a></dt>
 <dd><p>Paths are broken up into either String values or an Expression.  Expressions hold
@@ -47,7 +47,7 @@ Stores all the defined routes
 **Kind**: global variable  
 <a name="HashRouter"></a>
 ## HashRouter()
-A utility to bind document.location.hash routes to functions.  This is meant to be very similar to the Java @Path annotation.Example:<pre>var router = new HashRouter();router.addPath("/blog/{id:[\\d]+}",function(data){console.log("blog id requested: "+data.id)});router.addPath("/user/{name}/{action:[a-z]+}",function(data){console.log(data);});router.eval("#/blog/1234"); //console prints "blog id requested: 1234"router.eval("#/user/JohnDoe@gmail.com/settings"); //console prints "Object {name : 'JohnDoe@gmail', action : 'settings'}"router.eval("#/blog/nothing"); //nothing will happen.</pre>
+A utility to bind document.location.hash routes to functions.  This is meant to be very similar to the Java @Path annotation.Example:<pre>var router = new HashRouter();router.addPath("/blog/{id:[\\d]+}",function(data){console.log("blog id requested: "+data.id)});router.addPath("/user/{name}/{action:[a-z]+}",function(data){console.log(data);});router.evaluate("#/blog/1234"); //console prints "blog id requested: 1234"router.evaluate("#/user/JohnDoe@gmail.com/settings"); //console prints "Object {name : 'JohnDoe@gmail', action : 'settings'}"router.evaluate("#/blog/nothing"); //nothing will happen.</pre>
 
 **Kind**: global function  
 <a name="Expression"></a>
