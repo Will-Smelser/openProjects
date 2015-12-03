@@ -35,7 +35,7 @@ a variable name and potentially a regex defining what the name is allowed to mat
 <dd><p>Evaluate a path looking for a matching Path in the defined paths.  If a match is found, then an Object with
 key=&gt;value, where the key is an Expression from the stored Path and value is the correspond path portion from input.</p>
 </dd>
-<dt><a href="#start">start(pollTime)</a></dt>
+<dt><a href="#start">start([pollTime])</a></dt>
 <dd><p>Start listening for onhashchange event.  Calling <a href="this.evaluate(window.location.hash">this.evaluate(window.location.hash)</a>) on any change.  This
 will poll the hash ever 100ms if the browser does not support onhashchange event.</p>
 </dd>
@@ -99,12 +99,12 @@ Evaluate a path looking for a matching Path in the defined paths.  If a match is
 | path | <code>String</code> | Specified the path portion of a URL such as "/some/path/to/something" |
 
 <a name="start"></a>
-## start(pollTime)
+## start([pollTime])
 Start listening for onhashchange event.  Calling [this.evaluate(window.location.hash)](this.evaluate(window.location.hash)) on any change.  Thiswill poll the hash ever 100ms if the browser does not support onhashchange event.
 
 **Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| pollTime | <code>integer</code> | [optional] If the browser does not support "window.onhashchange" event, then the document.hash will be polled every {@param pollTime} ms with a setInterval call. |
+| [pollTime] | <code>Integer</code> | If the browser does not support "window.onhashchange" event, then the document.hash will be polled every {@param pollTime} ms with a setInterval call. |
 
