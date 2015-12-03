@@ -23,7 +23,7 @@ router.evaluate("#/blog/nothing"); //nothing will happen.
 router.start();
 
 //trigger the routes callback
-document.hash="#/blog/1234"; //console prints "blog id requested: 1234"
+document.location.hash="#/blog/1234"; //console prints "blog id requested: 1234"
 
 //evalute with a return object
 var obj = router.evaluate("#/user/JohnDoe/documents/1234");
