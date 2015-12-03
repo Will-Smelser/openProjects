@@ -134,7 +134,7 @@ var HashRouter = function () {
      * will poll the hash ever 100ms if the browser does not support onhashchange event.
      */
     this.start = function () {
-        var location = window.location;
+        var location = window.location, oldHash = "";
 
         //basically copied from https://developer.mozilla.org/en-US/docs/Web/Events/hashchange
         // exit if the browser implements that event
@@ -145,8 +145,6 @@ var HashRouter = function () {
             self.evaluate(location.hash);
             return;
         }
-
-        var oldHash = "";
 
         // check the location hash on a 100ms interval
         setInterval(function () {
