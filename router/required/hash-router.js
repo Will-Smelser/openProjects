@@ -52,7 +52,7 @@ var HashRouter = function () {
      * Create a route from a String.
      * @param path {String} Specified the path portion of a URL such as "/some/path/to/something"
      * @param fn {Function=} A function to call when a Path is matched.  Either triggered from
-     * calling {@link HashRouter#evaluate(path)} or when "onhashchange" event is active.
+     * calling {@link #evaluate this.evaluate(path)} or when "onhashchange" event is active.
      */
     this.Path = function (path, fn) {
         this.data = [];
@@ -73,7 +73,7 @@ var HashRouter = function () {
      * Add a URL path.
      * @param path {String} Specified the path portion of a URL such as "/some/path/to/something"
      * @param fn {Function=} A function to call when a Path is matched.  Either triggered from
-     * calling {@link HashRouter#evaluate(path)} or when "onhashchange" event is active.
+     * calling {@link #evaluate this.evaluate(path)} or when "onhashchange" event is active.
      */
     this.addPath = function (path, fn) {
         self.paths.push(new self.Path(path, fn));
@@ -130,10 +130,10 @@ var HashRouter = function () {
     };
 
     /**
-     * Start listening for onhashchange event.  Calling {@link HashRouter#evaluate(window.location.hash)} on any change.  This
+     * Start listening for onhashchange event.  Calling {@link #evaluate this.evaluate(window.location.hash)} on any change.  This
      * will poll the hash ever 100ms if the browser does not support onhashchange event.
      * @param pollTime {Integer=} If the browser does not support "window.onhashchange" event, then the
-     * document.hash will be polled every {@link HashRouter#start pollTime} ms with a setInterval call. Defaults to 100 ms.
+     * document.hash will be polled every {@link #start pollTime} ms with a setInterval call. Defaults to 100 ms.
      */
     this.start = function (pollTime) {
         if(typeof pollTime === "undefined") pollTime = 100;
