@@ -25,10 +25,10 @@ router.eval("#/blog/nothing"); //nothing will happen.
 <dd><p>Paths are broken up into either String values or an Expression.  Expressions hold
 a variable name and potentially a regex defining what the name is allowed to match against.</p>
 </dd>
-<dt><a href="#Path">Path(path, fn)</a></dt>
+<dt><a href="#Path">Path(path, [fn])</a></dt>
 <dd><p>Create a route from a String.</p>
 </dd>
-<dt><a href="#addPath">addPath(path, fn)</a></dt>
+<dt><a href="#addPath">addPath(path, [fn])</a></dt>
 <dd><p>Add a URL path.</p>
 </dd>
 <dt><a href="#evaluate">evaluate(path)</a> ⇒</dt>
@@ -36,7 +36,7 @@ a variable name and potentially a regex defining what the name is allowed to mat
 key=&gt;value, where the key is an Expression from the stored Path and value is the correspond path portion from input.</p>
 </dd>
 <dt><a href="#start">start([pollTime])</a></dt>
-<dd><p>Start listening for onhashchange event.  Calling <a href="this.evaluate(window.location.hash">this.evaluate(window.location.hash)</a>) on any change.  This
+<dd><p>Start listening for onhashchange event.  Calling <a href="HashRouter#evaluate(window.location.hash">HashRouter#evaluate(window.location.hash)</a>) on any change.  This
 will poll the hash ever 100ms if the browser does not support onhashchange event.</p>
 </dd>
 </dl>
@@ -66,7 +66,7 @@ Paths are broken up into either String values or an Expression.  Expressions hol
 
 **Kind**: global function  
 <a name="Path"></a>
-## Path(path, fn)
+## Path(path, [fn])
 Create a route from a String.
 
 **Kind**: global function  
@@ -74,10 +74,10 @@ Create a route from a String.
 | Param | Type | Description |
 | --- | --- | --- |
 | path | <code>String</code> | Specified the path portion of a URL such as "/some/path/to/something" |
-| fn | <code>function</code> | [optional] A function to call when a Path is matched.  Either triggered from calling [this.eval(path)](this.eval(path)) or when "onhashchange" event is active. |
+| [fn] | <code>function</code> | A function to call when a Path is matched.  Either triggered from calling [HashRouter#evaluate(path)](HashRouter#evaluate(path)) or when "onhashchange" event is active. |
 
 <a name="addPath"></a>
-## addPath(path, fn)
+## addPath(path, [fn])
 Add a URL path.
 
 **Kind**: global function  
@@ -85,7 +85,7 @@ Add a URL path.
 | Param | Type | Description |
 | --- | --- | --- |
 | path | <code>String</code> | Specified the path portion of a URL such as "/some/path/to/something" |
-| fn | <code>function</code> | [optional] A function to call when a Path is matched.  Either triggered from calling [this.eval(path)](this.eval(path)) or when "onhashchange" event is active. |
+| [fn] | <code>function</code> | A function to call when a Path is matched.  Either triggered from calling [HashRouter#evaluate(path)](HashRouter#evaluate(path)) or when "onhashchange" event is active. |
 
 <a name="evaluate"></a>
 ## evaluate(path) ⇒
@@ -100,11 +100,11 @@ Evaluate a path looking for a matching Path in the defined paths.  If a match is
 
 <a name="start"></a>
 ## start([pollTime])
-Start listening for onhashchange event.  Calling [this.evaluate(window.location.hash)](this.evaluate(window.location.hash)) on any change.  Thiswill poll the hash ever 100ms if the browser does not support onhashchange event.
+Start listening for onhashchange event.  Calling [HashRouter#evaluate(window.location.hash)](HashRouter#evaluate(window.location.hash)) on any change.  Thiswill poll the hash ever 100ms if the browser does not support onhashchange event.
 
 **Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [pollTime] | <code>Integer</code> | If the browser does not support "window.onhashchange" event, then the document.hash will be polled every [pollTime](pollTime) ms with a setInterval call. Defaults to 100 ms. |
+| [pollTime] | <code>Integer</code> | If the browser does not support "window.onhashchange" event, then the document.hash will be polled every [pollTime](HashRouter#start) ms with a setInterval call. Defaults to 100 ms. |
 
