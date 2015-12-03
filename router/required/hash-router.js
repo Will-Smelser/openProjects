@@ -1,7 +1,7 @@
 /**
  * A utility to bind document.location.hash routes to functions.  This is meant to be very similar to the Java @Path annotation.
  * Example:
- * <code>
+ * <pre>
  * var router = new HashRouter();
  * router.addPath("/blog/{id:[\\d]+}",function(data){console.log("blog id requested: "+data.id)});
  * router.addPath("/user/{name}/{action:[a-z]+}",function(data){console.log(data);});
@@ -9,7 +9,7 @@
  * router.eval("#/blog/1234"); //console prints "blog id requested: 1234"
  * router.eval("#/user/JohnDoe@gmail.com/settings"); //console prints "Object {name : 'JohnDoe@gmail', action : 'settings'}"
  * router.eval("#/blog/nothing"); //nothing will happen.
- * </code>
+ * </pre>
  */
 var HashRouter = function () {
     //regular expression used for Expression
@@ -31,7 +31,7 @@ var HashRouter = function () {
     };
 
     /**
-     * Paths are broken up into either String values or an Expression.  Expressions hold the
+     * Paths are broken up into either String values or an Expression.  Expressions hold
      * a variable name and potentially a regex defining what the name is allowed to match against.
      */
     this.Expression = function (str) {
@@ -132,8 +132,11 @@ var HashRouter = function () {
     /**
      * Start listening for onhashchange event.  Calling {@link this.evaluate(window.location.hash)} on any change.  This
      * will poll the hash ever 100ms if the browser does not support onhashchange event.
+     * @param pollTime {integer} [optional] If the browser does not support "window.onhashchange" event, then the
+     * document.hash will be polled every {@param pollTime} ms with a setInterval call.  Defaults to 100 ms.
      */
-    this.start = function () {
+    this.start = function (pollTime) {
+        if(typeof pollTime === "undefined") pollTime = 100;
         var location = window.location, oldHash = "";
 
         //basically copied from https://developer.mozilla.org/en-US/docs/Web/Events/hashchange
@@ -155,7 +158,7 @@ var HashRouter = function () {
                 oldHash = newHash;
                 self.evaluate(newHash);
             }
-        }, 100);
+        }, pollTime);
 
     };
 };
