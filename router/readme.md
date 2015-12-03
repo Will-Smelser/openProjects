@@ -2,6 +2,9 @@
     This is a very simple utility for making java @Path annotation type of routing with javascript.  You can bind
     functions to the routes.
 
+#JsDoc
+[hash-router.js jsDoc](./required/)
+
 ##Example
 ```javascript
 //create the router
