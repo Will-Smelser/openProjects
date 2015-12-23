@@ -28,12 +28,16 @@
             -webkit-transform-origin: top left;
             transform-origin: top left;
         }
+        h2{
+            width:300px;
+            display: inline-block;
+        }
 
 
     </style>
 </head>
 <body>
-<div style="width:800px;height: 290px;border:solid red 2px;overflow:hidden; margin: 0px auto">
+<div style="width:700px;height: 290px;border:solid red 2px;overflow:hidden; margin: 0px auto">
     <div id="main" style="width:200%;position:relative;left:-50%;text-align: center">
         <h2>HELLO 0</h2>
         <h2>HELLO 1</h2>
@@ -60,23 +64,27 @@
         //default options
         var _opts = {
             showElements:3, //how many to be displayed at one time
-            startElement:3,
-            defaultWidth:200,
+            startElement:4,
+            animateDuration:1,
             classNameWrapper:'carousel-wrapper',
             classNameActive:'carousel-active',
             classNameShow:'carousel-show',
             classNameHide:'carousel-hide',
+            classNameLeft:'carousel-left',
+            classNameRight: 'carousel-right',
             debug:true
         };
         $.extend(_opts,options);
 
         //used for animations
         $('<style>'+
-                '.'+_opts.classNameWrapper+'{transition: max-width 2s ease-out;max-width:0px;} '+
-                'div.'+_opts.classNameShow+'{transition: max-width 2s  ease-in;max-width:1200px;} '+
+                '.'+_opts.classNameWrapper+'{max-width:0px;transition: max-width '+_opts.animateDuration+'s ease-out;} '+
+                'div.'+_opts.classNameShow+'{max-width:1200px;transition: max-width '+_opts.animateDuration+'s  ease-in;} '+
+                '.'+_opts.classNameRight+'{overflow:hidden;float:left;} '+
+                '.'+_opts.classNameLeft+'{overflow:hidden;float:right;} '+
                 '.'+_opts.classNameHide+'{width:0px;} </style>').appendTo('head');
 
-        var $wrapper = $('<div class="'+_opts.classNameWrapper+'" ></div>');
+        var $wrapper = $('<div class="'+_opts.classNameWrapper+'" ><div></div></div>');
 
         $target.children().wrap($wrapper);
 
@@ -86,22 +94,20 @@
             if(console && _opts.debug){ console.log(str); }
         }
 
+        //calculate how many before and how many after
         var getBeforeAndAfter = function(idx,showCnt,els){
             //ideal before and after
             var before = Math.floor((showCnt-1)/2.0);
             var after = Math.ceil((showCnt-1)/2.0);
 
             //handle edge cases, shifting before and after as needed
-            if(idx - before < 0){
-                while(idx - before < 0){
-                    before--;
-                    after++;
-                }
-            }else if(idx + after > els.length-1){
-                while(idx + after > els.length-1){
-                    before++;
-                    after--;
-                }
+            while(idx - before < 0){
+                before--;
+                after++;
+            }
+            while(idx + after > els.length-1){
+                before++;
+                after--;
             }
             return [before,after];
         };
@@ -125,7 +131,7 @@
 
             //show before, and current
             for(var i=0; i <= before; i++){
-                $(els[idx-i]).addClass(_opts.classNameShow);
+                $(els[idx - i]).addClass(_opts.classNameShow);
             }
 
             //show after
@@ -140,33 +146,157 @@
         $target.append(els);
         showElems(_opts.startElement,els,_opts.showElements);
 
-        var cssFindCurrent = '.'+_opts.classNameActive;
-        this.prev = function(){
-            var children = $target.children();
-            var $cur = $target.find(cssFindCurrent);
-            var idx = $cur.index()-1;
+        this.elements = function(){
+            return $target.children();
+        }
+
+        this.currentEl = function(){
+            return $target.find('.'+_opts.classNameActive);
+        }
+
+        this.currentIndex = function(){
+            return this.currentEl().index();
+        }
+
+        /**
+         * Check whether this is a previous slide to show.  This mostly applies to a carousel is displaying more than
+         * a single slide visible.  See examples for why this is used.
+         */
+        this.isPrevNotShown = function(){
+            var ideal = Math.floor((_opts.showElements-1)/2.0); //ideal
+            var actual = getBeforeAndAfter(this.currentIndex()-1,_opts.showElements,this.elements())[0];
+            return (actual === ideal) ? true : false;
+        };
+
+        /**
+         * Check whether there is next slide to show.  This mostly applies to a carousel is displaying more than
+         * a single slide.  If true, then calling next() would trigger a new slide to show.  Returns false if calling
+         * next() would merely change which slide is active.  Meaning which slide wrapper has the _opts.classNameActive
+         * set.
+         * @returns {boolean}
+         */
+        this.isNextNotShown = function(){
+            var ideal = Math.floor((_opts.showElements-1)/2.0); //ideal
+            var actual = getBeforeAndAfter(this.currentIndex()-1,_opts.showElements,this.elements())[1];
+            return (actual === ideal) ? true : false;
+        };
+
+        var animateClose = function($target, dirClass, cb){
+            var $inner = $target.children().first().removeAttr('class').addClass(dirClass);
+
+            $target.animate({width:'0px'},_opts.animateDuration*250,'linear',function(){
+                $(this).addClass(_opts.classNameHide).removeAttr('style');
+                $inner.removeAttr('class');
+                if(cb) cb();
+            });
+        };
+
+        var animateOpen = function($target, dirClass){
+            $target.children().first().removeAttr('style').addClass(dirClass);
+
+            //no way to animate to origional width with jQuery (simple way that is)
+            $target.addClass(_opts.classNameShow).removeClass(_opts.classNameHide);
+        }
+
+        var navigate = function(direction, cb, scope){
+            var $defered = $.Deferred();
+            var children = scope.elements();
+            var $cur = scope.currentEl();
+            var idx = $cur.index()+direction;
 
             if(idx < 0){
-                log("Cannot go to negative index");
-                return;
+                return log("Cannot go to negative index");
+            }else if(idx >= children.length){
+                return log("cannot navigate to index greater than length.");
             }
 
-            $cur.removeClass(_opts.classNameActive);
             var temp = getBeforeAndAfter(idx,_opts.showElements,children);
             var before = temp[0];
             var after = temp[1];
 
+            //hide the trailing element
             if(after+1 < children.length){
-                $(children[idx+after+1]).animate({width:'0px'},function(){
-                    $(this).addClass(_opts.classNameHide);
-                    $(this).removeAttr('style');
-                });
+                if(direction > 0){
+                    animateOpen($(children[idx+after]),_opts.classNameRight);
+                }else{
+                    animateClose($(children[idx+after+1]),_opts.classNameRight,function(){
+                        $defered.resolve();
+                    });
+                }
             }
 
+            //animate the showing new element
             if(before-1 < idx){
-                $(children[idx-before]).addClass(_opts.classNameShow).removeClass(_opts.classNameHide);
-                $(children[idx-before+1]).addClass(_opts.classNameActive);
+                if(direction > 0){
+                    animateClose($(children[idx-before-1]),_opts.classNameLeft,function(){
+                        $defered.resolve();
+                    });
+                }else{
+                    animateOpen($(children[idx-before]),_opts.classNameLeft);
+                }
             }
+
+            $cur.removeClass(_opts.classNameActive);
+            $(children[idx]).addClass(_opts.classNameActive);
+
+            //call the user's callback when animation completes
+            if(typeof cb === 'function'){
+                $defered.done(function(){cb();});
+            }
+
+            return $defered.promise();
+        };
+
+        this.prev = function(cb){
+            return navigate(-1,cb,this);
+        }
+
+        this.next = function(cb){
+            return navigate(1,cb,this);
+        }
+
+        this.gotTo = function(index,cb){
+            var curIndex = this.currentIndex();
+
+            var direction = (index > curIndex) ? 1 : -1;
+
+
+            var lastPromise;
+            while(index !== curIndex && curIndex >= 0 && curIndex < this.elements().length){
+                lastPromise = navigate(direction,null,this);
+                curIndex = curIndex+direction;
+            }
+
+            if(typeof cb === 'function'){
+                lastPromise.done(function(){cb();});
+            }
+
+            return lastPromise;
+        }
+
+        /**
+         * Inserts a slide before the given index.  Example:
+         * 1.  Index of 0 would put it at the front
+         * 2.  Index of 1 would put it as the second element
+         *
+         * To add to the end, simply give a number greater than or equal to the current number of slides.
+         * @param el
+         * @param index
+         */
+        this.addSlide = function(el,index){
+            var children = this.children();
+            if(index > children.length) log("Index greater han current length, adding to end");
+            if(index < 0){
+                log("Negative index given, adding to beginning.");
+                index = 0;
+            }
+
+            if(index >= children.length){
+                children[children.length-1].insertAfter($(el).wrap($wrapper));
+            }else{
+                children[index].insertBefore($(el).wrap($wrapper));
+            }
+
         }
     };
 
