@@ -91,7 +91,12 @@
             if(console && _opts.debug){ console.log(str); }
         }
 
-        //calculate how many before and how many after
+        /**
+         * Calculate how many before and how many after should dbe shown.
+         * @param idx {int} The "active" index.
+         * @param showCnt {int} The number of elements to show.
+         * @param els {array} The elements array that will be in the slide show.
+         */
         var getBeforeAndAfter = function(idx,showCnt,els){
             //ideal before and after
             var before = Math.floor((showCnt-1)/2.0);
@@ -109,6 +114,12 @@
             return [before,after];
         };
 
+        /**
+         * Initializing elements.
+         * @param idx {int} The index to initialize things to.
+         * @param els {array} The elements array that will be in the slide show.
+         * @param showCnt {int} The number of elements to show in the slider.
+         */
         var showElems = function(idx,els,showCnt){
             if(idx < 0 || idx >= els.length){
                 log("Index out of bounds: "+idx+", min:0, max:"+(els.length-1));
@@ -147,10 +158,18 @@
             return $target.children();
         }
 
+        /**
+         * The current "active" element.
+         * @return {jQuery} A jQuery element.
+         */
         this.currentEl = function(){
             return $target.find('.'+_opts.classNameActive);
         }
 
+        /**
+         * Get the index of the current "active" element.
+         * @return {jQuery} A jQuery element.
+         */
         this.currentIndex = function(){
             return this.currentEl().index();
         }
@@ -158,6 +177,7 @@
         /**
          * Check whether this is a previous slide to show.  This mostly applies to a carousel is displaying more than
          * a single slide visible.  See examples for why this is used.
+         * @return {boolean}
          */
         this.isPrevNotShown = function(){
             var ideal = Math.floor((_opts.showElements-1)/2.0); //ideal
@@ -178,6 +198,12 @@
             return (actual === ideal) ? true : false;
         };
 
+        /**
+         * Animate the closing of a slide. Uses jquery animation to close.
+         * @param $target {jQuery} The target element to open.
+         * @param dirClass {string} The direction class to apply while opening.
+         * @return {jQuery.promise} A jquery promise that will resolve when navigation is complete.
+         */
         var animateClose = function($target, dirClass, cb){
             var $inner = $target.children().first().removeAttr('class').addClass(dirClass);
 
@@ -189,6 +215,12 @@
             });
         };
 
+        /**
+         * Animate the opening of a slide.  Uses css 3 animation hack with max-width.
+         * @param $target {jQuery} The target element to open.
+         * @param dirClass {string} The direction class to apply while opening.
+         * @return {jQuery.promise} A jquery promise that will resolve when navigation is complete.
+         */
         var animateOpen = function($target, dirClass){
             $target.children().first().removeAttr('style').addClass(dirClass);
 
@@ -196,6 +228,13 @@
             $target.addClass(_opts.classNameShow).removeClass(_opts.classNameHide);
         }
 
+        /**
+         * Navigate forward or backwards 1 slide.
+         * @param direction {-1|1} -1 for backwards, 1 for forwards
+         * @param cb {null|function} A callback to fire when navigation is complete.
+         * @param scope {Carousel} A reference to this object.
+         * @return {jQuery.promise} A jquery promise that will resolve when navigation is complete.
+         */
         var navigate = function(direction, cb, scope){
             var $defered = $.Deferred();
             var children = scope.elements();
@@ -247,10 +286,20 @@
             return $defered.promise();
         };
 
+        /**
+         * Move to previous slide.
+         * @param {function=} An optional callback function.
+         * @return {jQuery.promise} A jquery promise that will resolve when navigation is complete.
+         */
         this.prev = function(cb){
             return navigate(-1,cb,this);
         }
 
+        /**
+         * Move to next slide.
+         * @param {function=} An optional callback function.
+         * @return {jQuery.promise} A jquery promise that will resolve when navigation is complete.
+         */
         this.next = function(cb){
             return navigate(1,cb,this);
         }
@@ -258,6 +307,8 @@
         /**
          * Jump to a specific index.
          * @param {int} index The index to jump to
+         * @param {function=} cb An optional callback function.
+         * @return {jQuery.promise} A jquery promise that will resolve when navigation is complete.
          */
         this.gotTo = function(index,cb){
             var curIndex = this.currentIndex();
@@ -278,6 +329,9 @@
             return lastPromise;
         };
 
+        /**
+         * Wrap an element with needed wrappers.
+         */
         var wrapElement = function(el){
             var $newEl = $wrapper.clone();
             $newEl.children().first().append(el);
@@ -285,7 +339,7 @@
         };
 
         /**
-         * Get the upper and lower bound based on active slide
+         * Get the upper and lower bound based on active slide and number of slides which should be shown.
          */
         this.visibleSlideBounds = function(){
             var curIndex = this.currentIndex();
@@ -304,6 +358,13 @@
             return [++lower,--upper];
         };
 
+        /**
+         * User's should call {@link #addSlide()}.  This adds before the current index, resulting in the
+         * element at the current index being pushed back 1.  To add to the end, use {@link #addSlide()}.
+         * @param index {int} Index to add new element before.
+         * @param $el {string|DOM Element|jQuery Element} The element to be inserted.
+         * @param elements {array} All elements current in carousel.
+         */
         this._addBefore = function(index, $el, elements){
             var visibleSlideBounds = this.visibleSlideBounds();
             var curIndex = this.currentIndex();
@@ -339,8 +400,8 @@
          * 2.  Index of 1 would put it as the second element
          *
          * To add to the end, simply give a number greater than or equal to the current number of slides.
-         * @param el
-         * @param index
+         * @param el {string|jQuery Element|DOM Element} The content to insert over current content.
+         * @param index {int} The slide to replace
          */
         this.addSlide = function(el,index){
             var children = this.elements();
@@ -362,6 +423,12 @@
             }
         };
 
+        /**
+         * Overwrites the contents of a slide
+         * @param el {string|jQuery Element|DOM Element} The content to insert over current content.
+         * @param index {int} The slide to replace
+         * @returns {}
+         */
         this.replaceSlide = function(el,index){
             var children = this.elements();
             if(index < 0 || index >= children.length){
