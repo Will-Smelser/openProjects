@@ -8,12 +8,7 @@
             background-color: cornflowerblue;
         }
         .carousel-wrapper{
-            position:relative;
-            height: 290px;
             border:solid black 2px;
-            overflow:hidden;
-
-            display: inline-block;
         }
         .inner{
             position: absolute;
@@ -28,8 +23,8 @@
             -webkit-transform-origin: top left;
             transform-origin: top left;
         }
-        h2{
-            width:300px;
+        .test{
+            width:200px;
             display: inline-block;
         }
 
@@ -37,13 +32,15 @@
     </style>
 </head>
 <body>
-<div style="width:700px;height: 290px;border:solid red 2px;overflow:hidden; margin: 0px auto">
+<div style="width:100%;border:solid red 2px;overflow:hidden; margin: 0px auto">
     <div id="main" style="width:200%;position:relative;left:-50%;text-align: center">
-        <h2>HELLO 0</h2>
-        <h2>HELLO 1</h2>
-        <h2>HELLO 2</h2>
-        <h2>HELLO 3</h2>
-        <h2>HELLO 4</h2>
+        <div class="test">HELLO 0</div>
+        <div class="test">HELLO 1
+            <div style="height:800px;border:solid red 2px;">Some Tall Content</div>
+        </div>
+        <div class="test">HELLO 2</div>
+        <div class="test">HELLO 3</div>
+        <div class="test">HELLO 4</div>
     </div>
 </div>
 
@@ -63,7 +60,7 @@
 
         //default options
         var _opts = {
-            showElements:3, //how many to be displayed at one time
+            showElements:1, //how many to be displayed at one time
             startElement:4,
             animateDuration:1,
             classNameWrapper:'carousel-wrapper',
@@ -78,11 +75,11 @@
 
         //used for animations
         $('<style>'+
-                '.'+_opts.classNameWrapper+'{max-width:0px;transition: max-width '+_opts.animateDuration+'s ease-out;} '+
-                'div.'+_opts.classNameShow+'{max-width:1200px;transition: max-width '+_opts.animateDuration+'s  ease-in;} '+
+                '.'+_opts.classNameWrapper+'{max-width:0px;transition: max-width '+_opts.animateDuration+'s ease-out; height:0px;vertical-align:top;display:inline-block;overflow:hidden;} '+
+                'div.'+_opts.classNameShow+'{max-width:1200px;transition: max-width '+_opts.animateDuration+'s  ease-in; height:auto;} '+
                 '.'+_opts.classNameRight+'{overflow:hidden;float:left;} '+
                 '.'+_opts.classNameLeft+'{overflow:hidden;float:right;} '+
-                '.'+_opts.classNameHide+'{width:0px;} </style>').appendTo('head');
+                '.'+_opts.classNameHide+'{width:0px;max-width:0px;height:0px;} </style>').appendTo('head');
 
         var $wrapper = $('<div class="'+_opts.classNameWrapper+'" ><div></div></div>');
 
@@ -185,7 +182,8 @@
             var $inner = $target.children().first().removeAttr('class').addClass(dirClass);
 
             $target.animate({width:'0px'},_opts.animateDuration*250,'linear',function(){
-                $(this).addClass(_opts.classNameHide).removeAttr('style');
+                $(this).addClass(_opts.classNameHide).removeClass(_opts.classNameShow);
+                $(this).removeAttr('style');
                 $inner.removeAttr('class');
                 if(cb) cb();
             });
@@ -205,9 +203,11 @@
             var idx = $cur.index()+direction;
 
             if(idx < 0){
-                return log("Cannot go to negative index");
+                log("Cannot go to negative index");
+                return $defered.resolve().promise();
             }else if(idx >= children.length){
-                return log("cannot navigate to index greater than length.");
+                log("cannot navigate to index greater than length.");
+                return $defered.resolve()
             }
 
             var temp = getBeforeAndAfter(idx,_opts.showElements,children);
@@ -255,6 +255,10 @@
             return navigate(1,cb,this);
         }
 
+        /**
+         * Jump to a specific index.
+         * @param {int} index The index to jump to
+         */
         this.gotTo = function(index,cb){
             var curIndex = this.currentIndex();
 
@@ -272,7 +276,62 @@
             }
 
             return lastPromise;
-        }
+        };
+
+        var wrapElement = function(el){
+            var $newEl = $wrapper.clone();
+            $newEl.children().first().append(el);
+            return $newEl;
+        };
+
+        /**
+         * Get the upper and lower bound based on active slide
+         */
+        this.visibleSlideBounds = function(){
+            var curIndex = this.currentIndex();
+            var upper = curIndex;
+            var lower = curIndex;
+            var children = this.elements();
+
+            while(upper < children.length && $(children[upper]).hasClass(_opts.classNameShow)){
+                upper++;
+            }
+
+            while(lower >= 0 && $(children[lower]).hasClass(_opts.classNameShow)){
+                lower--;
+            }
+
+            return [++lower,--upper];
+        };
+
+        this._addBefore = function(index, $el, elements){
+            var visibleSlideBounds = this.visibleSlideBounds();
+            var curIndex = this.currentIndex();
+            var temp = getBeforeAndAfter(curIndex,_opts.showElements,elements);
+            var curUpper = curIndex + temp[1];
+            var curLower = curIndex - temp[0];
+            var before = temp[0];
+            var after = temp[1];
+
+            console.log(visibleSlideBounds);
+
+            //check if this index is in view, if not just add it
+            if(index <= visibleSlideBounds[0] || index > visibleSlideBounds[1]){
+                $(elements[index]).before($el);
+                return;
+            }
+
+            var $elToHide = $(elements[visibleSlideBounds[1]]);
+
+            $(elements[index]).before($el);
+            animateClose($elToHide,_opts.classNameRight,function(){});
+            animateOpen($el,_opts.classNameRight);
+
+            if($elToHide.hasClass(_opts.classNameActive)){
+                $elToHide.removeClass(_opts.classNameActive);
+                $el.addClass(_opts.classNameActive);
+            }
+        };
 
         /**
          * Inserts a slide before the given index.  Example:
@@ -284,20 +343,32 @@
          * @param index
          */
         this.addSlide = function(el,index){
-            var children = this.children();
+            var children = this.elements();
             if(index > children.length) log("Index greater han current length, adding to end");
             if(index < 0){
                 log("Negative index given, adding to beginning.");
                 index = 0;
             }
 
-            if(index >= children.length){
-                children[children.length-1].insertAfter($(el).wrap($wrapper));
-            }else{
-                children[index].insertBefore($(el).wrap($wrapper));
-            }
+            var $newEl = wrapElement(el);
 
-        }
+            if(index >= children.length){
+                console.log("after");
+                index = children.length;
+                $(children[index-1]).after($newEl);
+            }else{
+                console.log("before");
+                this._addBefore(index,$newEl,children);
+            }
+        };
+
+        this.replaceSlide = function(el,index){
+            var children = this.elements();
+            if(index < 0 || index >= children.length){
+                return log("replaceSlide("+index+"): index out of bounds, ignoring...");
+            }
+            $(children[index]).children().first().empty().append(el);
+        };
     };
 
     var numElements = 3;
