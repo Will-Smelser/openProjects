@@ -63,6 +63,7 @@
             showElements:1, //how many to be displayed at one time
             startElement:4,
             animateDuration:1,
+            animateDurJqueryAdjust:250, //since opening is CSS3 and close is jQuery animate, we need an adjustment
             classNameWrapper:'carousel-wrapper',
             classNameActive:'carousel-active',
             classNameShow:'carousel-show',
@@ -73,8 +74,10 @@
         };
         $.extend(_opts,options);
 
+        var styleId = 'style-carousel-'+(new Date().getTime());
+
         //used for animations
-        $('<style>'+
+        $('<style id="'+styleId+'">'+
                 '.'+_opts.classNameWrapper+'{max-width:0px;transition: max-width '+_opts.animateDuration+'s ease-out; height:0px;vertical-align:top;display:inline-block;overflow:hidden;} '+
                 'div.'+_opts.classNameShow+'{max-width:1200px;transition: max-width '+_opts.animateDuration+'s  ease-in; height:auto;} '+
                 '.'+_opts.classNameRight+'{overflow:hidden;float:left;} '+
@@ -207,7 +210,7 @@
         var animateClose = function($target, dirClass, cb){
             var $inner = $target.children().first().removeAttr('class').addClass(dirClass);
 
-            $target.animate({width:'0px'},_opts.animateDuration*250,'linear',function(){
+            $target.animate({width:'0px'},_opts.animateDuration*_opts.animateDurJqueryAdjust,'linear',function(){
                 $(this).addClass(_opts.classNameHide).removeClass(_opts.classNameShow);
                 $(this).removeAttr('style');
                 $inner.removeAttr('class');
@@ -245,8 +248,8 @@
                 log("Cannot go to negative index");
                 return $defered.resolve().promise();
             }else if(idx >= children.length){
-                log("cannot navigate to index greater than length.");
-                return $defered.resolve()
+                log("Cannot navigate to index greater than length.");
+                return $defered.resolve().promise();
             }
 
             var temp = getBeforeAndAfter(idx,_opts.showElements,children);
@@ -355,43 +358,59 @@
                 lower--;
             }
 
+            //found the limite +/- 1.  Need to adjust.
             return [++lower,--upper];
         };
 
         /**
-         * User's should call {@link #addSlide()}.  This adds before the current index, resulting in the
-         * element at the current index being pushed back 1.  To add to the end, use {@link #addSlide()}.
+         * Check if an element is in view.
+         * @return {boolean} True if the index is currently within view.
+         */
+        this.indexInView = function(index){
+            var visibleSlideBounds = this.visibleSlideBounds();
+            return (index >= visibleSlideBounds[0] && index <= visibleSlideBounds[1]);
+        }
+
+        /**
+         * User's should call {@link #slideAdd()}.  This adds before the current index, resulting in the
+         * element at the current index being pushed back 1.  To add to the end, use {@link #slideAdd()}.
          * @param index {int} Index to add new element before.
          * @param $el {string|DOM Element|jQuery Element} The element to be inserted.
          * @param elements {array} All elements current in carousel.
+         * @return {jQuery.promise} A jquery promise that will resolve when animations/insert are complete.
          */
         this._addBefore = function(index, $el, elements){
+            var $deferred = $.Deferred();
             var visibleSlideBounds = this.visibleSlideBounds();
             var curIndex = this.currentIndex();
             var temp = getBeforeAndAfter(curIndex,_opts.showElements,elements);
-            var curUpper = curIndex + temp[1];
-            var curLower = curIndex - temp[0];
             var before = temp[0];
             var after = temp[1];
+            var curLower = curIndex - before;
+            var curUpper = curIndex + after;
 
-            console.log(visibleSlideBounds);
 
             //check if this index is in view, if not just add it
             if(index <= visibleSlideBounds[0] || index > visibleSlideBounds[1]){
                 $(elements[index]).before($el);
-                return;
+                return $deferred.resolve().promise();
             }
 
+            //hide the last element
             var $elToHide = $(elements[visibleSlideBounds[1]]);
 
+            //insert and animate things
             $(elements[index]).before($el);
-            animateClose($elToHide,_opts.classNameRight,function(){});
+            animateClose($elToHide,_opts.classNameRight,function(){$deferred.resolve();});
             animateOpen($el,_opts.classNameRight);
 
+            //may have to choose a new active slide, might as well choose the one inserted
             if($elToHide.hasClass(_opts.classNameActive)){
                 $elToHide.removeClass(_opts.classNameActive);
                 $el.addClass(_opts.classNameActive);
             }
+
+            return $deferred.promise();
         };
 
         /**
@@ -402,8 +421,9 @@
          * To add to the end, simply give a number greater than or equal to the current number of slides.
          * @param el {string|jQuery Element|DOM Element} The content to insert over current content.
          * @param index {int} The slide to replace
+         * @return {jQuery.promise} A jquery promise that will resolve when animations/insert are complete.
          */
-        this.addSlide = function(el,index){
+        this.slideAdd = function(el,index){
             var children = this.elements();
             if(index > children.length) log("Index greater han current length, adding to end");
             if(index < 0){
@@ -413,14 +433,15 @@
 
             var $newEl = wrapElement(el);
 
+            //appending to the end
             if(index >= children.length){
-                console.log("after");
+                //todo: what if showSlides > 1, but we only have 1 loaded.  We should show this one as well.
                 index = children.length;
                 $(children[index-1]).after($newEl);
-            }else{
-                console.log("before");
-                this._addBefore(index,$newEl,children);
+                return $.Deferred().resolve().promise();
             }
+
+            return this._addBefore(index,$newEl,children);
         };
 
         /**
@@ -429,13 +450,86 @@
          * @param index {int} The slide to replace
          * @returns {}
          */
-        this.replaceSlide = function(el,index){
+        this.slideReplace = function(el,index){
             var children = this.elements();
             if(index < 0 || index >= children.length){
                 return log("replaceSlide("+index+"): index out of bounds, ignoring...");
             }
-            $(children[index]).children().first().empty().append(el);
+            $(children[index]).children().first().children().first().empty().append(el);
         };
+
+        this.slideRemove = function(index){
+            var $deferred = $.Deferred();
+            var children = this.elements();
+            var visibleSlideBounds = this.visibleSlideBounds();
+            var curIndex = this.currentIndex();
+            var temp = getBeforeAndAfter(curIndex,_opts.showElements,children);
+            var before = temp[0];
+            var after = temp[1];
+            var curLower = curIndex - before;
+            var curUpper = curIndex + after;
+
+            if(!children[index]){
+                log("Cannot remove index ("+index+"), it does not exist");
+                return $deferred.resolve().promise();
+            }
+
+            var _$target = $(children[index]);
+
+            //check if this index is in view, if not just remove it
+            //or if we do not have enough elements to show, just remove it.
+            if(index <= visibleSlideBounds[0] || index > visibleSlideBounds[1]){
+                if(children.length < _opts.showElements){
+                    animateClose(_$target,_opts.classNameRight,function(){
+                        _$target.remove();
+                        $deferred.resolve();
+                    });
+                }else{
+                    _$target.remove();
+                    $deferred.resolve();
+                }
+
+                return $deferred.promise();
+            }
+
+            //more complicated situation now, have to figure out which element we want to show
+            var $elToShow;
+
+            //try and show new end element
+            if(elements[visibleSlideBounds[1]+1]){
+                $elToShow = $(elements[visibleSlideBounds[1]+1]);
+            }else{
+                $elToShow = $(elements[visibleSlideBounds[0]-1]);
+            }
+
+            //may have to choose a new active slide, might as well choose the one inserted
+            if($target.hasClass(_opts.classNameActive)){
+                $elToShow.addClass(_opts.classNameActive);
+            }
+
+            //animate things
+            animateClose(_$target,_opts.classNameRight,function(){$deferred.resolve();});
+            animateOpen($elToShow,_opts.classNameRight);
+
+            return $deferred.promise();
+        }
+
+        /**
+         * Clean up and restore the the target.  Basically unwrapping the slides and removing some objects created for
+         * style and state.
+         */
+        this.destroy = function(){
+
+            //find the origional elements and unwrap them
+            var unwrapped = [];
+            this.elements().each(function(i){
+                var orig = $(this).children().first().children().first().detach();
+                unwrapped.push(orig);
+            });
+
+            $target.empty().append(unwrapped);
+            $('#'+styleId).remove();
+        }
     };
 
     var numElements = 3;
