@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Parsing Example</title>
+</head>
+<body>
+<script>
+
+    function createCORSRequest(method, url) {
+        var xhr = new XMLHttpRequest();
+        if ("withCredentials" in xhr) {
+
+            // Check if the XMLHttpRequest object has a "withCredentials" property.
+            // "withCredentials" only exists on XMLHTTPRequest2 objects.
+            xhr.open(method, url, true);
+
+        } else if (typeof XDomainRequest != "undefined") {
+
+            // Otherwise, check if XDomainRequest.
+            // XDomainRequest only exists in IE, and is IE's way of making CORS requests.
+            xhr = new XDomainRequest();
+            xhr.open(method, url);
+
+        } else {
+
+            // Otherwise, CORS is not supported by the browser.
+            xhr = null;
+
+        }
+        return xhr;
+    }
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("GET","http://projects.local/vizeo/medb.html",false);
+    xhttp.send();
+
+    var xmlDoc = xhttp.responseText;
+    //xmldom = (new DOMParser()).parseFromString(xmlDoc, 'text/xml');
+
+    var parseTitle = function(str, pos){
+        pos = str.indexOf('p-c-title', pos);
+
+        if(pos < 0) return null;
+
+        pos = str.indexOf('<a',pos);
+        pos = str.indexOf('href',pos);
+
+        while(str[pos++] != '=');
+
+        //might already be at a ' or a "
+        if(str[pos] != '"' && str[pos] != "'"){
+            while(str[++pos] != '"' && str[pos] != "'");
+        }
+
+        var quote = str[pos];
+        var start = pos+1;
+
+        while(str[++pos] != quote);
+        var href = str.substr(start,pos-start);
+
+        //assumption is there are no > or <
+        while(str[pos++] != '>');
+
+        start = pos;
+        while(str.substr(pos++,3) != '</a');
+
+        return [href, str.substr(start,pos-start-1), pos++];
+    }
+
+    var title = parseTitle(xmlDoc, 0);
+    while(title){
+        console.log(title[1]);
+        title = parseTitle(xmlDoc, title[2]);
+    }
+
+
+</script>
+</body>
+</html>
