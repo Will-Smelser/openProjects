@@ -122,7 +122,7 @@ var HashRouter = function () {
 
             if (match) {
                 if (self.paths[x].fn) {
-                    return self.paths[x].fn(result);
+                    self.paths[x].fn(result);
                 }
                 return result;
             }
