@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Parsing Example</title>
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="parser.js"></script>
+</head>
+<body>
+<table id="mytable"></table>
+<script>
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("GET","http://projects.local/vizeo/torlock.html",false);
+    xhttp.send();
+
+    window.test = xhttp.responseText;
+
+    var $table = $('#mytable');
+
+    window.parser = new Parser(xhttp.responseText);
+
+    parser.parse('table/table/table/table');
+
+    var cnt = 0;
+    while(parser.parse('tr') && cnt++ < 20){
+        parser.parse('td/a');
+        var info = parser.attributes();
+
+        //console.log(info);
+        //break;
+
+        parser.parse('td');
+        var added = parser.content();
+
+        parser.parse('td');
+        var size = parser.content();
+
+        parser.parse('td');
+        var seeds = parser.content();
+
+        parser.parse('td');
+        var peers = parser.content();
+
+        var $tr = $(document.createElement('tr'));
+        $tr.append($(document.createElement('td')).html(info.href));
+        $tr.append($(document.createElement('td')).html(added));
+        $tr.append($(document.createElement('td')).html(size));
+        $tr.append($(document.createElement('td')).html(seeds));
+        $tr.append($(document.createElement('td')).html(peers));
+
+        $table.append($tr);
+
+    }
+
+
+</script>
+</body>
+</html>
