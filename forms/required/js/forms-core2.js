@@ -4,13 +4,45 @@
 */
 
 (function( $ ){
+    //this filter is applied when reading settings.
+    var slimFilter = {
+        extract : function(type, obj){
+            if(type.type === 'Radio' || type.type === 'Checkbox'){
+                if(type.checked){
+                    return obj.value;
+                }
+            }else if(type.type === 'Fieldset'){
+                return type.elements;
+            }else{
+                return obj.value;
+            }
+        },
+        fill : function(type, obj){
+           var json = type.toJSON();
+           switch(type.type){
+               case 'Checkbox':
+               case 'Radio':
+                   json.checked = (type.value === obj);
+                   json.value = obj;
+                   break;
+               case 'Fieldset':
+                   //console.log('fieldset',name,value,target);
+                   break;
+               default:
+                   json.value = obj;
+           }
+           return json;
+       }
+    };
 
     /**
      * Simplifies adding to an object.  If an object key already exists, change value to an array
      * and add the value to the array.
      */
-    var _add = function(obj, key, value){
+    var _add = function(obj, type, value){
         if(typeof value === 'undefined' || value === null) return;
+
+        var key = type.name;
 
         if(typeof obj[key] === 'undefined'){
             obj[key] = value;
@@ -21,21 +53,6 @@
             obj[key] = [];
             obj[key].push(temp);
             obj[key].push(value);
-        }
-    };
-
-    /**
-     * Iterate the form elements
-     * @param $form The form tag to iterate
-     * @param cb Callback function which takes a jQuery element
-     */
-    var formIterator = function($form, ctx, cb){
-        var name = $form.attr('name');
-        if(document.forms[name]){
-            for(var i=0; i<document.forms[name].length; i++){
-                var $el = $(document.forms[name].elements[i]);
-                cb($el, ctx);
-            }
         }
     };
 
@@ -205,7 +222,8 @@
                 if(console) console.log("Skipping update for "+this.getName());
                 return;
             }
-            this.$el.val(json.value);this.$el.trigger("update");
+            this.$el.val(json.value);
+            this.$el.trigger("update");
             this.afterUpdate();
         };
 
@@ -294,10 +312,10 @@
         for(var x in this.elements){
             if($.isArray(this.elements[x])){
                 for(var y in this.elements[x]){
-                    _add(result, this.elements[x][y].name, this.elements[x][y].toJSON());
+                    _add(result, this.elements[x][y], this.elements[x][y].toJSON());
                 }
             }else{
-                _add(result, this.elements[x].name, this.elements[x].toJSON());
+                _add(result, this.elements[x], this.elements[x].toJSON());
             }
         }
         return result;
@@ -381,7 +399,7 @@
         for(var i=0; i < formEls.length; i++){
             var $el = $(formEls[i]);
 
-            if($el.attr('data-forms-visited') === 'true') continue;
+            if($el.attr('data-forms-visited') === 'true' || typeof $el.attr('name') === 'undefined') continue;
 
             var type = elToType($el);
             var name = type.getName();
@@ -429,25 +447,6 @@
     };
 
     /**
-     * Convert schema into its JSON form.  Basically just recursively calls toJSON() on
-     * elements in the Schema.
-     */
-    var _extractJsonFilter = function(schema){
-        var result = {};
-
-        for(var x in schema){
-            if($.isArray(schema[x])){
-                for(var y in schema[x]){
-                    _add(result, x, schema[x][y].toJSON());
-                }
-            }else{
-                _add(result, x, schema[x].toJSON());
-            }
-        }
-        return result;
-    };
-
-    /**
      * Wrapper for methods for working on a form element.
      * @class Forms
      * @constructor Forms
@@ -476,35 +475,10 @@
         //add the slim filter.  This gives a minimal form representation.
         if(settings.filterSlim){
             //extract filter for slim
-            settings.filters.extract.unshift(function(type, obj){
-                if(type.type === 'Radio' || type.type === 'Checkbox'){
-                    if(type.checked){
-                        return obj.value;
-                    }
-                }else if(type.type === 'Fieldset'){
-                    return type.elements;
-                }else{
-                    return obj.value;
-                }
-            });
+            settings.filters.extract.unshift(slimFilter.extract);
 
             //the slim fill filter.  Use the Type and json to rebuild the representation.
-            settings.filters.fill.unshift(function(type, obj){
-                var json = type.toJSON();
-                switch(type.type){
-                    case 'Checkbox':
-                    case 'Radio':
-                        json.checked = (type.value === obj);
-                        json.value = obj;
-                        break;
-                    case 'Fieldset':
-                        //console.log('fieldset',name,value,target);
-                        break;
-                    default:
-                        json.value = obj;
-                }
-                return json;
-            });
+            settings.filters.fill.unshift(slimFilter.fill);
         };
 
 
@@ -537,7 +511,7 @@
                     //possible this is a Fieldset Array, just the way the schemas work :(
                     if(schema[x][0] && schema[x][0].type === 'Fieldset'){
                         for(var y in schema[x]){
-                            _fill(target[y], schema[x][y].elements, filters);
+                            _fill(target, schema[x][y].elements, filters);
                         }
 
                     //maybe a checkbox or multiselect, but only 1 element given
@@ -582,7 +556,7 @@
                 if(schema[x].type === 'Fieldset'){
                     var result2 = {};
                     _extract(schema[x].elements, result2, filters);
-                    _add(result,schema[x].name,result2);
+                    _add(result,schema[x],result2);
 
 
                 }else if($.isArray(schema[x])){
@@ -590,7 +564,7 @@
                         _extract([schema[x][y]], result, filters);
                     }
                 }else{
-                    _add(result,schema[x].name,_applyFilters(schema[x], schema[x], filters));
+                    _add(result,schema[x],_applyFilters(schema[x], schema[x], filters));
                 }
             }
             return result;
