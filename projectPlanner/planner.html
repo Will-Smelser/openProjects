@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+
+    <script src="bower_components/jquery/dist/jquery.min.js" ></script>
+    <script src="bower_components/underscore/underscore-min.js"></script>
+    <script src="bower_components/backbone/backbone-min.js" ></script>
+    <script src="bower_components/handlebars/handlebars.min.js" ></script>
+    <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+    <script src="required/js/forms2.js"></script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <style>
+        .project-group{
+            padding:0px 0px 0px 10px;
+            margin:2px 0px;
+            border:solid #efefef 1px;
+            border-left:solid #1b809e 5px;
+
+        }
+        .project-group>fieldset{
+            padding-bottom: 4px;
+            width:100%;
+        }
+        .project-task{
+            padding: 0px;
+            margin:4px 0px;
+            border-left:solid #ce4844 5px;
+        }
+        .project-group fieldset{
+            margin:5px 0px;
+            padding-left: 0px;
+        }
+        input.group-desc{
+            display:inline-block;
+            max-width:200px;
+        }
+        .project-task input[type="number"]{
+            width:80px;
+        }
+        ul.container-fluid{
+            padding-right: 4px;
+        }
+        li{
+            list-style: none;
+            background-color: #FFF;
+        }
+        .project-group input[type="text"],.project-task input[type="text"]{
+            border:none;
+            padding:5px;
+        }
+    </style>
+</head>
+
+<body class="container-fluid">
+<h1>Project Planner</h1>
+<h4>Project Components</h4>
+<form id="group-form" name="project">
+    <ul id="wrapper"></ul>
+</form>
+<button class="btn btn-default" type="button" id="group-add-btn">Add Group</button>
+<button class="btn btn-default" type="button" id="extract-btn">Ghant</button>
+
+<div id="chart"></div>
+
+<script id="group-tpl" type="text/x-handlebars-template">
+    <li class="project-group">
+        <fieldset name="task">
+            <input type="hidden" name="id" value="{{id}}"/>
+            <input type="hidden" name="type" value="group" />
+            <input type="hidden" name="duration" value="1" />
+            <input type="hidden" name="unit" value="hour" />
+            <div>
+                Project Group -
+                <input type="text" name="name" class="group-desc" placeholder="Enter Description" />
+                <select name="parallel" class="form-control" style="width:120px; display:inline-block;">
+                    <option value="true" selected>Parallel</option>
+                    <option value="false">Sequential</option>
+                </select>
+                <button class="btn btn-default" id="{{id}}-addTask" type="button">Add Task</button>
+                <button class="btn btn-default" id="{{id}}-addGroup" type="button">Add Group</button>
+                <button class="btn btn-default" id="{{id}}-deleteGroup" type="button">Delete Group</button>
+            </div>
+            <ul id="{{id}}" class="container-fluid sortable"></ul>
+        </fieldset>
+    </li>
+</script>
+
+<script id="task-tpl" type="text/x-handlebars-template">
+    <li class="project-task">
+        <fieldset name="task" id="{{taskId}}" class="container-fluid">
+            <input type="hidden" name="id" value="{{taskId}}"/>
+            <input type="hidden" name="type" value="task" />
+            <div class="row">
+                <div class="col-xs-4">
+                    <input type="text" name="name" placeholder="Task Name">
+                </div>
+                <div class="col-xs-2">
+                    <select name="parallel" class="form-control" style="width:120px; display:inline-block;">
+                        <option value="true">Parallel</option>
+                        <option value="false" selected>Sequential</option>
+                    </select>
+                </div>
+                <div class="col-xs-2">
+                    <input class="form-control pull-right" value="0" name="duration" type="number" min="0" max="10000">
+                </div>
+                <div class="col-xs-2">
+                    <select class="form-control" name="unit">
+                        <option value="hour">Hour(s)</option>
+                        <option value="day">Day(s)</option>
+                    </select>
+                </div>
+                <div class="col-xs-1 form-inline">
+                    <div class="form-group">
+                        <button class="btn btn-default" id="{{taskId}}-deleteTask" type="button">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </li>
+</script>
+
+<script>
+    $(document).ready(function(){
+        var groupTpl = Handlebars.compile($('#group-tpl').html());
+        var taskTpl = Handlebars.compile($('#task-tpl').html());
+
+        var sortable = function(){
+            $("ul").sortable({connectWith: ".sortable"});
+        };
+
+        function daysToMilliseconds(days) {
+            return days * 24 * 60 * 60 * 1000;
+        }
+
+        function hoursToMillis(hours){
+            return hours * 60 * 60 * 1000;
+        }
+
+        function getDuration(el){
+            if(el.unit && el.unit === "hour"){
+                return hoursToMillis(el.duration);
+            }
+            return daysToMilliseconds(el.duration);
+        }
+
+        var getEndDate = function(startDate, el){
+            return  null;//new Date();
+        }
+
+        var toGoogleGhantRow = function(el,parent,first){
+            var parentId = (parent && parent.id) ? parent.id : null;
+            var startDate = (first) ? new Date() : null;
+            return [
+                el.id,                    //unique
+                'name: '+el.name,                  //name
+                startDate,                //start
+                getEndDate(startDate, el),//end
+                getDuration(el),
+                0, //% complete,
+                parentId //depends on
+            ];
+        }
+
+        //take the form extract, as "data" and flatten for google ghant chart
+        window.flatten = function(el,prev){
+            if(typeof prev === 'undefined') prev = null;
+            var result = [];
+
+            if(el.type === 'group'){
+                if($.isArray(el.task)){
+                    var last = el;
+                    result.push(toGoogleGhantRow(el,prev));
+                    for(var x in el.task){
+                        var thisEl = el.task[x];
+                        result = result.concat(flatten(thisEl,last));
+
+                        //store the previous element
+                        //if(thisEl.parallel !== "false"){
+                            last = thisEl;
+                        //}
+                    }
+                }else{
+                    result = result.concat(flatten(el.task));
+                }
+            }else{
+                result.push(toGoogleGhantRow(el,el.parallel === "false" ? prev : null));
+            }
+
+            return result;
+        }
+
+        var renderGroup = function($target, id){
+            var groupId = 'group-'+id;
+            var taskId = 'task-'+id;
+
+            $target.prepend(groupTpl({id:groupId}));
+
+            //add Task
+            $('#'+groupId+'-addTask').click(function(){
+                var _taskId = 'task-'+(++id);
+                $('#'+groupId).prepend(taskTpl({taskId:_taskId}));
+                $('#'+_taskId+'-deleteTask').click(function(){
+                    $(this).parent().parent().parent().parent().parent().remove();
+                });
+                sortable();
+            });
+
+            //remove this group
+            $('#'+groupId+'-deleteGroup').click(function(){
+                $(this).parent().parent().parent().remove();
+            });
+
+            //add Group
+            (function(parentId){
+                var thisId = parentId+'_group-'+id;
+                $('#'+parentId+'-addGroup').click(function(){
+                    renderGroup($('#'+parentId),id++);
+                });
+
+            })(groupId);
+        }
+
+        var ID = 0;
+        $('#group-add-btn').click(function(){
+            renderGroup($('#wrapper'),ID++);
+            sortable();
+        });
+
+        window.form;
+        $('#group-form').forms(function(f){
+            form=f;
+        });
+
+        var CHARTREADY = false;
+
+        google.charts.load('current', {'packages':['gantt']});
+        google.charts.setOnLoadCallback(function(){CHARTREADY = true;});
+
+        $('#extract-btn').click(function(){
+            if(CHARTREADY){
+                drawChart(form.extract().task);
+            }else{
+                alert("Chart not loaded, wait a second and try again.");
+            }
+
+        });
+
+        var drawChart = function(el){
+
+            var data = new google.visualization.DataTable();
+
+            data.addColumn('string', 'Task ID');
+            data.addColumn('string', 'Task Name');
+            data.addColumn('date', 'Start Date');
+            data.addColumn('date', 'End Date');
+            data.addColumn('number', 'Duration');
+            data.addColumn('number', 'Percent Complete');
+            data.addColumn('string', 'Dependencies');
+
+            console.log(flatten(el,null));
+
+            data.addRows(flatten(el,null,true));
+
+            var rows = [
+                ['Research', 'Find sources',
+                    new Date(2015, 0, 1), new Date(2015, 0, 5), null,  100,  null],
+                ['Write', 'Write paper',
+                    null, new Date(2015, 0, 9), daysToMilliseconds(3), 25, 'Research,Outline'],
+                ['Cite', 'Create bibliography',
+                    null, new Date(2015, 0, 7), daysToMilliseconds(1), 20, 'Research'],
+                ['Complete', 'Hand in paper',
+                    null, new Date(2015, 0, 10), daysToMilliseconds(1), 0, 'Cite,Write'],
+                ['Outline', 'Outline paper',
+                    null, new Date(2015, 0, 6), daysToMilliseconds(1), 100, 'Research']
+            ];
+            console.log(rows)
+
+           // data.addRows(rows);
+
+            var chart = new google.visualization.Gantt(document.getElementById('chart'));
+
+            var options = {
+                height: 400
+            };
+
+            chart.draw(data, options);
+        }
+    });
+</script>
+</body>
+</html>
