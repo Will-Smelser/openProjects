@@ -123,6 +123,9 @@
 </script>
 
 <script>
+    var OPT_SKIP_WEEKENDS = true;
+    var OPT_WORKDAY_HOURS = 8;
+
     $(document).ready(function(){
         var groupTpl = Handlebars.compile($('#group-tpl').html());
         var taskTpl = Handlebars.compile($('#task-tpl').html());
@@ -131,7 +134,7 @@
             $("ul").sortable({connectWith: ".sortable"});
         };
 
-        function daysToMilliseconds(days) {
+        function daysToMillis(days) {
             return days * 24 * 60 * 60 * 1000;
         }
 
@@ -139,33 +142,9 @@
             return hours * 60 * 60 * 1000;
         }
 
-        function getDuration(el){
-            if(el.unit && el.unit === "hour"){
-                return hoursToMillis(el.duration);
-            }
-            return daysToMilliseconds(el.duration);
-        }
-
-        var getEndDate = function(startDate, el){
-            return  null;//new Date();
-        }
-
-        var toGoogleGhantRow = function(el,parent,first){
-            var parentId = (parent && parent.id) ? parent.id : null;
-            var startDate = (first) ? new Date() : null;
-            return [
-                el.id,                    //unique
-                'name: '+el.name,                  //name
-                startDate,                //start
-                getEndDate(startDate, el),//end
-                getDuration(el),
-                0, //% complete,
-                parentId //depends on
-            ];
-        }
 
         var toGoogleGhanttRow2 = function(id, parentId, name, duration, durationUnit){
-            var dur = (durationUnit === "hour") ? hoursToMillis(duration) : daysToMilliseconds(duration)
+            var dur = (durationUnit === "hour") ? hoursToMillis(duration) : daysToMillis(duration)
             return [
                 id, name, null, null, dur, 0, parentId
             ];
@@ -210,39 +189,6 @@
             return result;
         }
 
-        //take the form extract, as "data" and flatten for google ghant chart
-        window.flatten = function(el, prev){
-
-            //default value
-            if(typeof prev === 'undefined') prev = null;
-
-            //result
-            var result = [];
-
-            //we have a group of tasks
-            if(el.type === 'group'){
-                if($.isArray(el.task)){
-                    var last = el;
-                    result.push(toGoogleGhantRow(el,prev));
-                    for(var x in el.task){
-                        var thisEl = el.task[x];
-                        result = result.concat(flatten(thisEl,last));
-
-                        //store the previous element
-                        //if(thisEl.parallel !== "false"){
-                            last = thisEl;
-                        //}
-                    }
-                }else{
-                    result = result.concat(flatten(el.task));
-                }
-            //just have a task
-            }else{
-                result.push(toGoogleGhantRow(el, el.parallel === "false" ? prev : null));
-            }
-
-            return result;
-        }
 
         var renderGroup = function($target, id){
             var groupId = 'group-'+id;
