@@ -164,11 +164,62 @@
             ];
         }
 
+        var toGoogleGhanttRow2 = function(id, parentId, name, duration, durationUnit){
+            var dur = (durationUnit === "hour") ? hoursToMillis(duration) : daysToMilliseconds(duration)
+            return [
+                id, name, null, null, dur, 0, parentId
+            ];
+        }
+
+        window.flatten2 = function(el, parent, previous){
+            var result = [];
+            if(el.type === 'group'){
+                if($.isArray(el.task)){
+                    if(el.parallel === "false"){
+                        var id = (parent) ? parent.id : null;
+                        result.push(toGoogleGhanttRow2(el.id, id, el.name, el.duration, el.unit));
+                    }else{
+                        var id = (previous) ? previous.id : null;
+                        result.push(toGoogleGhanttRow2(el.id, id, el.name, el.duration, el.unit));
+                    }
+
+                    var prev = null;
+                    for(var x in el.task){
+                        var thisEl = el.task[x];
+                        result = result.concat(flatten2(thisEl, el, prev));
+                        if(thisEl.parallel !== "true"){
+                            prev = thisEl;
+                        }
+                    }
+                }else{
+                    result = result.concat(flatten2(el.task, el, null));
+                }
+            }else{
+                //sequential
+                if(el.parallel === "false"){
+                    if(previous){
+                        result.push(toGoogleGhanttRow2(el.id, previous.id, el.name, el.duration, el.unit));
+                    }else{
+                        result.push(toGoogleGhanttRow2(el.id, parent.id, el.name, el.duration, el.unit));
+                    }
+                }else{
+                    result.push(toGoogleGhanttRow2(el.id, null, el.name, el.duration, el.unit));
+                }
+            }
+
+            return result;
+        }
+
         //take the form extract, as "data" and flatten for google ghant chart
-        window.flatten = function(el,prev){
+        window.flatten = function(el, prev){
+
+            //default value
             if(typeof prev === 'undefined') prev = null;
+
+            //result
             var result = [];
 
+            //we have a group of tasks
             if(el.type === 'group'){
                 if($.isArray(el.task)){
                     var last = el;
@@ -185,8 +236,9 @@
                 }else{
                     result = result.concat(flatten(el.task));
                 }
+            //just have a task
             }else{
-                result.push(toGoogleGhantRow(el,el.parallel === "false" ? prev : null));
+                result.push(toGoogleGhantRow(el, el.parallel === "false" ? prev : null));
             }
 
             return result;
@@ -260,31 +312,21 @@
             data.addColumn('number', 'Percent Complete');
             data.addColumn('string', 'Dependencies');
 
-            console.log(flatten(el,null));
+            var rows = flatten2(el,null);
 
-            data.addRows(flatten(el,null,true));
+            //set the start project start date
+            rows[0][2] = new Date();
 
-            var rows = [
-                ['Research', 'Find sources',
-                    new Date(2015, 0, 1), new Date(2015, 0, 5), null,  100,  null],
-                ['Write', 'Write paper',
-                    null, new Date(2015, 0, 9), daysToMilliseconds(3), 25, 'Research,Outline'],
-                ['Cite', 'Create bibliography',
-                    null, new Date(2015, 0, 7), daysToMilliseconds(1), 20, 'Research'],
-                ['Complete', 'Hand in paper',
-                    null, new Date(2015, 0, 10), daysToMilliseconds(1), 0, 'Cite,Write'],
-                ['Outline', 'Outline paper',
-                    null, new Date(2015, 0, 6), daysToMilliseconds(1), 100, 'Research']
-            ];
-            console.log(rows)
+            data.addRows(rows);
 
            // data.addRows(rows);
 
             var chart = new google.visualization.Gantt(document.getElementById('chart'));
 
-            var options = {
-                height: 400
-            };
+            var options = {};
+            options.height = 400;
+            options.gantt = {};
+            options.gantt.defaultStartDate = new Date();
 
             chart.draw(data, options);
         }
