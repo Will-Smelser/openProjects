@@ -75,6 +75,9 @@
             <div>
                 Project Group -
                 <input type="text" name="name" class="group-desc" placeholder="Enter Description" />
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <input class="form-control" name="start" type="date" style="width:160px;display:inline-block;">
+                &nbsp;&nbsp;&nbsp;&nbsp;
                 <select name="parallel" class="form-control" style="width:120px; display:inline-block;">
                     <option value="true" selected>Parallel</option>
                     <option value="false">Sequential</option>
@@ -94,28 +97,24 @@
             <input type="hidden" name="id" value="{{taskId}}"/>
             <input type="hidden" name="type" value="task" />
             <div class="row">
-                <div class="col-xs-4">
+                <div class="col-xs-3">
                     <input type="text" name="name" placeholder="Task Name">
                 </div>
-                <div class="col-xs-2">
+                <div class="col-xs-9">
                     <select name="parallel" class="form-control" style="width:120px; display:inline-block;">
                         <option value="true">Parallel</option>
                         <option value="false" selected>Sequential</option>
                     </select>
-                </div>
-                <div class="col-xs-2">
-                    <input class="form-control pull-right" value="0" name="duration" type="number" min="0" max="10000">
-                </div>
-                <div class="col-xs-2">
-                    <select class="form-control" name="unit">
-                        <option value="hour">Hour(s)</option>
-                        <option value="day">Day(s)</option>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input class="form-control" name="start" type="date" style="width:160px;display:inline-block;">
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input class="form-control" value="1" name="duration" type="number" min="1" max="10000" style="width:50px;display:inline-block;">
+                    <select class="form-control" name="unit" style="display:inline-block;width:80px">
+                        <option value="hour">Hr</option>
+                        <option value="day">Day</option>
                     </select>
-                </div>
-                <div class="col-xs-1 form-inline">
-                    <div class="form-group">
-                        <button class="btn btn-default" id="{{taskId}}-deleteTask" type="button">Delete</button>
-                    </div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <button class="btn btn-default" id="{{taskId}}-deleteTask" type="button" style="display:inline-block;">Delete</button>
                 </div>
             </div>
         </fieldset>
@@ -142,11 +141,10 @@
             return hours * 60 * 60 * 1000;
         }
 
-
-        var toGoogleGhanttRow2 = function(id, parentId, name, duration, durationUnit){
+        var toGoogleGhanttRow2 = function(id, start, parentId, name, duration, durationUnit){
             var dur = (durationUnit === "hour") ? hoursToMillis(duration) : daysToMillis(duration)
             return [
-                id, name, null, null, dur, 0, parentId
+                id, name, start, null, dur, 0, parentId
             ];
         }
 
@@ -156,10 +154,10 @@
                 if($.isArray(el.task)){
                     if(el.parallel === "false"){
                         var id = (parent) ? parent.id : null;
-                        result.push(toGoogleGhanttRow2(el.id, id, el.name, el.duration, el.unit));
+                        result.push(toGoogleGhanttRow2(el.id, el._start, id, el.name, el._duration, el.unit));
                     }else{
                         var id = (previous) ? previous.id : null;
-                        result.push(toGoogleGhanttRow2(el.id, id, el.name, el.duration, el.unit));
+                        result.push(toGoogleGhanttRow2(el.id, el._start, id, el.name, el._duration, el.unit));
                     }
 
                     var prev = null;
@@ -177,12 +175,12 @@
                 //sequential
                 if(el.parallel === "false"){
                     if(previous){
-                        result.push(toGoogleGhanttRow2(el.id, previous.id, el.name, el.duration, el.unit));
+                        result.push(toGoogleGhanttRow2(el.id, el._start, previous.id, el.name, el._duration, el.unit));
                     }else{
-                        result.push(toGoogleGhanttRow2(el.id, parent.id, el.name, el.duration, el.unit));
+                        result.push(toGoogleGhanttRow2(el.id, el._start, parent.id, el.name, el._duration, el.unit));
                     }
                 }else{
-                    result.push(toGoogleGhanttRow2(el.id, null, el.name, el.duration, el.unit));
+                    result.push(toGoogleGhanttRow2(el.id, el._start, null, el.name, el._duration, el.unit));
                 }
             }
 
@@ -201,7 +199,7 @@
                 var _taskId = 'task-'+(++id);
                 $('#'+groupId).prepend(taskTpl({taskId:_taskId}));
                 $('#'+_taskId+'-deleteTask').click(function(){
-                    $(this).parent().parent().parent().parent().parent().remove();
+                    $(this).parent().parent().parent().remove();
                 });
                 sortable();
             });
@@ -215,7 +213,7 @@
             (function(parentId){
                 var thisId = parentId+'_group-'+id;
                 $('#'+parentId+'-addGroup').click(function(){
-                    renderGroup($('#'+parentId),id++);
+                    renderGroup($('#'+parentId),++id);
                 });
 
             })(groupId);
@@ -232,6 +230,96 @@
             form=f;
         });
 
+        var START_HR = 8; //what time does the day start
+        var WORK_DAY = 8; //how many hours is the work day
+        var END_HR = START_HR + WORK_DAY;
+        var OVERNIGHT = START_HR+(24-END_HR);
+        var EXCLUDE_DAYS = [];
+
+        var getDateParts = function(dt){
+            var yr = dt.getFullYear();
+            var mm = dt.getMonth();
+            var dd = dt.Day();
+            return [yr,mm,dd];
+        }
+
+        var sameDay = function(d1,d2){
+            var p1 = getDateParts(d1);
+            var p2 = getDateParts(d2);
+            if(p1[0] === p2[0] && p1[1] === p2[1] && p1[2] === p1[2]){
+                return true;
+            }
+            return false;
+        }
+
+        var calculateNextStartDate = function(task, startDate){
+            var duration = parseFloat(task.duration);
+            var start = new Date(startDate.getTime());
+
+            if(start.getHours()+duration > END_HR){
+                console.log("crossing barrier",task.name);
+                var remaining = start.getHours()+duration - END_HR;
+                console.log(remaining);
+                duration = duration+remaining+OVERNIGHT;
+                start.setHours(start.getHours()+duration);
+            }else if(start.getHours()+duration == END_HR){
+                start.setHours(START_HR+24);
+
+            }else{
+                start.setHours(start.getHours()+duration);
+            }
+
+            //check if we ended up on a blocked day
+            for(var x in EXCLUDE_DAYS){
+                if(sameDay(EXCLUDE_DAYS[x],start)){
+                    start.setDay(start.getDay()+1);
+                    x = 0; //have to start over
+                }
+            }
+            return [start,duration];
+        }
+
+        window.setDates = function(task, startDate){
+            if($.type(task) === 'array'){
+                var _start = startDate;
+                for(var x in task){
+                    var _task = task[x];
+
+                    //just use the provided startDate
+                    if(_task.parallel === "true"){
+                        setDates(_task, startDate);
+                    }else{
+                        setDates(_task, _start);
+                        var startAndDuration = calculateNextStartDate(_task, _start);
+                        _start = startAndDuration[0];
+                        _task._duration = _task.duration;//startAndDuration[1];
+                    }
+
+                }
+            }else{
+                task._duration = task.duration;
+
+                //user entered a start date, so use theirs
+                if(task.start && task.start.trim && task.start.trim().length > 0){
+                    var parts = task.start.split('-');
+                    var dt = new Date(parts[0],parseInt(parts[1])-1,parts[2],START_HR);
+
+                    task._start = dt;
+
+                //have no option but to use the startDate given
+                }else{
+                    var dt = new Date(startDate);
+                    task._start = dt;
+                }
+
+                if(task.task){
+                    setDates(task.task, task._start);
+                }
+            }
+            return task;
+        }
+
+        //charting stuff
         var CHARTREADY = false;
 
         google.charts.load('current', {'packages':['gantt']});
@@ -239,7 +327,14 @@
 
         $('#extract-btn').click(function(){
             if(CHARTREADY){
-                drawChart(form.extract().task);
+                var task = form.extract().task;
+                var start = new Date();
+                if(task.start && task.start.trim().length > 0){
+                    var parts = task.start.split('-');
+                    start = new Date(parts[0],parseInt(parts[1])-1,parts[2],START_HR);
+                }
+                setDates(task, start);
+                drawChart(task);
             }else{
                 alert("Chart not loaded, wait a second and try again.");
             }
@@ -261,7 +356,7 @@
             var rows = flatten2(el,null);
 
             //set the start project start date
-            rows[0][2] = new Date();
+            //rows[0][2] = new Date();
 
             data.addRows(rows);
 
