@@ -2,6 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="required/jsgantt1.7/jsgantt.css"/>
 
     <script src="bower_components/jquery/dist/jquery.min.js" ></script>
     <script src="bower_components/underscore/underscore-min.js"></script>
@@ -9,6 +10,8 @@
     <script src="bower_components/handlebars/handlebars.min.js" ></script>
     <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
     <script src="required/js/forms2.js"></script>
+
+    <script src="required/jsgantt1.7/jsgantt.js"></script>
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -51,6 +54,11 @@
             border:none;
             padding:5px;
         }
+
+        /*chart*/
+        #chart{
+            padding:0px 10px;
+        }
     </style>
 </head>
 
@@ -63,7 +71,7 @@
 <button class="btn btn-default" type="button" id="group-add-btn">Add Group</button>
 <button class="btn btn-default" type="button" id="extract-btn">Ghant</button>
 
-<div id="chart"></div>
+<div id="chart" class="gantt"></div>
 
 <script id="group-tpl" type="text/x-handlebars-template">
     <li class="project-group">
@@ -122,6 +130,8 @@
 </script>
 
 <script>
+    var g = new JSGantt.GanttChart(document.getElementById('chart'), 'day');
+
     var OPT_SKIP_WEEKENDS = true;
     var OPT_WORKDAY_HOURS = 8;
 
@@ -132,6 +142,14 @@
         var sortable = function(){
             $("ul").sortable({connectWith: ".sortable"});
         };
+
+        var pad = function(str, len, ch){
+            str = str.toString();
+            while(str.length < len){
+                str = ch + str;
+            }
+            return str;
+        }
 
         function daysToMillis(days) {
             return days * 24 * 60 * 60 * 1000;
@@ -253,14 +271,14 @@
         }
 
         var calculateNextStartDate = function(task, startDate){
+            var remaining = 0;
             var duration = parseFloat(task.duration);
             var start = new Date(startDate.getTime());
 
             if(start.getHours()+duration > END_HR){
                 console.log("crossing barrier",task.name);
-                var remaining = start.getHours()+duration - END_HR;
-                console.log(remaining);
-                duration = duration+remaining+OVERNIGHT;
+                remaining = start.getHours()+duration - END_HR;
+                duration = duration-remaining+OVERNIGHT;
                 start.setHours(start.getHours()+duration);
             }else if(start.getHours()+duration == END_HR){
                 start.setHours(START_HR+24);
@@ -276,23 +294,43 @@
                     x = 0; //have to start over
                 }
             }
-            return [start,duration];
+            return [start,remaining];
         }
 
         window.setDates = function(task, startDate){
             if($.type(task) === 'array'){
                 var _start = startDate;
-                for(var x in task){
+
+                for(var x=0; x < task.length; x++){
                     var _task = task[x];
 
                     //just use the provided startDate
                     if(_task.parallel === "true"){
                         setDates(_task, startDate);
+
                     }else{
                         setDates(_task, _start);
+
                         var startAndDuration = calculateNextStartDate(_task, _start);
+
                         _start = startAndDuration[0];
-                        _task._duration = _task.duration;//startAndDuration[1];
+
+
+                        //have remaining time, need to insert a fake task
+                        if(startAndDuration[1]){
+
+                            _task._duration = _task._duration - startAndDuration[1];
+                            var cloned = $.extend({},_task);
+
+                            cloned.id = "taskcont-"+(parseInt(cloned.id.split('-')[1])+1000);
+                            cloned.name = cloned.name + " (cont.)";
+                            cloned.duration = startAndDuration[1];
+                            cloned._duration = startAndDuration[1];
+
+                            task.splice(x+1,0,cloned);
+
+                        }
+
                     }
 
                 }
@@ -318,6 +356,83 @@
             }
             return task;
         }
+
+        var parseNumId = function(id){
+            if(id){
+                return parseInt(id.split('-')[1]);
+            }
+            return null;
+
+        }
+
+        var dateToStr = function(dt){
+            var year = dt.getFullYear();
+            var month = dt.getMonth()+1;
+            var day = dt.getDate();
+            var hr = dt.getHours();
+            var mn = dt.getMinutes();
+
+            return year+'-'+pad(month,2,'0')+'-'+pad(day,2,'0')+' '+pad(hr,2,'0')+':'+pad(mn,2,'0');
+        }
+
+        var getEndDate = function(start, durationMs){
+            var hours = durationMs / (60 * 60 * 1000);
+            var result = new Date(start.getTime());
+            result.setHours(result.getHours()+hours);
+            return result;
+        }
+
+        /*
+        $('#extract-btn').click(function(){
+            var task = form.extract().task;
+            var start = new Date();
+            if(task.start && task.start.trim().length > 0){
+                var parts = task.start.split('-');
+                start = new Date(parts[0],parseInt(parts[1])-1,parts[2],START_HR);
+            }
+            setDates(task, start);
+            var rows = flatten2(task,null);
+
+
+
+            g.setShowRes(0); // Show/Hide Responsible (0/1)
+            g.setShowDur(1); // Show/Hide Duration (0/1)
+            g.setShowComp(0); // Show/Hide % Complete(0/1)
+            g.setCaptionType('Resource');  // Set to Show Caption (None,Caption,Resource,Duration,Complete)
+
+            g.setDateInputFormat('yyyy-mm-dd');
+            g.setDateTaskTableDisplayFormat('yyyy/mm/dd');
+            g.setDayMajorDateDisplayFormat('yyyy/mm/dd');
+
+            // Parameters             (pID, pName,                  pStart,      pEnd,        pColor,   pLink,          pMile, pRes,  pComp, pGroup, pParent, pOpen, pDepend, pCaption)
+
+            // You can also use the XML file parser JSGantt.parseXML('project.xml',g)
+
+            //g.AddTaskItem(new JSGantt.TaskItem(1,   'Define Chart API',     '',          '',          'ff0000', 'http://help.com', 0, 'Brian',     0, 1, 0, 1));
+            //g.AddTaskItem(new JSGantt.TaskItem(1,'Define Chart API','','','ff0000', 'http://help.com', 0, 'Brian',0, 1, 0, 1));
+
+            for(var x in rows){
+                var id = parseNumId(rows[x][0]);
+                var name = rows[x][1];
+                var start = rows[x][2];//dateToStr(rows[x][2]);
+                var duration = rows[x][4];
+                var end = getEndDate(rows[x][2],duration);//dateToStr(getEndDate(rows[x][2],duration));
+                var parent = parseNumId(rows[x][6]);
+
+                console.log(name, parent);
+
+                //g.AddTaskItem(new JSGantt.TaskItem(1,'name',''   ,'','ff0000', '', 0, 'Brian',0,1, 0    , 1));
+                           //new JSGantt.TaskItem( 123, 'Task by Minute/Hour',  '2016-03-09','2016-03-14 12:00', 'gtaskyellow', '', 0, 'Ilan',     60,    0,      12,      1,'','','',g)
+                g.AddTaskItem(new JSGantt.TaskItem(id,  name ,                   start,      end,                'gtaskblue',   '', 0, ''    ,       0,   0,  parent,      1,'','','',g));
+                //break;
+            }
+
+
+            g.Draw();
+            g.DrawDependencies();
+
+        });
+        */
 
         //charting stuff
         var CHARTREADY = false;
@@ -371,6 +486,7 @@
 
             chart.draw(data, options);
         }
+
     });
 </script>
 </body>
