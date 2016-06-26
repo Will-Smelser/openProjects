@@ -1,6 +1,5 @@
 /* min nav stuff */
-.min-nav-close{
-    font-family: "Helvetica Neue", Arial, "Lucida Grande", sans-serif;
+.m-nav-close{
     font-size: 1.2em;
     text-align: center;
     z-index:1;
@@ -8,7 +7,7 @@
     display: none;
 }
 @media (max-width: 500px) {
-    .min-nav{
+    .m-nav{
         position:fixed;
         top:0px;
         left:0px;
@@ -22,22 +21,22 @@
         transition: max-height .8s;
     }
 
-    .min-nav-close{
+    .m-nav-close{
         display:block;
     }
 
-    .min-nav:focus{
+    .m-nav:focus{
         z-index:0;
     }
-    .min-nav:focus>ul::before{
+    .m-nav:focus>ul::before{
         display: none;
     }
 
-    .min-nav>ul{
+    .m-nav>ul{
         margin-top:34px;
     }
 
-    .min-nav>ul::before {
+    .m-nav>ul::before {
         border-bottom: 10px double;
         border-top: 3px solid;
         content: ' ';
@@ -48,16 +47,16 @@
         width: 20px;
         cursor:pointer;
     }
-    .min-nav.min-nav-right>ul::before{
+    .m-nav.m-nav-right>ul::before{
         right:9px;
         left:auto;
     }
-    .min-nav.min-nav-right{
+    .m-nav.m-nav-right{
         left:auto;
         right:0px;
     }
 
-    nav.min-nav:focus{
+    nav.m-nav:focus{
         height:auto;
         max-height: 500px;
         width:100%;
