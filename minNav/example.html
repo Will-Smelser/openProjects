@@ -15,7 +15,9 @@
 
         #left-nav{
             float:left;
-            max-width:200px;
+        }
+        #left-nav ul{
+            width:150px;
         }
         #content{
             margin-left:200px;
@@ -30,8 +32,8 @@
 </head>
 
 <body>
-<div class="m-nav m-nav-close m-nav-right">&#x2716;</div>
-<nav id="left-nav" class="m-nav m-nav-right" tabindex="-1" onclick="this.focus()">
+<div class="m-nav m-nav-close">&#x2716;</div>
+<nav id="left-nav" class="m-nav" tabindex="-1" onclick="this.focus()">
     <ul>
         <li>Main
             <ul>
@@ -52,7 +54,7 @@
     <h2>Example Page</h2>
     <p>
         Here I am showing the default left navigation and making a right navigation.  You can add
-        the class name "min-nav-right" to pull the navigation to the right side.
+        the class name "m-nav-right" to pull the navigation to the right side.
     </p>
 </div>
 </body>
