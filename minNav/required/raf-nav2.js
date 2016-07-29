@@ -68,7 +68,10 @@ var RafNav = function(){
             this._child.push(node);
             return node;
         };
-
+        this.append = function(rafNode){
+            this._child.push(rafNode);
+            return this;
+        };
         this.root = function(){
             var el, p = this;
             while(p){
@@ -121,7 +124,6 @@ var RafNav = function(){
 
     this.TopTitle = function(txt){
         return new RafNode('','div').clazz('raf-title dhl-bg-yellow-gd')
-            .add(txt,'span').clazz('raf-lg dhl-f-red')
-            .render();
+            .add(txt,'span').clazz('raf-lg dhl-f-red');
     };
 };
