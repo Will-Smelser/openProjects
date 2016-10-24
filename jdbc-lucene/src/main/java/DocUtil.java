@@ -160,7 +160,7 @@ public class DocUtil {
      * @throws IOException
      * @throws ExecutionException
      */
-    public static List<Future<TopDocs>> getSearcherByIds(Set<String> ids, ExecutorService pool, int docsPerSubmit, final Query query, final int docsPerShard) throws IOException, ExecutionException {
+    public static List<Future<TopDocs>> searchByIds(Set<String> ids, ExecutorService pool, int docsPerSubmit, final Query query, final int docsPerShard) throws IOException, ExecutionException {
         final List<Future<TopDocs>> results = new ArrayList<>();
 
         List<IndexReader> readers = new ArrayList<>();
@@ -174,9 +174,7 @@ public class DocUtil {
 
             //submit to the pool
             if(cnt>0 && cnt%docsPerSubmit == 0){
-                IndexReader[] arrReaders = readers.toArray(new IndexReader[readers.size()]);
-                IndexReader all = new MultiReader(arrReaders);
-                final IndexSearcher searcher = new IndexSearcher(all);
+                final IndexSearcher searcher = readersToSearchers(readers);
 
                 Callable<TopDocs> runner = new Callable<TopDocs>() {
                     @Override
@@ -198,6 +196,59 @@ public class DocUtil {
         }
 
         return results;
+    }
+
+    /**
+     * Find first row from every version that matches the provided query.
+     * @param id
+     * @param shardSize
+     * @param pool
+     * @param query
+     * @return
+     * @throws IOException
+     * @throws ExecutionException
+     */
+    public static List<Future<TopDocs>> searchByIdSimple(String id, int shardSize, ExecutorService pool, final Query query) throws IOException, ExecutionException {
+        final List<Future<TopDocs>> results = new ArrayList<>();
+        List<IndexReader> readers = new ArrayList<>();
+
+        for(Map.Entry<DocKey, IndexWriter> entry: cache.asMap().entrySet()) {
+            DocKey key = entry.getKey();
+            if (id != key.id) {
+                continue;
+            }
+
+            readers.add(getReader(key.id, key.version));
+
+            if(readers.size() == shardSize){
+                final IndexSearcher searcher = readersToSearchers(readers);
+                readers.clear();
+
+                Callable<TopDocs> runner = new Callable<TopDocs>() {
+                    @Override
+                    public TopDocs call() throws Exception {
+                        try {
+                            return searcher.search(query, 1);
+
+                        } catch (IOException e) {
+                            //TODO: add the doc ids that failed to this message
+                            LOGGER.error("Shard search thread failed", e);
+                            throw new RuntimeException(e);
+                        }
+                    }
+                };
+
+                results.add(pool.submit(runner));
+            }
+        }
+
+        return results;
+    }
+
+    private static IndexSearcher readersToSearchers(List<IndexReader> readers) throws IOException {
+        IndexReader[] arrReaders = readers.toArray(new IndexReader[readers.size()]);
+        IndexReader all = new MultiReader(arrReaders);
+        return new IndexSearcher(all);
     }
 
     public static Document create(ResultSet row) throws SQLException {
