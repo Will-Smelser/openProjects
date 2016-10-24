@@ -3,6 +3,8 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.slf4j.Logger;
@@ -14,8 +16,7 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * Created by Will2 on 10/22/2016.
@@ -26,9 +27,25 @@ public class DocUtil {
 
     private static final ColumnMapRowMapper mapper = new ColumnMapRowMapper();
 
+    /**
+     * Represents a document and a version id.
+     */
     public static class DocKey{
+        /**
+         * The unique identifier for the document
+         */
         public String id;
+
+        /**
+         * The document's version number
+         */
         public String version;
+
+        /**
+         * Create a new Composite key from Document Id and a Version id.
+         * @param id The unique document id
+         * @param version The unique version id.
+         */
         public DocKey(String id, String version){
             this.id = id;
             this.version = version;
@@ -53,6 +70,10 @@ public class DocUtil {
         }
     }
 
+    /**
+     * We want to keep recent index writers in memory and let the old ones die.  This helps that
+     * abstraction
+     */
     private static final LoadingCache<DocKey, IndexWriter> cache =
             CacheBuilder.newBuilder()
                     .removalListener(new RemovalListener<DocKey, IndexWriter>() {
@@ -78,6 +99,15 @@ public class DocUtil {
                     });
 
 
+    /**
+     * Get the writer via our adapater.  This just simplifies the API and prevents user's from trying to close
+     * our writer that we purposefully keep in memory.
+     * @param id The document Id
+     * @param version The document's version id.
+     * @return
+     * @throws IOException
+     * @throws ExecutionException
+     */
     public static WriterDelegate getWriter(String id, String version) throws IOException, ExecutionException {
 
         //store a writer if necessary
@@ -117,6 +147,57 @@ public class DocUtil {
         IndexReader[] arrReaders = readers.toArray(new IndexReader[readers.size()]);
         IndexReader all = new MultiReader(arrReaders);
         return new IndexSearcher(all);
+    }
+
+    /**
+     * Multithread the search
+     * @param ids Set of document IDs to search all versions of
+     * @param pool A thread pool to submit Callables to
+     * @param docsPerSubmit Every index is a folder (which is a Document) holds each row of a document.  So this is how many indexes (Folders) to search per thread.
+     * @param query The query to execute.
+     * @param docsPerShard How many rows you want returned per query.  But the query is executed across {@param docsPerSubmit} indexes.
+     * @return
+     * @throws IOException
+     * @throws ExecutionException
+     */
+    public static List<Future<TopDocs>> getSearcherByIds(Set<String> ids, ExecutorService pool, int docsPerSubmit, final Query query, final int docsPerShard) throws IOException, ExecutionException {
+        final List<Future<TopDocs>> results = new ArrayList<>();
+
+        List<IndexReader> readers = new ArrayList<>();
+
+        int cnt = 0;
+        for(Map.Entry<DocKey, IndexWriter> entry: cache.asMap().entrySet()){
+            DocKey key = entry.getKey();
+            if(ids.contains(key.id)){
+                readers.add(getReader(key.id,key.version));
+            }
+
+            //submit to the pool
+            if(cnt>0 && cnt%docsPerSubmit == 0){
+                IndexReader[] arrReaders = readers.toArray(new IndexReader[readers.size()]);
+                IndexReader all = new MultiReader(arrReaders);
+                final IndexSearcher searcher = new IndexSearcher(all);
+
+                Callable<TopDocs> runner = new Callable<TopDocs>() {
+                    @Override
+                    public TopDocs call() throws Exception {
+                        try {
+                            return searcher.search(query, docsPerShard);
+
+                        } catch (IOException e) {
+                            //TODO: add the doc ids that failed to this message
+                            LOGGER.error("Shard search thread failed", e);
+                            throw new RuntimeException(e);
+                        }
+                    }
+                };
+
+                readers.clear();
+                results.add(pool.submit(runner));
+            }
+        }
+
+        return results;
     }
 
     public static Document create(ResultSet row) throws SQLException {
