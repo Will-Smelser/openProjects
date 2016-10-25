@@ -245,6 +245,47 @@ public class DocUtil {
         return results;
     }
 
+    /**
+     * Search all documents in Set of IDs and first first version that matches.  Potentially searching all versions. This will
+     * return the first match.
+     * @param ids The unique document IDs to search.  All version of document ID indexes will be searched.
+     * @param query The query to be ran.
+     * @param pool The executor service that searches will be submitted to.
+     * @see DocUtil.SearchRunner
+     * @throws IOException
+     */
+    public static List<Future<TopDocs>> searchByIds(Set<String> ids, final Query query, ExecutorService pool) throws IOException {
+        List<Future<TopDocs>> result = new ArrayList<>();
+        Map<String,Set<IndexWriter>> allIds = new HashMap<>();
+
+        //find all the IndexWriter that exist for the requested doc IDs
+        for(Map.Entry<DocKey, IndexWriter> entry: cache.asMap().entrySet()) {
+            String id = entry.getKey().id;
+            if(ids.contains(id)){
+                if(allIds.get(id) == null){
+                    allIds.put(id, new HashSet<IndexWriter>());
+                }
+                allIds.get(id).add(entry.getValue());
+            }
+        }
+
+        //search all versions of the matched document IDs
+        for(Map.Entry<String, Set<IndexWriter>> entry : allIds.entrySet()){
+            int writerCount = entry.getValue().size();
+            IndexReader[] readers = new IndexReader[writerCount];
+            int i = 0;
+            for(IndexWriter writer : entry.getValue()){
+                readers[i++] =  DirectoryReader.open(writer);
+            }
+
+            IndexSearcher searcher = new IndexSearcher(new MultiReader(readers));
+            SearchRunner runner = new SearchRunner(searcher, query, 1);
+            result.add(pool.submit(runner));
+        }
+
+        return result;
+    }
+
     private static IndexSearcher readersToSearchers(List<IndexReader> readers) throws IOException {
         IndexReader[] arrReaders = readers.toArray(new IndexReader[readers.size()]);
         IndexReader all = new MultiReader(arrReaders);
@@ -280,6 +321,28 @@ public class DocUtil {
         }
 
         return field;
+    }
+
+    private static class SearchRunner implements Callable<TopDocs>{
+        private final IndexSearcher searcher;
+        private final Query query;
+        private final int docCount;
+        public SearchRunner(IndexSearcher searcher, Query query, int docCount){
+            this.searcher = searcher;
+            this.query = query;
+            this.docCount = docCount;
+        }
+        @Override
+        public TopDocs call() throws Exception {
+            try {
+                return searcher.search(query, docCount);
+
+            } catch (IOException e) {
+                //TODO: add the doc ids that failed to this message
+                LOGGER.error("Shard search thread failed", e);
+                throw new RuntimeException(e);
+            }
+        }
     }
 
 }
