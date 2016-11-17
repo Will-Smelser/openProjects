@@ -34,6 +34,7 @@ public class Cloud<T>{
 
     private BlockingQueue<CloudMessage<T>> msgQueue;
 
+    //topic that multiple queues work
     private ITopic sharedWorkTopic;
 
     public Cloud(String name, HazelcastInstance hcast, final CloudWorker<T> sharedWork){
@@ -84,11 +85,19 @@ public class Cloud<T>{
      * @param message
      * @throws InterruptedException
      */
-    private final void send(String to, T message) throws InterruptedException, CloudMsgError {
+    private final void message(String to, T message) throws InterruptedException, CloudMsgError {
         if(registry.get(to) == null){
             throw new CloudMsgError("No Recipient: "+to);
         }
         hcast.getQueue(to).put(new CloudMessage<T>(name, message));
+    }
+
+    /**
+     * Post work to be done
+     * @param work
+     */
+    private final void post(T work){
+        sharedWorkTopic.publish(work);
     }
 
     /**
