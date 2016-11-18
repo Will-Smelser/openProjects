@@ -17,10 +17,12 @@ public class Cloud<T>{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Cloud.class);
 
-    private static final String REGISTY_NAME = "REGISTRY";
-    private static final String TOPIC = "SHARED_WORK";
-    private static final String MASTER_QUEUE = "MASTER_QUEUE";
-    private static final String ELECT_QUEUE = "ELECT_QUEUE";
+    private static final String REGISTY_NAME = "%s_REGISTRY";
+    private static final String TOPIC = "%s_SHARED_WORK";
+    private static final String MASTER_QUEUE = "%s_MASTER_QUEUE";
+    private static final String ELECT_QUEUE = "%s_ELECT_QUEUE";
+
+    private final String group;
 
     private final String name;
 
@@ -37,12 +39,20 @@ public class Cloud<T>{
     //topic that multiple queues work
     private ITopic sharedWorkTopic;
 
-    public Cloud(String name, HazelcastInstance hcast, final CloudWorker<T> sharedWork){
+    /**
+     * Create a Cloud manager to facilitate some basic cluster stuff.
+     * @param group A unique name that a group of hosts want to comunicate under.
+     * @param name
+     * @param hcast
+     * @param sharedWork
+     */
+    public Cloud(String group, String name, HazelcastInstance hcast, final CloudWorker<T> sharedWork){
+        this.group = group;
         this.name = name;
         this.hcast = hcast;
-        this.registry = hcast.getMap(REGISTY_NAME);
-        this.electQueue = hcast.getQueue(ELECT_QUEUE);
-        this.msgQueue = hcast.getQueue(name);
+        this.registry = hcast.getMap(String.format(REGISTY_NAME,group));
+        this.electQueue = hcast.getQueue(String.format(ELECT_QUEUE,group));
+        this.msgQueue = hcast.getQueue(String.format(name,group));
 
         //begin waiting to see if master
         listenForElection();
@@ -51,7 +61,7 @@ public class Cloud<T>{
         registry.put(name, 1L);
 
         //create the topic
-        sharedWorkTopic = hcast.getReliableTopic(TOPIC);
+        sharedWorkTopic = hcast.getReliableTopic(String.format(TOPIC,group));
 
         //add listener to shared work topic
         sharedWorkTopic.addMessageListener(new MessageListener<T>() {
@@ -107,7 +117,7 @@ public class Cloud<T>{
         new Thread(new Runnable() {
             public void run() {
                 try {
-                    Object waitOnElection = electQueue.take();
+                    electQueue.take();
                     isMaster = true;
                 } catch (InterruptedException e) {
                     LOGGER.error("Failed while waiting on election queue.", e);
