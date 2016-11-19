@@ -4,11 +4,8 @@ import com.hazelcast.core.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.*;
 
 /**
  * Created by Will2 on 11/16/2016.
@@ -21,6 +18,7 @@ public class Cloud<T>{
     private static final String TOPIC = "%s_SHARED_WORK";
     private static final String MASTER_QUEUE = "%s_MASTER_QUEUE";
     private static final String ELECT_QUEUE = "%s_ELECT_QUEUE";
+    private static final String WORK_QUEUE = "%s_WORK_QUEUE";
 
     private final String group;
 
@@ -28,48 +26,64 @@ public class Cloud<T>{
 
     private volatile boolean isMaster = false;
 
-    private HazelcastInstance hcast;
+    private final HazelcastInstance hcast;
 
-    private Map<String, Object> registry;
+    private final CloudWorker<T> worker;
 
-    private BlockingQueue<Object> electQueue;
+    private final Map<String, Object> registry;
 
-    private BlockingQueue<CloudMessage<T>> msgQueue;
+    private final BlockingQueue<Object> electQueue;
+
+    private final BlockingQueue<Message<CloudMessage<T>>> msgQueue = new ArrayBlockingQueue<>(1000);
+
+    private final BlockingQueue<T> workQueue;
 
     //topic that multiple queues work
-    private ITopic sharedWorkTopic;
+    private final ITopic messageTopic;
+
+    private final ExecutorService electionPool =  Executors.newSingleThreadExecutor();
+
+    private final ExecutorService workerPool =  Executors.newSingleThreadExecutor();
 
     /**
      * Create a Cloud manager to facilitate some basic cluster stuff.
      * @param group A unique name that a group of hosts want to comunicate under.
      * @param name
      * @param hcast
-     * @param sharedWork
+     * @param worker
      */
-    public Cloud(String group, String name, HazelcastInstance hcast, final CloudWorker<T> sharedWork){
+    public Cloud(final String group, final String name, HazelcastInstance hcast, final CloudWorker<T> worker){
         this.group = group;
         this.name = name;
         this.hcast = hcast;
+        this.worker = worker;
         this.registry = hcast.getMap(String.format(REGISTY_NAME,group));
         this.electQueue = hcast.getQueue(String.format(ELECT_QUEUE,group));
-        this.msgQueue = hcast.getQueue(String.format(name,group));
+        this.workQueue = hcast.getQueue(String.format(WORK_QUEUE,name,group));
 
         //begin waiting to see if master
         listenForElection();
+
+        //listen for work on the work queue
+        listenForWork();
 
         //register
         registry.put(name, 1L);
 
         //create the topic
-        sharedWorkTopic = hcast.getReliableTopic(String.format(TOPIC,group));
+        messageTopic = hcast.getReliableTopic(String.format(TOPIC,group));
 
         //add listener to shared work topic
-        sharedWorkTopic.addMessageListener(new MessageListener<T>() {
+        messageTopic.addMessageListener(new MessageListener<CloudMessage<T>>() {
             @Override
-            public void onMessage(Message<T> message) {
-                sharedWork.doWork(message.getMessageObject());
+            public void onMessage(Message<CloudMessage<T>> message) {
+                CloudMessage<T> msg = message.getMessageObject();
+                if (msg.getTo().equals(name) || name.matches(msg.getTo())) {
+                    msgQueue.add(message);
+                }
             }
         });
+
     }
 
     /**
@@ -85,8 +99,8 @@ public class Cloud<T>{
      * @return
      * @throws InterruptedException
      */
-    private final CloudMessage<T> read() throws InterruptedException {
-        return msgQueue.take();
+    public final synchronized CloudMessage<T> read() throws InterruptedException {
+        return msgQueue.take().getMessageObject();
     }
 
     /**
@@ -95,26 +109,26 @@ public class Cloud<T>{
      * @param message
      * @throws InterruptedException
      */
-    private final void message(String to, T message) throws InterruptedException, CloudMsgError {
+    public final void message(String to, T message) throws InterruptedException, CloudMsgError {
         if(registry.get(to) == null){
             throw new CloudMsgError("No Recipient: "+to);
         }
-        hcast.getQueue(to).put(new CloudMessage<T>(name, message));
+        messageTopic.publish(new CloudMessage<T>(name, to, message));
     }
 
     /**
      * Post work to be done
      * @param work
      */
-    private final void post(T work){
-        sharedWorkTopic.publish(work);
+    public final void post(T work){
+        workQueue.add(work);
     }
 
     /**
      * wait on the election queue for a message. I get the message, I am the master!
      */
     private final void listenForElection(){
-        new Thread(new Runnable() {
+        Runnable runner = new Runnable() {
             public void run() {
                 try {
                     electQueue.take();
@@ -125,7 +139,25 @@ public class Cloud<T>{
                     listenForElection();
                 }
             }
-        }).start();
+        };
+        electionPool.submit(runner);
+    }
+
+    private final void listenForWork(){
+        Runnable runner = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    T work = workQueue.take();
+                    worker.doWork(work);
+                }catch(InterruptedException e){
+                    LOGGER.error("Failed while waiting on work queue.", e);
+                }finally {
+                    listenForWork();
+                }
+            }
+        };
+        workerPool.submit(runner);
     }
 
 }
