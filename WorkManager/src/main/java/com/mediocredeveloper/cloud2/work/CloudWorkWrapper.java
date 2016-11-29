@@ -12,9 +12,9 @@ import java.util.concurrent.Executors;
 /**
  * Created by Will2 on 11/26/2016.
  */
-public class CloudWorkMgr <T extends Serializable> {
+public class CloudWorkWrapper<T extends Serializable> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CloudWorkMgr.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CloudWorkWrapper.class);
 
     private static final String WORK_QUEUE = "%s_%s_WORK_QUEUE";
 
@@ -36,7 +36,7 @@ public class CloudWorkMgr <T extends Serializable> {
     private final CloudWorker<T> worker;
 
 
-    public CloudWorkMgr(final String group, final String name, final HazelcastInstance hcast, final CloudWorker<T> worker){
+    public CloudWorkWrapper(final String group, final String name, final HazelcastInstance hcast, final CloudWorker<T> worker){
         this.group = group;
         this.name = name;
         this.hcast = hcast;
