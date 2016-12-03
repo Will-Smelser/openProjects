@@ -1,6 +1,7 @@
 package com.mediocredeveloper.cloud2.master;
 
 import com.hazelcast.core.HazelcastInstance;
+import com.mediocredeveloper.cloud2.CloudContext;
 import com.mediocredeveloper.cloud2.message.CloudMessageError;
 import com.mediocredeveloper.cloud2.message.CloudMessageServicer;
 import com.mediocredeveloper.cloud2.message.CloudResp;
@@ -8,6 +9,8 @@ import com.mediocredeveloper.cloud2.registry.CloudRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.naming.Context;
+import javax.naming.NamingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
@@ -22,7 +25,6 @@ public class CloudMaster {
 
     private static final String LOCK_NAME = "%s_ELECT_LOCK";
     private static final String ELECT_QUEUE = "%s_ELECT_QUEUE";
-    private static final String TOPIC = "%s_ELECT_TOPIC";
 
     private final String group;
     private final CloudRegistry registry;
@@ -38,16 +40,20 @@ public class CloudMaster {
 
     private final ExecutorService electionPool =  Executors.newSingleThreadExecutor();
 
-    public CloudMaster(CloudRegistry registry, HazelcastInstance hcast, CloudMasterEventHandler handler){
+    public CloudMaster(CloudRegistry registry, HazelcastInstance hcast, CloudMasterEventHandler handler) {
         this.group = registry.getGroup();
         this.registry = registry;
         this.hcast = hcast;
         this.handler = handler;
 
+        CloudContext.register(registry.getGroup(), registry.getName(), CloudMaster.class, this);
+
         this.lock = hcast.getLock(String.format(LOCK_NAME, group));
         this.electQueue = hcast.getQueue(String.format(ELECT_QUEUE, group));
 
-        msgService = new CloudMessageServicer<>(group, this.registry.getName(), hcast, new CloudMasterElectListener(this));
+        String name = this.registry.getName();
+        CloudMasterElectListener listener = new CloudMasterElectListener(group, name);
+        msgService = new CloudMessageServicer<>(group, name, hcast, listener);
 
         listenForElection();
     }

@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.*;
 
 /**
@@ -14,35 +15,63 @@ public class Cloud<T>{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Cloud.class);
 
-    private static final String REGISTY_NAME = "%s_REGISTRY";
+    private static final String REGISTRY_NAME = "%s_REGISTRY";
     private static final String TOPIC = "%s_SHARED_WORK";
-    private static final String MASTER_QUEUE = "%s_MASTER_QUEUE";
     private static final String ELECT_QUEUE = "%s_ELECT_QUEUE";
     private static final String WORK_QUEUE = "%s_WORK_QUEUE";
 
+    /**
+     * All queues and maps get a names based on this group.
+     */
     private final String group;
 
+    /**
+     * A unique name for this Cloud instance
+     */
     private final String name;
 
+    /**
+     * Whether this is the master
+     */
     private volatile boolean isMaster = false;
 
+    /**
+     * Reference to the hazelcast instance
+     */
     private final HazelcastInstance hcast;
 
+    /**
+     * The provided worker for work queue
+     */
     private final CloudWorker<T> worker;
 
-    private final Map<String, Object> registry;
+    /**
+     * All Cloud classes register themselves with this map.
+     */
+    private final Set<String> registry;
 
+    /**
+     * If we need to elect a master, this queue is listened to
+     */
     private final BlockingQueue<Object> electQueue;
 
+    /**
+     * For inter node messaging.  You can message any node in the registry
+     */
     private final BlockingQueue<Message<CloudMessage<T>>> msgQueue = new ArrayBlockingQueue<>(1000);
 
+    /**
+     * The shared work queue.  Only one member will perform work on this queue.
+     */
     private final BlockingQueue<T> workQueue;
 
-    //topic that multiple queues work
+    /**
+     * All instances listen to messages on this topic.
+     */
     private final ITopic messageTopic;
 
+    //we keep reusing these threads, so this will save overhead of recreating threads
     private final ExecutorService electionPool =  Executors.newSingleThreadExecutor();
-
     private final ExecutorService workerPool =  Executors.newSingleThreadExecutor();
 
     /**
@@ -52,12 +81,12 @@ public class Cloud<T>{
      * @param hcast
      * @param worker
      */
-    public Cloud(final String group, final String name, HazelcastInstance hcast, final CloudWorker<T> worker){
+    public Cloud(final String group, final String name, HazelcastInstance hcast, final CloudWorker<T> worker) throws InterruptedException {
         this.group = group;
         this.name = name;
         this.hcast = hcast;
         this.worker = worker;
-        this.registry = hcast.getMap(String.format(REGISTY_NAME,group));
+        this.registry = hcast.getSet(String.format(REGISTRY_NAME,group));
         this.electQueue = hcast.getQueue(String.format(ELECT_QUEUE,group));
         this.workQueue = hcast.getQueue(String.format(WORK_QUEUE,name,group));
 
@@ -68,7 +97,7 @@ public class Cloud<T>{
         listenForWork();
 
         //register
-        registry.put(name, 1L);
+        registry.add(name);
 
         //create the topic
         messageTopic = hcast.getReliableTopic(String.format(TOPIC,group));
@@ -79,12 +108,24 @@ public class Cloud<T>{
             public void onMessage(Message<CloudMessage<T>> message) {
                 CloudMessage<T> msg = message.getMessageObject();
                 if (msg.getTo().equals(name) || name.matches(msg.getTo())) {
-                    msgQueue.add(message);
+                    if(msg.getSysMessage() != null) {
+                        msgQueue.add(message);
+                    }else{
+                        handleSysMessage(message);
+                    }
                 }
             }
         });
-
     }
+
+    /**
+     * Hold an election for a master.  By default there are no masters, if you would like a master node,
+     * then you must call elect.
+     */
+    public final void elect(){
+        electQueue.add(1L);
+    }
+
 
     /**
      * If this instance is currently the master
@@ -110,7 +151,7 @@ public class Cloud<T>{
      * @throws InterruptedException
      */
     public final void message(String to, T message) throws InterruptedException, CloudMsgError {
-        if(registry.get(to) == null){
+        if(!registry.contains(to)){
             throw new CloudMsgError("No Recipient: "+to);
         }
         messageTopic.publish(new CloudMessage<T>(name, to, message));
@@ -122,6 +163,11 @@ public class Cloud<T>{
      */
     public final void post(T work){
         workQueue.add(work);
+    }
+
+    private void handleSysMessage(Message<CloudMessage<T>> message){
+        String action = message.getMessageObject().getSysMessage();
+        //TODO: do something
     }
 
     /**
