@@ -2,10 +2,11 @@ package com.mediocredeveloper.cloud2.registry;
 
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IMap;
-import com.mediocredeveloper.cloud2.message.CloudMessage;
 import com.mediocredeveloper.cloud2.message.CloudMessageError;
 import com.mediocredeveloper.cloud2.message.CloudMessageHandler;
 import com.mediocredeveloper.cloud2.message.CloudMessageServicer;
+import com.mediocredeveloper.cloud2.message.CloudResp;
+import com.mediocredeveloper.cloud2.util.CompletedFuture;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,16 +20,17 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class CloudRegistry {
     private static final Logger LOGGER = LoggerFactory.getLogger(CloudRegistry.class);
 
-
     private static final String REGISTRY = "%s_REGISTRY";
+
+    private static final long UPDATE_INTERVAL = 5000;
 
     private final HazelcastInstance hcast;
 
     private final IMap<String, Long> registry;
 
-    private final CloudMessageHandler<Action> handler;
+    private final CloudActionMsgHandler handler;
 
-    private final Map<String, CloudMessageServicer<Action>> msgSrvcMap = new ConcurrentHashMap<>();
+    private final Map<String, CloudMessageServicer<CloudAction, CloudResp>> msgSrvcMap = new ConcurrentHashMap<>();
 
     private final String group;
 
@@ -37,6 +39,8 @@ public class CloudRegistry {
     private final Timer timer;
 
     private final AtomicBoolean isMaster = new AtomicBoolean(false);
+
+    private final ExecutorService electionPool =  Executors.newSingleThreadExecutor();
 
     /**
      * Create a registry of nodes.
@@ -48,7 +52,7 @@ public class CloudRegistry {
     public CloudRegistry(final HazelcastInstance hcast, final String group, final String name, final String... names){
         this.group = group;
         this.name = name;
-        this.handler = new ActionMessageHandler(this);
+        this.handler = new CloudActionMsgHandler();
         this.registry = hcast.getMap(String.format(REGISTRY, group));
         this.hcast = hcast;
 
@@ -61,7 +65,19 @@ public class CloudRegistry {
         //just periodically update, if it is no longer in registry map, the timer will kill itself upon waking up.
         TimerTask timerTask = new RegularUpdate(this);
         this.timer = new Timer();
-        this.timer.scheduleAtFixedRate(timerTask, 5000, 5000);
+        this.timer.scheduleAtFixedRate(timerTask, UPDATE_INTERVAL, UPDATE_INTERVAL);
+    }
+
+    /**
+     * Get this elements name.
+     * @return
+     */
+    public String getName(){
+        return name;
+    }
+
+    public String getGroup(){
+        return group;
     }
 
     /**
@@ -69,11 +85,11 @@ public class CloudRegistry {
      * @param name The unique node to send message to.
      * @return
      */
-    public Future<Action> check(String name){
+    public Future<CloudResp> check(String name){
         if(!registry.containsKey(name)){
             throw new IllegalArgumentException("Node "+name+" is not registered.");
         }
-        return send(name, Action.UP);
+        return send(name, CloudAction.UP);
     }
 
     /**
@@ -83,11 +99,11 @@ public class CloudRegistry {
      * @return
      */
     public boolean check(long timeout, TimeUnit unit){
-        for(Map.Entry<String, CloudMessageServicer<Action>> entry : msgSrvcMap.entrySet()){
+        for(Map.Entry<String, CloudMessageServicer<CloudAction, CloudResp>> entry : msgSrvcMap.entrySet()){
             String name = entry.getKey();
             try {
-                Action result = entry.getValue().send(entry.getKey(), Action.UP, timeout, unit);
-                if(result != Action.YES){
+                CloudResp result = entry.getValue().send(entry.getKey(), CloudAction.UP, timeout, unit);
+                if(result != CloudResp.YES){
                     return false;
                 }
                 registry.put(name, System.currentTimeMillis());
@@ -106,8 +122,8 @@ public class CloudRegistry {
      * Remove a registry entry.
      * @param name
      */
-    public synchronized Future<Action> remove(String name) {
-        Future<Action> result = send(name, Action.REMOVE);
+    public synchronized Future<CloudResp> remove(String name) {
+        Future<CloudResp> result = send(name, CloudAction.REMOVE);
         registry.remove(name);
         msgSrvcMap.remove(name);
 
@@ -118,12 +134,11 @@ public class CloudRegistry {
      * Add a node to registry. Does not wait to check if the node is actually up.  Just fires a message.
      * @param name The unique name to add.  This does not check if it exists already.  So this will overwrite it.
      */
-    public synchronized Future<Action> add(String name){
-        Future<Action> result = send(name, Action.ADD);
+    public synchronized Future<CloudResp> add(String name){
         registry.put(name, 0L);
-        msgSrvcMap.put(name, new CloudMessageServicer<Action>(group, name, hcast, handler));
+        msgSrvcMap.put(name, new CloudMessageServicer<>(group, name, hcast, handler));
 
-        return result;
+        return send(name, CloudAction.ADD);
     }
 
     /**
@@ -131,57 +146,25 @@ public class CloudRegistry {
      * @param name
      * @return
      */
-    public long lastUpdated(String name){
+    public Future<CloudResp> up(String name) throws CloudMessageError {
         if(!registry.containsKey(name)){
             throw new IllegalStateException("Node "+name+" is not registered.");
         }
-        return registry.get(name);
+        boolean quickTest = System.currentTimeMillis() - registry.get(name) > UPDATE_INTERVAL*1.10;
+        if(!quickTest){
+            CloudMessageServicer<CloudAction, CloudResp> service = msgSrvcMap.get(name);
+            return service.send(name, CloudAction.UP);
+        }
+
+        return new CompletedFuture(quickTest? CloudResp.YES : CloudResp.NO);
     }
 
     /**
-     * Elect this node as a master node.  First telling all other nodes they are not to be master node.
-     * @throws CloudMessageError
-     */
-    public void electMaster() throws CloudMessageError {
-        //tell everyone that there is no master
-        List<Future<Action>> futures = new ArrayList<>();
-
-        for(Map.Entry<String, CloudMessageServicer<Action>> entry : msgSrvcMap.entrySet()){
-            CloudMessageServicer<Action> svc = entry.getValue();
-            Future<Action> result = svc.send(entry.getKey(), Action.NOT_MASTER);
-            if(result != null){
-                futures.add(result);
-            }
-        }
-
-        try {
-            waitOnFutures(futures);
-        } catch (InterruptedException | ExecutionException e) {
-            throw new CloudMessageError("Failed waiting on all recipients to respond to removing master.", e);
-        }
-
-        this.isMaster.set(true);
-    }
-
-    //wait on a list of futures to complete
-    private void waitOnFutures(Collection<Future<Action>> futures) throws ExecutionException, InterruptedException {
-        for(Future<Action> msg : futures)  msg.get();
-    }
-
-    /**
-     * If this node is a master
+     * Get all the registered nodes.
      * @return
      */
-    public boolean isMaster() {
-        return isMaster.get();
-    }
-
-    /**
-     * User by handler to set the master node.
-     * @param isMaster
-     */
-    void isMaster(boolean isMaster){
-        this.isMaster.set(isMaster);
+    public Set<String> getRegistered(){
+        return this.msgSrvcMap.keySet();
     }
 
     /**
@@ -190,14 +173,14 @@ public class CloudRegistry {
      * @param action
      * @return
      */
-    private Future<Action> send(String name, Action action){
-        CloudMessageServicer<Action> service = msgSrvcMap.get(name);
+    private Future<CloudResp> send(String name, CloudAction action){
+        CloudMessageServicer<CloudAction, CloudResp> service = msgSrvcMap.get(name);
         try {
             return service.send(name, action);
         } catch (CloudMessageError e) {
-            LOGGER.error("Error sending message - "+group+":"+name+"->"+action.name());
+            LOGGER.error("Error sending message - " + group + ":" + name + "->" + action.name());
+            throw new IllegalStateException("Failed sending message.", e);
         }
-        return null;
     }
 
     /**

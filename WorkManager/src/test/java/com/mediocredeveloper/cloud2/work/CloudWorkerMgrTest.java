@@ -25,7 +25,7 @@ public class CloudWorkerMgrTest {
         final List<String> work1 = new CopyOnWriteArrayList<>();
         final List<String> work2 = new CopyOnWriteArrayList<>();
 
-        CloudWorkMgr<String> mgr1 = new CloudWorkMgr<>(group, "one", hcast1, new CloudWorker<String>() {
+        CloudWorkWrapper<String> mgr1 = new CloudWorkWrapper<>(group, "one", hcast1, new CloudWorker<String>() {
             @Override
             public void doWork(String obj) {
                 work1.add(obj);
@@ -37,7 +37,7 @@ public class CloudWorkerMgrTest {
             }
         });
 
-        CloudWorkMgr<String> mgr2 = new CloudWorkMgr<>(group, "one", hcast2, new CloudWorker<String>() {
+        CloudWorkWrapper<String> mgr2 = new CloudWorkWrapper<>(group, "one", hcast2, new CloudWorker<String>() {
             @Override
             public void doWork(String obj) {
                 work2.add(obj);

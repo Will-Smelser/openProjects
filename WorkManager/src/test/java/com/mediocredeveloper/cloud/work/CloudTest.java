@@ -41,9 +41,6 @@ public class CloudTest {
             }
         });
 
-        //make sure someone claims being master
-        //assertTrue((cloud1.isMaster() && !cloud2.isMaster())||(!cloud1.isMaster() && cloud2.isMaster()));
-
         cloud1.post(work);
         cloud2.post(work);
 
@@ -61,5 +58,39 @@ public class CloudTest {
 
         assertEquals(counter, work.size());
 
+    }
+
+    @Test
+    public void verifyMasterElection(){
+        HazelcastInstance hcast1 = Hazelcast.newHazelcastInstance(new Config());
+        HazelcastInstance hcast2 = Hazelcast.newHazelcastInstance(new Config());
+
+        final List<String> work = new CopyOnWriteArrayList<>();
+
+        final String group = "group";
+        final String host1 = "host1";
+        final String host2 = "host2";
+
+        /*
+        Cloud<Object> cloud1 = new Cloud<>(group, host1, hcast1, new CloudWorker<Object>(){
+            @Override
+            public void doWork(Object obj) {
+                work.add(host1);
+            }
+        });
+
+        Cloud<Object> cloud2 = new Cloud<>(group, host2, hcast2, new CloudWorker<Object>(){
+            @Override
+            public void doWork(Object obj) {
+                work.add(host2);
+            }
+        });
+
+        System.err.println(cloud1.isMaster());
+        System.err.println(cloud2.isMaster());
+
+        //make sure someone claims being master
+        assertTrue((cloud1.isMaster() && !cloud2.isMaster())||(!cloud1.isMaster() && cloud2.isMaster()));
+        */
     }
 }

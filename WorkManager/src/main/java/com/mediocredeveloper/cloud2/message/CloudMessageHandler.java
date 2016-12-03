@@ -5,6 +5,6 @@ import java.io.Serializable;
 /**
  * Created by Will2 on 11/25/2016.
  */
-public interface CloudMessageHandler <T extends Serializable> extends Serializable {
-    T handle(CloudMessage<T> message);
+public interface CloudMessageHandler <T extends Serializable, E extends Serializable> extends Serializable {
+    E handle(CloudMessage<T> message);
 }
