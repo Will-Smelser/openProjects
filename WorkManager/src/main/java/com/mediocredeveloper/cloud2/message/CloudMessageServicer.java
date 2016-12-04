@@ -3,6 +3,7 @@ package com.mediocredeveloper.cloud2.message;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IExecutorService;
 import com.hazelcast.core.IMap;
+import com.hazelcast.core.ReplicatedMap;
 
 import java.io.Serializable;
 import java.util.concurrent.*;
@@ -25,7 +26,7 @@ public class CloudMessageServicer<T extends Serializable, E extends Serializable
     private final String group;
     private final HazelcastInstance hcast;
     private final IExecutorService execService;
-    private final IMap<String, CloudMessageHandler<T, E>> handlers;
+    private final ReplicatedMap<String, CloudMessageHandler<T, E>> handlers;
 
     /**
      * Setups a messaging service that allows for synchronous message passing.
@@ -39,7 +40,7 @@ public class CloudMessageServicer<T extends Serializable, E extends Serializable
         this.group = group;
         this.hcast = hcast;
         this.execService = hcast.getExecutorService(String.format(MSG_EXEC_SERVICE, group, name));
-        this.handlers = hcast.getMap(String.format(MSG_HANDLERS, group));
+        this.handlers = hcast.getReplicatedMap(String.format(MSG_HANDLERS, group));
         this.handlers.put(name, handler);
     }
 

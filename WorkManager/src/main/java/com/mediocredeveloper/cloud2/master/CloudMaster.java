@@ -95,26 +95,11 @@ public class CloudMaster {
             current = System.currentTimeMillis();
             long remaining = totalTimeInMillis - (current-start);
             try {
-                resp.get(remaining, TimeUnit.MICROSECONDS);
+                resp.get(remaining, TimeUnit.MILLISECONDS);
             } catch (InterruptedException|ExecutionException|TimeoutException e) {
                 throw new CloudMessageError("Error waiting on sending message to all nodes in registry.",e);
             }
         }
-    }
-
-    private final void listenForElectionInfo(){
-        Runnable runner = new Runnable() {
-            public void run() {
-                try {
-                    electQueue.take();
-                    isMaster = true;
-                } catch (InterruptedException e) {
-                    LOGGER.error("Failed while waiting on election queue.", e);
-                } finally {
-                    listenForElection();
-                }
-            }
-        };
     }
 
     private final void listenForElection(){
@@ -123,6 +108,7 @@ public class CloudMaster {
                 try {
                     electQueue.take();
                     isMaster = true;
+                    handler.handle(CloudMasterEvent.ELECTED);
                 } catch (InterruptedException e) {
                     LOGGER.error("Failed while waiting on election queue.", e);
                 } finally {

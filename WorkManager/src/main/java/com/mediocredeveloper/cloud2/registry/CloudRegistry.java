@@ -2,6 +2,10 @@ package com.mediocredeveloper.cloud2.registry;
 
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IMap;
+import com.hazelcast.core.ReplicatedMap;
+import com.mediocredeveloper.cloud2.CloudContext;
+import com.mediocredeveloper.cloud2.CloudNodeEvent;
+import com.mediocredeveloper.cloud2.CloudNodeEventListener;
 import com.mediocredeveloper.cloud2.message.CloudMessageError;
 import com.mediocredeveloper.cloud2.message.CloudMessageHandler;
 import com.mediocredeveloper.cloud2.message.CloudMessageServicer;
@@ -26,38 +30,33 @@ public class CloudRegistry {
 
     private final HazelcastInstance hcast;
 
-    private final IMap<String, Long> registry;
+    private final ReplicatedMap<String, Long> registry;
 
     private final CloudActionMsgHandler handler;
 
-    private final Map<String, CloudMessageServicer<CloudAction, CloudResp>> msgSrvcMap = new ConcurrentHashMap<>();
+    private final CloudMessageServicer<CloudAction, CloudResp> msgService;
 
     private final String group;
 
     private final String name;
 
+    private final CloudNodeEventListener listener;
+
     private final Timer timer;
 
-    private final AtomicBoolean isMaster = new AtomicBoolean(false);
-
-    private final ExecutorService electionPool =  Executors.newSingleThreadExecutor();
-
     /**
-     * Create a registry of nodes.
+     * Create a registry and add this node to it.
      * @param hcast
      * @param group The group name these nodes are part of.
      * @param name This nodes unique name.
-     * @param names The other nodes names.
      */
-    public CloudRegistry(final HazelcastInstance hcast, final String group, final String name, final String... names){
+    public CloudRegistry(final HazelcastInstance hcast, final CloudNodeEventListener listener, final String group, final String name){
         this.group = group;
         this.name = name;
-        this.handler = new CloudActionMsgHandler();
-        this.registry = hcast.getMap(String.format(REGISTRY, group));
+        this.handler = new CloudActionMsgHandler(group, name);
+        this.listener = listener;
+        this.registry = hcast.getReplicatedMap(String.format(REGISTRY, group));
         this.hcast = hcast;
-
-        //build registry and the msg service
-        for(String n : names)  add(n);
 
         //make sure this node has its updated timestamp
         registry.put(name, System.currentTimeMillis());
@@ -66,13 +65,21 @@ public class CloudRegistry {
         TimerTask timerTask = new RegularUpdate(this);
         this.timer = new Timer();
         this.timer.scheduleAtFixedRate(timerTask, UPDATE_INTERVAL, UPDATE_INTERVAL);
+
+        CloudContext.register(group, name, CloudRegistry.class, this);
+
+        hcast.getCluster().addMembershipListener(new CloudNodeListener(this, listener));
+
+        registry.put(name, 0L);
+
+        this.msgService = new CloudMessageServicer<>(group, name, hcast, handler);
     }
 
     /**
      * Get this elements name.
      * @return
      */
-    public String getName(){
+    public String getName() {
         return name;
     }
 
@@ -81,7 +88,48 @@ public class CloudRegistry {
     }
 
     /**
-     * Chec if the node is up UP.  The future returned should hold the response.
+     * Message every node in the registry and wait for them to respond saying they are up.
+     * @param time The total amount of time to allow for this check.
+     * @param unit
+     * @return All nodes which failed to responded within the provided timeout or responded with NO.
+     * @throws CloudMessageError
+     */
+    public Set<String> findDownNodes(long time, TimeUnit unit) {
+        Set<String> result = new HashSet<>();
+
+        long current, start = System.currentTimeMillis();
+        long totalTimeInMillis = unit.toMillis(time);
+
+        List<Future<CloudResp>> messages = new ArrayList<>();
+
+        //send the check message
+        for(String name : registry.keySet()){
+            messages.add(check(name));
+        }
+
+        //wait on all messages to return.
+        for(Future<CloudResp> msg : messages){
+            current = System.currentTimeMillis();
+            long remaining = totalTimeInMillis - (current-start);
+            try{
+                //should not really happen.  Basically if a node retured a resp, then it must
+                //be up.
+                if(msg.get(remaining, TimeUnit.MILLISECONDS) == CloudResp.NO){
+                    result.add(name);
+                }
+            } catch (TimeoutException e) {
+                result.add(name);
+                LOGGER.warn("Node \"" + name + "\" was found down!", e);
+            } catch (ExecutionException|InterruptedException e) {
+                LOGGER.error("Failed to check if node \""+name+"\" was up");
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Check if the node is up UP.  The future returned should hold the response.
      * @param name The unique node to send message to.
      * @return
      */
@@ -99,16 +147,15 @@ public class CloudRegistry {
      * @return
      */
     public boolean check(long timeout, TimeUnit unit){
-        for(Map.Entry<String, CloudMessageServicer<CloudAction, CloudResp>> entry : msgSrvcMap.entrySet()){
-            String name = entry.getKey();
+        for(String name : registry.keySet()){
             try {
-                CloudResp result = entry.getValue().send(entry.getKey(), CloudAction.UP, timeout, unit);
+                CloudResp result = msgService.send(name, CloudAction.UP, timeout, unit);
                 if(result != CloudResp.YES){
                     return false;
                 }
                 registry.put(name, System.currentTimeMillis());
             } catch (TimeoutException e) {
-                LOGGER.error("Timeout on testing node is up: "+group+":"+name, e);
+                LOGGER.error("Timeout on testing node is up: " + group + ":" + name, e);
                 return false;
             } catch (Exception e) {
                 LOGGER.error("Error on testing node is up: "+group+":"+name, e);
@@ -119,26 +166,35 @@ public class CloudRegistry {
     }
 
     /**
-     * Remove a registry entry.
+     * Remove a registry entry.  This will send a request to the registry on requested node.  Upon receipt of this
+     * message, the node will remove itself from the cluster registry.
      * @param name
      */
     public synchronized Future<CloudResp> remove(String name) {
-        Future<CloudResp> result = send(name, CloudAction.REMOVE);
-        registry.remove(name);
-        msgSrvcMap.remove(name);
-
-        return result;
+        return send(name, CloudAction.REMOVE);
     }
 
     /**
-     * Add a node to registry. Does not wait to check if the node is actually up.  Just fires a message.
-     * @param name The unique name to add.  This does not check if it exists already.  So this will overwrite it.
+     * This is really just a way to re-add a node.  If the node was told to {@link #remove()}, this just undoes that.
+     * @param name
+     * @return
      */
     public synchronized Future<CloudResp> add(String name){
-        registry.put(name, 0L);
-        msgSrvcMap.put(name, new CloudMessageServicer<>(group, name, hcast, handler));
-
         return send(name, CloudAction.ADD);
+    }
+
+    /**
+     * This is intended to be called by the Event listener.  You should never call this other than
+     * through the event listener
+     */
+    void remove(){
+        registry.remove(name);
+    }
+
+    void add(){
+        if(!this.registry.containsKey(name)){
+           this.registry.put(name, System.currentTimeMillis());
+        }
     }
 
     /**
@@ -152,8 +208,7 @@ public class CloudRegistry {
         }
         boolean quickTest = System.currentTimeMillis() - registry.get(name) > UPDATE_INTERVAL*1.10;
         if(!quickTest){
-            CloudMessageServicer<CloudAction, CloudResp> service = msgSrvcMap.get(name);
-            return service.send(name, CloudAction.UP);
+            return msgService.send(name, CloudAction.UP);
         }
 
         return new CompletedFuture(quickTest? CloudResp.YES : CloudResp.NO);
@@ -164,7 +219,15 @@ public class CloudRegistry {
      * @return
      */
     public Set<String> getRegistered(){
-        return this.msgSrvcMap.keySet();
+        return this.registry.keySet();
+    }
+
+    /**
+     * Allows the actions be mapped back to events.  This will notify the event listener
+     * @param event
+     */
+    void notify(CloudNodeEvent event){
+        listener.handle(group, name, event);
     }
 
     /**
@@ -174,9 +237,8 @@ public class CloudRegistry {
      * @return
      */
     private Future<CloudResp> send(String name, CloudAction action){
-        CloudMessageServicer<CloudAction, CloudResp> service = msgSrvcMap.get(name);
         try {
-            return service.send(name, action);
+            return msgService.send(name, action);
         } catch (CloudMessageError e) {
             LOGGER.error("Error sending message - " + group + ":" + name + "->" + action.name());
             throw new IllegalStateException("Failed sending message.", e);
