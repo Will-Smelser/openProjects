@@ -60,6 +60,12 @@ public class CloudRegistryTest {
         map.get(node2).clear();
     }
 
+    @Test
+    public void CloudRegistryDroppedTest(){
+        //HazelcastInstance hcast3 = Hazelcast.newHazelcastInstance(new Config());
+
+    }
+
     public static class NodeEvtHandler implements CloudNodeEventListener {
         @Override
         public void handle(String group, String name, CloudNodeEvent event) {

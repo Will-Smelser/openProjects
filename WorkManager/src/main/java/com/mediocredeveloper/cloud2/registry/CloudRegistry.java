@@ -104,7 +104,13 @@ public class CloudRegistry {
 
         //send the check message
         for(String name : registry.keySet()){
-            messages.add(check(name));
+            try {
+                //can fail when trying to send
+                messages.add(check(name));
+            }catch(Exception e){
+                LOGGER.error("Failure when checking node: "+name,e);
+                result.add(name);
+            }
         }
 
         //wait on all messages to return.
@@ -119,8 +125,9 @@ public class CloudRegistry {
                 }
             } catch (TimeoutException e) {
                 result.add(name);
-                LOGGER.warn("Node \"" + name + "\" was found down!", e);
+                LOGGER.warn("Failed to check if node \"" + name + "\" was up, timeout", e);
             } catch (ExecutionException|InterruptedException e) {
+                result.add(name);
                 LOGGER.error("Failed to check if node \""+name+"\" was up");
             }
         }
@@ -188,6 +195,7 @@ public class CloudRegistry {
      * through the event listener
      */
     void remove(){
+        System.out.println(">>>>REMOVE->"+name);
         registry.remove(name);
     }
 
@@ -256,7 +264,8 @@ public class CloudRegistry {
         }
         @Override
         public void run() {
-            if(!registry.registry.containsKey(registry.name)){
+            //throws null pointer if the map is empty, seems wrong
+            if (registry.registry.size() ==0 || !registry.registry.containsKey(registry.name)) {
                 registry.timer.cancel();
                 return;
             }

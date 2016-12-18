@@ -40,7 +40,7 @@ class CloudNodeListener implements MembershipListener {
         if(evt.getMember().localMember()){
             listener.handle(registry.getGroup(), registry.getName(), CloudNodeEvent.DROPPED);
         }else {
-            Set<String> lostNodes = registry.findDownNodes(5, TimeUnit.SECONDS);
+            Set<String> lostNodes = registry.findDownNodes(30, TimeUnit.SECONDS);
             for (String name : lostNodes) {
                 listener.handle(registry.getGroup(), name, CloudNodeEvent.DROPPED);
             }
