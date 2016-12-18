@@ -10,27 +10,60 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 
 /**
- * Created by Will2 on 12/10/2016.
+ * Adds ability to elect a master node.  If a node goes down and there is another node in this {@link #group} then
+ * another node in the group will be promoted to master.
  *
  * TODO: need a mechanism to shutdown current master without starting another.
  */
 public class CloudMaster {
     private static final Logger LOGGER = LoggerFactory.getLogger(CloudMaster.class);
 
+    /**
+     * How often the internal state is polled to check if current master has been demoted or failure to communicate
+     * with cluster is detected.
+     */
+    public static final long STATE_CHANGE_POLL_INTERVAL = 1000;
+
+    //Names used maps, queues, etc...
     private static final String MASTER_LOCK_NAME = "%s_MASTER_LOCK";
     private static final String LOCK_NAME = "%s_ELECT_LOCK";
     private static final String LOCK_NAME_COMPLETE = "%s_ELECT_LOCK_COMPLETE";
     private static final String ELECT_QUEUE = "%s_ELECT_QUEUE";
     private static final String MASTER = "%s_MASTER_MAP";
 
+    /**
+     * The unique name given to this node.
+     */
     private final String name;
+
+    /**
+     * The group this node is part of.
+     */
     private final String group;
 
+    /**
+     * Used internally for tracking if this node is the master.
+     */
     private final AtomicBoolean isMaster = new AtomicBoolean(false);
 
+    /**
+     * This lock is used to detect if master is dropped from cluster and to tell other nodes that there is a master.
+     */
     private final Lock masterLock;
+
+    /**
+     * Only want 1 election at a time.  This lock ensures that.
+     */
     private final Lock electionLock;
+
+    /**
+     * Used for synchronizing the {@link #elect()} call.
+     */
     private final BlockingQueue<Object> electComplete;
+
+    /**
+     * All nodes in group listen to this queue for winning an election.
+     */
     private final BlockingQueue<Object> electQueue;
 
     private static final String MASTER_KEY = "master";
@@ -60,10 +93,18 @@ public class CloudMaster {
         listenForMasterLost();
     }
 
+    /**
+     * Whether this node believes it is the master.  Since this node may be dropped from the cluster, it can take
+     * a little time for the node to detect this.  If the node is detected to be dropped, then it will demote itself.
+     * @return
+     */
     public boolean isMaster(){
         return this.isMaster.get();
     }
 
+    /**
+     * Hold an election for a master node.  This will block until a node has acknoledged a master has been elected.
+     */
     public void elect() {
         //only 1 election at a time
         if(electionLock.tryLock()){
@@ -132,7 +173,7 @@ public class CloudMaster {
                 //if there is no master, then nothing to wait for failure on
                 if(masterMap.get(MASTER_KEY) == null){
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(STATE_CHANGE_POLL_INTERVAL);
                     } catch (InterruptedException e) {
                         LOGGER.error("Failed sleeping while waiting for a master to be set");
                     }
@@ -186,7 +227,7 @@ public class CloudMaster {
                     }
                 }finally {
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(STATE_CHANGE_POLL_INTERVAL);
                     } catch (InterruptedException e) {
                         LOGGER.error("Node " + name + " failed sleeping...", e);
                     }

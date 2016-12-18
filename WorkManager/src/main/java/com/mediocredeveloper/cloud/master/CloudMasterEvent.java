@@ -1,7 +1,7 @@
 package com.mediocredeveloper.cloud.master;
 
 /**
- * Created by Will2 on 12/3/2016.
+ * Events that master listens for.
  */
 public enum CloudMasterEvent {
     ELECTED, //when elected a master
