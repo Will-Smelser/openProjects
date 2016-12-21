@@ -192,7 +192,6 @@ public class CloudRegistry {
      * through the event listener
      */
     void remove(){
-        System.out.println(">>>>REMOVE->"+name);
         registry.remove(name);
     }
 
