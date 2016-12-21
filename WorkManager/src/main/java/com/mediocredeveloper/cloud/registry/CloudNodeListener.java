@@ -3,8 +3,8 @@ package com.mediocredeveloper.cloud.registry;
 import com.hazelcast.core.MemberAttributeEvent;
 import com.hazelcast.core.MembershipEvent;
 import com.hazelcast.core.MembershipListener;
-import com.mediocredeveloper.cloud.CloudNodeEvent;
-import com.mediocredeveloper.cloud.CloudNodeEventListener;
+import com.mediocredeveloper.cloud.event.CloudNodeEvent;
+import com.mediocredeveloper.cloud.event.CloudNodeEventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

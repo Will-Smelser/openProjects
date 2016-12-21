@@ -1,7 +1,7 @@
 package com.mediocredeveloper.cloud.registry;
 
 import com.mediocredeveloper.cloud.CloudContext;
-import com.mediocredeveloper.cloud.CloudNodeEvent;
+import com.mediocredeveloper.cloud.event.CloudNodeEvent;
 import com.mediocredeveloper.cloud.message.CloudMessage;
 import com.mediocredeveloper.cloud.message.CloudMessageHandler;
 import com.mediocredeveloper.cloud.message.CloudResp;

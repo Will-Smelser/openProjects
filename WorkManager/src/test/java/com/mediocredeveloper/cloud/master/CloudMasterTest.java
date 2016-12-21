@@ -3,8 +3,8 @@ package com.mediocredeveloper.cloud.master;
 import com.hazelcast.config.Config;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
-import com.mediocredeveloper.cloud.CloudNodeEvent;
-import com.mediocredeveloper.cloud.CloudNodeEventListener;
+import com.mediocredeveloper.cloud.event.CloudNodeEvent;
+import com.mediocredeveloper.cloud.event.CloudNodeEventListener;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
