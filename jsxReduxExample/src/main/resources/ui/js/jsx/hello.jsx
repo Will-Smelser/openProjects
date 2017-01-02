@@ -7,4 +7,6 @@ class Hello extends React.Component {
   }
 }
 
+module.exports = Hello;
+
 ReactDOM.render(<Hello/>, document.getElementById('hello'));

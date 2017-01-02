@@ -7,4 +7,6 @@ class World extends React.Component {
   }
 }
 
+module.exports = World;
+
 ReactDOM.render(<World/>, document.getElementById('world'));

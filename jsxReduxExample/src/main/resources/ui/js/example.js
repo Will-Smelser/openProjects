@@ -1,4 +1,5 @@
 import Hello from './jsx/hello.jsx'; //es6 import!
+import HelloWorld from './jsx/hello-world.jsx';
 
 const PI = 3.141593;
 

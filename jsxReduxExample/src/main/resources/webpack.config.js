@@ -16,12 +16,12 @@ module.exports = {
               }
             }
           ]
-    },
+    }//,
     //remove this if you want to use react
-    resolve: {
+    /*resolve: {
         alias: {
             'react': 'preact-compat',
             'react-dom': 'preact-compat'
         }
-    }
+    }*/
 };
