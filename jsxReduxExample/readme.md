@@ -11,7 +11,7 @@ $>npm install webpack -g
 ```
 
 ## Simple example
-I just added a basic *webpack.config.js* which allows me to run [code]$>webpack[/code] to make the build.  Basically
+I just added a basic *webpack.config.js* which allows me to run `$>webpack` to make the build.  Basically
 webpack just bundles the described files together into a "bundle".  Then it is smart enough to bundle things together
 by parsing the javascript.  
 
