@@ -6,8 +6,9 @@ Assuming you have npm setup and working.
 #Steps to Building
 ## I am starting with settting up webpack
 https://webpack.github.io/docs/tutorials/getting-started/
-
-->npm install webpack -g
+```
+$>npm install webpack -g
+```
 
 ## Simple example
 I just added a basic *webpack.config.js* which allows me to run [code]$>webpack[/code] to make the build.  Basically
@@ -27,20 +28,22 @@ This transpilation into some incomprehensible js file seems silly.  I have avoid
 this.  I think using webpack to make base bundles is probably pretty good.
 
 ## Install Babel
-[code]$>npm install babel-loader babel-core babel-preset-es2015 webpack --save-dev[/code]
+```
+$>npm install babel-loader babel-core babel-preset-es2015 webpack --save-dev
+```
 
 ## Install Webpack React
-[code]
+```
 $>npm install babel-preset-react --save-dev
 $>npm install react --save
 $>npm install react-dom --save
-[/code]
+```
 
 
 ## Change the webpack.config.js
 I modified the example.js file to use ES6 "const" keyword.  You can see in the bundle.js, this was modified to be ES5 compliant. Issue
 here is "const" and "var" really mean very different things, and with hoisting, these may act very different.
-[code]
+```
 module.exports = {
     entry: "./ui/js/example.js",
     output: {
@@ -61,18 +64,18 @@ module.exports = {
           ]
     }
 };
-[/code]
+```
 
 ##React seems bulky, lets use preact!
 Once switching to preact, the bundle.js was 64 KB, which was 727 KB from react.  I mean thats a 10x improvement!
 
-[code]
+```
 $>npm install preact-compat --save
 $>npm install preact --save
-[/code]
+```
 
 Simply alias the react and react-dom
-[code]
+```
     ...
     resolve: {
         alias: {
@@ -81,4 +84,4 @@ Simply alias the react and react-dom
         }
     }
     ...
-[/code]
+```
