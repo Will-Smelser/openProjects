@@ -3,6 +3,9 @@
 <head> 
     <title>Getting Started: Serving Web Content</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
 </head>
 
 <script>
@@ -18,7 +21,7 @@
     }
 </script>
 
-<body>
+<body class="container">
     <p th:text="'Hello, ' + ${name} + '!'" />
 
     <div id="content"></div>
@@ -41,6 +44,10 @@
         <button onclick="loadHelloWorldComponent2()">Async Load "HelloWorld" Component Again</button><br/>
         <i>Same as above, just want to make sure the "helloworld" does not load again.</i>
     </p>
+
+    <hr/>
+    <h2>Real Example</h2>
+    <div id="address"></div>
 
 </body>
 <script type="text/javascript" src="/dist/js/global.js" charset="utf-8"></script>
