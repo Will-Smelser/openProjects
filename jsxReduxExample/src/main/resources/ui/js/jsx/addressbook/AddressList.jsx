@@ -1,47 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Address from './Address.jsx';
+import AddressWrap from './AddressWrap.jsx';
 
 
 class AddressList extends React.Component {
   constructor(props) {
     super();
-    var addrCount = props._store_.getState().addresses.length;
-    this.state = {addresses: props._store_.getState().addresses};
-  }
-
-  toggleShowAddress(id){
-    var addrs = this.state.addresses.slice();
-    for(var x in addrs){
-        if(addrs[x].id === id){
-            addrs[x]._show = !addrs[x]._show;
-        }
-    }
-
-    this.setState(addrs);
   }
 
   render(){
-    console.log("render()");
+    //using props here instead of state, since state is not maintained here.  Think about it, the AddressBook should
+    //hold all the addresses, why try and duplicate that here.  So its just this Components job to iterate the
+    //Address book
 
-    //have to make these vars available to the map scope?
-    let _store_ = this.props._store_;
+    let addrs = [];
 
-    let addresses = [];
-
-    let temp = this.props._store_.getState().addresses;
-    for(var x in temp){
-        addresses.push(
-            <div className="panel panel-default" key={temp[x].id}>
-                <div className="panel-body">
-                    <div onClick={()=>this.toggleShowAddress(temp[x].id)}><b>{temp[x].name}</b></div>
-                    <Address index={x} _store_={_store_} />
-                </div>
-            </div>
-        );
+    for(var x in this.props.addresses){
+        addrs.push(<AddressWrap key={this.props.addresses[x].id} address={this.props.addresses[x]} />);
     };
 
-    return <div>{addresses}</div>;
+    return <div>{addrs}</div>;
   }
 }
 

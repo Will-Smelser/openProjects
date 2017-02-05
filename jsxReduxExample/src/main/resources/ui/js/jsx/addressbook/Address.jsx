@@ -10,14 +10,15 @@ function stateOptions(){
 class Address extends React.Component {
   constructor(props) {
     super();
-    this.state = props._store_.getState().addresses[props.index];
+    this.state = props.address;
   }
 
   onChange(evt){
     var obj = {};
     obj[evt.target.name] = evt.target.value;
+
+    //update the state
     this.setState(obj);
-    this.props._store_.dispatch({type:"UPDATE", index: this.props.index, state:this.state});
   }
 
   render() {
@@ -28,7 +29,7 @@ class Address extends React.Component {
         <div className="row">
             <div className="form-group col-sm-12">
                 <label htmlFor="Name">Name</label>
-                <input type="text" name="line1" className="form-control" placeholder="Enter Name" value={this.state.name} onChange={this.onChange.bind(this)} />
+                <input type="text" name="name" className="form-control" placeholder="Enter Name" value={this.state.name} onChange={this.onChange.bind(this)} />
             </div>
         </div>
 
