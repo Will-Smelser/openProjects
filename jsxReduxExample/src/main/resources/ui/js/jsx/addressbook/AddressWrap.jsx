@@ -12,10 +12,13 @@ class AddressWrap extends React.Component {
 
   toggleShowAddress(evt){
 
+       console.log(this.addressWrapper);
+
        //update the show state
        this.state.address._show = !this.state.address._show;
 
        //I use forceUpdate(), since change state on object itself, a little easier than setState(this.state.addresses)
+
 
        if(this.state.address._show){
           this.forceUpdate(()=>{
@@ -26,6 +29,7 @@ class AddressWrap extends React.Component {
               this.forceUpdate();
           });
        }
+
     }
 
     removeAddress(){
@@ -33,7 +37,7 @@ class AddressWrap extends React.Component {
     }
 
     render(){
-
+        console.log("render");
         return <div className="panel panel-default">
            <div className="panel-body">
                <div>
@@ -41,7 +45,7 @@ class AddressWrap extends React.Component {
                     <span className="pull-right" onClick={()=>{this.removeAddress();}}>remove</span>
                </div>
                <div ref={(div)=>{this.addressWrapper = div;}}>
-                  <Address address={this.props.address} />
+                  <Address address={this.props.address} updateAddress={this.props.updateAddress} />
                </div>
            </div>
         </div>;

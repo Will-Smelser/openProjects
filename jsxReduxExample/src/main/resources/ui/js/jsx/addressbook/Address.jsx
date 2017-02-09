@@ -19,6 +19,9 @@ class Address extends React.Component {
 
     //update the state
     this.setState(obj);
+
+    //update the actual address book
+    this.props.updateAddress(this.state);
   }
 
   render() {
@@ -29,7 +32,7 @@ class Address extends React.Component {
         <div className="row">
             <div className="form-group col-sm-12">
                 <label htmlFor="Name">Name</label>
-                <input type="text" name="name" className="form-control" placeholder="Enter Name" value={this.state.name} onChange={this.onChange.bind(this)} />
+                <input type="text" name="name" className="form-control" placeholder="Enter Name" value={this.state.name} onKeyUp={this.onChange.bind(this)} onChange={this.onChange.bind(this)} />
             </div>
         </div>
 

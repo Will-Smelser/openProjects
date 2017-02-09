@@ -19,7 +19,8 @@ class AddressList extends React.Component {
         addrs.push(<AddressWrap key={this.props.addresses[x].id}
             address={this.props.addresses[x]}
             addAddress={this.props.addAddress}
-            removeAddress={this.props.removeAddress} />
+            removeAddress={this.props.removeAddress}
+            updateAddress={this.props.updateAddress} />
         );
     };
 
