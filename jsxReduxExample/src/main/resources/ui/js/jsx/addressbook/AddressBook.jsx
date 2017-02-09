@@ -18,10 +18,21 @@ class AddressBook extends React.Component {
         this.setState({addresses:temp});
     }
 
+    removeAddress(id){
+        console.log(this, this.state);
+        for(var x in this.state.addresses){
+            if(this.state.addresses[x].id === id){
+                delete this.state.addresses[x];
+            }
+        }
+        this.forceUpdate();
+    }
+
+    //note we have to bind the removeAddress function to "this".
     render(){
         return  <div>
                 <div><a onClick={()=>this.addAddress()}>Add</a></div>
-                <AddressList addresses={this.state.addresses} />
+                <AddressList addresses={this.state.addresses} removeAddress={this.removeAddress.bind(this)} />
             </div>;
     }
 }

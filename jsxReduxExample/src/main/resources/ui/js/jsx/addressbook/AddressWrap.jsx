@@ -28,14 +28,20 @@ class AddressWrap extends React.Component {
        }
     }
 
+    removeAddress(){
+        this.props.removeAddress(this.props.address.id);
+    }
+
     render(){
-        console.log("AddressWrap.render()");
 
         return <div className="panel panel-default">
            <div className="panel-body">
-               <div onClick={(e)=>this.toggleShowAddress(e)}><b>{this.state.address.name}</b></div>
+               <div>
+                    <b onClick={(e)=>this.toggleShowAddress(e)}>{this.props.address.name}</b>
+                    <span className="pull-right" onClick={()=>{this.removeAddress();}}>remove</span>
+               </div>
                <div ref={(div)=>{this.addressWrapper = div;}}>
-                  <Address address={this.state.address} />
+                  <Address address={this.props.address} />
                </div>
            </div>
         </div>;

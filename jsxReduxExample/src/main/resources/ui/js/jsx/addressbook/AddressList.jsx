@@ -16,7 +16,11 @@ class AddressList extends React.Component {
     let addrs = [];
 
     for(var x in this.props.addresses){
-        addrs.push(<AddressWrap key={this.props.addresses[x].id} address={this.props.addresses[x]} />);
+        addrs.push(<AddressWrap key={this.props.addresses[x].id}
+            address={this.props.addresses[x]}
+            addAddress={this.props.addAddress}
+            removeAddress={this.props.removeAddress} />
+        );
     };
 
     return <div>{addrs}</div>;
